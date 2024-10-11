@@ -1,4 +1,4 @@
-import PaySlipForm from '@/components/request-management/pay-slip/pay-slip-form';
+import PaySlipForm from '@/components/request/pay-slip/pay-slip-form';
 
 const PaySlip = () => {
   return (

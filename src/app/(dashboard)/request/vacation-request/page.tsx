@@ -1,4 +1,4 @@
-import RequestVacationForm from '@/components/request-management/request-vacation/request-vacation-form';
+import RequestVacationForm from '@/components/request/request-vacation/request-vacation-form';
 
 const VacationRequestPage = () => {
   return (

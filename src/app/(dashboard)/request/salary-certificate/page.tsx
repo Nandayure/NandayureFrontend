@@ -1,4 +1,4 @@
-import SalaryCertificatesForm from '@/components/request-management/salary-certificates/salary-certificates-form';
+import SalaryCertificatesForm from '@/components/request/salary-certificates/salary-certificates-form';
 import MaintenancePage from '@/components/ui/maintenance-page';
 
 const SalaryCertificate = () => {

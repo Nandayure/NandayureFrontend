@@ -10,6 +10,7 @@ import {
   Folder,
   Home,
   Menu,
+  PanelTopOpen,
   SquarePen,
   UserCheck,
   X,
@@ -48,20 +49,6 @@ const navLinksRH: Record<string, NavLink> = {
     href: '/request-management',
     icon: UserCheck,
     label: 'Gestión de solicitudes',
-    subLinks: {
-      solicitudVacaciones: {
-        href: '/request-management/vacation-request',
-        label: 'Solicitud de vacaciones',
-      },
-      boletaPago: {
-        href: '/request-management/pay-slip',
-        label: 'Boleta de pago',
-      },
-      constanciaSalarial: {
-        href: '/request-management/salary-certificate',
-        label: 'Constancia salarial',
-      },
-    },
   },
   Solicitudes: {
     href: '/request',
@@ -81,6 +68,11 @@ const navLinksRH: Record<string, NavLink> = {
         label: 'Constancia salarial',
       },
     },
+  },
+  miSolicitudes: {
+    href: '/request-management/my-requests',
+    icon:  PanelTopOpen,
+    label: 'Mis solicitudes',
   },
   controlMarcas: {
     href: '/time-tracking',
@@ -104,21 +96,26 @@ const navLinksUser: Record<string, NavLink> = {
   gestionSolicitudes: {
     href: '/request-management',
     icon: UserCheck,
-    label: 'Gestión de solicitudes',
+    label: 'Solicitudes',
     subLinks: {
       solicitudVacaciones: {
-        href: '/vacation-request',
+        href: '/request/vacation-request',
         label: 'Solicitud de vacaciones',
       },
       boletaPago: {
-        href: '/pay-slip',
+        href: '/request/pay-slip',
         label: 'Boleta de pago',
       },
       constanciaSalarial: {
-        href: '/salary-certificate',
+        href: '/request/salary-certificate',
         label: 'Constancia salarial',
       },
     },
+  },
+  miSolicitudes: {
+    href: '/request-management/my-requests',
+    icon: PanelTopOpen,
+    label: 'Mis solicitudes',
   },
 };
 

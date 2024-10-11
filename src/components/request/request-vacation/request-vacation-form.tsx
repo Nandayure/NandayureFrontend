@@ -4,21 +4,8 @@ import InputField from '@/components/ui/input-field';
 import Spinner from '@/components/ui/spinner';
 import { titleFont } from '@/config/fonts';
 import { usePostVacation } from '@/hooks';
-import { Checkbox, CheckboxIndicator } from '@radix-ui/react-checkbox';
-import { CheckIcon } from 'lucide-react';
-
 const RequestVacationForm = () => {
-  const {
-    onSubmit,
-    register,
-    mutation,
-    isDepartmentApproved,
-    isRRHHApproved,
-    isMayorApproved,
-    setIsDepartmentApproved,
-    setIsRRHHApproved,
-    setIsMayorApproved,
-  } = usePostVacation();
+  const { onSubmit, register, mutation, errors } = usePostVacation();
 
   return (
     <form onSubmit={onSubmit}>
@@ -56,6 +43,9 @@ const RequestVacationForm = () => {
         type="date"
         register={register}
       />
+      {errors.root && (
+        <div className="text-red-500 text-sm">{errors.root.message}</div>
+      )}
       <Button
         type="submit"
         className="w-full mt-4"

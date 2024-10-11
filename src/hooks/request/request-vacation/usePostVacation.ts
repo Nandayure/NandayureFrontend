@@ -7,10 +7,12 @@ import { postVacation } from '@/services';
 import useGetToken from '@/hooks/common/useGetToken';
 
 const usePostVacation = () => {
-  const { register, handleSubmit } = useForm<RequestVacation>();
-  const [isDepartmentApproved, setIsDepartmentApproved] = useState(false);
-  const [isRRHHApproved, setIsRRHHApproved] = useState(false);
-  const [isMayorApproved, setIsMayorApproved] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<RequestVacation>();
   const { token } = useGetToken();
 
   const mutation = useMutation({
@@ -22,6 +24,10 @@ const usePostVacation = () => {
     onError: (error: any) => {
       console.error('Error al enviar la solicitud', error);
       toast.error('Error al enviar la solicitud');
+      setError('root', {
+        type: 'manual',
+        message: error.message,
+      });
     },
   });
 
@@ -50,12 +56,7 @@ const usePostVacation = () => {
     onSubmit,
     register,
     mutation,
-    isDepartmentApproved,
-    isRRHHApproved,
-    isMayorApproved,
-    setIsDepartmentApproved,
-    setIsRRHHApproved,
-    setIsMayorApproved,
+    errors,
   };
 };
 

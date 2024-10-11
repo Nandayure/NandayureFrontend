@@ -1,16 +1,18 @@
-'use client'
+'use client';
 
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Search, X } from "lucide-react"
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Search, X } from 'lucide-react';
 
 interface SearchBarProps {
-  searchQuery: string
-  setSearchQuery: (query: string) => void
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 }
 
-export default function SearchBar({ searchQuery, setSearchQuery }: SearchBarProps) {
-
+export default function SearchBar({
+  searchQuery,
+  setSearchQuery,
+}: SearchBarProps) {
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (searchQuery) {
@@ -18,21 +20,17 @@ export default function SearchBar({ searchQuery, setSearchQuery }: SearchBarProp
     } else {
       console.log('Performing search...');
     }
-  }
+  };
 
   return (
     <form className="flex items-center w-full max-w-sm space-x-2">
       <Input
         type="text"
-        placeholder="Buscar por Employee ID..."
+        placeholder="Buscar por cédula"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      <Button
-        type="button"
-        size="icon"
-        onClick={handleButtonClick}
-      >
+      <Button type="button" size="icon" onClick={handleButtonClick}>
         {searchQuery ? (
           <>
             <X className="h-4 w-4" />
@@ -46,5 +44,5 @@ export default function SearchBar({ searchQuery, setSearchQuery }: SearchBarProp
         )}
       </Button>
     </form>
-  )
+  );
 }

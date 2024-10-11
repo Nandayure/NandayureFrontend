@@ -16,5 +16,6 @@ export * from './request/RequestPaySlip';
 export * from './request/RequestVacation';
 
 export * from './templates/salary-certificate';
+export * from './templates/vacations';
 
 export * from './request-management/request';

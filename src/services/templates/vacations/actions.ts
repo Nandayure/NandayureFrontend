@@ -1,6 +1,5 @@
-// src/services/vacationService.ts
+import { vacationsProps } from "@/types";
 
-import { vacationsProps } from '@/types/templates/vacations';
 
 /**
  * 

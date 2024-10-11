@@ -61,23 +61,20 @@ const RequestCard = ({
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Solicitud #{request.id}
+                <div className="flex items-center space-x-4 text-sm text-gray-500">
+                  {getRequestIcon(request.RequestTypeId)}
+                  <span>{getRequestType(request.RequestTypeId)}</span>
+                </div>
               </CardTitle>
               <Badge className={getStatusColor(request.RequestStateId)}>
                 {getRequestState(request.RequestStateId)}
               </Badge>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center space-x-4 text-sm text-gray-500">
-                {getRequestIcon(request.RequestTypeId)}
-                <span>{getRequestType(request.RequestTypeId)}</span>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <p className="text-xs text-gray-500">
+              <p className="text-gray-500">
                 Fecha: {formatDate(request.date)}
               </p>
-            </CardFooter>
+            </CardContent>
           </Card>
         ))}
   </>

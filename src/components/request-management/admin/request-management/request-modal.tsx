@@ -12,8 +12,9 @@ import { formatDate } from '@/lib/utils';
 import { getRequestState, getRequestType } from '../../request-helpers';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-const requestTypeRoutes = {
+const requestTypeRoutes: { [key: number]: string } = {
   1: '/request/vacation-request/',
   2: '/request/salary-certificate/',
   3: '/request/pay-slip/',
@@ -28,8 +29,9 @@ const RequestModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  if (!request) return null;
+  const router = useRouter();
 
+  if (!request) return null;
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -78,6 +80,21 @@ const RequestModal = ({
             </div>
           )}
 
+          {request.RequestTypeId === 2 && request.RequestSalaryCertificate && (
+            <div className="grid grid-cols-2 items-center gap-4">
+              <span className="font-semibold">Razón:</span>
+              <span>{request.RequestSalaryCertificate.reason}</span>
+            </div>
+          )}
+
+          {request.RequestTypeId === 3 &&
+            request.RequestPaymentConfirmation && (
+              <div className="grid grid-cols-2 items-center gap-4">
+                <span className="font-semibold">Razón:</span>
+                <span>{request.RequestPaymentConfirmation.reason}</span>
+              </div>
+            )}
+
           <div className="space-y-2">
             <h3 className="text-lg font-semibold">Proceso de Aprobación</h3>
             {request.RequestApprovals.map((approval) => (
@@ -123,9 +140,33 @@ const RequestModal = ({
             ))}
           </div>
         </div>
-        {request.RequestStateId === 2 && (
+
+        {request.RequestStateId === 2 && request.RequestTypeId === 1 && (
           <div className="flex justify-end mt-4">
-            <Button>Imprimir</Button>
+            <Link
+              href={`/request/vacation-request/${request.RequestVacation?.id}`}
+            >
+              <Button>Visualizar</Button>
+            </Link>
+          </div>
+        )}
+
+        {request.RequestStateId === 2 && request.RequestTypeId === 2 && (
+          <div className="flex justify-end mt-4">
+            <Link
+              href={`/request/salary-certificate/${request.RequestSalaryCertificate?.id}`}
+            >
+              <Button>Visualizar</Button>
+            </Link>
+          </div>
+        )}
+        {request.RequestStateId === 2 && request.RequestTypeId === 3 && (
+          <div className="flex justify-end mt-4">
+            <Link
+              href={`/request/pay-slip/${request.RequestPaymentConfirmation?.id}`}
+            >
+              <Button>Visualizar</Button>
+            </Link>
           </div>
         )}
       </DialogContent>

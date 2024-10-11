@@ -8,11 +8,7 @@ import {
 } from '@/components/ui/dialog';
 import { formatDate } from '@/lib/utils';
 import { RequestDetails } from '@/types';
-import {
-  Clock,
-  CheckCircle2,
-  XCircle,
-} from 'lucide-react';
+import { Clock, CheckCircle2, XCircle } from 'lucide-react';
 import { getRequestState, getRequestType } from '../../request-helpers';
 
 const RequestModal = ({
@@ -54,6 +50,21 @@ const RequestModal = ({
               <span>{formatDate(request.RequestVacation.entryDate)}</span>
             </div>
           )}
+
+          {request.RequestTypeId === 2 && request.RequestSalaryCertificate && (
+            <div className="grid grid-cols-2 items-center gap-4">
+              <span className="font-semibold">Razón:</span>
+              <span>{request.RequestSalaryCertificate.reason}</span>
+            </div>
+          )}
+
+          {request.RequestTypeId === 3 &&
+            request.RequestPaymentConfirmation && (
+              <div className="grid grid-cols-2 items-center gap-4">
+                <span className="font-semibold">Razón:</span>
+                <span>{request.RequestPaymentConfirmation.reason}</span>
+              </div>
+            )}
 
           <div className="space-y-2">
             <h3 className="text-lg font-semibold">Proceso de Aprobación</h3>

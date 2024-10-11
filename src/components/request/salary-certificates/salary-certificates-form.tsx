@@ -13,7 +13,7 @@ const SalaryCertificatesForm = () => {
       <h5
         className={`${titleFont.className} mb-3 text-base font-semibold text-gray-900 md:text-xl`}
       >
-        Solicitud de certificados de salario
+        Solicitud de constancia de salario
       </h5>
       <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
         Por favor, introduce la fecha y el motivo de la solicitud.

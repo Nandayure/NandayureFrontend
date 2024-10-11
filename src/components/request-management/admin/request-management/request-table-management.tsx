@@ -10,19 +10,20 @@ import TypeSelector from './type-selector/type-selector';
 import { XCircle } from 'lucide-react';
 
 export default function RequestTableManagement() {
-  const [selectedRequest, setSelectedRequest] = useState<RequestDetails | null>(
-    null,
-  );
+  const [selectedRequest, setSelectedRequest] = useState<RequestDetails | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedType, setSelectedType] = useState<string>('all');
   const [selectedState, setSelectedState] = useState<string>('all');
   const debouncedSearchQuery = useDebounce<string>(searchQuery, 500);
+  const debouncedSelectedType = useDebounce<string>(selectedType, 500);
+  const debouncedSelectedState = useDebounce<string>(selectedState, 500);
+
   const { allRequests, isLoading } = useGetAllRequest();
 
   const types = {
-    '1': 'Vacaciones',
-    '2': 'Certificado de Salario',
-    '3': 'Boletas de Pago',
+    1: 'Vacaciones',
+    2: 'Constancia salarial',
+    3: 'Boletas de pago',
   };
 
   const states = {
@@ -50,32 +51,29 @@ export default function RequestTableManagement() {
 
     if (debouncedSearchQuery) {
       filtered = filtered.filter((request) =>
-        request.EmployeeId.toString()
-          .toLowerCase()
-          .includes(debouncedSearchQuery.toLowerCase()),
+        request.EmployeeId.toString().toLowerCase().includes(debouncedSearchQuery.toLowerCase()),
       );
     }
 
-    if (selectedType !== 'all') {
+    if (debouncedSelectedType !== 'all') {
       filtered = filtered.filter(
-        (request) => request.RequestTypeId.toString() === selectedType,
+        (request) => request.RequestTypeId.toString() === debouncedSelectedType,
       );
     }
 
-    if (selectedState !== 'all') {
+    if (debouncedSelectedState !== 'all') {
       filtered = filtered.filter(
-        (request) => request.RequestStateId.toString() === selectedState,
+        (request) => request.RequestStateId.toString() === debouncedSelectedState,
       );
     }
 
-    // Ordenar las solicitudes por id en orden descendente
     filtered.sort((a, b) => b.id - a.id);
 
     return filtered;
-  }, [allRequests, debouncedSearchQuery, selectedType, selectedState]);
+  }, [allRequests, debouncedSearchQuery, debouncedSelectedType, debouncedSelectedState]);
 
   const isFilterActive =
-    selectedType !== 'all' || selectedState !== 'all' || searchQuery !== '';
+    debouncedSelectedType !== 'all' || debouncedSelectedState !== 'all' || debouncedSearchQuery !== '';
 
   return (
     <div className="container mx-auto py-10">
@@ -94,10 +92,7 @@ export default function RequestTableManagement() {
             onChange={setSelectedType}
             label="Tipo"
           />
-          <SearchBar
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
+          <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
           {isFilterActive && (
             <button
               onClick={handleClearFilters}
@@ -109,16 +104,8 @@ export default function RequestTableManagement() {
           )}
         </div>
       </div>
-      <RequestTable
-        requests={filteredRequests}
-        onRowClick={handleRowClick}
-        isLoading={isLoading}
-      />
-      <RequestModal
-        request={selectedRequest}
-        isOpen={!!selectedRequest}
-        onClose={handleCloseModal}
-      />
+      <RequestTable requests={filteredRequests} onRowClick={handleRowClick} isLoading={isLoading} />
+      <RequestModal request={selectedRequest} isOpen={!!selectedRequest} onClose={handleCloseModal} />
     </div>
   );
 }

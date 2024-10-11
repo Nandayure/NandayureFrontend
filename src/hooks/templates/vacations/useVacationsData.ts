@@ -8,9 +8,9 @@ interface UseVacationsDataProps {
   id: string;
 }
 
-export const useVacationsData = ({ id }: UseVacationsDataProps) => {
+const useVacationsData = ({ id }: UseVacationsDataProps) => {
   const { data, isLoading, error } = useQuery<vacationsProps | null>({
-    queryFn: async () => await getVacationCertificateData({ id }), 
+    queryFn: async () => await getVacationCertificateData({ id }),
     queryKey: ['vacationCertificate', id],
   });
 
@@ -20,3 +20,5 @@ export const useVacationsData = ({ id }: UseVacationsDataProps) => {
     error,
   };
 };
+
+export default useVacationsData;

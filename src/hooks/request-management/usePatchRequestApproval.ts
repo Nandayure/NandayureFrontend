@@ -43,16 +43,16 @@ const usePatchRequestApproval = () => {
             setTimeout(async () => {
               try {
                 await mutation.mutateAsync(updatedRequest);
-                resolve('Solicitud actualizada');
+                resolve('Solicitud Enviada');
               } catch (error) {
-                reject('Error al actualizar solicitud');
+                reject('Error al enviar solicitud');
               }
             }, 500); // artificial waiting
           }),
           {
-            loading: 'Actualizando solicitud...',
-            success: 'Solicitud actualizada',
-            error: 'Error al actualizar solicitud',
+            loading: 'Enviando solicitud...',
+            success: 'Solicitud enviada',
+            error: 'Error al enviar solicitud',
           },
           { duration: 2500 },
         );

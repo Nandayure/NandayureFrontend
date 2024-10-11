@@ -1,4 +1,5 @@
-import { useState } from 'react';
+'use client';
+
 import { Inbox } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,10 +18,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { useGetCurrentToApprove } from '@/hooks';
 import usePatchRequestApproval from '@/hooks/request-management/usePatchRequestApproval';
-import RequestInformation from '../requestInformation';
+import SkeletonLoader from '@/components/ui/skeleton-loader';
+import { formatDate } from '@/lib/utils';
 
 export default function InboxComponent() {
-  const { currentToApprove } = useGetCurrentToApprove();
+  const { currentToApprove, isLoading } = useGetCurrentToApprove();
   const {
     register,
     handleSubmit,
@@ -53,8 +55,14 @@ export default function InboxComponent() {
               Solicitudes pendientes (
               {Array.isArray(currentToApprove) ? currentToApprove.length : 0})
             </h3>
-            {Array.isArray(currentToApprove) &&
-            currentToApprove.length === 0 ? (
+            {isLoading ? (
+              <>
+                <SkeletonLoader className="h-6 w-full mb-2" />
+                <SkeletonLoader className="h-6 w-full mb-2" />
+                <SkeletonLoader className="h-6 w-full mb-2" />
+              </>
+            ) : Array.isArray(currentToApprove) &&
+              currentToApprove.length === 0 ? (
               <p>No hay solicitudes pendientes</p>
             ) : (
               Array.isArray(currentToApprove) &&
@@ -74,7 +82,6 @@ export default function InboxComponent() {
                       <span className="font-medium">Solicitante:</span>{' '}
                       {request.requesterId}
                     </p>
-                    <RequestInformation request={request} />
                   </div>
                 </div>
               ))
@@ -89,14 +96,58 @@ export default function InboxComponent() {
             <DialogTitle>
               Aprobación de Proceso {selectedRequest?.processNumber}
             </DialogTitle>
+            <span>Información de la solicitud</span>
+
+            {selectedRequest?.Request.RequestType.id === 1 &&
+              selectedRequest?.Request.RequestType.id && (
+                <div className="text-sm text-gray-700">
+                  <p>
+                    <span className="font-medium">Días solicitados:</span>{' '}
+                    {selectedRequest.Request.RequestVacation?.daysRequested}
+                  </p>
+                  <p>
+                    <span className="font-medium">Fecha salida:</span>{' '}
+                    {formatDate(
+                      selectedRequest.Request.RequestVacation?.departureDate ??
+                        '',
+                    )}
+                  </p>
+                  <p>
+                    <span className="font-medium">Fecha entrada:</span>{' '}
+                    {formatDate(
+                      selectedRequest.Request.RequestVacation?.entryDate ?? '',
+                    )}
+                  </p>
+                </div>
+              )}
+
+            {selectedRequest?.Request.RequestType.id === 2 &&
+              selectedRequest?.Request.RequestType.id && (
+                <div className="text-sm text-gray-700">
+                  <p>
+                    <span className="font-medium">Razón:</span>{' '}
+                    {selectedRequest.Request.RequestSalaryCertificate?.reason}
+                  </p>
+                </div>
+              )}
+
+            {selectedRequest?.Request.RequestType.id === 3 &&
+              selectedRequest?.Request.RequestType.id && (
+                <div className="text-sm text-gray-700">
+                  <p>
+                    <span className="font-medium">Razón:</span>{' '}
+                    {selectedRequest.Request.RequestPaymentConfirmation?.reason}
+                  </p>
+                </div>
+              )}
+              
           </DialogHeader>
           {/* Use 'handleSubmit' from react-hook-form */}
           <form>
             <div className="space-y-4">
-              <p>Solicitud de aprobación #{selectedRequest?.RequestId}</p>
               {/* Connect the Textarea to react-hook-form */}
               <Textarea
-                placeholder="Razón (opcional)"
+                placeholder="Razón"
                 {...register('reason')}
               />
               <div className="text-sm text-gray-700">
@@ -137,4 +188,4 @@ export default function InboxComponent() {
       </Dialog>
     </div>
   );
-}
+} 

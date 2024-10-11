@@ -147,7 +147,7 @@ export default function InboxComponent() {
             <div className="space-y-4">
               {/* Connect the Textarea to react-hook-form */}
               <Textarea
-                placeholder="Razón (opcional)"
+                placeholder="Razón"
                 {...register('reason')}
               />
               <div className="text-sm text-gray-700">

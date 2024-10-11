@@ -23,12 +23,9 @@ export { default as usePostSalaryCetificates } from './request/salary-certificat
 export { default as useTimeTracking } from './time-tracking/useTimeTracking';
 
 export { default as useSalaryCertificateTemplates } from './templates/salary-certificate/useSalaryCertificateTemplates';
-
 export { default as useuseVacationsData } from './templates/vacations/useVacationsData';
+export { default as useGetPaySlipTemplate } from './templates/pay-slip/usePaySlipTemplate';
 
 export { default as useGetAllRequest } from './request-management/useGetAllRequest';
 export { default as useGetAllRequestById } from './request-management/useGetAllRequesById';
 export { default as useGetCurrentToApprove } from './request-management/useGetCurrentToApprove';
-
-
- export {default as useGetPaySlipTemplate} from './templates/pay-slip/usePaySlipTemplate';

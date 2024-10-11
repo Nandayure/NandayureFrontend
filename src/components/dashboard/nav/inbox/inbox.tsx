@@ -159,10 +159,7 @@ export default function InboxComponent() {
                   <span className="font-medium">Aprobador:</span>{' '}
                   {selectedRequest?.approverId}
                 </p>
-                <p>
-                  <span className="font-medium">Proceso:</span>{' '}
-                  {selectedRequest?.processNumber}
-                </p>
+                
               </div>
             </div>
             <DialogFooter>

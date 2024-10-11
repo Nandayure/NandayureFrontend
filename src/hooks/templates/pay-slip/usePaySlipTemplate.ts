@@ -8,7 +8,7 @@ const useGetPaySlipTemplate = ({ id }: { id: string }) => {
     isError,
   } = useQuery({
     queryFn: async () => await getPaySlipInfo({ id }),
-    queryKey: ['PaySlipInfo', id], // Incluye el id en la queryKey para evitar conflictos
+    queryKey: ['PaySlipInfo', id], 
     staleTime: 5000,
   });
 

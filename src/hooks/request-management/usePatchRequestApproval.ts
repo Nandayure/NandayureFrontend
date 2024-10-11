@@ -5,9 +5,16 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useGetToken from '../common/useGetToken';
 import toast from 'react-hot-toast';
+import { z } from 'zod';
+
 
 const usePatchRequestApproval = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { token } = useGetToken();
   const [selectedRequest, setSelectedRequest] =

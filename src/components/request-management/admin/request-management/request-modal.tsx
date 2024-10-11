@@ -10,6 +10,14 @@ import { Calendar, FileText, DollarSign } from 'lucide-react';
 import { Badge } from '../../../ui/badge';
 import { formatDate } from '@/lib/utils';
 import { getRequestState, getRequestType } from '../../request-helpers';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+
+const requestTypeRoutes = {
+  1: '/request/vacation-request/',
+  2: '/request/salary-certificate/',
+  3: '/request/pay-slip/',
+};
 
 const RequestModal = ({
   request,
@@ -115,6 +123,11 @@ const RequestModal = ({
             ))}
           </div>
         </div>
+        {request.RequestStateId === 2 && (
+          <div className="flex justify-end mt-4">
+            <Button>Imprimir</Button>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

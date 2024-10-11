@@ -147,25 +147,25 @@ const PaySlipTemplate = ({ id }: { id: string }) => {
             {/* Deducciones y observaciones */}
             <View style={styles.contentWrapper}>
               <View style={styles.deduccion}>
-                <Text style={styles.deducciontitulo}>Deducciones:</Text>
-                <Text>Seguro (10,67%): {PaySlipInfo.deducciones?.seguro || 0}</Text>
-                <Text>Tributación: {PaySlipInfo.deducciones?.tributacion || 0}</Text>
-                <Text>Coopeservidores: {PaySlipInfo.deducciones?.coopeservidores || 0}</Text>
-                <Text>Coopealianza: {PaySlipInfo.deducciones?.coopealianza || 0}</Text>
-                <Text>Servicoop: {PaySlipInfo.deducciones?.servicoop || 0}</Text>
-                <Text>Coope-Ande: {PaySlipInfo.deducciones?.coopeAnde || 0}</Text>
-                <Text>ASEMUNA (5%): {PaySlipInfo.deducciones?.asemuna || 0}</Text>
-                <Text>Embargos: {PaySlipInfo.deducciones?.embargos || 0}</Text>
-                <Text>Pensión: {PaySlipInfo.deducciones?.pension || 0}</Text>
-                <Text>Funerales vida: {PaySlipInfo.deducciones?.funeralesVida || 0}</Text>
-                <Text>SITRAMUNA: {PaySlipInfo.deducciones?.sitramuna || 0}</Text>
-                <Text>ANEP: {PaySlipInfo.deducciones?.anep || 0}</Text>
-                <Text>INS: {PaySlipInfo.deducciones?.ins || 0}</Text>
-                <Text>Total de Deducciones: {PaySlipInfo.totalDeducciones || 0}</Text>
+                <Text style={styles.deduccionText}>Deducciones:</Text>
+                <Text style={styles.deduccionText}>Seguro (10,67%): {PaySlipInfo.deducciones?.seguro || 0}</Text>
+                <Text style={styles.deduccionText}>Tributación: {PaySlipInfo.deducciones?.tributacion || 0}</Text>
+                <Text style={styles.deduccionText}>Coopeservidores: {PaySlipInfo.deducciones?.coopeservidores || 0}</Text>
+                <Text style={styles.deduccionText}>Coopealianza: {PaySlipInfo.deducciones?.coopealianza || 0}</Text>
+                <Text style={styles.deduccionText}>Servicoop: {PaySlipInfo.deducciones?.servicoop || 0}</Text>
+                <Text style={styles.deduccionText}>Coope-Ande: {PaySlipInfo.deducciones?.coopeAnde || 0}</Text>
+                <Text style={styles.deduccionText}>ASEMUNA (5%): {PaySlipInfo.deducciones?.asemuna || 0}</Text>
+                <Text style={styles.deduccionText}>Embargos: {PaySlipInfo.deducciones?.embargos || 0}</Text>
+                <Text style={styles.deduccionText}>Pensión: {PaySlipInfo.deducciones?.pension || 0}</Text>
+                <Text style={styles.deduccionText}>Funerales vida: {PaySlipInfo.deducciones?.funeralesVida || 0}</Text>
+                <Text style={styles.deduccionText}>SITRAMUNA: {PaySlipInfo.deducciones?.sitramuna || 0}</Text>
+                <Text style={styles.deduccionText}>ANEP: {PaySlipInfo.deducciones?.anep || 0}</Text>
+                <Text style={styles.deduccionText}>INS: {PaySlipInfo.deducciones?.ins || 0}</Text>
+                <Text style={styles.deduccionText}>Total de Deducciones: {PaySlipInfo.totalDeducciones || 0}</Text>
               </View>
               <View style={styles.observacion}>
                 <Text style={styles.observaciontitulo}>Observaciones:</Text>
-                <Text>{PaySlipInfo.observaciones || 'Ninguna'}</Text>
+                <Text style={styles.deduccionText}>{PaySlipInfo.observaciones || 'Ninguna'}</Text>
               </View>
             </View>
 
@@ -302,6 +302,9 @@ const styles = StyleSheet.create({
     width: '73%',
     border: '1px solid #000',
     padding: 5,
+  },
+  deduccionText: {
+    fontSize: 12, // Tamaño de letra reducido para deducciones
   },
   observacion: {
     width: '27%',

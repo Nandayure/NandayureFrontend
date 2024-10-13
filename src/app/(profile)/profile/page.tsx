@@ -108,6 +108,10 @@ const ProfilePage = () => {
                 type: 'date',
               }}
             />
+            <ProfileField
+              label="Dias de vacaciones"
+              value={employeeData.AvailableVacationDays.toString()}
+            />
           </div>
         </div>
       </div>
@@ -122,17 +126,19 @@ const ProfileField = ({
 }: {
   label: string;
   value: string;
-  field: { id: string; label: string; defaultValue: string; type?: string };
+  field?: { id: string; label: string; defaultValue: string; type?: string };
 }) => (
   <div className="flex items-center justify-between py-2">
     <span className="text-gray-700">{label}</span>
     <div className="flex items-center space-x-4">
       <span className="text-gray-500">{value}</span>
-      <DialogProfile
-        title={`Editar ${field.label}`}
-        description={`Actualiza tu ${field.label} aquí. Haz clic en guardar cuando hayas terminado.`}
-        fields={[field]}
-      />
+      {field && (
+        <DialogProfile
+          title={`Editar ${field.label}`}
+          description={`Actualiza tu ${field.label} aquí. Haz clic en guardar cuando hayas terminado.`}
+          fields={[field]}
+        />
+      )}
     </div>
   </div>
 );

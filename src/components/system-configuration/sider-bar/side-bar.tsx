@@ -2,29 +2,59 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { Fingerprint, Home, Menu, UserRoundPen, Wrench, X } from 'lucide-react';
 import { NavLink, NavLinks } from '@/components/common/nav-links';
 import { useSidebarStore } from '@/store/useSidebarStore';
+import {
+  Briefcase,
+  GraduationCap,
+  Home,
+  List,
+  User,
+  Banknote,
+  Layers,
+  Building,
+  Menu,
+  X,
+} from 'lucide-react';
 
-export const navLinks: Record<string, NavLink> = {
-  home: {
+const navLinks: Record<string, NavLink> = {
+  inicio: {
     href: '/',
     icon: Home,
     label: 'Inicio',
   },
-  Profile: {
-    href: '/profile',
-    icon: UserRoundPen,
-    label: 'Perfil',
+  configuracionGeneral: {
+    href: '/system-configuration/general-settings',
+    icon: List,
+    label: 'Configuración General', 
   },
-  Seguridad: {
-    href: '/security',
-    icon: Fingerprint,
-    label: 'Seguridad',
-  }
+  departamentos: {
+    href: '/system-configuration/departments',
+    icon: Building,
+    label: 'Departamentos',
+  },
+  puestosDeTrabajo: {
+    href: '/system-configuration/positions',
+    icon: Briefcase,
+    label: 'Puestos de trabajo',
+  },
+  anualidades: {
+    href: '/system-configuration/annuities',
+    icon: Banknote,
+    label: 'Anualidades',
+  },
+  institucionesFinacieras: {
+    href: '/system-configuration/financial-institutions',
+    icon: Layers,
+    label: 'Instituciones Financieras',
+  },
+  estudios: {
+    href: '/system-configuration/studies',
+    icon: GraduationCap,
+    label: 'Estudios',
+  },
 };
-
-export function SideBarProfile() {
+export function SideBarSystemConfiguration() {
   const { isOpen, MenuIsOpen, MenuIsClose } = useSidebarStore();
 
   const toggleSidebar = () => {

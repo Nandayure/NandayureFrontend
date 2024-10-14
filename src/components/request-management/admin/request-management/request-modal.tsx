@@ -102,8 +102,18 @@ const RequestModal = ({
                 <div className="grid grid-cols-2 gap-2">
                   <span className="font-semibold">Número de Proceso:</span>
                   <span>{approval.processNumber}</span>
-                  <span className="font-semibold">ID del Aprobador:</span>
-                  <span>{approval.approverId || 'N/A'}</span>
+                  {approval.approverId && (
+                    <>
+                      <span className="font-semibold">ID del Aprobador:</span>
+                      <span>{approval.approverId}</span>
+                      <span className="font-semibold">
+                        Nombre del Aprobador:
+                      </span>
+                      <span>
+                        {approval.Name} {approval.Surname1} {approval.Surname2}
+                      </span>
+                    </>
+                  )}
                   <span className="font-semibold">Estado:</span>
                   <Badge
                     variant={

@@ -1,6 +1,9 @@
 interface RequestApproval {
   id: number;
   approverId: string | null;
+  Name: string | null;
+  Surname1: string | null;
+  Surname2: string | null;
   requesterId: string;
   processNumber: number;
   RequestId: number;
@@ -41,6 +44,9 @@ export interface RequestDetails {
   RequestStateId: number;
   RequestTypeId: number;
   EmployeeId: string;
+  Name: string;
+  Surname1: string;
+  Surname2: string;
   RequestType: RequestType;
   RequestApprovals: RequestApproval[];
   RequestVacation: RequestVacation | null;

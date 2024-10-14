@@ -87,10 +87,19 @@ const RequestModal = ({
                   )}
                 </div>
                 <div className="mt-2 text-sm">
-                  <p>
-                    <span className="font-semibold">Aprobador:</span>{' '}
-                    {approval.approverId || 'N/A'}
-                  </p>
+                  {approval.approverId && (
+                    <>
+                      <p>
+                        <span className="font-semibold">ID del Aprobador:</span>{' '}
+                        {approval.approverId}
+                      </p>
+                      <p>
+                        <span className="font-semibold">Nombre:</span>{' '}
+                        {`${approval.Name} ${approval.Surname1} ${approval.Surname2}` ||
+                          'N/A'}
+                      </p>
+                    </>
+                  )}
                   {approval.ApprovedDate && (
                     <p>
                       <span className="font-semibold">

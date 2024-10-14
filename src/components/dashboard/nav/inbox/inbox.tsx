@@ -91,80 +91,102 @@ export default function InboxComponent() {
       </Popover>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>
-              Aprobación de Proceso {selectedRequest?.processNumber}
+            <DialogTitle className="text-2xl">
+              Aprobación de Proceso #{selectedRequest?.processNumber}
             </DialogTitle>
-            <span>Información de la solicitud</span>
-
-            {selectedRequest?.Request.RequestType.id === 1 &&
-              selectedRequest?.Request.RequestType.id && (
-                <div className="text-sm text-gray-700">
-                  <p>
-                    <span className="font-medium">Días solicitados:</span>{' '}
-                    {selectedRequest.Request.RequestVacation?.daysRequested}
-                  </p>
-                  <p>
-                    <span className="font-medium">Fecha salida:</span>{' '}
-                    {formatDate(
-                      selectedRequest.Request.RequestVacation?.departureDate ??
-                        '',
-                    )}
-                  </p>
-                  <p>
-                    <span className="font-medium">Fecha entrada:</span>{' '}
-                    {formatDate(
-                      selectedRequest.Request.RequestVacation?.entryDate ?? '',
-                    )}
-                  </p>
-                </div>
-              )}
-
-            {selectedRequest?.Request.RequestType.id === 2 &&
-              selectedRequest?.Request.RequestType.id && (
-                <div className="text-sm text-gray-700">
-                  <p>
-                    <span className="font-medium">Razón:</span>{' '}
-                    {selectedRequest.Request.RequestSalaryCertificate?.reason}
-                  </p>
-                </div>
-              )}
-
-            {selectedRequest?.Request.RequestType.id === 3 &&
-              selectedRequest?.Request.RequestType.id && (
-                <div className="text-sm text-gray-700">
-                  <p>
-                    <span className="font-medium">Razón:</span>{' '}
-                    {selectedRequest.Request.RequestPaymentConfirmation?.reason}
-                  </p>
-                </div>
-              )}
-              
           </DialogHeader>
-          {/* Use 'handleSubmit' from react-hook-form */}
-          <form>
-            <div className="space-y-4">
-              {/* Connect the Textarea to react-hook-form */}
-              <Textarea
-                placeholder="Razón"
-                {...register('reason')}
-              />
-              <div className="text-sm text-gray-700">
-                <p>
-                  <span className="font-medium">Solicitante:</span>{' '}
-                  {selectedRequest?.requesterId}
-                </p>
-                <p>
-                  <span className="font-medium">Aprobador:</span>{' '}
-                  {selectedRequest?.approverId}
-                </p>
-                
+          <form
+            onSubmit={handleSubmit((data) =>
+              onSubmit({ ...data, reason: data.reason || '' }, 'approve'),
+            )}
+          >
+            <div className="space-y-6">
+              <div>
+                <h4 className="font-semibold mb-2">
+                  Información de la solicitud
+                </h4>
+                <div className="bg-muted p-4 rounded-md">
+                  <p className="font-medium mb-2">
+                    Tipo: {selectedRequest?.Request.RequestType.name}
+                  </p>
+                  {selectedRequest?.Request.RequestType.id === 1 && (
+                    <>
+                      <p className="text-sm">
+                        <span className="font-medium">Días solicitados:</span>{' '}
+                        {selectedRequest.Request.RequestVacation?.daysRequested}
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-medium">Fecha salida:</span>{' '}
+                        {formatDate(
+                          selectedRequest.Request.RequestVacation
+                            ?.departureDate ?? '',
+                        )}
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-medium">Fecha entrada:</span>{' '}
+                        {formatDate(
+                          selectedRequest.Request.RequestVacation?.entryDate ??
+                            '',
+                        )}
+                      </p>
+                    </>
+                  )}
+                  {selectedRequest?.Request.RequestType.id === 2 && (
+                    <p className="text-sm">
+                      <span className="font-medium">Razón:</span>{' '}
+                      {selectedRequest.Request.RequestSalaryCertificate?.reason}
+                    </p>
+                  )}
+                  {selectedRequest?.Request.RequestType.id === 3 && (
+                    <p className="text-sm">
+                      <span className="font-medium">Razón:</span>{' '}
+                      {
+                        selectedRequest.Request.RequestPaymentConfirmation
+                          ?.reason
+                      }
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-2">
+                  Información del solicitante
+                </h4>
+                <div className="bg-muted p-4 rounded-md">
+                  <p className="text-sm">
+                    <span className="font-medium">ID del empleado:</span>{' '}
+                    {selectedRequest?.Request.EmployeeId}
+                  </p>
+                  <p className="text-sm">
+                    <span className="font-medium">Nombre del empleado:</span>{' '}
+                    {selectedRequest?.Request.Name}{' '}
+                    {selectedRequest?.Request.Surname1}{' '}
+                    {selectedRequest?.Request.Surname2}
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="reason"
+                  className="block text-sm font-medium mb-2"
+                >
+                  Razón de aprobación/rechazo
+                </label>
+                <Textarea
+                  id="reason"
+                  placeholder="Ingrese la razón de su decisión"
+                  className="w-full"
+                  {...register('reason')}
+                />
               </div>
             </div>
-            <DialogFooter>
-              {/* Handle form submission with the specified action */}
+            <DialogFooter className="mt-6">
               <Button
+                type="button"
                 variant="outline"
                 onClick={handleSubmit((data) =>
                   onSubmit({ ...data, reason: data.reason || '' }, 'reject'),
@@ -172,17 +194,11 @@ export default function InboxComponent() {
               >
                 Rechazar
               </Button>
-              <Button
-                onClick={handleSubmit((data) =>
-                  onSubmit({ ...data, reason: data.reason || '' }, 'approve'),
-                )}
-              >
-                Aprobar
-              </Button>
+              <Button type="submit">Aprobar</Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
     </div>
   );
-} 
+}

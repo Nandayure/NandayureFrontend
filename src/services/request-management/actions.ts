@@ -41,7 +41,7 @@ export async function getCurrentToApprove(token: string) {
     },
   };
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/request-approvals/currentToApprove{ApproverId}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/request-approvals/currentToApprove`,
     options,
   );
   const data = (await res.json()) as currentToApprove[];

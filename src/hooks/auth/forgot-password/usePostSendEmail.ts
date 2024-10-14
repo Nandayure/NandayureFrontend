@@ -1,12 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { ForgotPassword } from '@/types/entities';
 import toast from 'react-hot-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EmailSendSchema } from '@/lib/zod';
-import { postForgotPassword } from '@/server/auth/forgot-password/actions';
 import { z } from 'zod';
+
+import { ForgotPassword } from '@/types';
+import { EmailSendSchema } from '@/schemas';
+import { postForgotPassword } from '@/services';
 
 type FormsFields = z.infer<typeof EmailSendSchema>;
 
@@ -31,11 +32,24 @@ const usePostSendEmail = () => {
 
   const onSubmit: SubmitHandler<FormsFields> = async (data) => {
     try {
-      const mutationPromise = await toast.promise(mutation.mutateAsync(data), {
-        loading: 'Enviando correo...',
-        success: 'Correo enviado',
-        error: 'Error al enviar correo',
-      });
+      const mutationPromise = await toast.promise(
+        new Promise((resolve, reject) => {
+          setTimeout(async () => {
+            try {
+              await mutation.mutateAsync(data);
+              resolve('Correo enviado');
+            } catch (error) {
+              reject('Error al enviar correo');
+            }
+          }, 500); // artificial waiting
+        }),
+        {
+          loading: 'Enviando correo...',
+          success: 'Correo enviado',
+          error: 'Error al enviar correo',
+        },
+        { duration: 2500 },
+      );
       setEmailSent(true);
       await mutationPromise;
     } catch (error: any) {
@@ -54,4 +68,5 @@ const usePostSendEmail = () => {
     errors,
   };
 };
+
 export default usePostSendEmail;

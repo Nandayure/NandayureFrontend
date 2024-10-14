@@ -1,5 +1,6 @@
-import { getMaritalStatus } from '@/server/auth/register/actions';
 import { useQuery } from '@tanstack/react-query';
+
+import { getMaritalStatus } from '@/services';
 
 const useGetMaritalStatus = () => {
   const { data: maritalStatus } = useQuery({

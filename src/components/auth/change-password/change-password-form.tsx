@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
 import Spinner from '@/components/ui/spinner';
-import useChangePassword from '@/hooks/auth/change-password/usePostChangePassword';
+import { Button } from '@/components/ui/button';
+import { useChangePassword } from '@/hooks';
 
 const ChangePasswordForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -84,19 +85,15 @@ const ChangePasswordForm = () => {
       {errors.root && (
         <div className="text-red-500 text-sm mt-2">{errors.root.message}</div>
       )}
-      <button
+      <Button
         type="submit"
+        className="w-full mt-4"
         disabled={mutation.isPending}
-        className="block w-full px-3 py-2 sm:py-3 mt-4 text-white bg-dodger-blue-600 rounded-md shadow-sm hover:bg-dodger-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
       >
-        {mutation.isPending ? (
-          <div className="flex justify-center">
-            <Spinner />
-          </div>
-        ) : (
-          <span>Cambiar contraseña</span>
-        )}
-      </button>
+        <div className="flex justify-center items-center">
+          {mutation.isPending ? <Spinner /> : <span>Actualizar</span>}
+        </div>
+      </Button>
     </form>
   );
 };

@@ -13,7 +13,7 @@ export default function RootLayout({
       <body className="">
         <SessionAuthProvider>
           <ReactQueryProvider>
-            <Toaster position="top-right" reverseOrder={false} />
+            <Toaster reverseOrder={false} />
             {children}
           </ReactQueryProvider>
         </SessionAuthProvider>

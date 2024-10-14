@@ -1,7 +1,7 @@
 import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 import { jwtDecode } from 'jwt-decode';
-import { Payload } from './types/authResponseTypes';
+import { Payload } from './types/auth/authResponseTypes';
 import { Roles } from './lib/constants';
 
 async function authMiddleware(req: NextRequest) {
@@ -51,21 +51,13 @@ export async function middleware(req: NextRequest) {
 
   // Allow access to public auth routes
   if (pathname.startsWith('/auth')) {
-   if (pathname === '/auth/register') {
-     return await rolesMiddleware(req, [Roles.rh]);
+    if (pathname === '/auth/register') {
+      return await rolesMiddleware(req, [Roles.rh]);
     }
     return NextResponse.next();
   }
 
-  // Protect the profile and security routes
-  if (pathname.startsWith('/profile') || pathname.startsWith('/security')) {
-    let response = await authMiddleware(req);
-    if (response) {
-      return response;
-    }
-  }
-
-  // Protect the root route and all other routes
+  // Protect all private routes
   let response = await authMiddleware(req);
   if (response) {
     return response;
@@ -74,6 +66,7 @@ export async function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
+// Define matcher for all private routes including sub-routes
 export const config = {
   matcher: [
     '/',
@@ -83,12 +76,11 @@ export const config = {
     '/admin/:path*',
     '/profile/:path*',
     '/security/:path*',
-    '/payroll-creation',
-    '/document-management',
-    '/request-management',
-    '/vacation-request',
-    '/pay-slip',
-    '/salary-certificate',
-    '/time-tracking',
+    '/dashboard/:path*',
+    '/document-management/:path*',
+    '/payroll-creation/:path*',
+    '/request/:path*',
+    '/request-management/:path*',
+    '/time-tracking/:path*',
   ],
 };

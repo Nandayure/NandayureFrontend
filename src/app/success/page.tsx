@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -21,12 +22,9 @@ export default function SuccessPage() {
           </p>
         </div>
         <Link href={'/'} className="flex justify-center">
-          <button
-            type="submit"
-            className="block w-3/4 justify-center px-3 py-2 sm:py-3 mt-4 text-white bg-apple-500 rounded-md shadow-sm hover:bg-apple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
-          >
-            Regresa al inicio
-          </button>
+          <Button variant="select" size="lg">
+            Volver al Inicio
+          </Button>
         </Link>
       </div>
     </section>

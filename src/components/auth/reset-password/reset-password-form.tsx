@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import usePostResetPassword from '../../../hooks/auth/reset-password/usePostResetPasssword';
 import Spinner from '@/components/ui/spinner';
+import { usePostResetPassword } from '@/hooks';
 interface Props {
   token: string;
 }

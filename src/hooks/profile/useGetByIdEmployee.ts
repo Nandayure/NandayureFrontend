@@ -1,4 +1,4 @@
-import { getByIdEmployee } from '@/server/profile/getEmployee/actions';
+import { getByIdEmployee } from '@/services';
 import { useQuery } from '@tanstack/react-query';
 
 interface Props {

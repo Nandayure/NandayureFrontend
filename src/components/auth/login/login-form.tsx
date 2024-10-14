@@ -1,4 +1,5 @@
 'use client';
+import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import usePostLogin from '@/hooks/auth/login/usePostLogin';
 import Link from 'next/link';
@@ -61,27 +62,18 @@ const LoginForm = () => {
           </label>
         </div>
       </div>
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="block w-full px-3 py-2 sm:py-3 mt-4 text-white bg-dodger-blue-600 rounded-md shadow-sm hover:bg-dodger-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
-      >
-        {isLoading ? (
-          <div className="flex justify-center">
-            <Spinner />
-          </div>
-        ) : (
-          <span>Iniciar sesión</span>
-        )}
-      </button>
-      <section>
-        <Link
-          href="/auth/forgot-password"
-          className="block mt-4 text-sm text-center text-dodger-blue-600 hover:underline transition-all"
-        >
-          ¿Olvidaste tu contraseña?
+      <Button className="w-full mt-4" type="submit" disabled={isLoading}>
+        {isLoading ? <Spinner /> : <span>Iniciar Sesión</span>}
+      </Button>
+      <div className="mt-2 text-center">
+        <Link href="/auth/forgot-password">
+          <Button
+            variant="link"
+          >
+            ¿Olvidaste tu contraseña?
+          </Button>
         </Link>
-      </section>
+      </div>
     </form>
   );
 };

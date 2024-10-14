@@ -1,4 +1,4 @@
-import { getGenders } from '@/server/auth/register/actions';
+import { getGenders } from '@/services';
 import { useQuery } from '@tanstack/react-query';
 
 const useGetGenders = () => {

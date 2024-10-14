@@ -1,6 +1,6 @@
-import { UpdateEmployeeSchema } from '@/lib/zod';
-import { updateEmployee } from '@/server/profile/updateEmployee/actions';
-import { UpdateEmployee } from '@/types/entities';
+import { UpdateEmployeeSchema } from '@/schemas';
+import { updateEmployee } from '@/services';
+import { UpdateEmployee } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';

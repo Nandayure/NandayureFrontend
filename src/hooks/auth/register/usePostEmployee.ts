@@ -1,12 +1,13 @@
-import { Employee } from '@/types/entities';
 import { useMutation } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { RegisterSchema } from '@/lib/zod';
-import { postEmployee } from '@/server/auth/register/actions';
 import { z } from 'zod';
+
+import { Employee } from '@/types';
+import { RegisterSchema } from '@/schemas';
+import { postEmployee } from '@/services';
 
 type FormsFields = z.infer<typeof RegisterSchema>;
 
@@ -73,7 +74,6 @@ export const convertEmployeeTypes = (employee: any): Employee => {
     CellPhone: employee.CellPhone,
     NumberChlidren: parseInt(employee.NumberChlidren, 10),
     JobPositionId: parseInt(employee.JobPositionId, 10),
-    DepartmentId: parseInt(employee.DepartmentId, 10),
     EmbargoId: parseInt(employee.EmbargoId, 10),
     AvailableVacationDays: parseInt(employee.AvailableVacationDays, 10),
     MaritalStatusId: parseInt(employee.MaritalStatusId, 10),

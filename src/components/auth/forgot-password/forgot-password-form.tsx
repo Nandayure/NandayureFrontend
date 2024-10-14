@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import Spinner from '@/components/ui/spinner';
 import { titleFont } from '@/config/fonts';
+import { Button } from '@/components/ui/button';
 import usePostSendEmail from '@/hooks/auth/forgot-password/usePostSendEmail';
 
 const ForgotPasswordForm = () => {
@@ -44,18 +45,13 @@ const ForgotPasswordForm = () => {
           {errors.root && (
             <p className="text-red-500 text-sm mt-2">{errors.root.message}</p>
           )}
-          <button
+          <Button
             type="submit"
-            className="w-full mt-4 py-2 px-4 bg-dodger-blue-600 hover:bg-dodger-blue-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+            className="mt-4 w-full"
+            disabled={mutation.isPending}
           >
-            <div className="flex justify-center items-center">
-              {mutation.isPending ? (
-                <Spinner />
-              ) : (
-                <span>Enviar enlace de recuperación</span>
-              )}
-            </div>
-          </button>
+            {mutation.isPending ? <Spinner /> : 'Enviar correo'}
+          </Button>
         </>
       ) : (
         <>
@@ -72,11 +68,10 @@ const ForgotPasswordForm = () => {
         </>
       )}
       <section>
-        <Link
-          href="/auth/login"
-          className="block mt-4 text-sm text-center text-dodger-blue-600 hover:underline"
-        >
-          Volver a inicio de sesión
+        <Link href="/auth/login">
+          <Button className="mt-4 w-full" variant={'link'}>
+            Regresar al inicio de sesión
+          </Button>
         </Link>
       </section>
     </form>

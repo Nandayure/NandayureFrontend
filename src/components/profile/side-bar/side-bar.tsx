@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import clsx from 'clsx';
-import { Fingerprint, Home, Menu, UserRoundPen, X } from 'lucide-react';
+import { Fingerprint, Home, Menu, UserRoundPen, Wrench, X } from 'lucide-react';
 import { NavLink, NavLinks } from '@/components/common/nav-links';
 import { useSidebarStore } from '@/store/useSidebarStore';
 
@@ -21,7 +21,7 @@ export const navLinks: Record<string, NavLink> = {
     href: '/security',
     icon: Fingerprint,
     label: 'Seguridad',
-  },
+  }
 };
 
 export function SideBarProfile() {
@@ -33,7 +33,7 @@ export function SideBarProfile() {
   return (
     <aside
       className={clsx(
-        'flex flex-col h-screen transition-all duration-300 bg-white border rounded border-gray-200',
+        'flex flex-col h-auto transition-all duration-300 bg-white border rounded border-gray-200',
         isOpen ? 'w-64' : 'w-20 items-center',
       )}
     >

@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import useGetRoles from '@/hooks/common/useGetRoles';
+import { useGetRoles } from '@/hooks';
 import { CircleUserRound } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
@@ -28,10 +28,18 @@ export default function User() {
           <Link href="/profile">Configuración </Link>
         </DropdownMenuItem>
         {roles && roles.includes('RH') && (
-          <DropdownMenuItem>
-            <Link href={'/auth/register'}>Registrar usuario</Link>
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuItem>
+              <Link href={'/system-configuration'}>
+                Configuracion del sistema
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={'/auth/register'}>Registrar usuario</Link>
+            </DropdownMenuItem>
+          </>
         )}
+
         <DropdownMenuItem>
           <Link href="/helps">Ayuda</Link>
         </DropdownMenuItem>

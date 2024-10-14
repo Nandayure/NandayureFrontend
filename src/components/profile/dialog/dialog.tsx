@@ -11,9 +11,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
-import useGetEmployeeId from '@/hooks/common/useGetEmployeeId';
-import useUpdateEmployee from '@/hooks/profile/useUpdateEmployee';
-import { UpdateEmployee } from '@/types/entities';
+import { useGetEmployeeId, useUpdateEmployee } from '@/hooks';
+import { UpdateEmployee } from '@/types';
 import { useState } from 'react';
 
 interface Field {
@@ -83,11 +82,12 @@ export function DialogProfile({
           <DialogFooter>
             <Button
               type="submit"
+              className=""
               disabled={mutation.isPending}
-              className="mt-4 py-2 px-4 bg-dodger-blue-600 hover:bg-dodger-blue-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900"
             >
               {mutation.isPending ? <Spinner /> : 'Guardar'}
             </Button>
+
           </DialogFooter>
         </form>
       </DialogContent>

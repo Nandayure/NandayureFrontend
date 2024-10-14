@@ -6,6 +6,8 @@ import { format } from '@formkit/tempo';
 import { DialogProfile } from '@/components/profile/dialog/dialog';
 import useGetEmployeeId from '@/hooks/common/useGetEmployeeId';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const ProfilePage = () => {
   const { employeeId } = useGetEmployeeId();
@@ -18,7 +20,17 @@ const ProfilePage = () => {
   }
 
   if (isError) {
-    return <div> Ocurrió un error al cargar la información del empleado.</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Card className="w-full max-w-3xl">
+          <CardContent className="p-6">
+            <p className="text-center text-red-500">
+              Ocurrió un error al cargar la información del empleado.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   const inputDate = employeeData.Birthdate;
@@ -31,28 +43,21 @@ const ProfilePage = () => {
   const Date = format({ date: inputDate, format: 'YYYY-MM-DD', locale: 'en' });
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="max-w-3xl mx-auto bg-white border shadow-md rounded-lg overflow-hidden">
-        <div className="p-6">
-          <h1 className="text-3xl font-bold mb-6">Cuenta</h1>
+    <div className="min-h-screen p-6 bg-gray-50">
+      <Card className="max-w-3xl mx-auto">
+        <CardHeader className="pb-0">
+          <CardTitle className="text-3xl font-bold">Cuenta</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-2">Perfil</h2>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-600">
               Esta es tu información pública de perfil. Se utiliza para
               identificarte en los servicios de la empresa. Puedes actualizar tu
               información para mantenerla actualizada y precisa.
             </p>
           </div>
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center bg-gray-200">
-                  <IoPersonOutline size={48} className="text-black" />
-                </div>
-                <span className="text-gray-700">Imagen de perfil</span>
-              </div>
-              <Button variant="outline">Editar</Button>
-            </div>
             <ProfileField
               label="Nombre"
               value={employeeData.Name}
@@ -109,8 +114,8 @@ const ProfilePage = () => {
               }}
             />
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
@@ -122,62 +127,57 @@ const ProfileField = ({
 }: {
   label: string;
   value: string;
-  field: { id: string; label: string; defaultValue: string; type?: string };
+  field?: { id: string; label: string; defaultValue: string; type?: string };
 }) => (
-  <div className="flex items-center justify-between py-2">
-    <span className="text-gray-700">{label}</span>
+  <div className="flex items-center justify-between py-3 border-b border-gray-200 last:border-b-0">
+    <div className="space-y-1">
+      <span className="text-sm font-medium text-gray-500">{label}</span>
+      <p className="text-base font-semibold text-gray-900">{value}</p>
+    </div>
     <div className="flex items-center space-x-4">
-      <span className="text-gray-500">{value}</span>
-      <DialogProfile
-        title={`Editar ${field.label}`}
-        description={`Actualiza tu ${field.label} aquí. Haz clic en guardar cuando hayas terminado.`}
-        fields={[field]}
-      />
+      {field && (
+        <DialogProfile
+          title={`Editar ${field.label}`}
+          description={`Actualiza tu ${field.label} aquí. Haz clic en guardar cuando hayas terminado.`}
+          fields={[field]}
+        />
+      )}
     </div>
   </div>
 );
 
-export default ProfilePage;
-
 const ProfileSkeleton = () => {
   return (
-    <div className="min-h-screen p-6">
-      <div className="max-w-3xl mx-auto bg-white border shadow-md rounded-lg overflow-hidden">
-        <div className="p-6 animate-pulse">
-          <h1 className="text-3xl font-bold mb-6 bg-gray-300 rounded w-32 h-8"></h1>
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-2 bg-gray-300 rounded w-24 h-6"></h2>
-            <p className="text-gray-600 mb-4 bg-gray-200 rounded w-full h-4"></p>
-            <p className="text-gray-600 mb-4 bg-gray-200 rounded w-3/4 h-4"></p>
-            <p className="text-gray-600 mb-4 bg-gray-200 rounded w-1/2 h-4"></p>
+    <div className="min-h-screen p-6 bg-gray-50">
+      <Card className="max-w-3xl mx-auto">
+        <CardHeader className="pb-0">
+          <Skeleton className="h-9 w-40" />
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="mb-8 space-y-2">
+            <Skeleton className="h-7 w-32" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
           </div>
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
-                  <IoPersonOutline size={48} className="text-gray-400" />
-                </div>
-                <span className="text-gray-700 bg-gray-300 rounded w-24 h-4"></span>
-              </div>
-              <div className="bg-gray-300 rounded w-16 h-8"></div>
-            </div>
-            {/* Skeleton Fields */}
-            {Array.from({ length: 5 }).map((_, index) => (
+            {Array.from({ length: 6 }).map((_, index) => (
               <ProfileFieldSkeleton key={index} />
             ))}
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
 
 const ProfileFieldSkeleton = () => (
-  <div className="flex items-center justify-between py-2">
-    <span className="text-gray-700 bg-gray-300 rounded w-24 h-4"></span>
-    <div className="flex items-center space-x-4">
-      <span className="text-gray-500 bg-gray-200 rounded w-32 h-4"></span>
-      <div className="bg-gray-300 rounded w-16 h-8"></div>
+  <div className="flex items-center justify-between py-3 border-b border-gray-200 last:border-b-0">
+    <div className="space-y-2">
+      <Skeleton className="h-4 w-24" />
+      <Skeleton className="h-5 w-32" />
     </div>
+    <Skeleton className="h-9 w-16" />
   </div>
 );
+
+export default ProfilePage;

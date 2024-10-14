@@ -14,3 +14,7 @@ export * from './templates/vacations/actions';
 export * from './templates/pay-slip/actions';
 
 export * from './request-management/actions';
+
+// system-configuration
+export * from './system-configuration/departaments/queries/actions';
+export * from './system-configuration/departaments/commands/actions';

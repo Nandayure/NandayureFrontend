@@ -29,3 +29,6 @@ export { default as useGetPaySlipTemplate } from './templates/pay-slip/usePaySli
 export { default as useGetAllRequest } from './request-management/useGetAllRequest';
 export { default as useGetAllRequestById } from './request-management/useGetAllRequesById';
 export { default as useGetCurrentToApprove } from './request-management/useGetCurrentToApprove';
+
+export { default as useGetAllDepartaments } from './system-configuration/departaments/queries/useGetAllDepartaments';
+export { default as useGetAllDepartmentById } from './system-configuration/departaments/queries/useGetDepartamentById';

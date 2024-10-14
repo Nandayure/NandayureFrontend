@@ -12,7 +12,7 @@ const RequestVacationForm = () => {
       <h5
         className={`${titleFont.className} mb-3 text-base font-semibold text-gray-900 md:text-xl`}
       >
-        Solicitud de Vacaciones
+        Solicitud de vacaciones
       </h5>
       <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
         Por favor, introduce los datos requeridos para la solicitud.
@@ -26,7 +26,7 @@ const RequestVacationForm = () => {
       {/* Campos del formulario */}
       <InputField
         id="daysRequested"
-        label="Días Solicitados"
+        label="Días solicitados"
         type="number"
         placeholder="Número de días solicitados"
         register={register}
@@ -51,7 +51,7 @@ const RequestVacationForm = () => {
         className="w-full mt-4"
         disabled={mutation.isPending}
       >
-        {mutation.isPending ? <Spinner /> : 'Enviar Solicitud'}
+        {mutation.isPending ? <Spinner /> : 'Enviar solicitud'}
       </Button>
     </form>
   );

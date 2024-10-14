@@ -42,7 +42,7 @@ const RequestModal = ({
 
           {request.RequestTypeId === 1 && request.RequestVacation && (
             <div className="grid grid-cols-2 items-center gap-4">
-              <span className="font-semibold">Días Solicitados:</span>
+              <span className="font-semibold">Días solicitados:</span>
               <span>{request.RequestVacation.daysRequested}</span>
               <span className="font-semibold">Fecha de Salida:</span>
               <span>{formatDate(request.RequestVacation.departureDate)}</span>

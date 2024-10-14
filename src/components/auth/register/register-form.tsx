@@ -21,7 +21,7 @@ const RegisterForm = () => {
         {/* Información Personal */}
         <div>
           <h2 className="text-lg font-medium text-gray-900 mb-4">
-            Información Personal
+            Información personal
           </h2>
           <div className="space-y-4">
             <InputField
@@ -34,7 +34,7 @@ const RegisterForm = () => {
             />
             <InputField
               id="Surname1"
-              label="Primer Apellido"
+              label="Primer apellido"
               type="text"
               placeholder="Escribe tu primer apellido aquí"
               register={register}
@@ -42,7 +42,7 @@ const RegisterForm = () => {
             />
             <InputField
               id="Surname2"
-              label="Segundo Apellido"
+              label="Segundo apellido"
               type="text"
               placeholder="Escribe tu segundo apellido aquí"
               register={register}
@@ -50,7 +50,7 @@ const RegisterForm = () => {
             />
             <InputField
               id="Birthdate"
-              label="Fecha de Nacimiento"
+              label="Fecha de nacimiento"
               type="date"
               register={register}
               errors={errors}
@@ -64,7 +64,7 @@ const RegisterForm = () => {
             />
             <SelectField
               id="MaritalStatusId"
-              label="Estado Civil"
+              label="Estado civil"
               options={maritalStatus}
               register={register}
               errors={errors}
@@ -78,7 +78,7 @@ const RegisterForm = () => {
             <div className="space-y-4">
               <InputField
                 id="Email"
-                label="Correo Electrónico"
+                label="Correo electrónico"
                 type="email"
                 placeholder="Escribe tu correo electrónico aquí"
                 register={register}
@@ -86,7 +86,7 @@ const RegisterForm = () => {
               />
               <InputField
                 id="CellPhone"
-                label="Teléfono Celular"
+                label="Teléfono celular"
                 type="tel"
                 placeholder="Escribe tu número de teléfono aquí"
                 register={register}
@@ -99,7 +99,7 @@ const RegisterForm = () => {
         {/* Información Laboral */}
         <div>
           <h2 className="text-lg font-medium text-gray-900 mb-4">
-            Información Laboral
+            Información laboral
           </h2>
           <div className="space-y-4">
             <InputField
@@ -112,14 +112,14 @@ const RegisterForm = () => {
             />
             <InputField
               id="HiringDate"
-              label="Fecha de Contratación"
+              label="Fecha de contratación"
               type="date"
               register={register}
               errors={errors}
             />
             <InputField
               id="NumberChlidren"
-              label="Número de Hijos"
+              label="Número de hijos"
               type="number"
               placeholder="Escribe el número de hijos aquí"
               register={register}
@@ -127,33 +127,20 @@ const RegisterForm = () => {
             />
             <SelectField
               id="JobPositionId"
-              label="Puesto de Trabajo"
+              label="Puesto de trabajo"
               options={JobsPositions}
               register={register}
               errors={errors}
             />
             <InputField
               id="AvailableVacationDays"
-              label="Días de Vacaciones"
+              label="Días de vacaciones"
               type="number"
               placeholder="Escribe los días de vacaciones aquí"
               register={register}
               errors={errors}
             />
 
-            {/* Otros */}
-            <div className="mt-4">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Otros</h2>
-              <div className="space-y-4">
-                <SelectField
-                  id="EmbargoId"
-                  label="Embargo"
-                  options={Embargoes}
-                  register={register}
-                  errors={errors}
-                />
-              </div>
-            </div>
           </div>
         </div>
       </div>

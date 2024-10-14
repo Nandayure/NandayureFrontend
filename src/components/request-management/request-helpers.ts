@@ -10,8 +10,8 @@ export const getRequestType = (typeId: number) => {
 export const getRequestState = (stateId: number) => {
   const states = {
     1: 'Pendiente',
-    2: 'Aprobado',
-    3: 'Rechazado',
+    2: 'Aprobada',
+    3: 'Rechazada',
   };
   return states[stateId as keyof typeof states] || 'Desconocido';
 };

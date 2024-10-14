@@ -157,7 +157,7 @@ export default function InboxComponent() {
                 </h4>
                 <div className="bg-muted p-4 rounded-md">
                   <p className="text-sm">
-                    <span className="font-medium">ID del empleado:</span>{' '}
+                    <span className="font-medium">Cédula del empleado:</span>{' '}
                     {selectedRequest?.Request.EmployeeId}
                   </p>
                   <p className="text-sm">

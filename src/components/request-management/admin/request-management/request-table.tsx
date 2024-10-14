@@ -26,12 +26,12 @@ const RequestTable = ({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>ID de Solicitud</TableHead>
-          <TableHead>ID de Empleado</TableHead>
-          <TableHead>Nombre de Empleado</TableHead>
+          <TableHead>ID de solicitud</TableHead>
+          <TableHead>Cédula de empleado</TableHead>
+          <TableHead>Nombre de empleado</TableHead>
           <TableHead>Apellidos</TableHead>
-          <TableHead>Tipo de Solicitud</TableHead>
-          <TableHead>Fecha de Solicitud</TableHead>
+          <TableHead>Tipo de solicitud</TableHead>
+          <TableHead>Fecha de solicitud</TableHead>
           <TableHead>Estado</TableHead>
         </TableRow>
       </TableHeader>

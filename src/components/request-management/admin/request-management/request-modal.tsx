@@ -36,9 +36,9 @@ const RequestModal = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Detalles de la Solicitud</DialogTitle>
+          <DialogTitle>Detalles de la solicitud</DialogTitle>
           <DialogDescription>
-            ID de Solicitud: {request.id} | ID de Empleado: {request.EmployeeId}
+            ID de solicitud: {request.id} | Cédula de empleado: {request.EmployeeId}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4">
@@ -49,10 +49,10 @@ const RequestModal = ({
               {request.RequestTypeId === 3 && (
                 <DollarSign className="h-4 w-4" />
               )}
-              <span className="font-semibold">Tipo de Solicitud:</span>
+              <span className="font-semibold">Tipo de solicitud:</span>
             </div>
             <span>{getRequestType(request.RequestTypeId)}</span>
-            <span className="font-semibold">Fecha de Solicitud:</span>
+            <span className="font-semibold">Fecha de solicitud:</span>
             <span>{formatDate(request.date)}</span>
             <span className="font-semibold">Estado:</span>
             <Badge
@@ -71,11 +71,11 @@ const RequestModal = ({
 
           {request.RequestTypeId === 1 && request.RequestVacation && (
             <div className="grid grid-cols-2 items-center gap-4">
-              <span className="font-semibold">Días Solicitados:</span>
+              <span className="font-semibold">Días solicitados:</span>
               <span>{request.RequestVacation.daysRequested}</span>
-              <span className="font-semibold">Fecha de Salida:</span>
+              <span className="font-semibold">Fecha de salida:</span>
               <span>{formatDate(request.RequestVacation.departureDate)}</span>
-              <span className="font-semibold">Fecha de Regreso:</span>
+              <span className="font-semibold">Fecha de regreso:</span>
               <span>{formatDate(request.RequestVacation.entryDate)}</span>
             </div>
           )}
@@ -96,18 +96,18 @@ const RequestModal = ({
             )}
 
           <div className="space-y-2">
-            <h3 className="text-lg font-semibold">Proceso de Aprobación</h3>
+            <h3 className="text-lg font-semibold">Proceso de aprobación</h3>
             {request.RequestApprovals.map((approval) => (
               <div key={approval.id} className="rounded-md border p-4">
                 <div className="grid grid-cols-2 gap-2">
-                  <span className="font-semibold">Número de Proceso:</span>
+                  <span className="font-semibold">Número de proceso:</span>
                   <span>{approval.processNumber}</span>
                   {approval.approverId && (
                     <>
-                      <span className="font-semibold">ID del Aprobador:</span>
+                      <span className="font-semibold">Cédula  del aprobador:</span>
                       <span>{approval.approverId}</span>
                       <span className="font-semibold">
-                        Nombre del Aprobador:
+                        Nombre del aprobador:
                       </span>
                       <span>
                         {approval.Name} {approval.Surname1} {approval.Surname2}
@@ -134,7 +134,7 @@ const RequestModal = ({
                   {approval.ApprovedDate && (
                     <>
                       <span className="font-semibold">
-                        Fecha de Aprobación:
+                        Fecha de aprobación:
                       </span>
                       <span>{formatDate(approval.ApprovedDate)}</span>
                     </>

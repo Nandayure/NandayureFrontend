@@ -40,11 +40,6 @@ export default function RequestTableManagement() {
     setSelectedRequest(null);
   };
 
-  const handleClearFilters = () => {
-    setSelectedType('all');
-    setSelectedState('all');
-    setSearchQuery('');
-  };
 
   const filteredRequests = useMemo(() => {
     let filtered = allRequests || [];
@@ -72,13 +67,10 @@ export default function RequestTableManagement() {
     return filtered;
   }, [allRequests, debouncedSearchQuery, debouncedSelectedType, debouncedSelectedState]);
 
-  const isFilterActive =
-    debouncedSelectedType !== 'all' || debouncedSelectedState !== 'all' || debouncedSearchQuery !== '';
-
   return (
     <div className="container mx-auto py-10">
       <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold mb-4">Gestión de Solicitudes</h1>
+        <h1 className="text-2xl font-bold mb-4">Gestión de solicitudes</h1>
         <div className="flex space-x-4 justify-center items-center">
           <TypeSelector
             types={states}
@@ -93,15 +85,6 @@ export default function RequestTableManagement() {
             label="Tipo"
           />
           <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-          {isFilterActive && (
-            <button
-              onClick={handleClearFilters}
-              className="flex items-center space-x-1 text-gray-500 hover:text-gray-700"
-            >
-              <XCircle className="w-4 h-4" />
-              <span>Limpiar filtros</span>
-            </button>
-          )}
         </div>
       </div>
       <RequestTable requests={filteredRequests} onRowClick={handleRowClick} isLoading={isLoading} />

@@ -5,4 +5,4 @@ export interface Department {
   departmentProgramId: number;
   budgetCodeId: number;
   departmentHeadId: string;
-}
+} 

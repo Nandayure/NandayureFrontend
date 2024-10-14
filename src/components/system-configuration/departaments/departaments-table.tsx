@@ -1,7 +1,6 @@
 'use client';
-
 import { useState } from 'react';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -67,6 +66,7 @@ export default function DepartmentsTable() {
 
   return (
     <div className="container mx-auto p-4 border rounded shadow">
+
       <Table>
         <TableHeader>
           <TableRow>
@@ -90,7 +90,7 @@ export default function DepartmentsTable() {
                 <TableCell>{department.budgetCodeId}</TableCell>
                 <TableCell>{department.departmentHeadId || 'N/A'}</TableCell>
                 <TableCell>
-                  <div className='flex'>
+                  <div className="flex">
                     <Button
                       variant="outline"
                       size="icon"

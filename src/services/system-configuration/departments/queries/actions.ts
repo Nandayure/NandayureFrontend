@@ -1,6 +1,6 @@
 import { Department } from "@/types";
 
-export async function getAllDepartaments() {
+export async function getAllDepartments() {
   const options = {
     method: 'GET',
     headers: {
@@ -16,7 +16,7 @@ export async function getAllDepartaments() {
   return data;
 }
 
-export async function getDepartamentById(departmentId: number) {
+export async function getDepartmentById(departmentId: number) {
   const options = {
     method: 'GET',
     headers: {

@@ -1,6 +1,6 @@
 'use client'
-import AddDepartamenModal from '@/components/system-configuration/departaments/add-departament-form';
-import DepartmentsTable from '@/components/system-configuration/departaments/departaments-table';
+import AddDepartamenModal from '@/components/system-configuration/departments/add-department-form';
+import DepartmentsTable from '@/components/system-configuration/departments/departments-table';
 export default function DepartmentsPage() {
   return (
     <div>

@@ -6,3 +6,11 @@ export interface Department {
   budgetCodeId: number;
   departmentHeadId: string;
 } 
+export interface PatchDepartment {
+  id?: number;
+  name?: string;
+  description?: string;
+  departmentProgramId?: number;
+  budgetCodeId?: number;
+  departmentHeadId?: string;
+} 

@@ -16,5 +16,5 @@ export * from './templates/pay-slip/actions';
 export * from './request-management/actions';
 
 // system-configuration
-export * from './system-configuration/departaments/queries/actions';
-export * from './system-configuration/departaments/commands/actions';
+export * from './system-configuration/departments/queries/actions';
+export * from './system-configuration/departments/commands/actions';

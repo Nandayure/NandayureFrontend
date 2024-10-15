@@ -69,7 +69,7 @@ export default function DepartmentsTable() {
                   <TableCell>
                     <div className="flex">
                       <EditDepartmentForm departmend={department} />
-                      <DeleteDepartment />
+                      <DeleteDepartment id={department.id} />
                     </div>
                   </TableCell>
                 </TableRow>

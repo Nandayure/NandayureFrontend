@@ -32,3 +32,4 @@ export { default as useGetCurrentToApprove } from './request-management/useGetCu
 
 export { default as useGetAllDepartments } from './system-configuration/departments/queries/useGetAllDepartments';
 export { default as useGetDepartmentById } from './system-configuration/departments/queries/useGetDepartmentById';
+export { default as useDeleteDepartment } from './system-configuration/departments/commands/useDeleteDepartment';

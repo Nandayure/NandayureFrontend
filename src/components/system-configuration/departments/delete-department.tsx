@@ -7,25 +7,23 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { useDeleteDepartment } from '@/hooks';
 import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
-export default function DeleteDepartment() {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+interface Props {
+  id: number;
+}
 
-  const handleDelete = (id: number) => {
-    if (id) {
-      setIsDeleteModalOpen(true);
-    }
-  };
-
-  const confirmDelete = () => {
-    setIsDeleteModalOpen(false);
-  };
-
+export default function DeleteDepartment({ id }: Props) {
+  const { handleDelete, isDeleteModalOpen, setIsDeleteModalOpen, confirmDelete } = useDeleteDepartment({ departmentId: id });
   return (
     <>
-      <Button variant="outline" size="icon">
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={() => handleDelete(id)}
+      >
         <Trash2 className="h-4 w-4" />
       </Button>
       <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>

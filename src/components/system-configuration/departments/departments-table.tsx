@@ -10,10 +10,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { useGetAllDepartments } from '@/hooks';
-import { array } from 'zod';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
-import DeleteDepartment from './delete-department';
-import EditDepartmentForm from './edit-department-form';
+import EditDepartmentModal from './edit-department-modal';
+import DeleteDepartmentModal from './delete-department-modal';
 
 export default function DepartmentsTable() {
   const { departments, isLoading } = useGetAllDepartments();
@@ -35,27 +34,11 @@ export default function DepartmentsTable() {
           {isLoading
             ? Array.from({ length: 3 }).map((_, index) => (
                 <TableRow key={index}>
-                  <TableCell>
-                    <SkeletonLoader className="h-4 w-full" />
-                  </TableCell>
-                  <TableCell>
-                    <SkeletonLoader className="h-4 w-full" />
-                  </TableCell>
-                  <TableCell>
-                    <SkeletonLoader className="h-4 w-full" />
-                  </TableCell>
-                  <TableCell>
-                    <SkeletonLoader className="h-4 w-full" />
-                  </TableCell>
-                  <TableCell>
-                    <SkeletonLoader className="h-4 w-full" />
-                  </TableCell>
-                  <TableCell>
-                    <SkeletonLoader className="h-4 w-full" />
-                  </TableCell>
-                  <TableCell>
-                    <SkeletonLoader className="h-4 w-full" />
-                  </TableCell>
+                  {Array.from({ length: 7 }).map((_, idx) => (
+                    <TableCell key={idx}>
+                      <SkeletonLoader className="h-4 w-full" />
+                    </TableCell>
+                  ))}
                 </TableRow>
               ))
             : departments?.map((department) => (
@@ -68,8 +51,8 @@ export default function DepartmentsTable() {
                   <TableCell>{department.departmentHeadId || 'N/A'}</TableCell>
                   <TableCell>
                     <div className="flex">
-                      <EditDepartmentForm departmend={department} />
-                      <DeleteDepartment id={department.id} />
+                      <EditDepartmentModal department={department} />
+                      <DeleteDepartmentModal id={department.id} />
                     </div>
                   </TableCell>
                 </TableRow>

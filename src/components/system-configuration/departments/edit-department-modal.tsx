@@ -2,28 +2,27 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import usePatchDepartament from '@/hooks/system-configuration/departments/commands/usePatchDepartment';
+import { usePatchDepartament } from '@/hooks';
 import { Department } from '@/types';
 import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 
 interface Props {
-  departmend: Department;
+  department: Department;
 }
 
-export default function EditDepartmentForm({ departmend }: Props) {
+export default function EditDepartmentModal({ department }: Props) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { register, errors, handleSubmit, onSubmit, mutation } =
     usePatchDepartament({
       setIsOpen: setIsEditModalOpen,
-      departmentId: departmend.id,
+      departmentId: department.id,
     });
 
   return (
@@ -44,7 +43,7 @@ export default function EditDepartmentForm({ departmend }: Props) {
                 </Label>
                 <Input
                   id="name"
-                  defaultValue={departmend.name}
+                  defaultValue={department.name}
                   className="col-span-3"
                   type="text"
                   {...register('name')}
@@ -61,7 +60,7 @@ export default function EditDepartmentForm({ departmend }: Props) {
                 </Label>
                 <Input
                   id="description"
-                  defaultValue={departmend.description}
+                  defaultValue={department.description}
                   className="col-span-3"
                   {...register('description')}
                 />
@@ -77,7 +76,7 @@ export default function EditDepartmentForm({ departmend }: Props) {
                 </Label>
                 <Input
                   id="departmentProgramId"
-                  defaultValue={departmend.departmentProgramId}
+                  defaultValue={department.departmentProgramId}
                   className="col-span-3"
                   {...register('departmentProgramId')}
                 />
@@ -96,7 +95,7 @@ export default function EditDepartmentForm({ departmend }: Props) {
                 </Label>
                 <Input
                   id="budgetCodeId"
-                  defaultValue={departmend.budgetCodeId}
+                  defaultValue={department.budgetCodeId}
                   className="col-span-3"
                   {...register('budgetCodeId')}
                 />
@@ -115,7 +114,7 @@ export default function EditDepartmentForm({ departmend }: Props) {
                 </Label>
                 <Input
                   id="departmentHeadId"
-                  defaultValue={departmend.departmentHeadId}
+                  defaultValue={department.departmentHeadId}
                   className="col-span-3"
                   {...register('departmentHeadId')}
                 />

@@ -9,21 +9,22 @@ import {
 } from '@/components/ui/dialog';
 import { useDeleteDepartment } from '@/hooks';
 import { Trash2 } from 'lucide-react';
-import { useState } from 'react';
 
 interface Props {
   id: number;
 }
 
-export default function DeleteDepartment({ id }: Props) {
-  const { handleDelete, isDeleteModalOpen, setIsDeleteModalOpen, confirmDelete } = useDeleteDepartment({ departmentId: id });
+export default function DeleteDepartmentModal({ id }: Props) {
+  const {
+    handleDelete,
+    isDeleteModalOpen,
+    setIsDeleteModalOpen,
+    confirmDelete,
+  } = useDeleteDepartment({ departmentId: id });
+
   return (
     <>
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={() => handleDelete(id)}
-      >
+      <Button variant="outline" size="icon" onClick={() => handleDelete(id)}>
         <Trash2 className="h-4 w-4" />
       </Button>
       <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>

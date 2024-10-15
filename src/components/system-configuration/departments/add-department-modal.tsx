@@ -2,17 +2,15 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
 import InputField from '@/components/ui/input-field';
-import usePostDepartament from '@/hooks/system-configuration/departments/commands/usePostDepartment';
-
+import { usePostDepartment } from '@/hooks';
 import { Plus } from 'lucide-react';
 
-export default function AddDepartamenModal() {
+export default function AddDepartmentModal() {
   const {
     register,
     onSubmit,
@@ -20,7 +18,7 @@ export default function AddDepartamenModal() {
     handleAddNew,
     isAddModalOpen,
     setIsAddModalOpen,
-  } = usePostDepartament();
+  } = usePostDepartment();
 
   return (
     <>

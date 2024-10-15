@@ -23,3 +23,4 @@ export * from './request-management/request';
 // system-configuration
 
 export * from './system-configuration/departaments/departments';
+export * from './system-configuration/department-programs/department-programs';

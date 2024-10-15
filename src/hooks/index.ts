@@ -35,3 +35,9 @@ export { default as useGetDepartmentById } from './system-configuration/departme
 export { default as useDeleteDepartment } from './system-configuration/departments/commands/useDeleteDepartment';
 export { default as usePostDepartment } from './system-configuration/departments/commands/usePostDepartment';
 export { default as usePatchDepartament } from './system-configuration/departments/commands/usePatchDepartment';
+
+export { default as useGetAllDepartmentPrograms } from './system-configuration/department-programs/queries/useGetAllDepartmentPrograms';
+export { default as useGetDepartmentProgramById } from './system-configuration/department-programs/queries/useGetByIdDepartmentProgram';
+export { default as usePostDepartmentProgram } from './system-configuration/department-programs/commands/usePostDepartmentProgram';
+export { default as usePatchDepartamentProgram } from './system-configuration/department-programs/commands/usePatchDepartmentProgram';
+export { default as useDeleteDepartmentProgram } from './system-configuration/department-programs/commands/useDeleteDepartmentProgram';

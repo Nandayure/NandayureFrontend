@@ -9,3 +9,4 @@ export * from './password/ChangePasswordSchema';
 export * from './password/ResetPasswordSchema';
 
 export * from './system-configuration/DepartmentSchema';
+export * from './system-configuration/DepartmentProgramSchema';

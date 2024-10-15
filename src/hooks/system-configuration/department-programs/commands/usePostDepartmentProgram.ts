@@ -1,15 +1,14 @@
-import { DepartmentSchema } from '@/schemas';
-import { postDepartment } from '@/services';
-import { Department } from '@/types';
+import { DepartmentProgramSchema } from '@/schemas';
+import { postDepartmentProgram } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 
-type FormsFields = z.infer<typeof DepartmentSchema>;
+type FormsFields = z.infer<typeof DepartmentProgramSchema>;
 
-const usePostDepartament = () => {
+const usePostDepartamentProgram = () => {
   const { register, handleSubmit, setError } = useForm();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const queryClient = useQueryClient();
@@ -18,9 +17,9 @@ const usePostDepartament = () => {
   };
 
   const mutation = useMutation({
-    mutationFn: async (data: any) => await postDepartment(data),
+    mutationFn: async (data: any) => await postDepartmentProgram(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getAllDepartments'] });
+      queryClient.invalidateQueries({ queryKey: ['getAllDepartmentPrograms'] });
     },
     onError: (error: any) => {
       console.error(error);
@@ -33,23 +32,23 @@ const usePostDepartament = () => {
 
   const onSubmit: SubmitHandler<FormsFields> = async (data) => {
     try {
-      const convertData = convertDepartmentTypes(data);
+      const convertData = convertDepartmentProgramTypes(data);
       await toast.promise(
         new Promise((resolve, reject) => {
           setTimeout(async () => {
             try {
               await mutation.mutateAsync(convertData);
               setIsAddModalOpen(false);
-              resolve('Departamento guardado');
+              resolve('Programa departamental guardado');
             } catch (error) {
-              reject('Error al guardar departamento');
+              reject('Error al guardar programa departamental');
             }
           }, 500);
         }),
         {
-          loading: 'Guardando departamento...',
-          success: 'Departamento guardado',
-          error: 'Error al guardar departamento',
+          loading: 'Guardando programa departamental...',
+          success: 'Programa departamental guardado',
+          error: 'Error al guardar programa departamental',
         },
         { duration: 2500 },
       );
@@ -59,7 +58,7 @@ const usePostDepartament = () => {
         type: 'manual',
         message: error.message,
       });
-      toast.error('Error al guardar departamento'); // Mostrar notificación de error
+      toast.error('Error al guardar programa departamental');
     }
   };
 
@@ -74,14 +73,10 @@ const usePostDepartament = () => {
   };
 };
 
-export default usePostDepartament;
+export default usePostDepartamentProgram;
 
-export const convertDepartmentTypes = (departament: any) => {
+export const convertDepartmentProgramTypes = (departament: any) => {
   return {
     name: departament.name,
-    description: departament.description,
-    departmentHeadId: departament.departmentHeadId,
-    budgetCodeId: parseInt(departament.budgetCodeId, 10),
-    departmentProgramId: parseInt(departament.departmentProgramId, 10),
   };
 };

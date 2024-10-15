@@ -1,4 +1,4 @@
-import { DepartmentProgram } from "@/types";
+import { DepartmentProgram } from '@/types';
 
 export async function getAllDepartmentPrograms() {
   const options = {
@@ -16,7 +16,7 @@ export async function getAllDepartmentPrograms() {
   return data;
 }
 
-export async function getDepartmentProgramById(departmentProgramId: number) {
+export async function getByIdDepartmentProgram(departmentProgramId: number) {
   const options = {
     method: 'GET',
     headers: {

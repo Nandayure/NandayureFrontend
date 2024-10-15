@@ -1,4 +1,4 @@
-import { DepartmentProgram } from '@/types';
+import { DepartmentProgram, PatchDepartmentProgram } from '@/types';
 
 export async function postDepartmentProgram(data: DepartmentProgram) {
   const options = {
@@ -22,7 +22,7 @@ export async function postDepartmentProgram(data: DepartmentProgram) {
 
 interface PatchDepartmentProgramProps {
   departmentProgramId: number;
-  department: DepartmentProgram;
+  department: PatchDepartmentProgram;
 }
 
 export async function patchDepartmentProgram({

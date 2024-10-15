@@ -19,3 +19,7 @@ export * from './templates/salary-certificate';
 export * from './templates/vacations';
 
 export * from './request-management/request';
+
+// system-configuration
+
+export * from './system-configuration/departaments/departments';

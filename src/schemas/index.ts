@@ -7,3 +7,5 @@ export * from './employee/UpdateEmployeeSchema';
 
 export * from './password/ChangePasswordSchema';
 export * from './password/ResetPasswordSchema';
+
+export * from './system-configuration/DepartmentSchema';

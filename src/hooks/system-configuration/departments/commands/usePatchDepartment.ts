@@ -9,9 +9,10 @@ import { z } from 'zod';
 type FormsFiels = z.infer<typeof UpdateDepartmentSchema>;
 interface Props {
   setIsOpen: (value: boolean) => void;
+  departmentId: number;
 }
 
-const usePatchDepartament = ({ setIsOpen }: Props) => {
+const usePatchDepartament = ({ setIsOpen, departmentId }: Props) => {
   const {
     register,
     handleSubmit,
@@ -20,7 +21,7 @@ const usePatchDepartament = ({ setIsOpen }: Props) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (data: PatchDepartment) =>
-      await patchDepartment({ departmentId: data.id!, department: data }),
+      await patchDepartment({ departmentId: departmentId, department: data }),
     mutationKey: ['patchDepartment'],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getAllDepartments'] });
@@ -29,16 +30,18 @@ const usePatchDepartament = ({ setIsOpen }: Props) => {
 
   const onSubmit: SubmitHandler<FormsFiels> = async (data) => {
     try {
+      const ConvertData = convertDepartmentTypes(data);
       await toast.promise(
-        new Promise<string>((resolve, reject) => { // Especifica el tipo aquí
+        new Promise<string>((resolve, reject) => {
+          // Especifica el tipo aquí
           setTimeout(async () => {
             try {
-              await mutation.mutateAsync(data);
+              await mutation.mutateAsync(ConvertData);
               resolve('Departamento actualizado');
             } catch (error) {
               reject('Error al actualizar departamento');
             }
-          }, 500); 
+          }, 500);
         }),
         {
           loading: 'Actualizando departamento...',
@@ -64,3 +67,14 @@ const usePatchDepartament = ({ setIsOpen }: Props) => {
 };
 
 export default usePatchDepartament;
+
+export const convertDepartmentTypes = (departament: any) => {
+  return {
+    id: departament.id,
+    name: departament.name,
+    description: departament.description,
+    departmentHeadId: departament.departmentHeadId,
+    budgetCodeId: parseInt(departament.budgetCodeId, 10),
+    departmentProgramId: parseInt(departament.departmentProgramId, 10),
+  };
+};

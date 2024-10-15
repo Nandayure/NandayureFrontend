@@ -68,7 +68,7 @@ export default function DepartmentsTable() {
                   <TableCell>{department.departmentHeadId || 'N/A'}</TableCell>
                   <TableCell>
                     <div className="flex">
-                      <EditDepartmentForm departmentId={department.id} />
+                      <EditDepartmentForm departmend={department} />
                       <DeleteDepartment />
                     </div>
                   </TableCell>

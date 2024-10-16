@@ -41,6 +41,7 @@ export default function EditDepartmentProgramModal({ departmentProgram }: Props)
                 <Label htmlFor="name" className="text-right">
                   Nombre
                 </Label>
+                <div className="col-span-3 flex flex-col">
                 <Input
                   id="name"
                   defaultValue={departmentProgram.name}
@@ -49,10 +50,11 @@ export default function EditDepartmentProgramModal({ departmentProgram }: Props)
                   {...register('name')}
                 />
                 {errors?.name && (
-                  <span id="name-error" className="text-red-500 text-sm">
+                  <span id="name-error" className="text-red-500 text-sm mt-2">
                     {errors.name.message}
                   </span>
                 )}
+                </div>
               </div>
             </div>
             <DialogFooter>

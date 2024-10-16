@@ -18,6 +18,7 @@ export default function AddDepartmentProgramModal() {
     handleAddNew,
     isAddModalOpen,
     setIsAddModalOpen,
+    errors,
   } = usePostDepartmentProgram();
 
   return (
@@ -37,7 +38,9 @@ export default function AddDepartmentProgramModal() {
                 label="Nombre"
                 type="text"
                 register={register}
+                errors={errors}
               />
+
             </div>
             <DialogFooter>
               <Button type="submit">Agregar program departamental</Button>

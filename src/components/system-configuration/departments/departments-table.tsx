@@ -51,7 +51,10 @@ export default function DepartmentsTable() {
                   <TableCell>{department.departmentHeadId || 'N/A'}</TableCell>
                   <TableCell>
                     <div className="flex">
-                      <EditDepartmentModal department={department} />
+                      <EditDepartmentModal
+                        department={department}
+                        departmentId={department.id}
+                      />
                       <DeleteDepartmentModal id={department.id} />
                     </div>
                   </TableCell>

@@ -1,5 +1,7 @@
 import { DepartmentProgramSchema } from '@/schemas';
 import { postDepartmentProgram } from '@/services';
+import { DepartmentProgram } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -9,7 +11,14 @@ import { z } from 'zod';
 type FormsFields = z.infer<typeof DepartmentProgramSchema>;
 
 const usePostDepartamentProgram = () => {
-  const { register, handleSubmit, setError } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<FormsFields>({
+    resolver: zodResolver(DepartmentProgramSchema),
+  });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const queryClient = useQueryClient();
   const handleAddNew = () => {
@@ -70,13 +79,17 @@ const usePostDepartamentProgram = () => {
     isAddModalOpen,
     setIsAddModalOpen,
     handleAddNew,
+    errors,
   };
 };
 
 export default usePostDepartamentProgram;
 
-export const convertDepartmentProgramTypes = (departament: any) => {
+export const convertDepartmentProgramTypes = (
+  departament: any,
+): DepartmentProgram => {
   return {
+    id: departament.id,
     name: departament.name,
   };
 };

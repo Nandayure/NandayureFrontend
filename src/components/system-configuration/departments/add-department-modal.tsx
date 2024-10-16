@@ -18,6 +18,7 @@ export default function AddDepartmentModal() {
     handleAddNew,
     isAddModalOpen,
     setIsAddModalOpen,
+    errors,
   } = usePostDepartment();
 
   return (
@@ -37,31 +38,42 @@ export default function AddDepartmentModal() {
                 label="Nombre"
                 type="text"
                 register={register}
+                errors={errors}
               />
               <InputField
                 id="description"
                 label="Descripción"
                 type="text"
                 register={register}
+                errors={errors}
               />
               <InputField
                 id="departmentProgramId"
                 label="Programa"
                 type="number"
                 register={register}
+                errors={errors}
               />
               <InputField
                 id="budgetCodeId"
                 label="Código de presupuesto"
                 type="number"
                 register={register}
+                errors={errors}
               />
               <InputField
                 id="departmentHeadId"
                 label="Jefe de departamento"
                 type="text"
                 register={register}
+                errors={errors}
               />
+              {errors.root && (
+                <p className="text-red-500 text-xs mt-2">
+                  {' '}
+                  {errors.root.message}{' '}
+                </p>
+              )}
             </div>
             <DialogFooter>
               <Button type="submit">Agregar Departamento</Button>

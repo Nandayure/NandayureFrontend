@@ -1,6 +1,7 @@
 import { UpdateDepartmentProgramSchema } from '@/schemas';
 import { patchDepartmentProgram } from '@/services';
 import { PatchDepartmentProgram } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -20,7 +21,9 @@ const usePatchDepartamentProgram = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormsFiels>();
+  } = useForm<FormsFiels>({
+    resolver: zodResolver(UpdateDepartmentProgramSchema),
+  });
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (data: PatchDepartmentProgram) =>
@@ -74,7 +77,7 @@ const usePatchDepartamentProgram = ({
 
 export default usePatchDepartamentProgram;
 
-export const convertDepartmentProgranTypes = (departament: any) => {
+export const convertDepartmentProgranTypes = (departament: any) : PatchDepartmentProgram => {
   return {
     name: departament.name,
   };

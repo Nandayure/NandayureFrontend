@@ -1,6 +1,7 @@
 import { DepartmentSchema } from '@/schemas';
 import { postDepartment } from '@/services';
 import { Department } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -10,7 +11,14 @@ import { z } from 'zod';
 type FormsFields = z.infer<typeof DepartmentSchema>;
 
 const usePostDepartament = () => {
-  const { register, handleSubmit, setError } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<FormsFields>({
+    resolver: zodResolver(DepartmentSchema),
+  });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const queryClient = useQueryClient();
   const handleAddNew = () => {
@@ -18,7 +26,7 @@ const usePostDepartament = () => {
   };
 
   const mutation = useMutation({
-    mutationFn: async (data: any) => await postDepartment(data),
+    mutationFn: async (data: Department) => await postDepartment(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getAllDepartments'] });
     },
@@ -59,7 +67,7 @@ const usePostDepartament = () => {
         type: 'manual',
         message: error.message,
       });
-      toast.error('Error al guardar departamento'); // Mostrar notificación de error
+      toast.error('Error al guardar departamento');
     }
   };
 
@@ -71,13 +79,15 @@ const usePostDepartament = () => {
     isAddModalOpen,
     setIsAddModalOpen,
     handleAddNew,
+    errors,
   };
 };
 
 export default usePostDepartament;
 
-export const convertDepartmentTypes = (departament: any) => {
+export const convertDepartmentTypes = (departament: any): Department => {
   return {
+    id: departament.id,
     name: departament.name,
     description: departament.description,
     departmentHeadId: departament.departmentHeadId,

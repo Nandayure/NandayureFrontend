@@ -15,14 +15,18 @@ import { useState } from 'react';
 
 interface Props {
   department: Department;
+  departmentId: number;
 }
 
-export default function EditDepartmentModal({ department }: Props) {
+export default function EditDepartmentModal({
+  department,
+  departmentId,
+}: Props) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { register, errors, handleSubmit, onSubmit, mutation } =
     usePatchDepartament({
       setIsOpen: setIsEditModalOpen,
-      departmentId: department.id,
+      departmentId: departmentId,
     });
 
   return (
@@ -41,6 +45,7 @@ export default function EditDepartmentModal({ department }: Props) {
                 <Label htmlFor="name" className="text-right">
                   Nombre
                 </Label>
+                <div className="col-span-3 flex flex-col">
                 <Input
                   id="name"
                   defaultValue={department.name}
@@ -49,15 +54,17 @@ export default function EditDepartmentModal({ department }: Props) {
                   {...register('name')}
                 />
                 {errors?.name && (
-                  <span id="name-error" className="text-red-500 text-sm">
+                  <span id="name-error" className="text-red-500 text-sm mt-2">
                     {errors.name.message}
                   </span>
                 )}
+                </div>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="description" className="text-right">
                   Descripción
                 </Label>
+                <div className="col-span-3 flex flex-col">
                 <Input
                   id="description"
                   defaultValue={department.description}
@@ -65,15 +72,17 @@ export default function EditDepartmentModal({ department }: Props) {
                   {...register('description')}
                 />
                 {errors?.description && (
-                  <span id="description-error" className="text-red-500 text-sm">
+                  <span id="description-error" className="text-red-500 text-sm mt-2">
                     {errors.description.message}
                   </span>
                 )}
+                </div>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="departmentProgramId" className="text-right">
                   Programa
                 </Label>
+                <div className="col-span-3 flex flex-col">
                 <Input
                   id="departmentProgramId"
                   defaultValue={department.departmentProgramId}
@@ -83,16 +92,18 @@ export default function EditDepartmentModal({ department }: Props) {
                 {errors?.departmentProgramId && (
                   <span
                     id="departmentProgramId-error"
-                    className="text-red-500 text-sm"
+                    className="text-red-500 text-sm mt-2"
                   >
                     {errors.departmentProgramId.message}
                   </span>
                 )}
+                </div>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="budgetCodeId" className="text-right">
                   Código de presupuesto
                 </Label>
+                <div className="col-span-3 flex flex-col">
                 <Input
                   id="budgetCodeId"
                   defaultValue={department.budgetCodeId}
@@ -102,30 +113,33 @@ export default function EditDepartmentModal({ department }: Props) {
                 {errors?.budgetCodeId && (
                   <span
                     id="budgetCodeId-error"
-                    className="text-red-500 text-sm"
+                    className="text-red-500 text-sm mt-2"
                   >
                     {errors.budgetCodeId.message}
                   </span>
                 )}
+                </div>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="departmentHeadId" className="text-right">
                   Jefe de departamento
                 </Label>
-                <Input
-                  id="departmentHeadId"
-                  defaultValue={department.departmentHeadId}
-                  className="col-span-3"
-                  {...register('departmentHeadId')}
-                />
-                {errors?.departmentHeadId && (
-                  <span
-                    id="departmentHeadId-error"
-                    className="text-red-500 text-sm"
-                  >
-                    {errors.departmentHeadId.message}
-                  </span>
-                )}
+                <div className="col-span-3 flex flex-col">
+                  <Input
+                    id="departmentHeadId"
+                    defaultValue={department.departmentHeadId}
+                    className="col-span-3"
+                    {...register('departmentHeadId')}
+                  />
+                  {errors?.departmentHeadId && (
+                    <span
+                      id="departmentHeadId-error"
+                      className="text-red-500 text-sm mt-2"
+                    >
+                      {errors.departmentHeadId.message}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
             <DialogFooter>

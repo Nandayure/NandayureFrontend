@@ -1,4 +1,4 @@
-import { getByIdDepartmentProgram } from '@/services';
+import { getDepartmentById } from '@/services';
 import { useQuery } from '@tanstack/react-query';
 
 const useGetByIdDepartmentProgram = (id: number) => {
@@ -7,7 +7,7 @@ const useGetByIdDepartmentProgram = (id: number) => {
     isLoading,
     isError,
   } = useQuery({
-    queryFn: async () => getByIdDepartmentProgram(id),
+    queryFn: async () => getDepartmentById(id),
     queryKey: ['getByIdDepartmentProgram', id],
   });
 

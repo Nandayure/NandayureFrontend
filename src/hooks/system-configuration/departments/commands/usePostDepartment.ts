@@ -5,8 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import { notify } from '@/utils/notification'; 
 import { z } from 'zod';
+import { useCustomMutation } from '@/utils/mutations';
 
 type FormsFields = z.infer<typeof DepartmentSchema>;
 
@@ -20,54 +21,30 @@ const usePostDepartament = () => {
     resolver: zodResolver(DepartmentSchema),
   });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const queryClient = useQueryClient();
   const handleAddNew = () => {
     setIsAddModalOpen(true);
   };
 
-  const mutation = useMutation({
-    mutationFn: async (data: Department) => await postDepartment(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getAllDepartments'] });
-    },
-    onError: (error: any) => {
-      console.error(error);
-      setError('root', {
-        type: 'manual',
-        message: error.message,
-      });
-    },
-  });
+  const mutation = useCustomMutation(postDepartment, 'getAllDepartments');
 
   const onSubmit: SubmitHandler<FormsFields> = async (data) => {
     try {
       const convertData = convertDepartmentTypes(data);
-      await toast.promise(
-        new Promise((resolve, reject) => {
-          setTimeout(async () => {
-            try {
-              await mutation.mutateAsync(convertData);
-              setIsAddModalOpen(false);
-              resolve('Departamento guardado');
-            } catch (error) {
-              reject('Error al guardar departamento');
-            }
-          }, 500);
-        }),
+      await notify(
+        mutation.mutateAsync(convertData),
         {
           loading: 'Guardando departamento...',
           success: 'Departamento guardado',
           error: 'Error al guardar departamento',
         },
-        { duration: 2500 },
       );
+      setIsAddModalOpen(false);
     } catch (error: any) {
       console.error('Error en onSubmit:', error.message);
       setError('root', {
         type: 'manual',
         message: error.message,
       });
-      toast.error('Error al guardar departamento');
     }
   };
 

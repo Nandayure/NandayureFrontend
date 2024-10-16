@@ -24,3 +24,4 @@ export * from './request-management/request';
 
 export * from './system-configuration/departaments/departments';
 export * from './system-configuration/department-programs/department-programs';
+export * from './system-configuration/budget-codes/budget-codes';

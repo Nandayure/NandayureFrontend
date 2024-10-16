@@ -1,24 +1,13 @@
-import { inter } from '@/config/fonts';
 import { Department, PatchDepartment } from '@/types';
+import httpClient from '@/helpers/httpClient';
 
 export async function postDepartment(data: Department) {
-  const options = {
+  const department = await httpClient<Department>({
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/departments`,
-    options,
-  );
-  const response = await res.json();
-  if (!res.ok) {
-    throw new Error(response.message);
-  }
-  return response;
+    endpoint: '/departments',
+    data,
+  });
+  return department;
 }
 
 interface PatchDepartmentProps {
@@ -30,40 +19,18 @@ export async function patchDepartment({
   departmentId,
   department,
 }: PatchDepartmentProps) {
-  const options = {
+  const updatedDepartment = await httpClient<Department>({
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(department),
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/departments/${departmentId}`,
-    options,
-  );
-  const response = await res.json();
-  if (!res.ok) {
-    throw new Error(response.message);
-  }
-  return response;
+    endpoint: `/departments/${departmentId}`,
+    data: department,
+  });
+  return updatedDepartment;
 }
 
 export async function deleteDepartment(departmentId: number) {
-  const options = {
+  const response = await httpClient<void>({
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/departments/${departmentId}`,
-    options,
-  );
-  const response = await res.json();
-  if (!res.ok) {
-    throw new Error(response.message);
-  }
+    endpoint: `/departments/${departmentId}`,
+  });
   return response;
 }

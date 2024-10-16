@@ -1,8 +1,7 @@
 import { deleteDepartment } from '@/services';
+import { notify, showError } from '@/utils/notification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { set } from 'react-hook-form';
-import toast from 'react-hot-toast';
 
 interface Props {
   departmentId: number;
@@ -13,8 +12,11 @@ const useDeleteDepartment = ({ departmentId }: Props) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const confirmDelete = () => {
-    toast.loading('Eliminando departamento...', { duration: 500 });
-    mutation.mutate();
+    notify(mutation.mutateAsync(), {
+      loading: 'Eliminando departamento...',
+      success: 'Departamento eliminado',
+      error: 'Error al eliminar departamento',
+    });
     setIsDeleteModalOpen(false);
   };
 
@@ -23,15 +25,13 @@ const useDeleteDepartment = ({ departmentId }: Props) => {
     mutationKey: ['deleteDepartment'],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getAllDepartments'] });
-      toast.success('Departamento eliminado', { duration: 2500 });
-      setIsDeleteModalOpen(false);
     },
     onError: () => {
-      toast.error('Error al eliminar departamento', { duration: 2500 });
+      showError('Error al eliminar departamento');
     },
   });
 
-  const handleDelete = (id: number) => {
+  const handleDelete = () => {
     setIsDeleteModalOpen(true);
   };
 

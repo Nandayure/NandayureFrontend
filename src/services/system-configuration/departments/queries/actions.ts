@@ -1,33 +1,18 @@
 import { Department } from "@/types";
+import httpClient from "@/helpers/httpClient";
 
 export async function getAllDepartments() {
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-    },
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/departments`,
-    options,
-  );
-  const data = (await res.json()) as Department[];
-  return data;
+  const departments = await httpClient<Department[]>({
+    method: "GET",
+    endpoint: "/departments",
+  });
+  return departments;
 }
 
 export async function getDepartmentById(departmentId: number) {
-  const options = {
+  const department = await httpClient<Department>({
     method: 'GET',
-    headers: {
-      accept: 'application/json',
-    },
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/departments/${departmentId}`,
-    options,
-  );
-  const data = (await res.json()) as Department;
-  return data;
+    endpoint: `/departments/${departmentId}`,
+  });
+  return department;
 }

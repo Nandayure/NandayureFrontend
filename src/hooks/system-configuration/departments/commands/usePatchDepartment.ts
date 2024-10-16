@@ -1,13 +1,13 @@
-import { UpdateDepartmentSchema } from '@/schemas';
-import { patchDepartment } from '@/services';
+import { patchDepartment, postDepartment } from '@/services';
 import { PatchDepartment } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import { UpdateDepartmentSchema } from '@/schemas';
+import { notify, showError } from '@/utils/notification';
 import { z } from 'zod';
 
-type FormsFiels = z.infer<typeof UpdateDepartmentSchema>;
+type FormsFields = z.infer<typeof UpdateDepartmentSchema>;
 interface Props {
   setIsOpen: (value: boolean) => void;
   departmentId: number;
@@ -18,7 +18,7 @@ const usePatchDepartament = ({ setIsOpen, departmentId }: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormsFiels>({
+  } = useForm<FormsFields>({
     resolver: zodResolver(UpdateDepartmentSchema),
   });
   const queryClient = useQueryClient();
@@ -31,31 +31,17 @@ const usePatchDepartament = ({ setIsOpen, departmentId }: Props) => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormsFiels> = async (data) => {
+  const onSubmit: SubmitHandler<FormsFields> = async (data) => {
+    const ConvertData = convertDepartmentTypes(data);
     try {
-      const ConvertData = convertDepartmentTypes(data);
-      await toast.promise(
-        new Promise<string>((resolve, reject) => {
-          // Especifica el tipo aquí
-          setTimeout(async () => {
-            try {
-              await mutation.mutateAsync(ConvertData);
-              resolve('Departamento actualizado');
-            } catch (error) {
-              reject('Error al actualizar departamento');
-            }
-          }, 500);
-        }),
-        {
-          loading: 'Actualizando departamento...',
-          success: 'Departamento actualizado',
-          error: 'Error al actualizar departamento',
-        },
-        { duration: 2500 },
-      );
+      await notify(mutation.mutateAsync(ConvertData), {
+        loading: 'Actualizando departamento...',
+        success: 'Departamento actualizado',
+        error: 'Error al actualizar departamento',
+      });
       setIsOpen(false);
     } catch (error: any) {
-      console.error(error);
+      showError('Error al actualizar departamento');
       setIsOpen(false);
     }
   };

@@ -18,3 +18,6 @@ export * from './request-management/actions';
 // system-configuration
 export * from './system-configuration/departments/queries/actions';
 export * from './system-configuration/departments/commands/actions';
+
+export * from './system-configuration/department-programs/queries/actions';
+export * from './system-configuration/department-programs/commands/actions';

@@ -1,23 +1,13 @@
 import { DepartmentProgram, PatchDepartmentProgram } from '@/types';
+import httpClient from '@/helpers/httpClient';
 
 export async function postDepartmentProgram(data: DepartmentProgram) {
-  const options = {
+  const departmentProgram = await httpClient<DepartmentProgram>({
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/department-programs`,
-    options,
-  );
-  const response = await res.json();
-  if (!res.ok) {
-    throw new Error(response.message);
-  }
-  return response;
+    endpoint: '/department-programs',
+    data,
+  });
+  return departmentProgram;
 }
 
 interface PatchDepartmentProgramProps {
@@ -29,37 +19,18 @@ export async function patchDepartmentProgram({
   departmentProgramId,
   department,
 }: PatchDepartmentProgramProps) {
-  const options = {
+  const updatedDepartmentProgram = await httpClient<DepartmentProgram>({
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(department),
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/department-programs/${departmentProgramId}`,
-    options,
-  );
-  const response = await res.json();
-  if (!res.ok) {
-    throw new Error(response.message);
-  }
-  return response;
+    endpoint: `/department-programs/${departmentProgramId}`,
+    data: department,
+  });
+  return updatedDepartmentProgram;
 }
 
 export async function deleteDepartmentProgram(departmentProgramId: number) {
-  const options = {
+  const response = await httpClient<void>({
     method: 'DELETE',
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/department-programs/${departmentProgramId}`,
-    options,
-  );
-  const response = await res.json();
-  if (!res.ok) {
-    throw new Error(response.message);
-  }
+    endpoint: `/department-programs/${departmentProgramId}`,
+  });
   return response;
 }

@@ -1,33 +1,18 @@
 import { DepartmentProgram } from '@/types';
+import httpClient from '@/helpers/httpClient';
 
 export async function getAllDepartmentPrograms() {
-  const options = {
+  const departmentPrograms = await httpClient<DepartmentProgram[]>({
     method: 'GET',
-    headers: {
-      accept: 'application/json',
-    },
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/department-programs`,
-    options,
-  );
-  const data = (await res.json()) as DepartmentProgram[];
-  return data;
+    endpoint: '/department-programs',
+  });
+  return departmentPrograms;
 }
 
-export async function getByIdDepartmentProgram(departmentProgramId: number) {
-  const options = {
+export async function getDepartmentProgramById(departmentProgramId: number) {
+  const departmentProgram = await httpClient<DepartmentProgram>({
     method: 'GET',
-    headers: {
-      accept: 'application/json',
-    },
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/department-programs/${departmentProgramId}`,
-    options,
-  );
-  const data = (await res.json()) as DepartmentProgram;
-  return data;
+    endpoint: `/department-programs/${departmentProgramId}`,
+  });
+  return departmentProgram;
 }

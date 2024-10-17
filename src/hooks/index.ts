@@ -41,3 +41,7 @@ export { default as useGetDepartmentProgramById } from './system-configuration/d
 export { default as usePostDepartmentProgram } from './system-configuration/department-programs/commands/usePostDepartmentProgram';
 export { default as usePatchDepartamentProgram } from './system-configuration/department-programs/commands/usePatchDepartmentProgram';
 export { default as useDeleteDepartmentProgram } from './system-configuration/department-programs/commands/useDeleteDepartmentProgram';
+
+export { default as useGetAllEmployees } from './system-configuration/employees/queries/useGetAllEmployees';
+
+export { default as useGetAllBudgetCodes } from './system-configuration/budget-codes/queries/useGetAllBudgetCodes';

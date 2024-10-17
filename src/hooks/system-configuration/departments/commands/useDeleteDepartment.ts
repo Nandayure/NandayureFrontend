@@ -26,9 +26,6 @@ const useDeleteDepartment = ({ departmentId }: Props) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getAllDepartments'] });
     },
-    onError: () => {
-      showError('Error al eliminar departamento');
-    },
   });
 
   const handleDelete = () => {

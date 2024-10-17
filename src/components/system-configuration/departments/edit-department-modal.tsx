@@ -8,10 +8,23 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { usePatchDepartament } from '@/hooks';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  useGetAllBudgetCodes,
+  useGetAllDepartmentPrograms,
+  useGetAllEmployees,
+  usePatchDepartament,
+} from '@/hooks';
 import { Department } from '@/types';
 import { Pencil } from 'lucide-react';
 import { useState } from 'react';
+import { BudgetCodeItem } from './budget-code-item';
 
 interface Props {
   department: Department;
@@ -23,11 +36,14 @@ export default function EditDepartmentModal({
   departmentId,
 }: Props) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const { register, errors, handleSubmit, onSubmit, mutation } =
+  const { register, errors, handleSubmit, onSubmit, mutation, setValue } =
     usePatchDepartament({
       setIsOpen: setIsEditModalOpen,
       departmentId: departmentId,
     });
+  const { employees } = useGetAllEmployees();
+  const { departmentPrograms } = useGetAllDepartmentPrograms();
+  const { budgetCodes } = useGetAllBudgetCodes();
 
   return (
     <>
@@ -41,109 +57,116 @@ export default function EditDepartmentModal({
           </DialogHeader>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Nombre
-                </Label>
-                <div className="col-span-3 flex flex-col">
+              <div className="grid gap-2">
+                <Label htmlFor="name">Nombre</Label>
                 <Input
-                  id="name"
                   defaultValue={department.name}
-                  className="col-span-3"
-                  type="text"
+                  id="name"
                   {...register('name')}
                 />
-                {errors?.name && (
-                  <span id="name-error" className="text-red-500 text-sm mt-2">
-                    {errors.name.message}
-                  </span>
+                {errors.name && (
+                  <p className="text-red-500 text-xs">{errors.name.message}</p>
                 )}
-                </div>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="description" className="text-right">
-                  Descripción
-                </Label>
-                <div className="col-span-3 flex flex-col">
+              <div className="grid gap-2">
+                <Label htmlFor="description">Descripción</Label>
                 <Input
-                  id="description"
                   defaultValue={department.description}
-                  className="col-span-3"
+                  id="description"
                   {...register('description')}
                 />
-                {errors?.description && (
-                  <span id="description-error" className="text-red-500 text-sm mt-2">
+                {errors.description && (
+                  <p className="text-red-500 text-xs">
                     {errors.description.message}
-                  </span>
+                  </p>
                 )}
-                </div>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="departmentProgramId" className="text-right">
-                  Programa
-                </Label>
-                <div className="col-span-3 flex flex-col">
-                <Input
-                  id="departmentProgramId"
-                  defaultValue={department.departmentProgramId}
-                  className="col-span-3"
-                  {...register('departmentProgramId')}
-                />
-                {errors?.departmentProgramId && (
-                  <span
-                    id="departmentProgramId-error"
-                    className="text-red-500 text-sm mt-2"
-                  >
+              <div className="grid gap-2">
+                <Label htmlFor="departmentProgramId">Programa</Label>
+                <Select
+                  onValueChange={(value) =>
+                    setValue('departmentProgramId', Number(value))
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccionar programa" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {departmentPrograms &&
+                      departmentPrograms.map((program) => (
+                        <SelectItem
+                          key={program.id}
+                          value={program.id.toString()}
+                        >
+                          {program.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+                {errors.departmentProgramId && (
+                  <p className="text-red-500 text-xs">
                     {errors.departmentProgramId.message}
-                  </span>
+                  </p>
                 )}
-                </div>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="budgetCodeId" className="text-right">
-                  Código de presupuesto
-                </Label>
-                <div className="col-span-3 flex flex-col">
-                <Input
-                  id="budgetCodeId"
-                  defaultValue={department.budgetCodeId}
-                  className="col-span-3"
-                  {...register('budgetCodeId')}
-                />
-                {errors?.budgetCodeId && (
-                  <span
-                    id="budgetCodeId-error"
-                    className="text-red-500 text-sm mt-2"
-                  >
+              <div className="grid gap-2">
+                <Label htmlFor="budgetCodeId">Código de presupuesto</Label>
+                <Select
+                  onValueChange={(value) =>
+                    setValue('budgetCodeId', Number(value))
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccionar código de presupuesto" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {budgetCodes &&
+                      budgetCodes.map((code) => (
+                        <BudgetCodeItem key={code.id} code={code} />
+                      ))}
+                  </SelectContent>
+                </Select>
+                {errors.budgetCodeId && (
+                  <p className="text-red-500 text-xs">
                     {errors.budgetCodeId.message}
-                  </span>
+                  </p>
                 )}
-                </div>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="departmentHeadId" className="text-right">
-                  Jefe de departamento
-                </Label>
-                <div className="col-span-3 flex flex-col">
-                  <Input
-                    id="departmentHeadId"
-                    defaultValue={department.departmentHeadId}
-                    className="col-span-3"
-                    {...register('departmentHeadId')}
-                  />
-                  {errors?.departmentHeadId && (
-                    <span
-                      id="departmentHeadId-error"
-                      className="text-red-500 text-sm mt-2"
-                    >
-                      {errors.departmentHeadId.message}
-                    </span>
-                  )}
-                </div>
+              <div className="grid gap-2">
+                <Label htmlFor="departmentHeadId">Jefe de departamento</Label>
+                <Select
+                  onValueChange={(value) => setValue('departmentHeadId', value)}
+                  defaultValue={department.departmentHeadId}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccionar jefe de departamento" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {employees &&
+                      employees.map((employee) => (
+                        <SelectItem
+                          key={employee.id}
+                          value={employee.id.toString()}
+                        >
+                          {`${employee.Name} ${employee.Surname1} ${employee.Surname2}`}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+                {errors.departmentHeadId && (
+                  <p className="text-red-500 text-xs">
+                    {errors.departmentHeadId.message}
+                  </p>
+                )}
               </div>
+              {errors.root && (
+                <p className="text-red-500 text-xs mt-2">
+                  {errors.root.message}
+                </p>
+              )}
             </div>
             <DialogFooter>
-              <Button type="submit">Guardar cambios</Button>
+              <Button type="submit">Guardar Cambios</Button>
             </DialogFooter>
           </form>
         </DialogContent>

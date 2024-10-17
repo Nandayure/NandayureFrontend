@@ -1,30 +1,30 @@
-import { deleteDepartment } from '@/services';
+import { deleteBudgetCode } from '@/services';
 import { notify } from '@/utils/notification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 interface Props {
-  departmentId: number;
+  budgetCodeId: number;
 }
 
-const useDeleteDepartment = ({ departmentId }: Props) => {
+const useDeleteBudgetCode = ({ budgetCodeId }: Props) => {
   const queryClient = useQueryClient();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const confirmDelete = () => {
     notify(mutation.mutateAsync(), {
-      loading: 'Eliminando departamento...',
-      success: 'Departamento eliminado',
-      error: 'Error al eliminar departamento',
+      loading: 'Elimanando código presupuestario...',
+      success: 'Código presupuestario eliminado',
+      error: 'Error al eliminar código presupuestario',
     });
     setIsDeleteModalOpen(false);
   };
 
   const mutation = useMutation({
-    mutationFn: async () => await deleteDepartment(departmentId),
-    mutationKey: ['deleteDepartment'],
+    mutationFn: async () => await deleteBudgetCode(budgetCodeId),
+    mutationKey: ['deleteBudgetCode'],
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getAllDepartments'] });
+      queryClient.invalidateQueries({ queryKey: ['getAllBudgetCodes'] });
     },
   });
 
@@ -40,5 +40,4 @@ const useDeleteDepartment = ({ departmentId }: Props) => {
     confirmDelete,
   };
 };
-
-export default useDeleteDepartment;
+export default useDeleteBudgetCode;

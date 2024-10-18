@@ -49,3 +49,9 @@ export { default as useGetBudgetCodeById } from './system-configuration/budget-c
 export { default as usePostBudgetCode } from './system-configuration/budget-codes/commands/usePostBudgetCode';
 export { default as usePatchBudgetCode } from './system-configuration/budget-codes/commands/usePatchBudgetCode';
 export { default as useDeleteBudgetCode } from './system-configuration/budget-codes/commands/useDeleteBudgetCode';
+
+export { default as useGetAllStudiesCategory } from './system-configuration/studies-category/queries/useGetAllStudiesCategory';
+export { default as useGetStudiesCategoryById } from './system-configuration/studies-category/queries/useGetStudiesCategoryById';
+export { default as usePostStudiesCategory } from './system-configuration/studies-category/commands/usePostStudiesCategory';
+export { default as usePatchStudiesCategory } from './system-configuration/studies-category/commands/usePatchStudiesCategory';
+export { default as useDeleteStudiesCategory } from './system-configuration/studies-category/commands/useDeleteStudiesCategory';

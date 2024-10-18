@@ -7,20 +7,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { useDeleteDepartmentProgram } from '@/hooks';
+import { useDeleteBudgetCode } from '@/hooks';
 import { Trash2 } from 'lucide-react';
-
 interface Props {
   id: number;
 }
-
-export default function DeleteDepartmentProgramModal({ id }: Props) {
+export default function DeleteBudgetCodeModal({ id }: Props) {
   const {
     handleDelete,
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     confirmDelete,
-  } = useDeleteDepartmentProgram({ departmentProgramId: id });
+  } = useDeleteBudgetCode({ budgetCodeId: id });
 
   return (
     <>
@@ -32,8 +30,8 @@ export default function DeleteDepartmentProgramModal({ id }: Props) {
           <DialogHeader>
             <DialogTitle>Confirmar Eliminación</DialogTitle>
             <DialogDescription>
-              ¿Estás seguro de que quieres eliminar este programa
-              departamental?. Esta acción no se puede deshacer.
+              ¿Estás seguro de que quieres eliminar este código presupuestario?.
+              Esta acción no se puede deshacer.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

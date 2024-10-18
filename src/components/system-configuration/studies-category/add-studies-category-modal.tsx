@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -34,6 +35,13 @@ export default function AddStudiesCategoryModal() {
           </DialogHeader>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label htmlFor="id">Id</Label>
+                <Input id="id" {...register('id')} />
+                {errors.id && (
+                  <p className="text-red-500 text-xs">{errors.id.message}</p>
+                )}
+              </div>
               <div className="grid gap-2">
                 <Label htmlFor="description">Descripción</Label>
                 <Input id="description" {...register('description')} />
@@ -72,9 +80,7 @@ export default function AddStudiesCategoryModal() {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">
-                Agregar Categoría de Estudio
-                </Button>
+              <Button type="submit">Agregar Categoría de Estudio</Button>
             </DialogFooter>
           </form>
         </DialogContent>

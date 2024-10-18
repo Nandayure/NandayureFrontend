@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
+
 type FormsFields = z.infer<typeof StudiesCategorySchema>;
 
 const usePostStudiesCategory = () => {
@@ -68,8 +69,8 @@ export const convertStudiesCategoryTypes = (
   return {
     id: studiesCategory.id,
     description: studiesCategory.description,
-    weight: studiesCategory.weight,
-    Dedication: studiesCategory.Dedication,
-    Restriction: studiesCategory.Restriction,
+    weight: parseInt(studiesCategory.weight),
+    Dedication: parseInt(studiesCategory.Dedication),
+    Restriction: parseInt(studiesCategory.Restriction),
   };
 };

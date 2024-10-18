@@ -17,6 +17,7 @@ const usePatchDepartament = ({ setIsOpen, departmentId }: Props) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormsFields>({
     resolver: zodResolver(UpdateDepartmentSchema),
@@ -41,7 +42,6 @@ const usePatchDepartament = ({ setIsOpen, departmentId }: Props) => {
       });
       setIsOpen(false);
     } catch (error: any) {
-      showError('Error al actualizar departamento');
       setIsOpen(false);
     }
   };
@@ -51,6 +51,7 @@ const usePatchDepartament = ({ setIsOpen, departmentId }: Props) => {
     errors,
     handleSubmit,
     onSubmit,
+    setValue,
     mutation,
   };
 };

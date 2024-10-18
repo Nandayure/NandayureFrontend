@@ -24,7 +24,7 @@ export default function DeleteDepartmentProgramModal({ id }: Props) {
 
   return (
     <>
-      <Button variant="outline" size="icon" onClick={() => handleDelete(id)}>
+      <Button variant="outline" size="icon" onClick={() => handleDelete()}>
         <Trash2 className="h-4 w-4" />
       </Button>
       <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>

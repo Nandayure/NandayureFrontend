@@ -1,5 +1,5 @@
 import { deleteDepartment } from '@/services';
-import { notify, showError } from '@/utils/notification';
+import { notify } from '@/utils/notification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
@@ -25,9 +25,6 @@ const useDeleteDepartment = ({ departmentId }: Props) => {
     mutationKey: ['deleteDepartment'],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getAllDepartments'] });
-    },
-    onError: () => {
-      showError('Error al eliminar departamento');
     },
   });
 

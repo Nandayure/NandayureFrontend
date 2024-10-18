@@ -41,3 +41,24 @@ export { default as useGetDepartmentProgramById } from './system-configuration/d
 export { default as usePostDepartmentProgram } from './system-configuration/department-programs/commands/usePostDepartmentProgram';
 export { default as usePatchDepartamentProgram } from './system-configuration/department-programs/commands/usePatchDepartmentProgram';
 export { default as useDeleteDepartmentProgram } from './system-configuration/department-programs/commands/useDeleteDepartmentProgram';
+
+export { default as useGetAllEmployees } from './system-configuration/employees/queries/useGetAllEmployees';
+
+export { default as useGetAllBudgetCodes } from './system-configuration/budget-codes/queries/useGetAllBudgetCodes';
+export { default as useGetBudgetCodeById } from './system-configuration/budget-codes/queries/useGetBudgetCodeById';
+export { default as usePostBudgetCode } from './system-configuration/budget-codes/commands/usePostBudgetCode';
+export { default as usePatchBudgetCode } from './system-configuration/budget-codes/commands/usePatchBudgetCode';
+export { default as useDeleteBudgetCode } from './system-configuration/budget-codes/commands/useDeleteBudgetCode';
+
+export { default as useGetAllStudiesCategory } from './system-configuration/studies-category/queries/useGetAllStudiesCategory';
+export { default as useGetStudiesCategoryById } from './system-configuration/studies-category/queries/useGetStudiesCategoryById';
+export { default as usePostStudiesCategory } from './system-configuration/studies-category/commands/usePostStudiesCategory';
+export { default as usePatchStudiesCategory } from './system-configuration/studies-category/commands/usePatchStudiesCategory';
+export { default as useDeleteStudiesCategory } from './system-configuration/studies-category/commands/useDeleteStudiesCategory';
+
+
+export { default as useGetAllStudies } from './system-configuration/studies/queries/useGetAllStudies';
+export { default as useGetStudyById } from './system-configuration/studies/queries/useGetStudyById';
+export { default as usePostStudy } from './system-configuration/studies/commands/usePostStudy';
+export { default as usePatchStudy } from './system-configuration/studies/commands/usePatchStudy';
+export { default as useDeleteStudy } from './system-configuration/studies/commands/useDeleteStudy';

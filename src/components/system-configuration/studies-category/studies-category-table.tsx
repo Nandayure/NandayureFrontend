@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import EditStudiesCategoryModal from './edit-studies-category-modal';
 
 export default function StudiesCategoryTable() {
   const { studiesCategory, isLoading } = useGetAllStudiesCategory();
@@ -43,7 +44,6 @@ export default function StudiesCategoryTable() {
                   <TableCell>{studiesCategory.weight}</TableCell>
                   <TableCell>{studiesCategory.Dedication}</TableCell>
                   <TableCell>{studiesCategory.Restriction}</TableCell>
-
                 </TableRow>
               ))}
         </TableBody>

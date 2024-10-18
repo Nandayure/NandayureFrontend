@@ -11,7 +11,7 @@ export async function postStudiesCategory(data: StudiesCategory) {
 }
 
 interface PatchStudiesCategoryProps {
-  studiesCategoryId: number;
+  studiesCategoryId: string;
   studiesCategory: PatchStudiesCategory;
 }
 

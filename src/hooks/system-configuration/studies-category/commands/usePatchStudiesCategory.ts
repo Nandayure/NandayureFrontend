@@ -11,7 +11,7 @@ type FormsFields = z.infer<typeof UpdateStudiesCategorySchema>;
 
 interface Props {
   setIsOpen: (value: boolean) => void;
-  studiesCategoryId: number;
+  studiesCategoryId: string;
 }
 
 const usePatchStudiesCategory = ({ setIsOpen, studiesCategoryId }: Props) => {

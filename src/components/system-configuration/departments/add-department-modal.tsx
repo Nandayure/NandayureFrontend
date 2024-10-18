@@ -49,7 +49,7 @@ export default function AddDepartmentModal() {
           <DialogHeader>
             <DialogTitle>Agregar Nuevo Departamento</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
                 <Label htmlFor="name">Nombre</Label>
@@ -69,7 +69,11 @@ export default function AddDepartmentModal() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="departmentProgramId">Programa</Label>
-                <Select onValueChange={(value) => setValue('departmentProgramId', Number(value))}>
+                <Select
+                  onValueChange={(value) =>
+                    setValue('departmentProgramId', Number(value))
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Seleccionar programa" />
                   </SelectTrigger>
@@ -93,17 +97,18 @@ export default function AddDepartmentModal() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="budgetCodeId">Código de presupuesto</Label>
-                <Select onValueChange={(value) => setValue('budgetCodeId', Number(value))}>
+                <Select
+                  onValueChange={(value) =>
+                    setValue('budgetCodeId', Number(value))
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Seleccionar código de presupuesto" />
                   </SelectTrigger>
                   <SelectContent>
                     {budgetCodes &&
                       budgetCodes.map((code) => (
-                        <BudgetCodeItem
-                          key={code.id}
-                          code={code}
-                        />
+                        <BudgetCodeItem key={code.id} code={code} />
                       ))}
                   </SelectContent>
                 </Select>
@@ -115,7 +120,9 @@ export default function AddDepartmentModal() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="departmentHeadId">Jefe de departamento</Label>
-                <Select onValueChange={(value) => setValue('departmentHeadId', value)}>
+                <Select
+                  onValueChange={(value) => setValue('departmentHeadId', value)}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Seleccionar jefe de departamento" />
                   </SelectTrigger>

@@ -113,6 +113,10 @@ const ProfilePage = () => {
                 type: 'date',
               }}
             />
+            <ProfileField
+              label="Dias de Vacaciones"
+              value={employeeData.AvailableVacationDays.toString()}
+            />
           </div>
         </CardContent>
       </Card>

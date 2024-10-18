@@ -55,3 +55,10 @@ export { default as useGetStudiesCategoryById } from './system-configuration/stu
 export { default as usePostStudiesCategory } from './system-configuration/studies-category/commands/usePostStudiesCategory';
 export { default as usePatchStudiesCategory } from './system-configuration/studies-category/commands/usePatchStudiesCategory';
 export { default as useDeleteStudiesCategory } from './system-configuration/studies-category/commands/useDeleteStudiesCategory';
+
+
+export { default as useGetAllStudies } from './system-configuration/studies/queries/useGetAllStudies';
+export { default as useGetStudyById } from './system-configuration/studies/queries/useGetStudyById';
+export { default as usePostStudy } from './system-configuration/studies/commands/usePostStudy';
+export { default as usePatchStudy } from './system-configuration/studies/commands/usePatchStudy';
+export { default as useDeleteStudy } from './system-configuration/studies/commands/useDeleteStudy';

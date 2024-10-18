@@ -9,7 +9,7 @@ export async function getAllStudiesCategories() {
   return studiesCategories;
 }
 
-export async function getStudiesCategoryById(studiesCategoryId: number) {
+export async function getStudiesCategoryById(studiesCategoryId: string) {
   const studiesCategory = await httpClient<StudiesCategory>({
     method: 'GET',
     endpoint: `/studies-category/${studiesCategoryId}`,

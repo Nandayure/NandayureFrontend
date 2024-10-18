@@ -26,3 +26,4 @@ export * from './system-configuration/departaments/departments';
 export * from './system-configuration/department-programs/department-programs';
 export * from './system-configuration/budget-codes/budget-codes';
 export * from './system-configuration/studies-category/studies-category';
+export * from './system-configuration/studies/studies';

@@ -43,7 +43,7 @@ const ProfilePage = () => {
   const Date = format({ date: inputDate, format: 'YYYY-MM-DD', locale: 'en' });
 
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
+    <div className="min-h-screen p-6 ">
       <Card className="max-w-3xl mx-auto">
         <CardHeader className="pb-0">
           <CardTitle className="text-3xl font-bold">Cuenta</CardTitle>

@@ -28,3 +28,4 @@ export * from './system-configuration/studies-category/studies-category';
 export * from './system-configuration/studies/studies';
 export * from './system-configuration/type-financial-institutions/type-financial-institutions';
 export * from './system-configuration/job-positions/job-positions';
+export * from './system-configuration/financial-institutions/financial-institutions';

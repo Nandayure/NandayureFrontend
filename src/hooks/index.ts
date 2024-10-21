@@ -69,5 +69,11 @@ export { default as useDeleteTypeFinancialInstitution } from './system-configura
 export { default as useGetAllJobPositions } from './system-configuration/job-positions/queries/useGetAllJobPositions';
 export { default as useGetJobPositionById } from './system-configuration/job-positions/queries/useGetJobPositionById';
 export { default as usePostJobPosition } from './system-configuration/job-positions/commands/usePostJobPosition';
-export { default as usePatchJobPosition } from './system-configuration/job-positions/commands/usePatchJobPosition'; 
+export { default as usePatchJobPosition } from './system-configuration/job-positions/commands/usePatchJobPosition';
 export { default as useDeleteJobPosition } from './system-configuration/job-positions/commands/useDeleteJobPosition';
+
+export { default as useGetAllFinancialInstitutions } from './system-configuration/financial-institutions/queries/useGetAllFinancialInstitutions';
+export { default as useGetFinancialInstitutionById } from './system-configuration/financial-institutions/queries/useGetFinancialInstitutionById';
+export { default as usePostFinancialInstitution } from './system-configuration/financial-institutions/commands/usePostFinancialInstitution';
+export { default as usePatchFinancialInstitution } from './system-configuration/financial-institutions/commands/usePatchFinancialInstitution';
+export { default as useDeleteFinancialInstitution } from './system-configuration/financial-institutions/commands/useDeleteFinancialInstitution';

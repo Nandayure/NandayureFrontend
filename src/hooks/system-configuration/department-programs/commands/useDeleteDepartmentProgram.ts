@@ -9,6 +9,7 @@ interface Props {
 
 const useDeleteDepartmentProgram = ({ departmentProgramId }: Props) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -17,22 +18,31 @@ const useDeleteDepartmentProgram = ({ departmentProgramId }: Props) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getAllDepartmentPrograms'] });
     },
+    onError: (error: any) => {
+      setErrorMessage(error.message);
+    },
   });
-  
-  const confirmDelete = () => {
-    notify(
-      mutation.mutateAsync(),
-      {
+
+  const confirmDelete = async () => {
+    try {
+     await notify(mutation.mutateAsync(), {
         loading: 'Eliminando programa departamental...',
         success: 'Programa departamental eliminado',
         error: 'Error al eliminar programa departamental',
-      }
-    );
-    setIsDeleteModalOpen(false);
+      });
+      setIsDeleteModalOpen(false);
+    } catch (error: any) {
+      setErrorMessage(error.message);
+      setIsDeleteModalOpen(false);
+    }
   };
 
   const handleDelete = () => {
     setIsDeleteModalOpen(true);
+  };
+
+  const closeErrorModal = () => {
+    setErrorMessage(null);
   };
 
   return {
@@ -40,6 +50,9 @@ const useDeleteDepartmentProgram = ({ departmentProgramId }: Props) => {
     mutation,
     isDeleteModalOpen,
     setIsDeleteModalOpen,
+    closeErrorModal,
+    errorMessage,
+    setErrorMessage,
     confirmDelete,
   };
 };

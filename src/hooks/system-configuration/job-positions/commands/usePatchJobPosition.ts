@@ -67,9 +67,9 @@ export const convertJobPositionTypes = (jobPosition: any): PatchJobPosition => {
   return {
     Name: jobPosition.Name,
     Description: jobPosition.Description,
-    baseSalary: jobPosition.baseSalary,
-    globalSalary: jobPosition.globalSalary,
-    extrafees: jobPosition.extrafees,
+    baseSalary: parseFloat(jobPosition.baseSalary),
+    globalSalary: parseFloat(jobPosition.globalSalary),
+    extrafees: parseFloat(jobPosition.extrafees),
     DepartmentId: jobPosition.DepartmentId,
   };
 };

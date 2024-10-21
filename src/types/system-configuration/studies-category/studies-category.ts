@@ -7,6 +7,7 @@ export interface StudiesCategory {
 }
 
 export interface PatchStudiesCategory {
+  id?: string;
   description?: string;
   weight?: number;
   Dedication?: number;

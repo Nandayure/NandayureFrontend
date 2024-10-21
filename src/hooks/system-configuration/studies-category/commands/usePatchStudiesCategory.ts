@@ -1,11 +1,12 @@
-import { UpdateStudiesCategorySchema } from "@/schemas";
-import { patchStudiesCategory } from "@/services";
-import { PatchStudiesCategory } from "@/types";
-import { notify } from "@/utils/notification";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
+import { UpdateStudiesCategorySchema } from '@/schemas';
+import { patchStudiesCategory } from '@/services';
+import { PatchStudiesCategory } from '@/types';
+import { notify } from '@/utils/notification';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { parse } from 'path';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 type FormsFields = z.infer<typeof UpdateStudiesCategorySchema>;
 
@@ -26,7 +27,10 @@ const usePatchStudiesCategory = ({ setIsOpen, studiesCategoryId }: Props) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (data: PatchStudiesCategory) =>
-      await patchStudiesCategory({ studiesCategoryId: studiesCategoryId, studiesCategory: data }),
+      await patchStudiesCategory({
+        studiesCategoryId: studiesCategoryId,
+        studiesCategory: data,
+      }),
     mutationKey: ['patchStudiesCategory'],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getAllStudiesCategory'] });
@@ -59,11 +63,14 @@ const usePatchStudiesCategory = ({ setIsOpen, studiesCategoryId }: Props) => {
 
 export default usePatchStudiesCategory;
 
-export const convertStudiesCategoryTypes = (studiesCategory: any): PatchStudiesCategory => {
+export const convertStudiesCategoryTypes = (
+  studiesCategory: any,
+): PatchStudiesCategory => {
   return {
+    id: studiesCategory.id,
     description: studiesCategory.description,
-    weight: studiesCategory.weight,
-    Dedication: studiesCategory.Dedication,
-    Restriction: studiesCategory.Restriction
+    weight: parseInt(studiesCategory.weight),
+    Dedication: parseInt(studiesCategory.Dedication),
+    Restriction: parseInt(studiesCategory.Restriction),
   };
 };

@@ -27,7 +27,7 @@ export async function patchStudiesCategory({
   return updatedStudiesCategory;
 }
 
-export async function deleteStudiesCategory(studiesCategoryId: number) {
+export async function deleteStudiesCategory(studiesCategoryId: string) {
   const response = await httpClient<void>({
     method: "DELETE",
     endpoint: `/studies-category/${studiesCategoryId}`,

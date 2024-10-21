@@ -9,9 +9,15 @@ export const StudiesCategorySchema = z.object({
 });
 
 export const UpdateStudiesCategorySchema = z.object({
-  id: z.string(),
-  description: z.string(),
-  weight: z.string(),
-  Dedication: z.string(),
-  Restriction: z.string(),
+  id: z.string().min(1, 'El ID es requerido'),
+  description: z.string().min(1, 'El campo es requerido'),
+  weight: z.string().refine((val) => !isNaN(Number(val)), {
+    message: 'El peso debe ser un número.',
+  }),
+  Dedication: z.string().refine((val) => !isNaN(Number(val)), {
+    message: 'La dedicación debe ser un número.',
+  }),
+  Restriction: z.string().refine((val) => !isNaN(Number(val)), {
+    message: 'La restricción debe ser un número.',
+  }),
 });

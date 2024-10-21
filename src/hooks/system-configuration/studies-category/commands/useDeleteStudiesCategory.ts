@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 interface Props {
-  studiesCategoryId: number;
+  studiesCategoryId: string;
 }
 
 const useDeleteStudiesCategory = ({ studiesCategoryId }: Props) => {

@@ -1,15 +1,9 @@
-export interface Studies {
-  id: string;
-  description: string;
-  weight: number;
-  Dedication: number;
-  Restriction: number;
+export interface Study {
+  name: string;
+  StudyCategoryId: string;
 }
 
-export interface PatchStudies {
-  id?: string;
-  description?: string;
-  weight?: number;
-  Dedication?: number;
-  Restriction?: number;
+export interface PatchStudy {
+  name: string;
+  StudyCategoryId: string;
 }

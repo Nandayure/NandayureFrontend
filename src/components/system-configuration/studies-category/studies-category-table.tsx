@@ -10,6 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import EditStudiesCategoryModal from './edit-studies-category-modal';
+import DeleteStudiesCategoryModal from './delete-studies-category-modal';
 
 export default function StudiesCategoryTable() {
   const { studiesCategory, isLoading } = useGetAllStudiesCategory();
@@ -44,6 +45,14 @@ export default function StudiesCategoryTable() {
                   <TableCell>{studiesCategory.weight}</TableCell>
                   <TableCell>{studiesCategory.Dedication}</TableCell>
                   <TableCell>{studiesCategory.Restriction}</TableCell>
+                  <TableCell>
+                    <div className="flex">
+                      <EditStudiesCategoryModal
+                        categoryStudies={studiesCategory}
+                      />
+                      <DeleteStudiesCategoryModal id={studiesCategory.id} />
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
         </TableBody>

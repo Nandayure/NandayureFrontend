@@ -32,3 +32,6 @@ export * from './system-configuration/studies-category/commands/actions';
 
 export * from './system-configuration/studies/queries/actions';
 export * from './system-configuration/studies/commands/actions';
+
+export * from './system-configuration/type-financial-institutions/queries/actions'
+export * from './system-configuration/type-financial-institutions/commands/actions'

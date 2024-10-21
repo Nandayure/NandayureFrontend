@@ -13,3 +13,4 @@ export * from './system-configuration/DepartmentProgramSchema';
 export * from './system-configuration/BudgetCodeSchema';
 export * from './system-configuration/StudiesCategorySchema';
 export * from './system-configuration/StudiesSchema';
+export * from './system-configuration/TypeFinancialInstitutionsSchema';

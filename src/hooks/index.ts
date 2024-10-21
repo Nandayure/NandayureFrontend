@@ -56,9 +56,14 @@ export { default as usePostStudiesCategory } from './system-configuration/studie
 export { default as usePatchStudiesCategory } from './system-configuration/studies-category/commands/usePatchStudiesCategory';
 export { default as useDeleteStudiesCategory } from './system-configuration/studies-category/commands/useDeleteStudiesCategory';
 
-
 export { default as useGetAllStudies } from './system-configuration/studies/queries/useGetAllStudies';
 export { default as useGetStudyById } from './system-configuration/studies/queries/useGetStudyById';
 export { default as usePostStudy } from './system-configuration/studies/commands/usePostStudy';
 export { default as usePatchStudy } from './system-configuration/studies/commands/usePatchStudy';
 export { default as useDeleteStudy } from './system-configuration/studies/commands/useDeleteStudy';
+
+export { default as useGetAllTypeFinancialInstitutions } from './system-configuration/type-financial-institutions/queries/useGetAllTypeFinancialInstitutions';
+export { default as useGetTypeFinancialInstitutionById } from './system-configuration/type-financial-institutions/queries/useGetTypeFinancialInstitutionById';
+export { default as usePostTypeFinancialInstitution } from './system-configuration/type-financial-institutions/commands/usePostTypeFinancialInstitution';
+export { default as usePatchTypeFinancialInstitution } from './system-configuration/type-financial-institutions/commands/usePatchTypeFinancialInstitution';
+export { default as useDeleteTypeFinancialInstitution } from './system-configuration/type-financial-institutions/commands/useDeleteTypeFinancialInstitution';

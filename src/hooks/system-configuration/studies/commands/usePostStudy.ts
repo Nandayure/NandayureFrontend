@@ -1,6 +1,6 @@
 import { UpdateStudySchema } from '@/schemas';
 import { postStudy } from '@/services';
-import { Studies } from '@/types';
+import { Study } from '@/types';
 import { useCustomMutation } from '@/utils/mutations';
 import { notify } from '@/utils/notification';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -61,12 +61,10 @@ const usePostStudy = () => {
 
 export default usePostStudy;
 
-export const convertStudyTypes = (study: any): Studies => {
+export const convertStudyTypes = (study: any): Study => {
   return {
     id: study.id,
-    description: study.description,
-    weight: parseInt(study.weight),
-    Dedication: parseInt(study.Dedication),
-    Restriction: parseInt(study.Restriction),
+    name: study.name,
+    StudyCategoryId: study.StudyCategoryId,
   };
 };

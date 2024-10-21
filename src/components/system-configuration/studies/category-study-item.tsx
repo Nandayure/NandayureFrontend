@@ -5,33 +5,32 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { UseFormRegister } from 'react-hook-form';
 
-interface BudgetCode {
-  id: number;
-  CodSalary: string | null;
-  CodExtra: string | null;
-  CodAnuity: string | null;
-  CodSalaryPlus: string | null;
+export interface StudiesCategory {
+  id: string;
+  description: string;
+  weight: number;
+  Dedication: number;
+  Restriction: number;
 }
 
-interface BudgetCodeItemProps {
-  code: BudgetCode;
+interface StudiesCategoryItemProps {
+  category: StudiesCategory;
 }
 
-export function BudgetCodeItem({ code }: BudgetCodeItemProps) {
+export function StudiesCategoryItem({ category }: StudiesCategoryItemProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <SelectItem
-          value={code.id.toString()}
+          value={category.id}
           className="cursor-pointer"
           onMouseEnter={() => setIsOpen(true)}
           onMouseLeave={() => setIsOpen(false)}
         >
-          {code.id}
+          {category.id}
         </SelectItem>
       </PopoverTrigger>
       <PopoverContent
@@ -41,36 +40,28 @@ export function BudgetCodeItem({ code }: BudgetCodeItemProps) {
       >
         <div className="grid gap-4">
           <div className="space-y-2">
-            <h4 className="font-medium leading-none">Código de Presupuesto</h4>
+            <h4 className="font-medium leading-none">Categoría de Estudios</h4>
             <p className="text-sm text-muted-foreground">
-              Detalles del código presupuestario seleccionado.
+              Detalles de la categoría de estudios seleccionada.
             </p>
           </div>
           <div className="grid gap-2">
-            {code.CodSalary && (
-              <div className="grid grid-cols-3 items-center gap-4">
-                <span className="text-sm font-medium">Salario:</span>
-                <span className="col-span-2 text-sm">{code.CodSalary}</span>
-              </div>
-            )}
-            {code.CodExtra && (
-              <div className="grid grid-cols-3 items-center gap-4">
-                <span className="text-sm font-medium">Extra:</span>
-                <span className="col-span-2 text-sm">{code.CodExtra}</span>
-              </div>
-            )}
-            {code.CodAnuity && (
-              <div className="grid grid-cols-3 items-center gap-4">
-                <span className="text-sm font-medium">Anualidad:</span>
-                <span className="col-span-2 text-sm">{code.CodAnuity}</span>
-              </div>
-            )}
-            {code.CodSalaryPlus && (
-              <div className="grid grid-cols-3 items-center gap-4">
-                <span className="text-sm font-medium">Salario Plus:</span>
-                <span className="col-span-2 text-sm">{code.CodSalaryPlus}</span>
-              </div>
-            )}
+            <div className="grid grid-cols-3 items-center gap-4">
+              <span className="text-sm font-medium">Descripción:</span>
+              <span className="col-span-2 text-sm">{category.description}</span>
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <span className="text-sm font-medium">Peso:</span>
+              <span className="col-span-2 text-sm">{category.weight}</span>
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <span className="text-sm font-medium">Dedicación:</span>
+              <span className="col-span-2 text-sm">{category.Dedication}</span>
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <span className="text-sm font-medium">Restricción:</span>
+              <span className="col-span-2 text-sm">{category.Restriction}</span>
+            </div>
           </div>
         </div>
       </PopoverContent>

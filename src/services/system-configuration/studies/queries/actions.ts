@@ -1,8 +1,8 @@
 import httpClient from '@/helpers/httpClient';
-import { Studies } from '@/types';
+import { Study } from '@/types';
 
 export async function getAllStudies() {
-  const studies = await httpClient<Studies[]>({
+  const studies = await httpClient<Study[]>({
     method: 'GET',
     endpoint: '/studies',
   });
@@ -10,7 +10,7 @@ export async function getAllStudies() {
 }
 
 export async function getStudyById(studyId: number) {
-  const study = await httpClient<Studies>({
+  const study = await httpClient<Study>({
     method: 'GET',
     endpoint: `/studies/${studyId}`,
   });

@@ -5,7 +5,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { notify } from '@/utils/notification';
-import { PatchStudies } from '@/types';
+import { PatchStudy } from '@/types';
+
 
 type FormsFields = z.infer<typeof UpdateStudySchema>;
 
@@ -26,7 +27,7 @@ const usePatchStudy = ({ setIsOpen, studyId }: Props) => {
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async (data: PatchStudies) => await patchStudy(studyId, data),
+    mutationFn: async (data: PatchStudy) => await patchStudy(studyId, data),
     mutationKey: ['patchStudy'],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getAllStudies'] });
@@ -59,12 +60,9 @@ const usePatchStudy = ({ setIsOpen, studyId }: Props) => {
 
 export default usePatchStudy;
 
-const convertStudyTypes = (study: any): PatchStudies => {
+const convertStudyTypes = (study: any): PatchStudy => {
   return {
-    id: study.id,
-    description: study.description,
-    weight: parseInt(study.weight),
-    Dedication: parseInt(study.Dedication),
-    Restriction: parseInt(study.Restriction),
+    name: study.name,
+    StudyCategoryId: study.StudyCategoryId,
   };
 };

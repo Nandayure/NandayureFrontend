@@ -1,8 +1,8 @@
 import httpClient from '@/helpers/httpClient';
-import { Studies, PatchStudies } from '@/types';
+import { PatchStudy, Study } from '@/types';
 
-export async function postStudy(study: Studies) {
-  const response = await httpClient<Studies>({
+export async function postStudy(study: Study) {
+  const response = await httpClient<Study>({
     method: 'POST',
     endpoint: '/studies',
     data: study,
@@ -10,8 +10,8 @@ export async function postStudy(study: Studies) {
   return response;
 }
 
-export async function patchStudy(studyId: number, study: PatchStudies) {
-  const response = await httpClient<PatchStudies>({
+export async function patchStudy(studyId: number, study: PatchStudy) {
+  const response = await httpClient<PatchStudy>({
     method: 'PATCH',
     endpoint: `/studies/${studyId}`,
     data: study,
@@ -20,7 +20,7 @@ export async function patchStudy(studyId: number, study: PatchStudies) {
 }
 
 export async function deleteStudy(studyId: number) {
-  const response = await httpClient<Studies>({
+  const response = await httpClient<Study>({
     method: 'DELETE',
     endpoint: `/studies/${studyId}`,
   });

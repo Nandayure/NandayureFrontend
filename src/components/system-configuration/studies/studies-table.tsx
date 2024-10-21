@@ -11,15 +11,14 @@ import {
 } from '@/components/ui/table';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
 import { useGetAllStudies } from '@/hooks';
+import EditStudyModal from './edit-study-modal';
+import DeleteStudyModal from './delete-study-modal';
 
-export interface Studies {
-  id: string;
-  description: string;
-  weight: number;
-  Dedication: number;
-  Restriction: number;
+export interface Study {
+  id: number;
+  name: string;
+  StudyCategoryId: string;
 }
-
 
 export default function StudiesTable() {
   const { studies, isLoading } = useGetAllStudies();
@@ -29,11 +28,8 @@ export default function StudiesTable() {
         <TableHeader>
           <TableRow>
             <TableHead>ID</TableHead>
-            <TableHead>Descripción</TableHead>
-            <TableHead>Peso</TableHead>
-            <TableHead>Dedicación</TableHead>
-            <TableHead>Restricción</TableHead>
-            <TableHead>Acciones</TableHead>
+            <TableHead>Nombre</TableHead>
+            <TableHead>Categoría de estudio</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -50,13 +46,12 @@ export default function StudiesTable() {
             : studies?.map((study) => (
                 <TableRow key={study.id}>
                   <TableCell>{study.id}</TableCell>
-                  <TableCell>{study.description}</TableCell>
-                  <TableCell>{study.weight}</TableCell>
-                  <TableCell>{study.Dedication}</TableCell>
-                  <TableCell>{study.Restriction}</TableCell>
+                  <TableCell>{study.name}</TableCell>
+                  <TableCell>{study.StudyCategoryId}</TableCell>
                   <TableCell>
                     <div className="flex">
-                      
+                      <EditStudyModal study={study} studyId={study.id} />
+                      <DeleteStudyModal id={study.id} />
                     </div>
                   </TableCell>
                 </TableRow>

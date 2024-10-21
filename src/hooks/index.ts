@@ -3,9 +3,7 @@ export { default as useForgotPassword } from './auth/forgot-password/usePostSend
 export { default as useLogin } from './auth/login/usePostLogin';
 export { default as useRegister } from './auth/register/usePostEmployee';
 export { default as usePostResetPassword } from './auth/reset-password/usePostResetPasssword';
-export { default as useGetEmbargoes } from './auth/register/useGetEmbargoes';
 export { default as useGetGenders } from './auth/register/useGetGenders';
-export { default as useGetJobPositions } from './auth/register/useGetJobPositions';
 export { default as useGetMaritalStatus } from './auth/register/useGetMaritalStatus';
 export { default as usePostEmployee } from './auth/register/usePostEmployee';
 
@@ -67,3 +65,9 @@ export { default as useGetTypeFinancialInstitutionById } from './system-configur
 export { default as usePostTypeFinancialInstitution } from './system-configuration/type-financial-institutions/commands/usePostTypeFinancialInstitution';
 export { default as usePatchTypeFinancialInstitution } from './system-configuration/type-financial-institutions/commands/usePatchTypeFinancialInstitution';
 export { default as useDeleteTypeFinancialInstitution } from './system-configuration/type-financial-institutions/commands/useDeleteTypeFinancialInstitution';
+
+export { default as useGetAllJobPositions } from './system-configuration/job-positions/queries/useGetAllJobPositions';
+export { default as useGetJobPositionById } from './system-configuration/job-positions/queries/useGetJobPositionById';
+export { default as usePostJobPosition } from './system-configuration/job-positions/commands/usePostJobPosition';
+export { default as usePatchJobPosition } from './system-configuration/job-positions/commands/usePatchJobPosition'; 
+export { default as useDeleteJobPosition } from './system-configuration/job-positions/commands/useDeleteJobPosition';

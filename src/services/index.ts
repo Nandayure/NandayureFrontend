@@ -35,3 +35,6 @@ export * from './system-configuration/studies/commands/actions';
 
 export * from './system-configuration/type-financial-institutions/queries/actions'
 export * from './system-configuration/type-financial-institutions/commands/actions'
+
+export * from './system-configuration/job-positions/queries/actions'
+export * from './system-configuration/job-positions/commands/actions'

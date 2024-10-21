@@ -3,7 +3,6 @@ export * from './Employee';
 export * from './UpdateEmployee';
 export * from './Gender';
 export * from './MaritalStatus';
-export * from './JobPosition';
 export * from './User';
 export * from './Login';
 
@@ -28,3 +27,4 @@ export * from './system-configuration/budget-codes/budget-codes';
 export * from './system-configuration/studies-category/studies-category';
 export * from './system-configuration/studies/studies';
 export * from './system-configuration/type-financial-institutions/type-financial-institutions';
+export * from './system-configuration/job-positions/job-positions';

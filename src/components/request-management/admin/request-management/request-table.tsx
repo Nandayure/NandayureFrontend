@@ -7,11 +7,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { RequestDetails } from '@/types';
 import { Badge } from '../../../ui/badge';
 import { formatDate } from '@/lib/utils';
 import { getRequestState, getRequestType } from '../../request-helpers';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
+import { RequestDetails } from '@/types/request-management/commonTypes';
 
 const RequestTable = ({
   requests,
@@ -70,8 +70,8 @@ const RequestTable = ({
               >
                 <TableCell>{request.id}</TableCell>
                 <TableCell>{request.EmployeeId}</TableCell>
-                <TableCell>{request.Name}</TableCell>
-                <TableCell>{`${request.Surname1} ${request.Surname2}`}</TableCell>
+                <TableCell>{request.Employee.Name}</TableCell>
+                <TableCell>{`${request.Employee.Surname1} ${request.Employee.Surname2}`}</TableCell>
                 <TableCell>{getRequestType(request.RequestTypeId)}</TableCell>
                 <TableCell>{formatDate(request.date)}</TableCell>
                 <TableCell>

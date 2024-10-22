@@ -17,7 +17,8 @@ export * from './request/RequestVacation';
 export * from './templates/salary-certificate';
 export * from './templates/vacations';
 
-export * from './request-management/request';
+export * from './request-management/currentToApproveTypes';
+export * from './request-management/getAllRequestTypes';
 
 // system-configuration
 

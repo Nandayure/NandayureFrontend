@@ -13,12 +13,17 @@ const useDeleteFinancialInstitution = ({ financialInstitutionId }: Props) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const confirmDelete = async () => {
-    await notify(mutation.mutateAsync(), {
-      loading: 'Eliminando institución financiera...',
-      success: 'Institución financiera eliminada',
-      error: 'Error al eliminar institución financiera',
-    });
-    setIsDeleteModalOpen(false);
+    try {
+      await notify(mutation.mutateAsync(), {
+        loading: 'Eliminando institución financiera...',
+        success: 'Institución financiera eliminada',
+        error: 'Error al eliminar institución financiera',
+      });
+      setIsDeleteModalOpen(false);
+    } catch (error: any) {
+      setErrorMessage(error.message);
+      setIsDeleteModalOpen(false);
+    }
   };
 
   const mutation = useMutation({
@@ -29,6 +34,10 @@ const useDeleteFinancialInstitution = ({ financialInstitutionId }: Props) => {
       queryClient.invalidateQueries({
         queryKey: ['getAllFinancialInstitutions'],
       });
+    },
+    onError: (error: any) => {
+      setErrorMessage(error.message);
+      setIsDeleteModalOpen(false);
     },
   });
 

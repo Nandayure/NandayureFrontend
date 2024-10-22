@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import ErrorModal from '@/components/ui/error-modal';
 import { useDeleteJobPosition } from '@/hooks';
 import { Trash2 } from 'lucide-react';
 
@@ -22,6 +23,8 @@ export default function DeleteJobPositionsModal({ id }: Props) {
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     confirmDelete,
+    errorMessage,
+    closeErrorModal,
   } = useDeleteJobPosition({ jobPositionId: id });
 
   return (
@@ -51,6 +54,13 @@ export default function DeleteJobPositionsModal({ id }: Props) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {errorMessage && (
+        <ErrorModal
+          isOpen={!!errorMessage}
+          onClose={closeErrorModal}
+          message={errorMessage}
+        />
+      )}
     </>
   );
 }

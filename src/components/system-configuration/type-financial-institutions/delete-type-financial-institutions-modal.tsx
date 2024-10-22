@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import ErrorModal from '@/components/ui/error-modal';
 import { useDeleteTypeFinancialInstitution } from '@/hooks';
 import { Trash2 } from 'lucide-react';
 
@@ -20,6 +21,8 @@ export default function DeleteTypeFinancialInstitutionsModal({ id }: Props) {
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     confirmDelete,
+    errorMessage,
+    closeErrorModal,
   } = useDeleteTypeFinancialInstitution({ typeFinancialInstitutionId: id });
 
   return (
@@ -49,6 +52,13 @@ export default function DeleteTypeFinancialInstitutionsModal({ id }: Props) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {errorMessage && (
+        <ErrorModal
+          isOpen={!!errorMessage}
+          onClose={closeErrorModal}
+          message={errorMessage}
+        />
+      )}
     </>
   );
 }

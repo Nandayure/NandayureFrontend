@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import ErrorModal from '@/components/ui/error-modal';
 import { useDeleteStudy } from '@/hooks';
 import { Trash2 } from 'lucide-react';
 
@@ -20,6 +21,8 @@ export default function DeleteStudyModal({ id }: Props) {
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     confirmDelete,
+    errorMessage,
+    closeErrorModal,
   } = useDeleteStudy({ studyId: id });
 
   return (
@@ -49,6 +52,13 @@ export default function DeleteStudyModal({ id }: Props) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {errorMessage && (
+        <ErrorModal
+          isOpen={!!errorMessage}
+          onClose={closeErrorModal}
+          message={errorMessage}
+        />
+      )}
     </>
   );
 }

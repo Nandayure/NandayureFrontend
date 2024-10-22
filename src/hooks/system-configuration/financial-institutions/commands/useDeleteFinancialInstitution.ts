@@ -1,15 +1,13 @@
-import { deleteTypeFinancialInstitutions } from '@/services';
+import { deleteFinancialInstitutions } from '@/services';
 import { notify } from '@/utils/notification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 interface Props {
-  typeFinancialInstitutionId: number;
+  financialInstitutionId: number;
 }
 
-const useDeleteTypeFinancialInstitution = ({
-  typeFinancialInstitutionId,
-}: Props) => {
+const useDeleteFinancialInstitution = ({ financialInstitutionId }: Props) => {
   const queryClient = useQueryClient();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -17,9 +15,9 @@ const useDeleteTypeFinancialInstitution = ({
   const confirmDelete = async () => {
     try {
       await notify(mutation.mutateAsync(), {
-        loading: 'Eliminando tipo de institución financiera...',
-        success: 'Tipo de institución financiera eliminado',
-        error: 'Error al eliminar tipo de institución financiera',
+        loading: 'Eliminando institución financiera...',
+        success: 'Institución financiera eliminada',
+        error: 'Error al eliminar institución financiera',
       });
       setIsDeleteModalOpen(false);
     } catch (error: any) {
@@ -30,11 +28,11 @@ const useDeleteTypeFinancialInstitution = ({
 
   const mutation = useMutation({
     mutationFn: async () =>
-      await deleteTypeFinancialInstitutions(typeFinancialInstitutionId),
-    mutationKey: ['deleteTypeFinancialInstitutions'],
+      await deleteFinancialInstitutions(financialInstitutionId),
+    mutationKey: ['deleteFinancialInstitutions'],
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['getAllTypeFinancialInstitutions'],
+        queryKey: ['getAllFinancialInstitutions'],
       });
     },
     onError: (error: any) => {
@@ -63,4 +61,4 @@ const useDeleteTypeFinancialInstitution = ({
   };
 };
 
-export default useDeleteTypeFinancialInstitution;
+export default useDeleteFinancialInstitution;

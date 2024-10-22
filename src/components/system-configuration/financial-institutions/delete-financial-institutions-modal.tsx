@@ -8,22 +8,22 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import ErrorModal from '@/components/ui/error-modal';
-import { useDeleteDepartmentProgram } from '@/hooks';
+import { useDeleteFinancialInstitution } from '@/hooks';
 import { Trash2 } from 'lucide-react';
 
 interface Props {
   id: number;
 }
 
-export default function DeleteDepartmentProgramModal({ id }: Props) {
+export default function DeleteFinancialInstitutionsModal({ id }: Props) {
   const {
     handleDelete,
     isDeleteModalOpen,
     setIsDeleteModalOpen,
-    closeErrorModal,
-    errorMessage,
     confirmDelete,
-  } = useDeleteDepartmentProgram({ departmentProgramId: id });
+    errorMessage,
+    closeErrorModal,
+  } = useDeleteFinancialInstitution({ financialInstitutionId: id });
 
   return (
     <>
@@ -35,8 +35,8 @@ export default function DeleteDepartmentProgramModal({ id }: Props) {
           <DialogHeader>
             <DialogTitle>Confirmar Eliminación</DialogTitle>
             <DialogDescription>
-              ¿Estás seguro de que quieres eliminar este programa
-              departamental?. Esta acción no se puede deshacer.
+              ¿Estás seguro de que quieres eliminar este institución
+              financiera?. Esta acción no se puede deshacer.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

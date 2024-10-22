@@ -8,9 +8,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { usePatchJobPosition } from '@/hooks';
+import { useGetAllDepartments, usePatchJobPosition } from '@/hooks';
 import { JobPosition } from '@/types';
 import { Pencil } from 'lucide-react';
 import { useState } from 'react';
@@ -21,11 +29,13 @@ interface Props {
 
 export default function EditJobPositionsModal({ jobPosition }: Props) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const { register, errors, handleSubmit, onSubmit, mutation } =
+  const { register, errors, handleSubmit, onSubmit, setValue, mutation } =
     usePatchJobPosition({
       setIsOpen: setIsEditModalOpen,
       jobPositionId: jobPosition.id,
     });
+
+  const { departments } = useGetAllDepartments();
 
   return (
     <>
@@ -109,12 +119,26 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="DepartmentId">Departamento</Label>
-                <Input
-                  id="DepartmentId"
-                  defaultValue={jobPosition.DepartmentId}
-                  type="text"
-                  {...register('DepartmentId')}
-                />
+                <Select
+                  onValueChange={(value) =>
+                    setValue('DepartmentId', Number(value))
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccionar departamento" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {departments &&
+                      departments.map((department) => (
+                        <SelectItem
+                          key={department.id}
+                          value={department.id.toString()}
+                        >
+                          {department.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
                 {errors.DepartmentId && (
                   <p className="text-red-500 text-xs">
                     {errors.DepartmentId.message}

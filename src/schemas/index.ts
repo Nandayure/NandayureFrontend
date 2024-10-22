@@ -15,3 +15,5 @@ export * from './system-configuration/StudiesCategorySchema';
 export * from './system-configuration/StudiesSchema';
 export * from './system-configuration/TypeFinancialInstitutionsSchema';
 export * from './system-configuration/JobPositionSchema';
+export * from './system-configuration/FinancialInstitutionsSchema';
+export * from './system-configuration/CivilStatusSchema';

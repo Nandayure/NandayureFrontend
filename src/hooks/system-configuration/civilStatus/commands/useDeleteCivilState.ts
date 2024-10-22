@@ -1,48 +1,43 @@
-import { deleteTypeFinancialInstitutions } from '@/services';
+import { deleteCivilStatus } from '@/services';
 import { notify } from '@/utils/notification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { error } from 'console';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface Props {
-  typeFinancialInstitutionId: number;
+  civilStatusId: number;
 }
 
-const useDeleteTypeFinancialInstitution = ({
-  typeFinancialInstitutionId,
-}: Props) => {
+const useDeleteCivilStatus = ({ civilStatusId }: Props) => {
   const queryClient = useQueryClient();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
   const confirmDelete = async () => {
     try {
       await notify(mutation.mutateAsync(), {
-        loading: 'Eliminando tipo de institución financiera...',
-        success: 'Tipo de institución financiera eliminado',
-        error: 'Error al eliminar tipo de institución financiera',
+        loading: 'Eliminando estado civil...',
+        success: 'Estado civil eliminado',
+        error: 'Error al eliminar el estado civil',
       });
       setIsDeleteModalOpen(false);
     } catch (error: any) {
-      setErrorMessage(error.message);
       setIsDeleteModalOpen(false);
+      setErrorMessage(error.message);
     }
   };
-
   const mutation = useMutation({
-    mutationFn: async () =>
-      await deleteTypeFinancialInstitutions(typeFinancialInstitutionId),
-    mutationKey: ['deleteTypeFinancialInstitutions'],
+    mutationFn: async () => await deleteCivilStatus(civilStatusId),
+    mutationKey: ['deleteCivilStatus'],
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['getAllTypeFinancialInstitutions'],
-      });
-    },
-    onError: (error: any) => {
-      setErrorMessage(error.message);
+      queryClient.invalidateQueries({ queryKey: ['getAllCivilStatus'] });
+      toast.success('Estado civil eliminado', { duration: 2500 });
       setIsDeleteModalOpen(false);
     },
+    onError: (error: Error) => {
+      setErrorMessage(error.message);
+    },
   });
-
   const handleDelete = () => {
     setIsDeleteModalOpen(true);
   };
@@ -50,17 +45,15 @@ const useDeleteTypeFinancialInstitution = ({
   const closeErrorModal = () => {
     setErrorMessage(null);
   };
-
   return {
     handleDelete,
     mutation,
     isDeleteModalOpen,
-    setIsDeleteModalOpen,
-    closeErrorModal,
     errorMessage,
+    closeErrorModal,
     setErrorMessage,
+    setIsDeleteModalOpen,
     confirmDelete,
   };
 };
-
-export default useDeleteTypeFinancialInstitution;
+export default useDeleteCivilStatus;

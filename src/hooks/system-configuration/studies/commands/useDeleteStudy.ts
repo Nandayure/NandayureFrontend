@@ -9,15 +9,21 @@ interface Props {
 
 const useDeleteStudy = ({ studyId }: Props) => {
   const queryClient = useQueryClient();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const confirmDelete = () => {
-    notify(mutation.mutateAsync(), {
-      loading: 'Eliminando estudio...',
-      success: 'Estudio eliminado',
-      error: 'Error al eliminar estudio',
-    });
-    setIsDeleteModalOpen(false);
+  const confirmDelete = async () => {
+    try {
+      await notify(mutation.mutateAsync(), {
+        loading: 'Eliminando estudio...',
+        success: 'Estudio eliminado',
+        error: 'Error al eliminar estudio',
+      });
+      setIsDeleteModalOpen(false);
+    } catch (error: any) {
+      setErrorMessage(error.message);
+      setIsDeleteModalOpen(false);
+    }
   };
 
   const mutation = useMutation({
@@ -32,11 +38,18 @@ const useDeleteStudy = ({ studyId }: Props) => {
     setIsDeleteModalOpen(true);
   };
 
+  const closeErrorModal = () => {
+    setErrorMessage(null);
+  };
+
   return {
     handleDelete,
     mutation,
     isDeleteModalOpen,
     setIsDeleteModalOpen,
+    closeErrorModal,
+    errorMessage,
+    setErrorMessage,
     confirmDelete,
   };
 };

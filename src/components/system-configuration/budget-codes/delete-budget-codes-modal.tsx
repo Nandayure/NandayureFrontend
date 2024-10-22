@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import ErrorModal from '@/components/ui/error-modal';
 import { useDeleteBudgetCode } from '@/hooks';
 import { Trash2 } from 'lucide-react';
 interface Props {
@@ -17,6 +18,8 @@ export default function DeleteBudgetCodeModal({ id }: Props) {
     handleDelete,
     isDeleteModalOpen,
     setIsDeleteModalOpen,
+    closeErrorModal,
+    errorMessage,
     confirmDelete,
   } = useDeleteBudgetCode({ budgetCodeId: id });
 
@@ -47,6 +50,13 @@ export default function DeleteBudgetCodeModal({ id }: Props) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {errorMessage && (
+        <ErrorModal
+          isOpen={!!errorMessage}
+          onClose={closeErrorModal}
+          message={errorMessage}
+        />
+      )}
     </>
   );
 }

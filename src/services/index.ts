@@ -21,3 +21,6 @@ export * from './system-configuration/departments/commands/actions';
 
 export * from './system-configuration/department-programs/queries/actions';
 export * from './system-configuration/department-programs/commands/actions';
+
+export * from './system-configuration/civilStatus/queries/actions';
+export * from './system-configuration/civilStatus/Commands/actions';

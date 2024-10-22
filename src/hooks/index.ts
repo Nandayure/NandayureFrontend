@@ -41,3 +41,12 @@ export { default as useGetDepartmentProgramById } from './system-configuration/d
 export { default as usePostDepartmentProgram } from './system-configuration/department-programs/commands/usePostDepartmentProgram';
 export { default as usePatchDepartamentProgram } from './system-configuration/department-programs/commands/usePatchDepartmentProgram';
 export { default as useDeleteDepartmentProgram } from './system-configuration/department-programs/commands/useDeleteDepartmentProgram';
+
+
+export {default as useGetAllCivilStatus} from './system-configuration/civilStatus/queries/useGetAllCivilState'
+export {default as useGetCivilStatusById} from './system-configuration/civilStatus/queries/useGetByIdCivilState'
+export {default as useDeleteCivilStatus} from './system-configuration/civilStatus/commands/useDeleteCivilState'
+export {default as usePostCivilStatus} from './system-configuration/civilStatus/commands/usePostCivilState'
+export {default as usePatchCivilStatus} from './system-configuration/civilStatus/commands/usePatchCivilState'
+
+

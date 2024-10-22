@@ -71,3 +71,5 @@ export { default as useGetJobPositionById } from './system-configuration/job-pos
 export { default as usePostJobPosition } from './system-configuration/job-positions/commands/usePostJobPosition';
 export { default as usePatchJobPosition } from './system-configuration/job-positions/commands/usePatchJobPosition'; 
 export { default as useDeleteJobPosition } from './system-configuration/job-positions/commands/useDeleteJobPosition';
+
+export { default as useGetAllGender } from './system-configuration/gender-programs/queries/useGetAllGenderPrograms';

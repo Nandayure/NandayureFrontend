@@ -10,7 +10,6 @@ export default function GeneralSettingsPage() {
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="civilStatus">Estado civil</TabsTrigger>
         <TabsTrigger value="gender">Genero</TabsTrigger>
-        
       </TabsList>
       <TabsContent value="civilStatus">
         <div className="mt-6">

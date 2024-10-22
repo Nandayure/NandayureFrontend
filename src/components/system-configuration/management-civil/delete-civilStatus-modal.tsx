@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import ErrorModal from '@/components/ui/error-modal';
 import { useDeleteCivilStatus } from '@/hooks';
 import { Trash2 } from 'lucide-react';
 
@@ -20,6 +21,9 @@ export default function DeleteCivilStatusModal({ id }: Props) {
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     confirmDelete,
+    errorMessage,
+    closeErrorModal,
+    setErrorMessage,
   } = useDeleteCivilStatus({ civilStatusId: id });
 
   return (
@@ -49,6 +53,13 @@ export default function DeleteCivilStatusModal({ id }: Props) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {errorMessage && (
+        <ErrorModal
+          isOpen={!!errorMessage}
+          onClose={closeErrorModal}
+          message={errorMessage}
+        />
+      )}
     </>
   );
 }

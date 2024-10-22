@@ -4,14 +4,12 @@ import SelectField from '../../ui/select-fields';
 import InputField from '../../ui/input-field';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { useGetEmbargoes, useGetGenders, useGetMaritalStatus, usePostEmployee } from '@/hooks';
-import useGetJobsPositions from '@/hooks/auth/register/useGetJobPositions';
+import { useGetAllJobPositions, useGetGenders, useGetMaritalStatus, usePostEmployee } from '@/hooks';
 
 const RegisterForm = () => {
   const { genders } = useGetGenders();
   const { maritalStatus } = useGetMaritalStatus();
-  const { JobsPositions } = useGetJobsPositions();
-  const { Embargoes } = useGetEmbargoes();
+  const { jobPositions } = useGetAllJobPositions();
   const { handleSubmit, onSubmit, register, mutation, errors } =
     usePostEmployee();
 
@@ -128,7 +126,7 @@ const RegisterForm = () => {
             <SelectField
               id="JobPositionId"
               label="Puesto de trabajo"
-              options={JobsPositions}
+              options={jobPositions}
               register={register}
               errors={errors}
             />

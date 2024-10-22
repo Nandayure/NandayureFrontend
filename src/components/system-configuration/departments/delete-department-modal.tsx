@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import ErrorModal from '@/components/ui/error-modal';
 import { useDeleteDepartment } from '@/hooks';
 import { Trash2 } from 'lucide-react';
 
@@ -20,11 +21,13 @@ export default function DeleteDepartmentModal({ id }: Props) {
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     confirmDelete,
+    errorMessage,
+    closeErrorModal,
   } = useDeleteDepartment({ departmentId: id });
 
   return (
     <>
-      <Button variant="outline" size="icon" onClick={() => handleDelete(id)}>
+      <Button variant="outline" size="icon" onClick={() => handleDelete()}>
         <Trash2 className="h-4 w-4" />
       </Button>
       <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
@@ -49,6 +52,13 @@ export default function DeleteDepartmentModal({ id }: Props) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {errorMessage && (
+        <ErrorModal
+          isOpen={!!errorMessage}
+          onClose={closeErrorModal}
+          message={errorMessage}
+        />
+      )}
     </>
   );
 }

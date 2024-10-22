@@ -4,7 +4,7 @@ import { PatchDepartmentProgram } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
+import { notify, showError } from '@/utils/notification'; 
 import { z } from 'zod';
 
 type FormsFiels = z.infer<typeof UpdateDepartmentProgramSchema>;
@@ -38,30 +38,18 @@ const usePatchDepartamentProgram = ({
   });
 
   const onSubmit: SubmitHandler<FormsFiels> = async (data) => {
+    const ConvertData = convertDepartmentProgranTypes(data);
     try {
-      const ConvertData = convertDepartmentProgranTypes(data);
-      await toast.promise(
-        new Promise<string>((resolve, reject) => {
-          // Especifica el tipo aquí
-          setTimeout(async () => {
-            try {
-              await mutation.mutateAsync(ConvertData);
-              resolve('Programa departamental actualizado');
-            } catch (error) {
-              reject('Error al actualizar programa departamental');
-            }
-          }, 500);
-        }),
+      await notify(
+        mutation.mutateAsync(ConvertData),
         {
-          loading: 'Actualizando programa departamental',
+          loading: 'Actualizando programa departamental...',
           success: 'Programa departamental actualizado',
           error: 'Error al actualizar programa departamental',
-        },
-        { duration: 2500 },
+        }
       );
       setIsOpen(false);
     } catch (error: any) {
-      console.error(error);
       setIsOpen(false);
     }
   };
@@ -77,7 +65,7 @@ const usePatchDepartamentProgram = ({
 
 export default usePatchDepartamentProgram;
 
-export const convertDepartmentProgranTypes = (departament: any) : PatchDepartmentProgram => {
+export const convertDepartmentProgranTypes = (departament: any): PatchDepartmentProgram => {
   return {
     name: departament.name,
   };

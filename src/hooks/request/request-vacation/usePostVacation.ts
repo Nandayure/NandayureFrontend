@@ -42,16 +42,19 @@ const usePostVacation = () => {
         ...data,
         daysRequested: Number(data.daysRequested),
       };
-      router.push('/'),
-        await toast.promise(
-          mutation.mutateAsync(formData),
-          {
-            loading: 'Enviando solicitud...',
-            success: 'Solicitud enviada',
-            error: 'Error al enviar solicitud',
-          },
-          { duration: 2500 },
-        );
+      await toast.promise(
+        mutation.mutateAsync(formData),
+        {
+          loading: 'Enviando solicitud...',
+          success: 'Solicitud enviada',
+          error: 'Error al enviar solicitud',
+        },
+
+        { duration: 4500 },
+      );
+      setTimeout(() => {
+        router.push('/');
+      }, 1000);
     } catch (error: any) {
       console.error('Error durante el envío del formulario', error);
     }

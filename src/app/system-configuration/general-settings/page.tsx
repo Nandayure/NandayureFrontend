@@ -13,7 +13,7 @@ export default function GeneralSettingsPage() {
       </TabsList>
       <TabsContent value="civilStatus">
         <div className="mt-6">
-          <h2 className="text-2xl font-bold mb-4">Configuración de Departamentos</h2>
+          <h2 className="text-2xl font-bold mb-4">Configuración de estado civil</h2>
           <AddCivilStatusModal />
           <CivilStatusTable />
         </div>

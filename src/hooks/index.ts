@@ -77,3 +77,9 @@ export { default as useGetFinancialInstitutionById } from './system-configuratio
 export { default as usePostFinancialInstitution } from './system-configuration/financial-institutions/commands/usePostFinancialInstitution';
 export { default as usePatchFinancialInstitution } from './system-configuration/financial-institutions/commands/usePatchFinancialInstitution';
 export { default as useDeleteFinancialInstitution } from './system-configuration/financial-institutions/commands/useDeleteFinancialInstitution';
+
+export {default as useGetAllCivilStatus} from './system-configuration/civilStatus/queries/useGetAllCivilState'
+export {default as useGetCivilStatusById} from './system-configuration/civilStatus/queries/useGetByIdCivilState'
+export {default as useDeleteCivilStatus} from './system-configuration/civilStatus/commands/useDeleteCivilState'
+export {default as usePostCivilStatus} from './system-configuration/civilStatus/commands/usePostCivilState'
+export {default as usePatchCivilStatus} from './system-configuration/civilStatus/commands/usePatchCivilState'

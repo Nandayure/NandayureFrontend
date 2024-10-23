@@ -1,3 +1,4 @@
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -8,23 +9,25 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import usePatchGenderProgram from '@/hooks/system-configuration/gender-programs/commands/usePatchGenderProgram';
-import { GenderProgram } from '@/types/system-configuration/Gender-programs/gender-programs';
+import { usePatchGender } from '@/hooks';
+import { Gender } from '@/types';
 import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 
 interface Props {
-  genderProgram: GenderProgram;
+  gender: Gender;
+  genderId: number; 
 }
 
-export default function EditGenderProgramModal({
-  genderProgram,
+export default function EditGenderModal({
+  gender,
+  genderId,
 }: Props) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { register, errors, handleSubmit, onSubmit, mutation } =
-      usePatchGenderProgram({
+      usePatchGender({
       setIsOpen: setIsEditModalOpen,
-      genderProgramId: genderProgram.id,
+      genderId: genderId,
     });
 
   return (
@@ -46,14 +49,14 @@ export default function EditGenderProgramModal({
                 <div className="col-span-3 flex flex-col">
                   <Input
                     id="name"
-                    defaultValue={genderProgram.name}
+                    defaultValue={gender.Name}
                     className="col-span-3"
                     type="text"
-                    {...register('name')}
+                    {...register('Name')}
                   />
-                  {errors?.name && (
+                  {errors?.Name && (
                     <span id="name-error" className="text-red-500 text-sm mt-2">
-                      {errors.name.message}
+                      {errors.Name.message}
                     </span>
                   )}
                 </div>

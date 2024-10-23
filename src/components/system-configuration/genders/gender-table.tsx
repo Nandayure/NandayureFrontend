@@ -8,19 +8,19 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
-import EditGenderProgramModal from './edit-gender-program-modal';
-import DeleteGenderProgramModal from './delete-gender-program-modal';
-import useGetAllGenderPrograms from '@/hooks/system-configuration/gender-programs/queries/useGetAllGenderPrograms';
+import EditGenderModal from './edit-gender-modal';
+import DeleteGenderProgramModal from './delete-gender-modal';
+import { useGetAllGenders } from '@/hooks';
 
-export default function GenderProgramsTable() {
-  const { genderPrograms, isLoading } = useGetAllGenderPrograms();
+export default function GendersTable() {
+  const { genders, isLoading } = useGetAllGenders();
   return (
     <div className="container mx-auto p-4 border rounded shadow">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>ID</TableHead>
-            <TableHead>Programa</TableHead>
+            <TableHead>Género</TableHead>
             <TableHead>Acciones</TableHead>
           </TableRow>
         </TableHeader>
@@ -35,15 +35,18 @@ export default function GenderProgramsTable() {
                   ))}
                 </TableRow>
               ))
-            : genderPrograms?.map((genderProgram) => (
-                <TableRow key={genderProgram.id}>
-                  <TableCell>{genderProgram.id}</TableCell>
-                  <TableCell>{genderProgram.name}</TableCell>
+            : genders?.map((gender) => (
+                <TableRow key={gender.id}>
+                  <TableCell>{gender.id}</TableCell>
+                  <TableCell>{gender.Name}</TableCell>  
                   <TableCell>
-                    <EditGenderProgramModal
-                      genderProgram={genderProgram}
-                    />
-                    <DeleteGenderProgramModal id={genderProgram.id} />
+                    <div className='flex'>
+                    <EditGenderModal
+                        gender={gender}
+                        genderId={gender.id}
+                      />
+                      <DeleteGenderProgramModal id={gender.id} />
+                      </div> 
                   </TableCell>
                 </TableRow>
               ))}

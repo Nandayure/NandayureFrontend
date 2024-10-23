@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -7,20 +8,20 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import useDeleteGenderProgram from "@/hooks/system-configuration/gender-programs/commands/useDeleteGenderProgram";
+import { useDeleteGender } from '@/hooks';
 import { Trash2 } from 'lucide-react';
 
 interface Props {
   id: number;
 }
 
-export default function DeleteGenderProgramModal({ id }: Props) {
+export default function DeleteGenderModal({ id }: Props) {
   const {
     handleDelete,
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     confirmDelete,
-  } = useDeleteGenderProgram({ genderProgramId: id });
+  } = useDeleteGender({ genderId: id });
 
   return (
     <>

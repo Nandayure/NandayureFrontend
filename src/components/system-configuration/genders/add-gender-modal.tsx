@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -7,10 +8,10 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import InputField from '@/components/ui/input-field';
-import usePostGenderProgram from "@/hooks/system-configuration/gender-programs/commands/usePostGenderProgram";
+import { usePostGender } from '@/hooks';
 import { Plus } from 'lucide-react';
 
-export default function AddGenderProgramModal() {
+export default function AddGenderModal() {
   const {
     register,
     onSubmit,
@@ -19,7 +20,7 @@ export default function AddGenderProgramModal() {
     isAddModalOpen,
     setIsAddModalOpen,
     errors,
-  } = usePostGenderProgram();
+  } = usePostGender();
 
   return (
     <>
@@ -34,13 +35,18 @@ export default function AddGenderProgramModal() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-4 py-4">
               <InputField
-                id="name"
+                id="Name"
                 label="Nombre"
                 type="text"
                 register={register}
                 errors={errors}
               />
-
+              {errors.root && (
+                <p className="text-red-500 text-xs mt-2">
+                  {' '}
+                  {errors.root.message}{' '}
+                </p>
+              )}
             </div>
             <DialogFooter>
               <Button type="submit">Agregar Género</Button>

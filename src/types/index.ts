@@ -31,3 +31,5 @@ export * from './system-configuration/type-financial-institutions/type-financial
 export * from './system-configuration/job-positions/job-positions';
 export * from './system-configuration/financial-institutions/financial-institutions';
 export * from './system-configuration/civilStatus/civilState';
+
+//export * from './system-configuration/Gender/gender';

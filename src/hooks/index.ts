@@ -71,3 +71,18 @@ export { default as useGetJobPositionById } from './system-configuration/job-pos
 export { default as usePostJobPosition } from './system-configuration/job-positions/commands/usePostJobPosition';
 export { default as usePatchJobPosition } from './system-configuration/job-positions/commands/usePatchJobPosition';
 export { default as useDeleteJobPosition } from './system-configuration/job-positions/commands/useDeleteJobPosition';
+
+export {default as useGetAllCivilStatus} from './system-configuration/civilStatus/queries/useGetAllCivilState';
+export {default as useGetCivilStatusById} from './system-configuration/civilStatus/queries/useGetByIdCivilState';
+export {default as useDeleteCivilStatus} from './system-configuration/civilStatus/commands/useDeleteCivilState';
+export {default as usePostCivilStatus} from './system-configuration/civilStatus/commands/usePostCivilState';
+export {default as usePatchCivilStatus} from './system-configuration/civilStatus/commands/usePatchCivilState';
+
+export { default as useGetAllGenders } from './system-configuration/genders/queries/useGetAllGenders';
+export { default as useGetGenderById } from './system-configuration/genders/queries/useGetGenderById';
+export {default as usePostGender } from './system-configuration/genders/commands/usePostGender';
+export {default as usePatchGender } from './system-configuration/genders/commands/usePatchGender';
+export {default as useDeleteGender } from './system-configuration/genders/commands/useDeleteGender';
+
+
+

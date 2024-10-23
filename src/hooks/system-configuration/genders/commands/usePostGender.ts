@@ -1,17 +1,16 @@
 import { GenderSchema } from '@/schemas/system-configuration/GenderSchema';
-import { postGenderProgram } from '@/services/system-configuration/gender-programs/commands/actions';
-import { GenderProgram } from '@/types/system-configuration/Gender-programs/gender-programs';
+import { postGender } from '@/services';
+import { Gender } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { notify } from '@/utils/notification';
 import { z } from 'zod';
 import { useCustomMutation } from '@/utils/mutations';
-import usePostGenderProgram from '../../gender-programs/commands/usePostGenderProgram';
 
 type FormsFields = z.infer<typeof GenderSchema>;
 
-const usepostGenderProgram = () => {
+const usePostGender = () => {
   const {
     register,
     handleSubmit,
@@ -26,7 +25,7 @@ const usepostGenderProgram = () => {
     setIsAddModalOpen(true);
   };
 
-  const mutation = useCustomMutation(postGenderProgram, 'getAllDepartments');
+  const mutation = useCustomMutation(postGender, 'getAllGender');
 
   const onSubmit: SubmitHandler<FormsFields> = async (data) => {
     try {
@@ -59,11 +58,11 @@ const usepostGenderProgram = () => {
   };
 };
 
-export default usePostGenderProgram;
+export default usePostGender;
 
-export const convertGenderTypes = (gender: any): GenderProgram => {
+export const convertGenderTypes = (gender: any): Gender => {
   return {
     id: gender.id,
-    name: gender.name
+    Name: gender.Name
   };
 };

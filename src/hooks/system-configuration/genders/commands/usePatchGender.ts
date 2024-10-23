@@ -1,5 +1,5 @@
-import { patchGenderProgram } from '@/services/system-configuration/gender-programs/commands/actions';
-import { PatchGenderProgram } from '@/types/system-configuration/Gender-programs/gender-programs';
+import { patchGender } from '@/services';
+import { PatchGender } from '@/types/system-configuration/Gender/gender';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -14,7 +14,7 @@ interface Props {
   genderId: number;
 }
 
-const usePatchGenderProgram = ({ setIsOpen, genderId }: Props) => {
+const usePatchGender = ({ setIsOpen, genderId }: Props) => {
   const {
     register,
     handleSubmit,
@@ -25,11 +25,11 @@ const usePatchGenderProgram = ({ setIsOpen, genderId }: Props) => {
   });
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async (data: PatchGenderProgram) =>
-      await patchGenderProgram({ genderProgramId: genderId, gender: data }),
+    mutationFn: async (data: PatchGender) =>
+      await patchGender({ GenderId: genderId, Gender: data }),
     mutationKey: ['patchGender'],
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getAllgenders'] });
+      queryClient.invalidateQueries({ queryKey: ['getAllGender'] });
     },
   });
 
@@ -57,11 +57,11 @@ const usePatchGenderProgram = ({ setIsOpen, genderId }: Props) => {
   };
 };
 
-export default usePatchGenderProgram;
+export default usePatchGender;
 
-export const convertGenderTypes = (gender: any): PatchGenderProgram => {
+export const convertGenderTypes = (gender: any): PatchGender => {
   return {
     id: gender.id,
-    name: gender.name,
+    Name: gender.Name,
   };
 };

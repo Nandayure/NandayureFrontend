@@ -1,14 +1,14 @@
-import { getAllGenderPrograms } from '@/services/system-configuration/gender-programs/queries/actions';
+import { getAllGender } from '@/services';
 import { useQuery } from '@tanstack/react-query';
 
-const useGetAllDepartments = () => {
+const useGetAllGenders = () => {
   const {
     data: genders,
     isLoading,
     isError,
   } = useQuery({
-    queryFn: async () => await getAllGenderPrograms(),
-    queryKey: ['getAllGenderPrograms'],
+    queryFn: async () => await getAllGender(),
+    queryKey: ['getAllGender'],
   });
 
   return {
@@ -17,4 +17,4 @@ const useGetAllDepartments = () => {
     isError,
   };
 };
-export default getAllGenderPrograms;
+export default useGetAllGenders;

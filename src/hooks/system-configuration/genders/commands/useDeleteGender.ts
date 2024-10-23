@@ -1,4 +1,4 @@
-import { deleteGenderProgram } from '@/services/system-configuration/gender-programs/commands/actions';
+import { deleteGender } from '@/services';
 import { notify } from '@/utils/notification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -21,10 +21,10 @@ const useDeleteGender = ({ genderId}: Props) => {
   };
 
   const mutation = useMutation({
-    mutationFn: async () => await deleteGenderProgram(genderId),
+    mutationFn: async () => await deleteGender(genderId),
     mutationKey: ['deleteGender'],
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getAllGenders'] });
+      queryClient.invalidateQueries({ queryKey: ['getAllGender'] });
     },
   });
 

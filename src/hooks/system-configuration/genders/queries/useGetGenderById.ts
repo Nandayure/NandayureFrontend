@@ -1,4 +1,4 @@
-import { getGenderById } from '@/services/system-configuration/gender-programs/queries/actions';
+import { getGenderById } from '@/services';
 import { useQuery } from '@tanstack/react-query';
 
 const useGetGenderById = (id: number) => {

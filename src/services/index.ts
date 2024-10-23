@@ -44,3 +44,9 @@ export * from './system-configuration/financial-institutions/commands/actions';
 
 export * from './system-configuration/civilStatus/queries/actions';
 export * from './system-configuration/civilStatus/Commands/actions';
+
+export * from './system-configuration/genders/commands/actions';
+export * from './system-configuration/genders/queries/actions';
+
+
+

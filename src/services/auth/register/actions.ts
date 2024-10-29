@@ -1,20 +1,4 @@
-import { Employee, Gender, JobPosition, MaritalStatus } from '@/types';
-
-export async function getGenders() {
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-    },
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/genders`,
-    options,
-  );
-  const data = (await res.json()) as Gender[];
-  return data;
-}
+import { Employee, MaritalStatus } from '@/types';
 
 export async function getMaritalStatus() {
   const options = {

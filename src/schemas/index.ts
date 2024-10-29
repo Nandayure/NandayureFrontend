@@ -17,3 +17,4 @@ export * from './system-configuration/TypeFinancialInstitutionsSchema';
 export * from './system-configuration/JobPositionSchema';
 export * from './system-configuration/FinancialInstitutionsSchema';
 export * from './system-configuration/CivilStatusSchema';
+export * from './system-configuration/GenderSchema';

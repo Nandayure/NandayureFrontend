@@ -3,7 +3,6 @@ export { default as useForgotPassword } from './auth/forgot-password/usePostSend
 export { default as useLogin } from './auth/login/usePostLogin';
 export { default as useRegister } from './auth/register/usePostEmployee';
 export { default as usePostResetPassword } from './auth/reset-password/usePostResetPasssword';
-export { default as useGetGenders } from './auth/register/useGetGenders';
 export { default as useGetMaritalStatus } from './auth/register/useGetMaritalStatus';
 export { default as usePostEmployee } from './auth/register/usePostEmployee';
 
@@ -83,3 +82,9 @@ export {default as useGetCivilStatusById} from './system-configuration/civilStat
 export {default as useDeleteCivilStatus} from './system-configuration/civilStatus/commands/useDeleteCivilState'
 export {default as usePostCivilStatus} from './system-configuration/civilStatus/commands/usePostCivilState'
 export {default as usePatchCivilStatus} from './system-configuration/civilStatus/commands/usePatchCivilState'
+
+
+export { default as useGetAllGender } from './system-configuration/gender/queries/useGetAllGender';
+export { default as usePostGender } from './system-configuration/gender/commads/usePostGender';
+export { default as usePatchGender } from './system-configuration/gender/commads/usePatchGender';
+export { default as useDeleteGender } from './system-configuration/gender/commads/useDeleteGender';

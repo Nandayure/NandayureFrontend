@@ -41,3 +41,10 @@ export { default as useGetDepartmentProgramById } from './system-configuration/d
 export { default as usePostDepartmentProgram } from './system-configuration/department-programs/commands/usePostDepartmentProgram';
 export { default as usePatchDepartamentProgram } from './system-configuration/department-programs/commands/usePatchDepartmentProgram';
 export { default as useDeleteDepartmentProgram } from './system-configuration/department-programs/commands/useDeleteDepartmentProgram';
+
+export {default as useDeleteAnnuity} from './system-configuration/annuities/commands/useDeleteAnnuity';
+export {default as usePatchAnnuity} from './system-configuration/annuities/commands/usePatchAnnuity';
+export {default as usePostAnnuity} from './system-configuration/annuities/commands/usePostAnnuity';
+export {default as useGetAllAnnuities} from './system-configuration/annuities/queries/useGetAllAnnuities';
+export {default as useGetAnnuity} from './system-configuration/annuities/queries/useGetAnnuityById';
+export {default as useGetEmployees} from './system-configuration/annuities/queries/useGetEmployees';

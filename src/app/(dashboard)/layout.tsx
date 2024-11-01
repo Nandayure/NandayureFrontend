@@ -16,7 +16,7 @@ export default function DasboardLayout({
   return (
     <main className="min-h-screen flex">
       <SidebarDashboard />
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-2">
         <Nav />
         <Flag />
         {children}

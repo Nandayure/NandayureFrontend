@@ -15,43 +15,38 @@ import { useGetAllGender } from '@/hooks';
 export default function GendersTable() {
   const { genders, isLoading } = useGetAllGender();
   return (
-    <div className="container mx-auto p-4 border rounded shadow">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Género</TableHead>
-            <TableHead>Acciones</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {isLoading
-            ? Array.from({ length: 3 }).map((_, index) => (
-                <TableRow key={index}>
-                  {Array.from({ length: 3 }).map((_, idx) => (
-                    <TableCell key={idx}>
-                      <SkeletonLoader className="h-4 w-full" />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            : genders?.map((gender) => (
-                <TableRow key={gender.id}>
-                  <TableCell>{gender.id}</TableCell>
-                  <TableCell>{gender.Name}</TableCell>  
-                  <TableCell>
-                    <div className='flex'>
-                    <EditGenderModal
-                        gender={gender}
-                        genderId={gender.id}
-                      />
-                      <DeleteGenderProgramModal id={gender.id} />
-                      </div> 
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>ID</TableHead>
+          <TableHead>Género</TableHead>
+          <TableHead>Acciones</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {isLoading
+          ? Array.from({ length: 3 }).map((_, index) => (
+              <TableRow key={index}>
+                {Array.from({ length: 3 }).map((_, idx) => (
+                  <TableCell key={idx}>
+                    <SkeletonLoader className="h-4 w-full" />
                   </TableCell>
-                </TableRow>
-              ))}
-        </TableBody>
-      </Table>
-    </div>
+                ))}
+              </TableRow>
+            ))
+          : genders?.map((gender) => (
+              <TableRow key={gender.id}>
+                <TableCell>{gender.id}</TableCell>
+                <TableCell>{gender.Name}</TableCell>
+                <TableCell>
+                  <div className="flex">
+                    <EditGenderModal gender={gender} genderId={gender.id} />
+                    <DeleteGenderProgramModal id={gender.id} />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+      </TableBody>
+    </Table>
   );
 }

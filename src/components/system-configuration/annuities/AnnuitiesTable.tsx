@@ -27,7 +27,6 @@ export default function AnnuitiesTable() {
   }
 
   return (
-    <div className="container mx-auto p-4 border rounded shadow">
       <Table>
         <TableHeader>
           <TableRow>
@@ -68,6 +67,5 @@ export default function AnnuitiesTable() {
           ))}
         </TableBody>
       </Table>
-    </div>
   );
 }

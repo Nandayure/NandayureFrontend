@@ -69,7 +69,6 @@ export default function PDFUploader() {
   return (
     <>
       <Card className="w-full max-w-md mx-auto">
-        <h1 className="text-red-500">Falta por completar</h1>
         <CardContent className="p-6">
           <div
             {...getRootProps()}

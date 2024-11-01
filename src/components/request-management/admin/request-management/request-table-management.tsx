@@ -1,6 +1,5 @@
 'use client';
 import { useGetAllRequest } from '@/hooks';
-import { RequestDetails } from '@/types';
 import { useState, useMemo } from 'react';
 import RequestTable from './request-table';
 import RequestModal from './request-modal';
@@ -8,6 +7,7 @@ import { useDebounce } from '@/hooks/common/useDebounce';
 import SearchBar from './search-bar/search-bar';
 import TypeSelector from './type-selector/type-selector';
 import { XCircle } from 'lucide-react';
+import { RequestDetails } from '@/types/request-management/commonTypes';
 
 export default function RequestTableManagement() {
   const [selectedRequest, setSelectedRequest] = useState<RequestDetails | null>(null);

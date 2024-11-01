@@ -15,7 +15,6 @@ import DeleteBudgetCodeModal from './delete-budget-codes-modal';
 export default function BudgetCodesTable() {
   const { budgetCodes, isLoading } = useGetAllBudgetCodes();
   return (
-    <div className="container mx-auto p-4 border rounded shadow">
       <Table>
         <TableHeader>
           <TableRow>
@@ -55,6 +54,5 @@ export default function BudgetCodesTable() {
               ))}
         </TableBody>
       </Table>
-    </div>
   );
 }

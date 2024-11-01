@@ -19,47 +19,45 @@ export default function EmployeeTable() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Lista de Empleados</h1>
-      <div className="container mx-auto p-4 border rounded shadow">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Nombre</TableHead>
-              <TableHead>Apellidos</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Posición</TableHead>
-              <TableHead>Acción</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {employees?.map((employee) => {
-              // Encuentra el puesto de trabajo correspondiente
-              const jobPosition = jobPositions?.find(
-                (position) => position.id === employee.JobPositionId,
-              );
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>ID</TableHead>
+            <TableHead>Nombre</TableHead>
+            <TableHead>Apellidos</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Posición</TableHead>
+            <TableHead>Acción</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {employees?.map((employee) => {
+            // Encuentra el puesto de trabajo correspondiente
+            const jobPosition = jobPositions?.find(
+              (position) => position.id === employee.JobPositionId,
+            );
 
-              return (
-                <TableRow key={employee.id}>
-                  <TableCell>{employee.id}</TableCell>
-                  <TableCell>{employee.Name}</TableCell>
-                  <TableCell>{`${employee.Surname1} ${employee.Surname2}`}</TableCell>
-                  <TableCell>{employee.Email}</TableCell>
-                  <TableCell>{jobPosition?.Name || 'N/A'}</TableCell>
-                  <TableCell>
-                    <Button variant="link">
-                      <Link
-                        href={`/document-management/digital-files/${employee.id}`}
-                      >
-                        Ver detalles
-                      </Link>
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </div>
+            return (
+              <TableRow key={employee.id}>
+                <TableCell>{employee.id}</TableCell>
+                <TableCell>{employee.Name}</TableCell>
+                <TableCell>{`${employee.Surname1} ${employee.Surname2}`}</TableCell>
+                <TableCell>{employee.Email}</TableCell>
+                <TableCell>{jobPosition?.Name || 'N/A'}</TableCell>
+                <TableCell>
+                  <Button variant="link">
+                    <Link
+                      href={`/document-management/digital-files/${employee.id}`}
+                    >
+                      Ver detalles
+                    </Link>
+                  </Button>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
     </div>
   );
 }

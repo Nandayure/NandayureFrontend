@@ -14,50 +14,48 @@ import EditFinancialInstitutionsModal from './edit-financial-institutions-modal'
 export default function FinancialInstitutionsTable() {
   const { financialInstitutions, isLoading } = useGetAllFinancialInstitutions();
   return (
-    <div className="container mx-auto p-4 border rounded shadow">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>ID</TableHead>
-            <TableHead>Nombre</TableHead>
-            <TableHead>Descripción</TableHead>
-            <TableHead>Porcentaje de deducción</TableHead>
-            <TableHead>Acciones</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {isLoading
-            ? Array.from({ length: 3 }).map((_, index) => (
-                <TableRow key={index}>
-                  {Array.from({ length: 5 }).map((_, idx) => (
-                    <TableCell key={idx}>
-                      <Skeleton className="h-4 w-full" />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            : financialInstitutions?.map((financialInstitutions) => (
-                <TableRow key={financialInstitutions.id}>
-                  <TableCell>{financialInstitutions.id}</TableCell>
-                  <TableCell>{financialInstitutions.name}</TableCell>
-                  <TableCell>{financialInstitutions.description}</TableCell>
-                  <TableCell>
-                    {financialInstitutions.deductionPercentage}
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>ID</TableHead>
+          <TableHead>Nombre</TableHead>
+          <TableHead>Descripción</TableHead>
+          <TableHead>Porcentaje de deducción</TableHead>
+          <TableHead>Acciones</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {isLoading
+          ? Array.from({ length: 3 }).map((_, index) => (
+              <TableRow key={index}>
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <TableCell key={idx}>
+                    <Skeleton className="h-4 w-full" />
                   </TableCell>
-                  <TableCell>
-                    <div className="flex">
-                      <EditFinancialInstitutionsModal
-                        financialInstitution={financialInstitutions}
-                      />
-                      <DeleteFinancialInstitutionsModal
-                        id={financialInstitutions.id}
-                      />
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-        </TableBody>
-      </Table>
-    </div>
+                ))}
+              </TableRow>
+            ))
+          : financialInstitutions?.map((financialInstitutions) => (
+              <TableRow key={financialInstitutions.id}>
+                <TableCell>{financialInstitutions.id}</TableCell>
+                <TableCell>{financialInstitutions.name}</TableCell>
+                <TableCell>{financialInstitutions.description}</TableCell>
+                <TableCell>
+                  {financialInstitutions.deductionPercentage}
+                </TableCell>
+                <TableCell>
+                  <div className="flex">
+                    <EditFinancialInstitutionsModal
+                      financialInstitution={financialInstitutions}
+                    />
+                    <DeleteFinancialInstitutionsModal
+                      id={financialInstitutions.id}
+                    />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+      </TableBody>
+    </Table>
   );
 }

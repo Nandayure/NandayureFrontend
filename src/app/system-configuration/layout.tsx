@@ -15,7 +15,7 @@ export default function SystemConfigurationLayout({
   return (
     <main className="min-h-screen flex">
       <SideBarSystemConfiguration />
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-2">
         <Nav />
         {children}
       </div>

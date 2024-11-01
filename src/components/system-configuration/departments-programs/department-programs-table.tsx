@@ -40,12 +40,10 @@ export default function DepartmentProgramsTable() {
                   <TableCell>{departmentProgram.id}</TableCell>
                   <TableCell>{departmentProgram.name}</TableCell>
                   <TableCell>
-                    <div className="flex">
-                      <EditDepartmentProgramModal
-                        departmentProgram={departmentProgram}
-                      />
-                      <DeleteDepartmentProgramModal id={departmentProgram.id} />
-                    </div>
+                    <EditDepartmentProgramModal
+                      departmentProgram={departmentProgram}
+                    />
+                    <DeleteDepartmentProgramModal id={departmentProgram.id} />
                   </TableCell>
                 </TableRow>
               ))}

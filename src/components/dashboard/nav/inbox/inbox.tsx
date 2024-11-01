@@ -162,9 +162,9 @@ export default function InboxComponent() {
                   </p>
                   <p className="text-sm">
                     <span className="font-medium">Nombre del empleado:</span>{' '}
-                    {selectedRequest?.Request.Name}{' '}
-                    {selectedRequest?.Request.Surname1}{' '}
-                    {selectedRequest?.Request.Surname2}
+                    {selectedRequest?.Request.Employee.Name}{' '}
+                    {selectedRequest?.Request.Employee.Surname1}{' '}
+                    {selectedRequest?.Request.Employee.Surname2}
                   </p>
                 </div>
               </div>

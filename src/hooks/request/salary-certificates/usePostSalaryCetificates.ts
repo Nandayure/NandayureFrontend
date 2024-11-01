@@ -33,7 +33,9 @@ const usePostSalaryCetificates = () => {
             try {
               await mutation.mutateAsync(data);
               resolve('Solicitud enviada');
-              router.push('/');
+              setTimeout(() => {
+                router.push('/');
+              }, 1000);
             } catch (error) {
               reject('Error al enviar solicitud');
             }
@@ -44,7 +46,7 @@ const usePostSalaryCetificates = () => {
           success: 'Solicitud enviada',
           error: 'Error al enviar solicitud',
         },
-        { duration: 2500 },
+        { duration: 4500 },
       );
     } catch (error: any) {
       console.error(error);

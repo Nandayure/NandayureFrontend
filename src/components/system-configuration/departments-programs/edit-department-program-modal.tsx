@@ -17,7 +17,9 @@ interface Props {
   departmentProgram: DepartmentProgram;
 }
 
-export default function EditDepartmentProgramModal({ departmentProgram }: Props) {
+export default function EditDepartmentProgramModal({
+  departmentProgram,
+}: Props) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { register, errors, handleSubmit, onSubmit, mutation } =
     usePatchDepartamentProgram({
@@ -42,18 +44,18 @@ export default function EditDepartmentProgramModal({ departmentProgram }: Props)
                   Nombre
                 </Label>
                 <div className="col-span-3 flex flex-col">
-                <Input
-                  id="name"
-                  defaultValue={departmentProgram.name}
-                  className="col-span-3"
-                  type="text"
-                  {...register('name')}
-                />
-                {errors?.name && (
-                  <span id="name-error" className="text-red-500 text-sm mt-2">
-                    {errors.name.message}
-                  </span>
-                )}
+                  <Input
+                    id="name"
+                    defaultValue={departmentProgram.name}
+                    className="col-span-3"
+                    type="text"
+                    {...register('name')}
+                  />
+                  {errors?.name && (
+                    <span id="name-error" className="text-red-500 text-sm mt-2">
+                      {errors.name.message}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

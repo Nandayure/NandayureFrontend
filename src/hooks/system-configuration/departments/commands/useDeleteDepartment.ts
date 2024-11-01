@@ -1,5 +1,5 @@
 import { deleteDepartment } from '@/services';
-import { notify, showError } from '@/utils/notification';
+import { notify } from '@/utils/notification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
@@ -7,18 +7,10 @@ interface Props {
   departmentId: number;
 }
 
-const useDeleteDepartment = ({ departmentId }: Props) => {
+export default function useDeleteDepartment({ departmentId }: Props) {
   const queryClient = useQueryClient();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-  const confirmDelete = () => {
-    notify(mutation.mutateAsync(), {
-      loading: 'Eliminando departamento...',
-      success: 'Departamento eliminado',
-      error: 'Error al eliminar departamento',
-    });
-    setIsDeleteModalOpen(false);
-  };
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const mutation = useMutation({
     mutationFn: async () => await deleteDepartment(departmentId),
@@ -26,13 +18,31 @@ const useDeleteDepartment = ({ departmentId }: Props) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getAllDepartments'] });
     },
-    onError: () => {
-      showError('Error al eliminar departamento');
+    onError: (error: Error) => {
+      setErrorMessage(error.message || 'Ha ocurrido un error al eliminar el departamento');
     },
   });
 
+  const confirmDelete = async () => {
+    try {
+      await notify(mutation.mutateAsync(), {
+        loading: 'Eliminando departamento...',
+        success: 'Departamento eliminado',
+        error: 'Error al eliminar departamento',
+      });
+      setIsDeleteModalOpen(false);
+    } catch (error) {
+      // El error ya se maneja en onError de la mutación
+      setIsDeleteModalOpen(false);
+    }
+  };
+
   const handleDelete = () => {
     setIsDeleteModalOpen(true);
+  };
+
+  const closeErrorModal = () => {
+    setErrorMessage(null);
   };
 
   return {
@@ -41,7 +51,7 @@ const useDeleteDepartment = ({ departmentId }: Props) => {
     isDeleteModalOpen,
     setIsDeleteModalOpen,
     confirmDelete,
+    errorMessage,
+    closeErrorModal,
   };
-};
-
-export default useDeleteDepartment;
+}

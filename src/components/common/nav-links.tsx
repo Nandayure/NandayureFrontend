@@ -1,4 +1,3 @@
-
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -31,6 +30,7 @@ export function NavLinks({ isOpen, navLinks }: Props) {
     <div className="flex flex-col space-y-2">
       {Object.keys(navLinks).map((key) => {
         const link = navLinks[key];
+        const isActive = pathname === link.href;
 
         if (link.subLinks) {
           return (
@@ -40,15 +40,17 @@ export function NavLinks({ isOpen, navLinks }: Props) {
                 className="flex items-center justify-between w-full"
                 onClick={() => setOpenSubMenu(openSubMenu === key ? null : key)}
               >
-                <link.icon className="mr-2 h-5 w-5" />
+                <link.icon className={clsx("mr-2 h-5 w-5", isActive ? 'text-dodger-blue-700' : 'text-gray-700')} />
                 {isOpen && (
-                  <span className="flex-grow text-left">{link.label}</span>
+                  <span className={clsx("flex-grow text-left text-md", isActive ? 'text-dodger-blue-700' : 'text-gray-700')}>
+                    {link.label}
+                  </span>
                 )}
                 {isOpen &&
                   (openSubMenu === key ? (
-                    <ChevronDown className="ml-2 h-4 w-4" />
+                    <ChevronDown className="ml-2 h-4 w-4 text-gray-700" />
                   ) : (
-                    <ChevronRight className="ml-2 h-4 w-4" />
+                    <ChevronRight className="ml-2 h-4 w-4 text-gray-700" />
                   ))}
               </Button>
               {isOpen && openSubMenu === key && (
@@ -56,6 +58,8 @@ export function NavLinks({ isOpen, navLinks }: Props) {
                   {link.subLinks &&
                     Object.keys(link.subLinks).map((subKey) => {
                       const subLink = link.subLinks?.[subKey];
+                      const isSubLinkActive = pathname === subLink?.href;
+
                       return (
                         subLink && (
                           <Button
@@ -68,10 +72,8 @@ export function NavLinks({ isOpen, navLinks }: Props) {
                             <Link href={subLink.href}>
                               <span
                                 className={clsx(
-                                  'text-left',
-                                  pathname === subLink.href
-                                    ? 'text-blue-600'
-                                    : 'text-gray-700',
+                                  'text-left text-md',
+                                  isSubLinkActive ? 'text-dodger-blue-700 font-semibold' : 'text-gray-700',
                                 )}
                               >
                                 {subLink.label}
@@ -95,12 +97,12 @@ export function NavLinks({ isOpen, navLinks }: Props) {
             asChild
           >
             <Link href={link.href}>
-              <link.icon className="mr-2 h-5 w-5" />
+              <link.icon className={clsx("mr-2 h-5 w-5", isActive ? 'text-dodger-blue-700' : 'text-gray-700')} />
               {isOpen && (
                 <span
                   className={clsx(
-                    'text-left',
-                    pathname === link.href ? 'text-blue-600' : 'text-gray-700',
+                    'text-left text-md',
+                    isActive ? 'text-dodger-blue-700 font-semibold' : 'text-gray-700',
                   )}
                 >
                   {link.label}

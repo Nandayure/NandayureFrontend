@@ -18,3 +18,4 @@ export * from './system-configuration/JobPositionSchema';
 export * from './system-configuration/FinancialInstitutionsSchema';
 export * from './system-configuration/CivilStatusSchema';
 export * from './system-configuration/GenderSchema';
+export * from './system-configuration/AnnuitiesSchemas';

@@ -88,3 +88,10 @@ export { default as useGetAllGender } from './system-configuration/gender/querie
 export { default as usePostGender } from './system-configuration/gender/commads/usePostGender';
 export { default as usePatchGender } from './system-configuration/gender/commads/usePatchGender';
 export { default as useDeleteGender } from './system-configuration/gender/commads/useDeleteGender';
+
+export {default as useDeleteAnnuity} from './system-configuration/annuities/commands/useDeleteAnnuity';
+export {default as usePatchAnnuity} from './system-configuration/annuities/commands/usePatchAnnuity';
+export {default as usePostAnnuity} from './system-configuration/annuities/commands/usePostAnnuity';
+export {default as useGetAllAnnuities} from './system-configuration/annuities/queries/useGetAllAnnuities';
+export {default as useGetAnnuity} from './system-configuration/annuities/queries/useGetAnnuityById';
+export {default as useGetEmployees} from './system-configuration/annuities/queries/useGetEmployees';

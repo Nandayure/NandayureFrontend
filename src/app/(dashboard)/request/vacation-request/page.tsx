@@ -1,8 +1,12 @@
 'use client';
-import { AvailableVacationDays } from '@/components/request/request-vacation/AvailableVacationDays';
-import RequestVacationForm from '@/components/request/request-vacation/request-vacation-form';
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetByIdEmployee, useGetEmployeeId } from '@/hooks';
+
+// Ajuste en la importación dinámica para definir el tipo de props esperado por AvailableVacationDays
+const AvailableVacationDays = dynamic<{ days: number }>(() => import('@/components/request/request-vacation/AvailableVacationDays').then(mod => mod.AvailableVacationDays), { suspense: true });
+const RequestVacationForm = dynamic(() => import('@/components/request/request-vacation/request-vacation-form'), { suspense: true });
 
 const VacationRequestPage = () => {
   const { employeeId } = useGetEmployeeId();
@@ -10,27 +14,27 @@ const VacationRequestPage = () => {
     employeeById: employeeData,
     isError,
     isLoading,
-  } = useGetByIdEmployee({
-    employeeId,
-  });
+  } = useGetByIdEmployee({ employeeId });
 
   return (
     <div className="min-h-screen p-6">
       <div className="max-w-3xl mx-auto overflow-hidden">
-        {isLoading ? (
-          <Skeleton className="w-full h-[100px]" />
-        ) : isError ? (
-          <div className="text-red-500">
-            Error al cargar los datos del empleado
-          </div>
-        ) : (
-          <AvailableVacationDays
-            days={employeeData?.AvailableVacationDays || 0}
-          />
-        )}
+        <Suspense fallback={<Skeleton className="w-full h-[100px]" />}>
+          {isLoading ? (
+            <Skeleton className="w-full h-[100px]" />
+          ) : isError ? (
+            <div className="text-red-500">
+              Error al cargar los datos del empleado
+            </div>
+          ) : (
+            <AvailableVacationDays days={employeeData?.AvailableVacationDays || 0} />
+          )}
+        </Suspense>
       </div>
       <div className="max-w-3xl mx-auto bg-white border shadow-md rounded-lg overflow-hidden p-6">
-        <RequestVacationForm />
+        <Suspense fallback={<Skeleton className="w-full h-[300px]" />}>
+          <RequestVacationForm />
+        </Suspense>
       </div>
     </div>
   );

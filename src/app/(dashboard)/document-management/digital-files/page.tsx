@@ -1,7 +1,9 @@
-import MaintenancePage from "@/components/ui/maintenance-page";
+import PDFUploader from '@/components/common/pdf-uploader';
+import EmployeeTable from '@/components/document-management/digital-files/employee-table';
+import MaintenancePage from '@/components/ui/maintenance-page';
 
 const DocumentManagementDigitalFilesPage = () => {
-  return <MaintenancePage title="Expedientes digitales" />;
+  return <EmployeeTable />;
 };
 
 export default DocumentManagementDigitalFilesPage;

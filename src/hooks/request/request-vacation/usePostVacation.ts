@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -12,6 +11,7 @@ const usePostVacation = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
     setError,
   } = useForm<RequestVacation>();
   const { token } = useGetToken();
@@ -25,6 +25,7 @@ const usePostVacation = () => {
       queryClient.invalidateQueries({
         queryKey: ['getCurrentToApprove'],
       });
+      toast.success('Solicitud enviada');
     },
     onError: (error: any) => {
       console.error('Error al enviar la solicitud', error);
@@ -38,19 +39,14 @@ const usePostVacation = () => {
 
   const onSubmit = handleSubmit(async (data: RequestVacation) => {
     try {
-      const formData: RequestVacation = {
-        ...data,
-        daysRequested: Number(data.daysRequested),
-      };
       await toast.promise(
-        mutation.mutateAsync(formData),
+        mutation.mutateAsync(data),
         {
           loading: 'Enviando solicitud...',
           success: 'Solicitud enviada',
           error: 'Error al enviar solicitud',
         },
-
-        { duration: 4500 },
+        { duration: 4500 }
       );
       setTimeout(() => {
         router.push('/');
@@ -63,6 +59,7 @@ const usePostVacation = () => {
   return {
     onSubmit,
     register,
+    setValue,
     mutation,
     errors,
   };

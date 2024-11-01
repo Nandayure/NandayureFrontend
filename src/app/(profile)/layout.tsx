@@ -1,3 +1,4 @@
+import Flag from '@/components/common/Flag';
 import Nav from '@/components/dashboard/nav/nav';
 import { SideBarProfile } from '@/components/profile/side-bar/side-bar';
 import { Metadata } from 'next';
@@ -17,6 +18,7 @@ export default function ProfileLayout({
       <SideBarProfile />
       <div className="flex-1 p-4">
         <Nav />
+        <Flag />
         {children}
       </div>
     </main>

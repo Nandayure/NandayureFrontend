@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { FileIcon, FolderIcon, ExternalLinkIcon, SearchIcon } from "lucide-react"
+import Image from 'next/image'
 
 type FileObject = {
   thumbnailLink?: string
@@ -116,9 +117,11 @@ export default function PdfGrid() {
                 </span>
               </div>
               {file.thumbnailLink && (
-                <img
+                <Image
                   src={file.thumbnailLink}
                   alt={`Miniatura de ${file.name}`}
+                  width={220}
+                  height={110}
                   className="w-full h-32 object-cover rounded-md mb-2"
                 />
               )}

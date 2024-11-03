@@ -10,6 +10,7 @@ import { formatDate } from '@/lib/utils';
 import { Clock, CheckCircle2, XCircle } from 'lucide-react';
 import { getRequestState, getRequestType } from '../../request-helpers';
 import { RequestDetails } from '@/types/request-management/commonTypes';
+import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal, AwaitedReactNode } from 'react';
 
 const RequestModal = ({
   request,
@@ -69,8 +70,8 @@ const RequestModal = ({
           <div className="space-y-2">
             <h3 className="text-lg font-semibold">Proceso de Aprobación</h3>
             {request.RequestApprovals.sort(
-              (a, b) => a.processNumber - b.processNumber,
-            ).map((approval) => (
+              (a: { processNumber: number; }, b: { processNumber: number; }) => a.processNumber - b.processNumber,
+            ).map((approval: { id: Key | null | undefined; processNumber: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; approved: boolean | null; approverId: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; Name: any; Surname1: any; Surname2: any; ApprovedDate: string; observation: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; }) => (
               <Card key={approval.id} className="p-4">
                 <div className="flex items-center justify-between">
                   <span className="font-semibold">

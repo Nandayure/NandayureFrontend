@@ -7,9 +7,9 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { formatDate } from '@/lib/utils';
-import { RequestDetails } from '@/types';
 import { Clock, CheckCircle2, XCircle } from 'lucide-react';
 import { getRequestState, getRequestType } from '../../request-helpers';
+import { RequestDetails } from '@/types/request-management/commonTypes';
 
 const RequestModal = ({
   request,

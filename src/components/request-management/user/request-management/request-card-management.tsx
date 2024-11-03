@@ -1,11 +1,11 @@
 'use client';
 
 import { useGetAllRequestById } from '@/hooks';
-import { RequestDetails } from '@/types';
 import { useState } from 'react';
 import RequestCard from './request-card';
 import RequestModal from './request-modal';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
+import { RequestDetails } from '@/types/request-management/commonTypes';
 
 export default function RequestCardManagement() {
   const [selectedRequest, setSelectedRequest] = useState<RequestDetails | null>(

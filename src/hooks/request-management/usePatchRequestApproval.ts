@@ -7,7 +7,6 @@ import useGetToken from '../common/useGetToken';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 
-
 const usePatchRequestApproval = () => {
   const {
     register,
@@ -25,7 +24,12 @@ const usePatchRequestApproval = () => {
       await patchRequestApproval(selectedRequest!.id, data, token);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getCurrentToApprove'] });
+      queryClient.invalidateQueries({
+        queryKey: ['getCurrentToApprove'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['getAllRequests'],
+      });
     },
   });
 

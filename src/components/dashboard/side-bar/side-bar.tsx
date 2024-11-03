@@ -37,7 +37,7 @@ const navLinksRH: Record<string, NavLink> = {
     subLinks: {
       ExpedientesDigitales: {
         href: '/document-management/digital-files',
-        label: 'Expedientes digitales',
+        label: 'Documentos digitales',
       },
       Planillas: {
         href: '/document-management/payrolls',

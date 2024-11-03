@@ -1,3 +1,4 @@
+import Flag from '@/components/common/Flag';
 import Nav from '@/components/dashboard/nav/nav';
 import SidebarDashboard from '@/components/dashboard/side-bar/side-bar';
 import { Metadata } from 'next';
@@ -15,13 +16,9 @@ export default function DasboardLayout({
   return (
     <main className="min-h-screen flex">
       <SidebarDashboard />
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-2">
         <Nav />
-        <div className="flex mb-6 mt-4">
-          <div className="flex-1 h-1 bg-dodger-blue-500"></div>
-          <div className="flex-1 h-1 bg-golden-dream-500"></div>
-          <div className="flex-1 h-1 bg-apple-500"></div>
-        </div>
+        <Flag />
         {children}
       </div>
     </main>

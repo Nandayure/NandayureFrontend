@@ -1,3 +1,4 @@
+import Flag from '@/components/common/Flag';
 import Nav from '@/components/dashboard/nav/nav';
 import { SideBarProfile } from '@/components/profile/side-bar/side-bar';
 import { Metadata } from 'next';
@@ -15,8 +16,9 @@ export default function ProfileLayout({
   return (
     <main className="min-h-screen flex">
       <SideBarProfile />
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-2">
         <Nav />
+        <Flag />
         {children}
       </div>
     </main>

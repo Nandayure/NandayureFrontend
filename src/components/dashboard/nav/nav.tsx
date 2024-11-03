@@ -24,7 +24,7 @@ const Nav = () => {
   }
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between pr-4">
       <div
         className={`hidden sm:block ml-3 text-2xl antialiased font-bold ${titleFont.className}`}
       >

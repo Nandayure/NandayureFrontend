@@ -1,60 +1,106 @@
 'use client';
+
+import { useState } from 'react';
+import { addDays, format } from 'date-fns';
+import { Calendar as CalendarIcon } from 'lucide-react';
+import { DateRange } from 'react-day-picker';
+
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import InputField from '@/components/ui/input-field';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import Flag from '@/components/common/Flag';
 import Spinner from '@/components/ui/spinner';
 import { titleFont } from '@/config/fonts';
 import { usePostVacation } from '@/hooks';
-const RequestVacationForm = () => {
-  const { onSubmit, register, mutation, errors } = usePostVacation();
+
+export default function RequestVacationForm() {
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(),
+    to: addDays(new Date(), 7),
+  });
+
+  const { onSubmit: submitVacationRequest, setValue, mutation, errors } = usePostVacation();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (date?.from && date?.to) {
+      const daysRequested = Math.ceil((date.to.getTime() - date.from.getTime()) / (1000 * 3600 * 24));
+      setValue('daysRequested', daysRequested);
+      setValue('departureDate', date.from);
+      setValue('entryDate', date.to);
+      
+      submitVacationRequest(); // Ejecuta la solicitud de vacaciones
+    }
+  };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit}>
       <h5
         className={`${titleFont.className} mb-3 text-base font-semibold text-gray-900 md:text-xl`}
       >
         Solicitud de vacaciones
       </h5>
-      <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-        Por favor, introduce los datos requeridos para la solicitud.
+      <p className="mb-4 text-sm font-normal text-gray-500 dark:text-gray-400">
+        Por favor, selecciona el rango de fechas para tu solicitud de vacaciones.
       </p>
-      <div className="flex mb-6 mt-4">
-        <div className="flex-1 h-1 bg-dodger-blue-500"></div>
-        <div className="flex-1 h-1 bg-golden-dream-500"></div>
-        <div className="flex-1 h-1 bg-apple-500"></div>
+      <Flag />
+
+      <div className="grid gap-2">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              id="date"
+              variant={"outline"}
+              className={cn(
+                "w-full justify-start text-left font-normal",
+                !date && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date?.from ? (
+                date.to ? (
+                  <>
+                    {format(date.from, "LLL dd, y")} -{" "}
+                    {format(date.to, "LLL dd, y")}
+                  </>
+                ) : (
+                  format(date.from, "LLL dd, y")
+                )
+              ) : (
+                <span>Selecciona un rango de fechas</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              initialFocus
+              mode="range"
+              defaultMonth={date?.from}
+              selected={date}
+              onSelect={setDate}
+              numberOfMonths={2}
+            />
+          </PopoverContent>
+        </Popover>
       </div>
 
-      {/* Campos del formulario */}
-      <InputField
-        id="daysRequested"
-        label="Días solicitados"
-        type="number"
-        placeholder="Número de días solicitados"
-        register={register}
-      />
-      <InputField
-        id="departureDate"
-        label="Fecha de salida"
-        type="date"
-        register={register}
-      />
-      <InputField
-        id="entryDate"
-        label="Fecha de entrada"
-        type="date"
-        register={register}
-      />
       {errors.root && (
-        <div className="text-red-500 text-sm">{errors.root.message}</div>
+        <div className="mt-2 text-sm text-red-500">{errors.root.message}</div>
       )}
-      <Button
-        type="submit"
-        className="w-full mt-4"
-        disabled={mutation.isPending}
-      >
-        {mutation.isPending ? <Spinner /> : 'Enviar solicitud'}
-      </Button>
+      
+      <div className='mt-4 flex w-full justify-end'>
+        <Button
+          type="submit"
+          disabled={mutation.isPending || !date?.from || !date?.to}
+        >
+          {mutation.isPending ? <Spinner /> : 'Enviar solicitud'}
+        </Button>
+      </div>
     </form>
   );
-};
-
-export default RequestVacationForm;
+}

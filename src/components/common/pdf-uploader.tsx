@@ -1,8 +1,9 @@
+// components/common/pdf-uploader.tsx
 'use client';
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDropzone, FileRejection } from 'react-dropzone';
-import { Upload, File, X, AlertCircle } from 'lucide-react';
+import { Upload, File as FileIcon, X, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -13,11 +14,18 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
+import { notify } from '@/utils/notification';
+import { uploadDocument } from '@/services/UploadDocument/uploadDocument';
 
-export default function PDFUploader() {
+interface Props {
+  EmployeeId: string;
+}
+
+export default function PDFUploader({ EmployeeId }: Props) {
   const [files, setFiles] = useState<File[]>([]);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [progress, setProgress] = useState(100);
+  const [isUploading, setIsUploading] = useState(false);
 
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -41,6 +49,39 @@ export default function PDFUploader() {
 
   const removeFile = (fileToRemove: File) => {
     setFiles(files.filter((file) => file !== fileToRemove));
+  };
+
+  const handleUpload = async () => {
+    setIsUploading(true);
+    try {
+      for (const file of files) {
+        // Aquí puedes extraer el FileName del nombre del archivo o solicitarlo al usuario
+        const FileName = generateFileName(file.name);
+        await notify(
+          uploadDocument({
+            EmployeeId,
+            FileName,
+            file,
+          }),
+          {
+            loading: `Subiendo ${file.name}...`,
+            success: `${file.name} subido con éxito`,
+            error: `Error al subir ${file.name}`,
+          },
+        );
+      }
+      setFiles([]);
+    } catch (error) {
+      console.error('Error al subir archivos:', error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  // Función para generar el FileName basado en el nombre del archivo
+  const generateFileName = (originalName: string) => {
+    const date = new Date().toISOString().split('T')[0]; // Obtener fecha actual en formato YYYY-MM-DD
+    return `${originalName}-${date}`;
   };
 
   useEffect(() => {
@@ -94,7 +135,7 @@ export default function PDFUploader() {
                   className="flex items-center justify-between bg-muted p-2 rounded"
                 >
                   <div className="flex items-center space-x-2">
-                    <File className="h-5 w-5" />
+                    <FileIcon className="h-5 w-5" />
                     <span className="text-sm truncate">{file.name}</span>
                   </div>
                   <Button
@@ -109,8 +150,12 @@ export default function PDFUploader() {
               ))}
             </div>
           )}
-          <Button className="w-full mt-4">
-            Subir {files.length} {files.length === 1 ? 'archivo' : 'archivos'}
+          <Button
+            className="w-full mt-4"
+            onClick={handleUpload}
+            disabled={files.length === 0 || isUploading}
+          >
+            {isUploading ? 'Subiendo...' : `Subir ${files.length} archivo(s)`}
           </Button>
         </CardContent>
       </Card>

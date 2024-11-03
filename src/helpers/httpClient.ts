@@ -16,14 +16,19 @@ async function httpClient<T>({
   const session = await getSession();
   const token = session?.user?.access_token as string;
 
+  // Verificar si los datos son de tipo FormData
+  const isFormData = data instanceof FormData;
+
   const config: RequestInit = {
     method,
     headers: {
-      'Content-Type': 'application/json',
+      // Solo establecer 'Content-Type' si no es FormData
+      ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
       ...(token && { Authorization: `Bearer ${token}` }),
       ...headers,
     },
-    ...(data && { body: JSON.stringify(data) }),
+    // Configurar el cuerpo de la solicitud
+    body: isFormData ? data : data ? JSON.stringify(data) : undefined,
   };
 
   const response = await fetch(

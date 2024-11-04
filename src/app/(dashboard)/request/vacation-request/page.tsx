@@ -5,8 +5,17 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useGetByIdEmployee, useGetEmployeeId } from '@/hooks';
 
 // Ajuste en la importación dinámica para definir el tipo de props esperado por AvailableVacationDays
-const AvailableVacationDays = dynamic<{ days: number }>(() => import('@/components/request/request-vacation/AvailableVacationDays').then(mod => mod.AvailableVacationDays), { suspense: true });
-const RequestVacationForm = dynamic(() => import('@/components/request/request-vacation/request-vacation-form'), { suspense: true });
+const AvailableVacationDays = dynamic<{ days: number }>(
+  () =>
+    import('@/components/request/request-vacation/AvailableVacationDays').then(
+      (mod) => mod.AvailableVacationDays,
+    ),
+  { suspense: true },
+);
+const RequestVacationForm = dynamic(
+  () => import('@/components/request/request-vacation/request-vacation-form'),
+  { suspense: true },
+);
 
 const VacationRequestPage = () => {
   const { employeeId } = useGetEmployeeId();
@@ -27,7 +36,9 @@ const VacationRequestPage = () => {
               Error al cargar los datos del empleado
             </div>
           ) : (
-            <AvailableVacationDays days={employeeData?.AvailableVacationDays || 0} />
+            <AvailableVacationDays
+              days={employeeData?.AvailableVacationDays || 0}
+            />
           )}
         </Suspense>
       </div>

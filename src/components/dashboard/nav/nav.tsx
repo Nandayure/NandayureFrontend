@@ -3,13 +3,13 @@ import { titleFont } from '@/config/fonts';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 import User from './user';
-import { Inbox } from 'lucide-react';
 import InboxComponent from './inbox/inbox';
-import { useGetAllRequest } from '@/hooks';
+import { useGetAllRequest, useGetRoles } from '@/hooks';
 
 const Nav = () => {
   const { data: session, status } = useSession();
   const { allRequests } = useGetAllRequest();
+  const { roles } = useGetRoles();
   console.log(allRequests);
   let userInfo;
 
@@ -24,15 +24,15 @@ const Nav = () => {
   }
 
   return (
-    <div className="flex justify-between pr-4 pt-2">
+    <div className="flex items-center justify-end sm:justify-between w-full px-4 pt-2">
       <div
-        className={`hidden sm:block ml-3 text-2xl antialiased font-bold ${titleFont.className}`}
+        className={`hidden sm:block text-2xl antialiased font-bold ${titleFont.className}`}
       >
         Recursos Humanos Nandayure
       </div>
       <div className="flex items-center space-x-4">
         <span>{userInfo}</span>
-        <InboxComponent />
+        {roles && roles.includes('RH') && <InboxComponent />}
         <User />
       </div>
     </div>

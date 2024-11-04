@@ -29,7 +29,7 @@ const SalaryCertificatesForm = () => {
         register={register}
       />
       <div className="flex w-full justify-end">
-        <Button type="submit" className="mt-4 " disabled={mutation.isPending}>
+        <Button type="submit" className="mt-4 w-full sm:w-auto " disabled={mutation.isPending}>
           {mutation.isPending ? <Spinner /> : 'Enviar solicitud'}
         </Button>
       </div>

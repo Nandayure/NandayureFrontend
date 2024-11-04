@@ -8,31 +8,30 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="min-h-screen sm:w-auto flex md:flex-row flex-col overflow-hidden">
-      <div>
-        {/* navigation desktop */}
-        <div className="hidden sm:block">
+    <>
+      <div className="hidden sm:block">
+        <main className="min-h-screen flex">
           <Sidebar />
-          <div className="flex-1 py-2">
+          <div className="flex-1 p-2">
             <Nav />
-            <div className="hidden sm:block">
-              <Flag />
-            </div>
+            <Flag />
+            {children}
           </div>
-        </div>
+        </main>
+      </div>
 
-        {/* navigation mobile */}
-        <div className="block sm:hidden">
-          <div className="flex items-center">
+      <div className="block sm:hidden w-full">
+        <main className="min-h-screen w-full flex flex-col overflow-hidden">
+          {/* navigation mobile */}
+          <div className="flex items-center w-full">
             <Sidebar /> {/* Barra lateral a la izquierda */}
-            <div className="flex-1 py-2">
+            <div className="flex w-full py-2">
               <Nav /> {/* Navbar a la derecha */}
             </div>
           </div>
-        </div>
-
-        {children}
+          {children}
+        </main>
       </div>
-    </main>
+    </>
   );
 }

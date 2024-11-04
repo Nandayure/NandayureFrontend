@@ -96,6 +96,7 @@ export default function RequestVacationForm() {
       <div className='mt-4 flex w-full justify-end'>
         <Button
           type="submit"
+          className='w-full sm:w-auto'
           disabled={mutation.isPending || !date?.from || !date?.to}
         >
           {mutation.isPending ? <Spinner /> : 'Enviar solicitud'}

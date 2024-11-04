@@ -9,7 +9,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useGetRoles } from '@/hooks';
-import { CircleUserRound, Settings, UserPlus, HelpCircle, LogOut } from 'lucide-react';
+import {
+  CircleUserRound,
+  Settings,
+  UserPlus,
+  HelpCircle,
+  LogOut,
+} from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -21,7 +27,7 @@ export default function User() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
-          <CircleUserRound className="h-5 w-5" />
+          <CircleUserRound strokeWidth={1.5} size={24} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>

@@ -1,29 +1,28 @@
-'use client'
+'use client';
 
-import { Inbox } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Inbox } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
+} from '@/components/ui/popover';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/components/ui/dialog'
-import { Textarea } from '@/components/ui/textarea'
-import { Badge } from '@/components/ui/badge'
-import { useGetCurrentToApprove } from '@/hooks'
-import usePatchRequestApproval from '@/hooks/request-management/usePatchRequestApproval'
-import { Skeleton } from "@/components/ui/skeleton"
-import { formatDate } from '@/lib/utils'
-import { ScrollArea } from "@/components/ui/scroll-area"
+} from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { useGetCurrentToApprove } from '@/hooks';
+import usePatchRequestApproval from '@/hooks/request-management/usePatchRequestApproval';
+import SkeletonLoader from '@/components/ui/skeleton-loader';
+import { formatDate } from '@/lib/utils';
 
 export default function InboxComponent() {
-  const { currentToApprove, isLoading } = useGetCurrentToApprove()
+  const { currentToApprove, isLoading } = useGetCurrentToApprove();
   const {
     register,
     handleSubmit,
@@ -32,99 +31,149 @@ export default function InboxComponent() {
     selectedRequest,
     onSubmit,
     handleRequestClick,
-  } = usePatchRequestApproval()
+  } = usePatchRequestApproval();
 
   return (
     <div className="relative">
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full p-0">
+          <Button className="relative bg-transparent text-black hover:bg-gray-100 focus:outline-none">
             <Inbox className="h-5 w-5" />
             {Array.isArray(currentToApprove) && currentToApprove.length > 0 && (
               <Badge
                 variant="destructive"
-                className="absolute -top-2 -right-2 px-2 py-1 text-xs"
+                className="absolute -top-2 -right-2 px-2 py-1"
               >
                 {currentToApprove.length}
               </Badge>
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-80 p-0">
-          <div className="p-4">
-            <h3 className="font-semibold text-sm">
-              Solicitudes pendientes ({Array.isArray(currentToApprove) ? currentToApprove.length : 0})
+        <PopoverContent className="w-80 mr-4">
+          <div className="space-y-2">
+            <h3 className="font-medium">
+              Solicitudes pendientes (
+              {Array.isArray(currentToApprove) ? currentToApprove.length : 0})
             </h3>
-          </div>
-          <ScrollArea className="h-[300px]">
             {isLoading ? (
-              <div className="p-4 space-y-2">
-                <Skeleton className="h-12 w-full" />
-                <Skeleton className="h-12 w-full" />
-                <Skeleton className="h-12 w-full" />
-              </div>
-            ) : Array.isArray(currentToApprove) && currentToApprove.length === 0 ? (
-              <p className="p-4 text-center text-sm text-muted-foreground">No hay solicitudes pendientes</p>
+              <>
+                <SkeletonLoader className="h-6 w-full mb-2" />
+                <SkeletonLoader className="h-6 w-full mb-2" />
+                <SkeletonLoader className="h-6 w-full mb-2" />
+              </>
+            ) : Array.isArray(currentToApprove) &&
+              currentToApprove.length === 0 ? (
+              <p>No hay solicitudes pendientes</p>
             ) : (
               Array.isArray(currentToApprove) &&
               currentToApprove.map((request) => (
                 <div
                   key={request.id}
-                  className="p-4 hover:bg-gray-50 cursor-pointer"
+                  className="flex flex-col p-2 hover:bg-gray-100 rounded cursor-pointer"
                   onClick={() => handleRequestClick(request)}
                 >
-                  <p className="font-medium text-sm">
-                    Solicitud de {request.Request.RequestType.name}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Solicitante: {request.requesterId}
-                  </p>
+                  <div className="mb-2">
+                    <p className="font-medium">
+                      Solicitud de {request.Request.RequestType.name}
+                    </p>
+                  </div>
+                  <div className="text-sm text-gray-700">
+                    <p>
+                      <span className="font-medium">Solicitante:</span>{' '}
+                      {request.requesterId}
+                    </p>
+                  </div>
                 </div>
               ))
             )}
-          </ScrollArea>
+          </div>
         </PopoverContent>
       </Popover>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Aprobación de Proceso #{selectedRequest?.processNumber}</DialogTitle>
+            <DialogTitle className="text-2xl">
+              Aprobación de Proceso #{selectedRequest?.processNumber}
+            </DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSubmit((data) => onSubmit({ ...data, reason: data.reason || '' }, 'approve'))}>
-            <div className="space-y-4">
+          <form
+            onSubmit={handleSubmit((data) =>
+              onSubmit({ ...data, reason: data.reason || '' }, 'approve'),
+            )}
+          >
+            <div className="space-y-6">
               <div>
-                <h4 className="font-semibold mb-2 text-sm">Información de la solicitud</h4>
-                <div className="bg-gray-50 p-4 rounded-md space-y-2">
-                  <p className="font-medium text-sm">Tipo: {selectedRequest?.Request.RequestType.name}</p>
+                <h4 className="font-semibold mb-2">
+                  Información de la solicitud
+                </h4>
+                <div className="bg-muted p-4 rounded-md">
+                  <p className="font-medium mb-2">
+                    Tipo: {selectedRequest?.Request.RequestType.name}
+                  </p>
                   {selectedRequest?.Request.RequestType.id === 1 && (
                     <>
-                      <p className="text-sm">Días solicitados: {selectedRequest.Request.RequestVacation?.daysRequested}</p>
-                      <p className="text-sm">Fecha salida: {formatDate(selectedRequest.Request.RequestVacation?.departureDate ?? '')}</p>
-                      <p className="text-sm">Fecha entrada: {formatDate(selectedRequest.Request.RequestVacation?.entryDate ?? '')}</p>
+                      <p className="text-sm">
+                        <span className="font-medium">Días solicitados:</span>{' '}
+                        {selectedRequest.Request.RequestVacation?.daysRequested}
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-medium">Fecha salida:</span>{' '}
+                        {formatDate(
+                          selectedRequest.Request.RequestVacation
+                            ?.departureDate ?? '',
+                        )}
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-medium">Fecha entrada:</span>{' '}
+                        {formatDate(
+                          selectedRequest.Request.RequestVacation?.entryDate ??
+                            '',
+                        )}
+                      </p>
                     </>
                   )}
                   {selectedRequest?.Request.RequestType.id === 2 && (
-                    <p className="text-sm">Razón: {selectedRequest.Request.RequestSalaryCertificate?.reason}</p>
+                    <p className="text-sm">
+                      <span className="font-medium">Razón:</span>{' '}
+                      {selectedRequest.Request.RequestSalaryCertificate?.reason}
+                    </p>
                   )}
                   {selectedRequest?.Request.RequestType.id === 3 && (
-                    <p className="text-sm">Razón: {selectedRequest.Request.RequestPaymentConfirmation?.reason}</p>
+                    <p className="text-sm">
+                      <span className="font-medium">Razón:</span>{' '}
+                      {
+                        selectedRequest.Request.RequestPaymentConfirmation
+                          ?.reason
+                      }
+                    </p>
                   )}
                 </div>
               </div>
 
               <div>
-                <h4 className="font-semibold mb-2 text-sm">Información del solicitante</h4>
-                <div className="bg-gray-50 p-4 rounded-md space-y-2">
-                  <p className="text-sm">Cédula del empleado: {selectedRequest?.Request.EmployeeId}</p>
+                <h4 className="font-semibold mb-2">
+                  Información del solicitante
+                </h4>
+                <div className="bg-muted p-4 rounded-md">
                   <p className="text-sm">
-                    Nombre del empleado: {selectedRequest?.Request.Employee.Name} {selectedRequest?.Request.Employee.Surname1} {selectedRequest?.Request.Employee.Surname2}
+                    <span className="font-medium">Cédula del empleado:</span>{' '}
+                    {selectedRequest?.Request.EmployeeId}
+                  </p>
+                  <p className="text-sm">
+                    <span className="font-medium">Nombre del empleado:</span>{' '}
+                    {selectedRequest?.Request.Employee.Name}{' '}
+                    {selectedRequest?.Request.Employee.Surname1}{' '}
+                    {selectedRequest?.Request.Employee.Surname2}
                   </p>
                 </div>
               </div>
 
               <div>
-                <label htmlFor="reason" className="block text-sm font-medium mb-2">
+                <label
+                  htmlFor="reason"
+                  className="block text-sm font-medium mb-2"
+                >
                   Razón de aprobación/rechazo
                 </label>
                 <Textarea
@@ -136,7 +185,13 @@ export default function InboxComponent() {
               </div>
             </div>
             <DialogFooter className="mt-6">
-              <Button type="button" variant="outline" onClick={handleSubmit((data) => onSubmit({ ...data, reason: data.reason || '' }, 'reject'))}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleSubmit((data) =>
+                  onSubmit({ ...data, reason: data.reason || '' }, 'reject'),
+                )}
+              >
                 Rechazar
               </Button>
               <Button type="submit">Aprobar</Button>
@@ -145,5 +200,5 @@ export default function InboxComponent() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

@@ -31,7 +31,7 @@ export function MobileSidebar({ navLinks }: MobileSidebarProps) {
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button variant="ghost" size="icon" className="md:hidden">
-            <Menu className="h-5 w-5 mt-4" />
+            <Menu className="h-6 w-6 mt-4" />
             <span className="sr-only">Abrir Menú</span>
           </Button>
         </SheetTrigger>

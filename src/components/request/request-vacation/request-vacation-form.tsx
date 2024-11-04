@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { addDays, format } from 'date-fns';
+import { es } from 'date-fns/locale'; // Importa el idioma español
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 
@@ -65,11 +66,11 @@ export default function RequestVacationForm() {
               {date?.from ? (
                 date.to ? (
                   <>
-                    {format(date.from, "LLL dd, y")} -{" "}
-                    {format(date.to, "LLL dd, y")}
+                    {format(date.from, "LLL dd, y", { locale: es })} -{" "}
+                    {format(date.to, "LLL dd, y", { locale: es })}
                   </>
                 ) : (
-                  format(date.from, "LLL dd, y")
+                  format(date.from, "LLL dd, y", { locale: es })
                 )
               ) : (
                 <span>Selecciona un rango de fechas</span>
@@ -84,6 +85,7 @@ export default function RequestVacationForm() {
               selected={date}
               onSelect={setDate}
               numberOfMonths={2}
+              locale={es} // Configura el idioma del calendario a español
             />
           </PopoverContent>
         </Popover>

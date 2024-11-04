@@ -8,11 +8,13 @@ import { z } from 'zod';
 import { ChangePassword } from '@/types';
 import { ChangePasswordSchema } from '@/schemas';
 import { postChangePassword } from '@/services';
+import { useRouter } from 'next/navigation';
 
 type FormsFields = z.infer<typeof ChangePasswordSchema>;
 
 const useChangePassword = () => {
   const { token } = useGetToken();
+  const router = useRouter(); 
   const {
     handleSubmit,
     register,
@@ -34,7 +36,12 @@ const useChangePassword = () => {
     try {
       await toast.promise(mutation.mutateAsync(data), {
         loading: 'Cargando...',
-        success: 'Contraseña editada exitosamente.',
+        success: () => {
+          setTimeout(() => {
+            router.push('/'); 
+          }, 3000);
+          return 'Contraseña editada exitosamente.';
+        },
         error: 'Error al cambiar la contraseña.',
       });
     } catch (error: any) {

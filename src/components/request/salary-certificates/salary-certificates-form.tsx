@@ -17,7 +17,7 @@ const SalaryCertificatesForm = () => {
         Solicitud de constancia de salario
       </h5>
       <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-        Por favor, el motivo de la solicitud.
+        Por favor, indique el motivo de la solicitud.
       </p>
       <Flag />
       <div className="mt-4" />

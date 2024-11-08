@@ -43,11 +43,7 @@ export const navLinksRH: Record<string, NavLink> = {
       ExpedientesDigitales: {
         href: '/document-management/digital-files',
         label: 'Documentos digitales',
-      },
-      Planillas: {
-        href: '/document-management/payrolls',
-        label: 'Planillas',
-      },
+      }
     },
   },
   gestionSolicitudes: {

@@ -31,8 +31,12 @@ const Nav = () => {
         Recursos Humanos Nandayure
       </div>
       <div className="flex items-center space-x-4">
-        <span>{userInfo}</span>
-        {roles && roles.includes('RH') && <InboxComponent />}
+        <span className="w-32 sm:w-auto truncate">{userInfo}</span>
+        {roles && roles.includes('RH') && (
+          <div>
+            <InboxComponent />
+          </div>
+        )}
         <User />
       </div>
     </div>

@@ -29,9 +29,9 @@ const getRequestIcon = (typeId: number) => {
 const getStatusColor = (stateId: number) => {
   switch (stateId) {
     case 1:
-      return 'bg-amber-500 text-white'
+      return 'bg-golden-dream-500 text-white'
     case 2:
-      return 'bg-green-500 text-white'
+      return 'bg-apple-500 text-white'
     case 3:
       return 'bg-red-500 text-white'
     default:
@@ -56,7 +56,7 @@ const RequestCard = ({
       : requests.map((request) => (
           <Card
             key={request.id}
-            className="cursor-pointer hover:shadow-lg transition-shadow duration-300"
+            className="cursor-pointer hover:shadow-lg transition-shadow duration-300 "
             onClick={() => onClick(request)}
           >
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0 pb-2">

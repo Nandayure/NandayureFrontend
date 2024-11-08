@@ -1,9 +1,16 @@
 'use client';
 import Spinner from '../../ui/spinner';
-import SelectField from '../../ui/select-fields';
-import InputField from '../../ui/input-field';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
 import {
   useGetAllJobPositions,
   useGetAllGender,
@@ -15,8 +22,14 @@ const RegisterForm = () => {
   const { genders } = useGetAllGender();
   const { maritalStatus } = useGetMaritalStatus();
   const { jobPositions } = useGetAllJobPositions();
-  const { handleSubmit, onSubmit, register, mutation, errors } =
-    usePostEmployee();
+  const {
+    handleSubmit,
+    onSubmit,
+    register,
+    mutation,
+    errors,
+    setValue,
+  } = usePostEmployee();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
@@ -27,74 +40,152 @@ const RegisterForm = () => {
             Información personal
           </h2>
           <div className="space-y-4">
-            <InputField
-              id="Name"
-              label="Nombre"
-              type="text"
-              placeholder="Escribe tu nombre aquí"
-              register={register}
-              errors={errors}
-            />
-            <InputField
-              id="Surname1"
-              label="Primer apellido"
-              type="text"
-              placeholder="Escribe tu primer apellido aquí"
-              register={register}
-              errors={errors}
-            />
-            <InputField
-              id="Surname2"
-              label="Segundo apellido"
-              type="text"
-              placeholder="Escribe tu segundo apellido aquí"
-              register={register}
-              errors={errors}
-            />
-            <InputField
-              id="Birthdate"
-              label="Fecha de nacimiento"
-              type="date"
-              register={register}
-              errors={errors}
-            />
-            <SelectField
-              id="GenderId"
-              label="Género"
-              options={genders}
-              register={register}
-              errors={errors}
-            />
-            <SelectField
-              id="MaritalStatusId"
-              label="Estado civil"
-              options={maritalStatus}
-              register={register}
-              errors={errors}
-            />
+            {/* Nombre */}
+            <div className="grid gap-2">
+              <Label htmlFor="Name">Nombre</Label>
+              <Input
+                id="Name"
+                placeholder="Escribe tu nombre aquí"
+                {...register('Name')}
+              />
+              {errors.Name && (
+                <p className="text-red-500 text-xs">{errors.Name.message}</p>
+              )}
+            </div>
+            {/* Primer apellido */}
+            <div className="grid gap-2">
+              <Label htmlFor="Surname1">Primer apellido</Label>
+              <Input
+                id="Surname1"
+                placeholder="Escribe tu primer apellido aquí"
+                {...register('Surname1')}
+              />
+              {errors.Surname1 && (
+                <p className="text-red-500 text-xs">
+                  {errors.Surname1.message}
+                </p>
+              )}
+            </div>
+            {/* Segundo apellido */}
+            <div className="grid gap-2">
+              <Label htmlFor="Surname2">Segundo apellido</Label>
+              <Input
+                id="Surname2"
+                placeholder="Escribe tu segundo apellido aquí"
+                {...register('Surname2')}
+              />
+              {errors.Surname2 && (
+                <p className="text-red-500 text-xs">
+                  {errors.Surname2.message}
+                </p>
+              )}
+            </div>
+            {/* Fecha de nacimiento */}
+            <div className="grid gap-2">
+              <Label htmlFor="Birthdate">Fecha de nacimiento</Label>
+              <Input id="Birthdate" type="date" {...register('Birthdate')} />
+              {errors.Birthdate && (
+                <p className="text-red-500 text-xs">
+                  {errors.Birthdate.message}
+                </p>
+              )}
+            </div>
+            {/* Género */}
+            <div className="grid gap-2">
+              <Label htmlFor="GenderId">Género</Label>
+              <Select
+                onValueChange={(value) =>
+                  setValue('GenderId', value)
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccionar género" />
+                </SelectTrigger>
+                <SelectContent>
+                  {genders &&
+                    genders.map((gender) => (
+                      <SelectItem
+                        key={gender.id}
+                        value={gender.id.toString()}
+                      >
+                        {gender.Name}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+              {errors.GenderId && (
+                <p className="text-red-500 text-xs">
+                  {errors.GenderId.message}
+                </p>
+              )}
+            </div>
+            {/* Estado civil */}
+            <div className="grid gap-2">
+              <Label htmlFor="MaritalStatusId">Estado civil</Label>
+              <Select
+                onValueChange={(value) =>
+                  setValue('MaritalStatusId', value)
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccionar estado civil" />
+                </SelectTrigger>
+                <SelectContent>
+                  {maritalStatus &&
+                    maritalStatus.map((status) => (
+                      <SelectItem
+                        key={status.id}
+                        value={status.id.toString()}
+                      >
+                        {status.Name}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+              {errors.MaritalStatusId && (
+                <p className="text-red-500 text-xs">
+                  {errors.MaritalStatusId.message}
+                </p>
+              )}
+            </div>
           </div>
+
           {/* Información de Contacto */}
           <div className="mt-4">
             <h2 className="text-lg font-medium text-gray-900 mb-4">
               Información de Contacto
             </h2>
             <div className="space-y-4">
-              <InputField
-                id="Email"
-                label="Correo electrónico"
-                type="email"
-                placeholder="Escribe tu correo electrónico aquí"
-                register={register}
-                errors={errors}
-              />
-              <InputField
-                id="CellPhone"
-                label="Teléfono celular"
-                type="tel"
-                placeholder="Escribe tu número de teléfono aquí"
-                register={register}
-                errors={errors}
-              />
+              {/* Correo electrónico */}
+              <div className="grid gap-2">
+                <Label htmlFor="Email">Correo electrónico</Label>
+                <Input
+                  id="Email"
+                  type="email"
+                  placeholder="Escribe tu correo electrónico aquí"
+                  {...register('Email')}
+                />
+                {errors.Email && (
+                  <p className="text-red-500 text-xs">
+                    {errors.Email.message}
+                  </p>
+                )}
+              </div>
+              {/* Teléfono celular */}
+              <div className="grid gap-2">
+                <Label htmlFor="CellPhone">Teléfono celular</Label>
+                <Input
+                  id="CellPhone"
+                  type="tel"
+                  placeholder="Escribe tu número de teléfono aquí"
+                  {...register('CellPhone')}
+                />
+                {errors.CellPhone && (
+                  <p className="text-red-500 text-xs">
+                    {errors.CellPhone.message}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -105,44 +196,87 @@ const RegisterForm = () => {
             Información laboral
           </h2>
           <div className="space-y-4">
-            <InputField
-              id="id"
-              label="Identificación"
-              type="text"
-              placeholder="Escribe tu identificación laboral aquí"
-              register={register}
-              errors={errors}
-            />
-            <InputField
-              id="HiringDate"
-              label="Fecha de contratación"
-              type="date"
-              register={register}
-              errors={errors}
-            />
-            <InputField
-              id="NumberChlidren"
-              label="Número de hijos"
-              type="number"
-              placeholder="Escribe el número de hijos aquí"
-              register={register}
-              errors={errors}
-            />
-            <SelectField
-              id="JobPositionId"
-              label="Puesto de trabajo"
-              options={jobPositions}
-              register={register}
-              errors={errors}
-            />
-            <InputField
-              id="AvailableVacationDays"
-              label="Días de vacaciones"
-              type="number"
-              placeholder="Escribe los días de vacaciones aquí"
-              register={register}
-              errors={errors}
-            />
+            {/* Identificación */}
+            <div className="grid gap-2">
+              <Label htmlFor="id">Identificación</Label>
+              <Input
+                id="id"
+                placeholder="Escribe tu identificación laboral aquí"
+                {...register('id')}
+              />
+              {errors.id && (
+                <p className="text-red-500 text-xs">{errors.id.message}</p>
+              )}
+            </div>
+            {/* Fecha de contratación */}
+            <div className="grid gap-2">
+              <Label htmlFor="HiringDate">Fecha de contratación</Label>
+              <Input id="HiringDate" type="date" {...register('HiringDate')} />
+              {errors.HiringDate && (
+                <p className="text-red-500 text-xs">
+                  {errors.HiringDate.message}
+                </p>
+              )}
+            </div>
+            {/* Número de hijos */}
+            <div className="grid gap-2">
+              <Label htmlFor="NumberChlidren">Número de hijos</Label>
+              <Input
+                id="NumberChlidren"
+                type="number"
+                placeholder="Escribe el número de hijos aquí"
+                {...register('NumberChlidren')}
+              />
+              {errors.NumberChlidren && (
+                <p className="text-red-500 text-xs">
+                  {errors.NumberChlidren.message}
+                </p>
+              )}
+            </div>
+            {/* Puesto de trabajo */}
+            <div className="grid gap-2">
+              <Label htmlFor="JobPositionId">Puesto de trabajo</Label>
+              <Select
+                onValueChange={(value) =>
+                  setValue('JobPositionId', value)
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccionar puesto de trabajo" />
+                </SelectTrigger>
+                <SelectContent>
+                  {jobPositions &&
+                    jobPositions.map((position) => (
+                      <SelectItem
+                        key={position.id}
+                        value={position.id.toString()}
+                      >
+                        {position.Name}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+              {errors.JobPositionId && (
+                <p className="text-red-500 text-xs">
+                  {errors.JobPositionId.message}
+                </p>
+              )}
+            </div>
+            {/* Días de vacaciones */}
+            <div className="grid gap-2">
+              <Label htmlFor="AvailableVacationDays">Días de vacaciones</Label>
+              <Input
+                id="AvailableVacationDays"
+                type="number"
+                placeholder="Escribe los días de vacaciones aquí"
+                {...register('AvailableVacationDays')}
+              />
+              {errors.AvailableVacationDays && (
+                <p className="text-red-500 text-xs">
+                  {errors.AvailableVacationDays.message}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>

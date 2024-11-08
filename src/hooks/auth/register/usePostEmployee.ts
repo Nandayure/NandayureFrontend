@@ -16,6 +16,7 @@ const usePostEmployee = () => {
     handleSubmit,
     register,
     setError,
+    setValue,
     formState: { errors },
   } = useForm<FormsFields>({
     resolver: zodResolver(RegisterSchema),
@@ -59,6 +60,7 @@ const usePostEmployee = () => {
     register,
     mutation,
     errors,
+    setValue,
   };
 };
 

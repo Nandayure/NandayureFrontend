@@ -1,142 +1,106 @@
 'use client'
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState, useEffect } from 'react'
+import { Document, Page, pdfjs } from 'react-pdf'
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { FileIcon, FolderIcon, ExternalLinkIcon, SearchIcon } from "lucide-react"
-import Image from 'next/image'
+import { Loader2, FileIcon, Eye } from "lucide-react"
+import useGetToken from '@/hooks/common/useGetToken'
 
-type FileObject = {
-  thumbnailLink?: string
+// Configuración necesaria para react-pdf
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
+
+interface File {
+  thumbnailLink: string
   iconLink: string
   webViewLink: string
   id: string
   name: string
 }
 
-const mockFiles: FileObject[] = [
-  {
-    "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBMLsEahqSRm0kLY4iXh25gKGmhytqz7KMiyFMmHELidU6qK9ardqrs4BhZxra9cc4UYf7au07Z7IrTT0P4pRX4Xq7IieStHVgPLOZUeSyT8A3w=s220",
-    "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/pdf",
-    "webViewLink": "https://drive.google.com/file/d/1bZJxE3hs6SRBOGju6JqptfcaPM7ur38N/view?usp=drivesdk",
-    "id": "1bZJxE3hs6SRBOGju6JqptfcaPM7ur38N",
-    "name": "TRABAJO ASINCRÓNICO-Liderazgo.pdf-2024-11-02.pdf"
-  },
-  {
-    "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.folder+shared",
-    "webViewLink": "https://drive.google.com/drive/folders/1qlIh5hlwfOQON4JjJyQ7pZVGS7Za2GZC",
-    "id": "1qlIh5hlwfOQON4JjJyQ7pZVGS7Za2GZC",
-    "name": "117490804 - Jimena Jimenez"
-  },
-  {
-    "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.folder+shared",
-    "webViewLink": "https://drive.google.com/drive/folders/1VjEVh1I5T-R1VCKQUCwZE9hP8nKbnwQu",
-    "id": "1VjEVh1I5T-R1VCKQUCwZE9hP8nKbnwQu",
-    "name": "12098347 - adsa dassdad"
-  },
-  {
-    "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.folder+shared",
-    "webViewLink": "https://drive.google.com/drive/folders/1tA3ol_ReZBhiT0KScga8c0hoHvfx7FGy",
-    "id": "1tA3ol_ReZBhiT0KScga8c0hoHvfx7FGy",
-    "name": "710 - string string"
-  },
-  {
-    "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.folder+shared",
-    "webViewLink": "https://drive.google.com/drive/folders/1xvxxAJxmK1KswfEsmRTTgh4hTKxib8ei",
-    "id": "1xvxxAJxmK1KswfEsmRTTgh4hTKxib8ei",
-    "name": "prueba2 - sdad stasdasring"
-  },
-  {
-    "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.folder+shared",
-    "webViewLink": "https://drive.google.com/drive/folders/1Vj5JQjY5J5KgiJRGPzmOJ_Ov7uzO70uW",
-    "id": "1Vj5JQjY5J5KgiJRGPzmOJ_Ov7uzO70uW",
-    "name": "prueba - sdad stasdasring"
-  },
-  {
-    "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.folder+shared",
-    "webViewLink": "https://drive.google.com/drive/folders/1e2Eco4__k1Xgho_f7ne8Td5PRkIXqsc2",
-    "id": "1e2Eco4__k1Xgho_f7ne8Td5PRkIXqsc2",
-    "name": "11388qq - sdad stasdasring"
-  },
-  {
-    "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.folder+shared",
-    "webViewLink": "https://drive.google.com/drive/folders/1VYTetfuupZapOLhYJDCQR8HfGen6swUV",
-    "id": "1VYTetfuupZapOLhYJDCQR8HfGen6swUV",
-    "name": "1131721 - sdad stasdasring"
-  },
-  {
-    "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.folder+shared",
-    "webViewLink": "https://drive.google.com/drive/folders/1QNDaMnkSNL0V6RcAfyDLUMzhOvN6_gSF",
-    "id": "1QNDaMnkSNL0V6RcAfyDLUMzhOvN6_gSF",
-    "name": "78910 - string string"
-  },
-  {
-    "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.folder+shared",
-    "webViewLink": "https://drive.google.com/drive/folders/1o9Gn-5YJif0iHMq7dbZz8lrt1rvJruSz",
-    "id": "1o9Gn-5YJif0iHMq7dbZz8lrt1rvJruSz",
-    "name": "12345678910 - string string"
+const PdfFileGrid = () => {
+  const { token } = useGetToken();
+  const [files, setFiles] = useState<File[]>([])
+  const [selectedFile, setSelectedFile] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetchFiles()
+  }, [])
+
+  const fetchFiles = async () => {
+    try {
+      if (!token) throw new Error('No se ha podido obtener el token de autenticación')
+      const response = await fetch('https://nandayurebackend-production.up.railway.app/api/v1/google-drive-files/MyFiles', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!response.ok) throw new Error('Error al cargar los archivos')
+      const data = await response.json()
+      setFiles(data)
+    } catch (err) {
+      setError('Error al cargar los archivos. Por favor, intente de nuevo.')
+    } finally {
+      setLoading(false)
+    }
   }
-]
 
-export default function PdfGrid() {
-  const [searchTerm, setSearchTerm] = useState('')
+  const handleFileSelect = (fileId: string) => {
+    setSelectedFile(`https://nandayurebackend-production.up.railway.app/api/v1/google-drive-files/getFile/${fileId}`)
+  }
 
-  const filteredFiles = mockFiles.filter(file =>
-    file.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  if (loading) return <div className="flex justify-center items-center h-screen"><Loader2 className="animate-spin" /></div>
+  if (error) return <div className="text-red-500 text-center">{error}</div>
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Explorador de Archivos</h1>
-      <div className="mb-4 relative">
-        <Input
-          type="text"
-          placeholder="Buscar archivos..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10"
-        />
-        <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredFiles.map((file) => (
-          <Card key={file.id} className="overflow-hidden">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-medium truncate">{file.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center space-x-2 mb-2">
-                {file.iconLink.includes("folder") ? (
-                  <FolderIcon className="h-6 w-6 text-yellow-500" />
-                ) : (
-                  <FileIcon className="h-6 w-6 text-blue-500" />
-                )}
-                <span className="text-sm text-gray-500">
-                  {file.iconLink.includes("folder") ? "Carpeta" : "Archivo PDF"}
-                </span>
-              </div>
-              {file.thumbnailLink && (
-                <Image
-                  src={file.thumbnailLink}
-                  alt={`Miniatura de ${file.name}`}
-                  width={220}
-                  height={110}
-                  className="w-full h-32 object-cover rounded-md mb-2"
-                />
-              )}
-              <Button
-                variant="outline"
-                className="w-full mt-2"
-                onClick={() => window.open(file.webViewLink, "_blank")}
+      <h1 className="text-2xl font-bold mb-4">Archivos del Empleado</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card>
+          <CardContent>
+            <h2 className="text-xl font-semibold mb-2">Lista de Archivos</h2>
+            <ul className="space-y-2">
+              {files.map((file) => (
+                <li key={file.id} className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <img src={file.thumbnailLink} alt="" className="w-8 h-8 mr-2" />
+                    <span>{file.name}</span>
+                  </div>
+                  <Button onClick={() => handleFileSelect(file.id)} variant="outline" size="sm">
+                    <Eye className="w-4 h-4 mr-2" />
+                    Ver
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent>
+            <h2 className="text-xl font-semibold mb-2">Previsualización</h2>
+            {selectedFile ? (
+              <Document
+                file={selectedFile}
+                loading={<Loader2 className="animate-spin" />}
+                error={<div>Error al cargar el PDF. Intente de nuevo.</div>}
               >
-                <ExternalLinkIcon className="mr-2 h-4 w-4" />
-                Ver {file.iconLink.includes("folder") ? "Carpeta" : "Archivo"}
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+                <Page pageNumber={1} width={300} />
+              </Document>
+            ) : (
+              <div className="text-center text-gray-500">
+                <FileIcon className="mx-auto mb-2" />
+                Seleccione un archivo para previsualizar
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   )
 }
+
+export default PdfFileGrid;

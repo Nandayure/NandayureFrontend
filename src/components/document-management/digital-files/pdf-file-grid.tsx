@@ -42,7 +42,7 @@ const PdfFileGrid = () => {
       if (!token)
         throw new Error('No se ha podido obtener el token de autenticación');
       const response = await fetch(
-        'https://nandayurebackend-production.up.railway.app/api/v1/google-drive-files/MyFiles',
+        'https://nandayurebackend-production.up.railway.app/api/v1/google-drive-files/FilesByEmployee/',
         {
           headers: {
             Authorization: `Bearer ${token}`,

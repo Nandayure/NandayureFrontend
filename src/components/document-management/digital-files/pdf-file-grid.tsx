@@ -1,106 +1,108 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { Document, Page, pdfjs } from 'react-pdf'
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Loader2, FileIcon, Eye } from "lucide-react"
-import useGetToken from '@/hooks/common/useGetToken'
-
-// Configuración necesaria para react-pdf
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Loader2, Eye, FileText } from 'lucide-react';
+import useGetToken from '@/hooks/common/useGetToken';
 
 interface File {
-  thumbnailLink: string
-  iconLink: string
-  webViewLink: string
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
+const SkeletonLoader = () => (
+  <div className="space-y-4">
+    {[...Array(5)].map((_, i) => (
+      <div key={i} className="flex items-center space-x-4">
+        <Skeleton className="h-12 w-12 rounded" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
 const PdfFileGrid = () => {
-  const { token } = useGetToken();
-  const [files, setFiles] = useState<File[]>([])
-  const [selectedFile, setSelectedFile] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const { token, status } = useGetToken();
+  const [files, setFiles] = useState<File[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchFiles()
-  }, [])
+    if (token) {
+      fetchFiles();
+    }
+  }, [token]);
 
   const fetchFiles = async () => {
     try {
-      if (!token) throw new Error('No se ha podido obtener el token de autenticación')
-      const response = await fetch('https://nandayurebackend-production.up.railway.app/api/v1/google-drive-files/MyFiles', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (!response.ok) throw new Error('Error al cargar los archivos')
-      const data = await response.json()
-      setFiles(data)
+      if (!token)
+        throw new Error('No se ha podido obtener el token de autenticación');
+      const response = await fetch(
+        'https://nandayurebackend-production.up.railway.app/api/v1/google-drive-files/MyFiles',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      if (!response.ok) throw new Error('Error al cargar los archivos');
+      const data = await response.json();
+      setFiles(data);
     } catch (err) {
-      setError('Error al cargar los archivos. Por favor, intente de nuevo.')
+      setError('Error al cargar los archivos. Por favor, intente de nuevo.');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleFileSelect = (fileId: string) => {
-    setSelectedFile(`https://nandayurebackend-production.up.railway.app/api/v1/google-drive-files/getFile/${fileId}`)
-  }
+    const fileUrl = `https://nandayurebackend-production.up.railway.app/api/v1/google-drive-files/getFile/${fileId}`;
+    window.open(fileUrl, '_blank');
+  };
 
-  if (loading) return <div className="flex justify-center items-center h-screen"><Loader2 className="animate-spin" /></div>
-  if (error) return <div className="text-red-500 text-center">{error}</div>
+  if (status === 'loading') return <SkeletonLoader />;
+
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
+  if (error) return <div className="text-red-500 text-center">{error}</div>;
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Archivos del Empleado</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card>
-          <CardContent>
-            <h2 className="text-xl font-semibold mb-2">Lista de Archivos</h2>
-            <ul className="space-y-2">
-              {files.map((file) => (
-                <li key={file.id} className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <img src={file.thumbnailLink} alt="" className="w-8 h-8 mr-2" />
-                    <span>{file.name}</span>
-                  </div>
-                  <Button onClick={() => handleFileSelect(file.id)} variant="outline" size="sm">
-                    <Eye className="w-4 h-4 mr-2" />
-                    Ver
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            <h2 className="text-xl font-semibold mb-2">Previsualización</h2>
-            {selectedFile ? (
-              <Document
-                file={selectedFile}
-                loading={<Loader2 className="animate-spin" />}
-                error={<div>Error al cargar el PDF. Intente de nuevo.</div>}
-              >
-                <Page pageNumber={1} width={300} />
-              </Document>
-            ) : (
-              <div className="text-center text-gray-500">
-                <FileIcon className="mx-auto mb-2" />
-                Seleccione un archivo para previsualizar
+      <h1 className="text-2xl font-bold mb-6">Archivos del Empleado</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {files.map((file) => (
+          <div
+            key={file.id}
+            className="bg-white shadow-lg rounded-lg overflow-hidden"
+          >
+            <div className="p-4 flex flex-col space-y-4">
+              <div className="flex items-center space-x-2">
+                <FileText className="w-6 h-6 text-blue-500 flex-shrink-0" />
+                <span className="font-semibold truncate">{file.name}.pdf</span>
               </div>
-            )}
-          </CardContent>
-        </Card>
+              <Button
+                onClick={() => handleFileSelect(file.id)}
+                className="w-full"
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                Ver PDF
+              </Button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default PdfFileGrid;

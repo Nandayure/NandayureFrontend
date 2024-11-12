@@ -103,9 +103,7 @@ export default function Page() {
         </TabsList>
         <TabsContent value="Documents-of-user">
           <div className="mt-6">
-            <h2 className="text-2xl font-bold mb-4">Documentos de usuario</h2>
             <div className="container mx-auto p-4">
-              <h1 className="text-2xl font-bold mb-6">Archivos del Empleado</h1>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {files.map((file) => (
                   <div

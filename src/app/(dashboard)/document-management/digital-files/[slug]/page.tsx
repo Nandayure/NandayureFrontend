@@ -1,21 +1,22 @@
-// pages/your-page.tsx
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import PDFUploader from '@/components/common/pdf-uploader';
+import React from 'react';
 import { useParams } from 'next/navigation';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import PdfGrid from '@/components/document-management/digital-files/pdf-file-grid';
+import PDFUploader from '@/components/common/pdf-uploader';
 import { Eye, FileText, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetToken } from '@/hooks';
+import { useQuery } from '@tanstack/react-query';
 
+// Definición de la interfaz para los archivos
 interface File {
   id: string;
   name: string;
 }
 
+// Componente de carga skeleton
 const SkeletonLoader = () => (
   <div className="space-y-4">
     {[...Array(5)].map((_, i) => (
@@ -33,67 +34,73 @@ const SkeletonLoader = () => (
 export default function Page() {
   const { slug } = useParams();
   const EmployeeId = Array.isArray(slug) ? slug[0] : slug;
+  const { token, status: tokenStatus } = useGetToken();
 
-  const handleDelete = (id: string) => {
-    console.log(`Deleting file with id: ${id}`);
-  };
-
-  const handleView = (url: string) => {
-    console.log(`Viewing file at: ${url}`);
-  };
-  const { token, status } = useGetToken();
-  const [files, setFiles] = useState<File[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (EmployeeId) {
-      fetchFiles();
+  // Función para obtener los archivos del empleado
+  const fetchFiles = async (): Promise<File[]> => {
+    if (!EmployeeId) {
+      throw new Error('No se proporcionó el ID del empleado');
     }
-  }, [EmployeeId]);
+    if (!token) {
+      throw new Error('No se ha podido obtener el token de autenticación');
+    }
 
-  const fetchFiles = async () => {
-    try {
-      if (!token)
-        throw new Error('No se ha podido obtener el token de autenticación');
-      const response = await fetch(
-        `https://nandayurebackend-production.up.railway.app/api/v1/google-drive-files/FilesByEmployee/${EmployeeId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/google-drive-files/FilesByEmployee/${EmployeeId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
-      );
+      },
+    );
 
-      if (!response.ok) throw new Error('Error al cargar los archivos');
-      const data = await response.json();
-      setFiles(data);
-    } catch (err) {
-      setError('Error al cargar los archivos. Por favor, intente de nuevo.');
-    } finally {
-      setLoading(false);
+    if (!response.ok) {
+      throw new Error('Error al cargar los archivos');
     }
+
+    const data: File[] = await response.json();
+    return data;
   };
 
+  // Uso de React Query para obtener los archivos
+  const {
+    data: files,
+    isLoading: isFilesLoading,
+    isError: isFilesError,
+    error: filesError,
+  } = useQuery<File[], Error>({
+    queryKey: ['files', EmployeeId],
+    queryFn: fetchFiles,
+    enabled: Boolean(EmployeeId) && Boolean(token), // Solo ejecuta la consulta si EmployeeId y token están disponibles
+    retry: false, // Desactiva reintentos automáticos
+    staleTime: 5 * 60 * 1000, // Los datos se consideran frescos por 5 minutos
+  });
+
+  // Función para manejar la selección de un archivo
   const handleFileSelect = (fileId: string) => {
-    const fileUrl = `https://nandayurebackend-production.up.railway.app/api/v1/google-drive-files/getFile/${fileId}`;
+    const fileUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/google-drive-files/getFile/${fileId}`;
     window.open(fileUrl, '_blank');
   };
 
-  if (status === 'loading') return <SkeletonLoader />;
+  // Renderiza el skeleton mientras se obtiene el token
+  if (tokenStatus === 'loading') return <SkeletonLoader />;
 
-  if (loading)
+  // Renderiza un spinner mientras se cargan los archivos
+  if (isFilesLoading)
     return (
       <div className="flex justify-center items-center h-screen">
         <Loader2 className="animate-spin" />
       </div>
     );
-  if (error) return <div className="text-red-500 text-center">{error}</div>;
+
+  // Renderiza un mensaje de error si falla la carga de archivos
+  if (isFilesError)
+    return <div className="text-red-500 text-center">{filesError.message}</div>;
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-6">Documentos de usuario</h1>
+      <h1 className="flex text-3xl font-bold mb-6 justify-center">Documentos de usuario</h1>
       <Tabs defaultValue="Documents-of-user">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="Documents-of-user">
@@ -104,8 +111,9 @@ export default function Page() {
         <TabsContent value="Documents-of-user">
           <div className="mt-6">
             <div className="container mx-auto p-4">
+              <h1 className="text-2xl font-bold mb-6">Archivos del Empleado</h1>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {files.map((file) => (
+                {files?.map((file: File) => (
                   <div
                     key={file.id}
                     className="bg-white shadow-lg rounded-lg overflow-hidden"

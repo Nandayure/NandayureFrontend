@@ -6,6 +6,9 @@ import RequestCard from './request-card';
 import RequestModal from './request-modal';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
 import { RequestDetails } from '@/types/request-management/commonTypes';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { InboxIcon } from 'lucide-react';
+import NoRequest from './no-request';
 
 export default function RequestCardManagement() {
   const [selectedRequest, setSelectedRequest] = useState<RequestDetails | null>(
@@ -20,6 +23,10 @@ export default function RequestCardManagement() {
   const handleCloseModal = () => {
     setSelectedRequest(null);
   };
+
+  if (!AllRequestsById || AllRequestsById.length === 0) {
+    return <NoRequest />;
+  }
 
   return (
     <div className="container mx-auto py-10">

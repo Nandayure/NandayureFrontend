@@ -46,7 +46,6 @@ export async function getCurrentToApprove(token: string) {
     options,
   );
   const data = (await res.json()) as CurrentToApprove[];
-  console.log(data);
   return data;
 }
 

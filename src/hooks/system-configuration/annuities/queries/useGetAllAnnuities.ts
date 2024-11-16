@@ -15,10 +15,7 @@ const useGetAllAnnuities = () => {
   } = useQuery<Annuity[]>({
     queryFn: getAllAnnuities,
     queryKey: ['getAllAnnuities'],
-  });
-
-  console.log('Datos de empleados:', employees); 
-  console.log('Datos de anualidades:', annuities); 
+  }); 
 
   const annuitiesWithEmployees = annuities?.map((annuity) => {
     const employee = employees?.find((emp: AnnuityEmployee) => emp.id === annuity.EmployeeId);

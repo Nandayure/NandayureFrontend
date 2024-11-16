@@ -8,9 +8,7 @@ import { useGetAllRequest, useGetRoles } from '@/hooks';
 
 const Nav = () => {
   const { data: session, status } = useSession();
-  const { allRequests } = useGetAllRequest();
   const { roles } = useGetRoles();
-  console.log(allRequests);
   let userInfo;
 
   if (status === 'loading') {
@@ -32,7 +30,7 @@ const Nav = () => {
       </div>
       <div className="flex items-center space-x-4">
         <span className="w-32 sm:w-auto truncate">{userInfo}</span>
-        {roles && roles.includes('RH') && (
+        {roles && (roles.includes('RH') || roles.includes('VA')) && (
           <div>
             <InboxComponent />
           </div>

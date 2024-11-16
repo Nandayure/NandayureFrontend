@@ -107,3 +107,37 @@ export const navLinksUser: Record<string, NavLink> = {
     label: 'Mis solicitudes',
   },
 };
+
+
+export const navLinksVA: Record<string, NavLink> = {
+  home: { href: '/', icon: Home, label: 'Inicio' },
+  creacionPlanillas: {
+    href: '/payroll-creation',
+    icon: FileText,
+    label: 'Creación de planillas',
+  },
+  Solicitudes: {
+    href: '/request',
+    icon: SquarePen,
+    label: 'Solicitudes',
+    subLinks: {
+      solicitudVacaciones: {
+        href: '/request/vacation-request',
+        label: 'Solicitud de vacaciones',
+      },
+      boletaPago: {
+        href: '/request/pay-slip',
+        label: 'Boleta de pago',
+      },
+      constanciaSalarial: {
+        href: '/request/salary-certificate',
+        label: 'Constancia salarial',
+      },
+    },
+  },
+  miSolicitudes: {
+    href: '/request-management/my-requests',
+    icon: PanelTopOpen,
+    label: 'Mis solicitudes',
+  }
+};

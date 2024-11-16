@@ -17,9 +17,7 @@ export default function SearchBar({
     e.preventDefault();
     if (searchQuery) {
       setSearchQuery('');
-    } else {
-      console.log('Performing search...');
-    }
+    } 
   };
 
   return (

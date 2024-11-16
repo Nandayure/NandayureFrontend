@@ -46,7 +46,6 @@ const usePostEmployee = () => {
       await mutationPromise;
       router.push('/success');
     } catch (error: any) {
-      console.log('Error en onSubmit:', error.message);
       setError('root', {
         type: 'manual',
         message: error.message,

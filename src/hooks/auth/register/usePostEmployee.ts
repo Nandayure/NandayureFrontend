@@ -16,6 +16,7 @@ const usePostEmployee = () => {
     handleSubmit,
     register,
     setError,
+    setValue,
     formState: { errors },
   } = useForm<FormsFields>({
     resolver: zodResolver(RegisterSchema),
@@ -45,7 +46,6 @@ const usePostEmployee = () => {
       await mutationPromise;
       router.push('/success');
     } catch (error: any) {
-      console.log('Error en onSubmit:', error.message);
       setError('root', {
         type: 'manual',
         message: error.message,
@@ -59,6 +59,7 @@ const usePostEmployee = () => {
     register,
     mutation,
     errors,
+    setValue,
   };
 };
 

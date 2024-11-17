@@ -1,4 +1,3 @@
-// components/common/pdf-uploader.tsx
 'use client';
 
 import React, { useState, useCallback, useEffect } from 'react';
@@ -16,23 +15,25 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { notify } from '@/utils/notification';
 import { uploadDocument } from '@/services/UploadDocument/uploadDocument';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   EmployeeId: string;
 }
 
 export default function PDFUploader({ EmployeeId }: Props) {
-  const [files, setFiles] = useState<File[]>([]);
+  const [file, setFile] = useState<File | null>(null); // Cambiado de array a un solo archivo
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [progress, setProgress] = useState(100);
+  const queryClient = useQueryClient();
   const [isUploading, setIsUploading] = useState(false);
 
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: FileRejection[]) => {
-      const pdfFiles = acceptedFiles.filter(
-        (file) => file.type === 'application/pdf',
-      );
-      setFiles((prevFiles) => [...prevFiles, ...pdfFiles]);
+      if (acceptedFiles.length > 0) {
+        const pdfFile = acceptedFiles[0];
+        setFile(pdfFile); // Solo se guarda un archivo
+      }
 
       if (fileRejections.length > 0) {
         setShowErrorModal(true);
@@ -45,32 +46,33 @@ export default function PDFUploader({ EmployeeId }: Props) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: { 'application/pdf': ['.pdf'] },
+    multiple: false, // Limita a un solo archivo
   });
 
-  const removeFile = (fileToRemove: File) => {
-    setFiles(files.filter((file) => file !== fileToRemove));
+  const removeFile = () => {
+    setFile(null);
   };
 
   const handleUpload = async () => {
+    if (!file) return;
+
     setIsUploading(true);
     try {
-      for (const file of files) {
-        // Aquí puedes extraer el FileName del nombre del archivo o solicitarlo al usuario
-        const FileName = generateFileName(file.name);
-        await notify(
-          uploadDocument({
-            EmployeeId,
-            FileName,
-            file,
-          }),
-          {
-            loading: `Subiendo ${file.name}...`,
-            success: `${file.name} subido con éxito`,
-            error: `Error al subir ${file.name}`,
-          },
-        );
-      }
-      setFiles([]);
+      const FileName = generateFileName(file.name);
+      await notify(
+        uploadDocument({
+          EmployeeId,
+          FileName,
+          file,
+        }),
+        {
+          loading: `Subiendo ${file.name}...`,
+          success: `${file.name} subido con éxito`,
+          error: `Error al subir ${file.name}`,
+        },
+      );
+      setFile(null);
+      queryClient.invalidateQueries({ queryKey: ['files', EmployeeId] });
     } catch (error) {
       console.error('Error al subir archivos:', error);
     } finally {
@@ -127,35 +129,28 @@ export default function PDFUploader({ EmployeeId }: Props) {
                 : 'Arrastra y suelta un archivo PDF aquí, o haz clic para seleccionar'}
             </p>
           </div>
-          {files.length > 0 && (
-            <div className="mt-4 space-y-2">
-              {files.map((file, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between bg-muted p-2 rounded"
-                >
-                  <div className="flex items-center space-x-2">
-                    <FileIcon className="h-5 w-5" />
-                    <span className="text-sm truncate">{file.name}</span>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => removeFile(file)}
-                    className="h-8 w-8"
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              ))}
+          {file && (
+            <div className="mt-4 flex items-center justify-between bg-muted p-2 rounded">
+              <div className="flex items-center space-x-2">
+                <FileIcon className="h-5 w-5" />
+                <span className="text-sm truncate">{file.name}</span>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={removeFile}
+                className="h-8 w-8"
+              >
+                <X className="h-4 w-4" />
+              </Button>
             </div>
           )}
           <Button
             className="w-full mt-4"
             onClick={handleUpload}
-            disabled={files.length === 0 || isUploading}
+            disabled={!file || isUploading}
           >
-            {isUploading ? 'Subiendo...' : `Subir ${files.length} archivo(s)`}
+            {isUploading ? 'Subiendo...' : `Subir archivo`}
           </Button>
         </CardContent>
       </Card>

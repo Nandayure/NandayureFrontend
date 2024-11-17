@@ -37,4 +37,7 @@ export const RegisterSchema = z.object({
   GenderId: z.string().refine((val) => !isNaN(Number(val)), {
     message: 'El género debe ser un número.',
   }),
+  JobPositionId: z.string().refine((val) => !isNaN(Number(val)), {
+    message: 'La posición laboral debe ser un número.',
+  }),
 });

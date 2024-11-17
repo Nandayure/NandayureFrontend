@@ -7,4 +7,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const formatDate = (dateString: string) =>
-  format(new Date(dateString), 'DD/MM/YYYY');
+  format({
+    date: new Date(dateString), 
+    format: 'D MMMM YYYY',
+    locale: 'es',
+  });
+

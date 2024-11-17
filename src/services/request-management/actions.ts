@@ -1,4 +1,5 @@
-import { currentToApprove, RequestDetails } from '@/types';
+import { CurrentToApprove } from "@/types";
+import { RequestDetails } from "@/types/request-management/commonTypes";
 
 export async function getAllRequests() {
   const options = {
@@ -44,8 +45,7 @@ export async function getCurrentToApprove(token: string) {
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/request-approvals/currentToApprove`,
     options,
   );
-  const data = (await res.json()) as currentToApprove[];
-  console.log(data);
+  const data = (await res.json()) as CurrentToApprove[];
   return data;
 }
 

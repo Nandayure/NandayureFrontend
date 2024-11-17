@@ -1,3 +1,4 @@
+import Flag from '@/components/common/Flag';
 import Nav from '@/components/dashboard/nav/nav';
 import { SideBarSystemConfiguration } from '@/components/system-configuration/sider-bar/side-bar';
 import { Metadata } from 'next';
@@ -13,12 +14,30 @@ export default function SystemConfigurationLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="min-h-screen flex">
-      <SideBarSystemConfiguration />
-      <div className="flex-1 p-2">
-        <Nav />
+    <>
+    <div className="hidden sm:block">
+      <main className="min-h-screen flex">
+        <SideBarSystemConfiguration />
+        <div className="flex-1 p-2">
+          <Nav />
+          <Flag />
+          {children}
+        </div>
+      </main>
+    </div>
+
+    <div className="block sm:hidden w-full">
+      <main className="min-h-screen w-full flex flex-col overflow-hidden">
+        {/* navigation mobile */}
+        <div className="flex items-center w-full">
+          <SideBarSystemConfiguration /> {/* Barra lateral a la izquierda */}
+          <div className="flex w-full py-2">
+            <Nav /> {/* Navbar a la derecha */}
+          </div>
+        </div>
         {children}
-      </div>
-    </main>
+      </main>
+    </div>
+  </>
   );
 }

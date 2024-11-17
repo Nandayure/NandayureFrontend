@@ -1,7 +1,7 @@
 import { getStudiesCategoryById } from "@/services";
 import { useQuery } from "@tanstack/react-query";
 
-const useGetStudiesCategoryById = (id: number) => {
+const useGetStudiesCategoryById = (id: string) => {
   const {
     data: studiesCategoryById,
     isLoading,

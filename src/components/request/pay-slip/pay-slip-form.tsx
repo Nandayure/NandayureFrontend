@@ -16,7 +16,7 @@ const PaySlipForm = () => {
         Solicitud de boletas de pago
       </h5>
       <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-        Por favor, introduce la fecha y el motivo de la solicitud.
+        Por favor, indique el motivo de la solicitud.
       </p>
       <Flag />
       <div className="mt-4" />
@@ -28,7 +28,7 @@ const PaySlipForm = () => {
         register={register}
       />
       <div className="flex w-full justify-end">
-        <Button type="submit" className="mt-4" disabled={mutation.isPending}>
+        <Button type="submit" className="mt-4 w-full sm:w-auto" disabled={mutation.isPending}>
           {mutation.isPending ? <Spinner /> : 'Enviar solicitud'}
         </Button>
       </div>

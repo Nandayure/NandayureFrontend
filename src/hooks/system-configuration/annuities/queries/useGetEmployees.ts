@@ -13,7 +13,6 @@ const useGetEmployees = () => {
     queryFn: getEmployees,
     queryKey: ['getEmployees'],
   });
-  console.log('Datos de empleados:', employees);
   return {
     employees,
     isLoading,

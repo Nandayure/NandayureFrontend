@@ -1,11 +1,11 @@
 import { patchRequestApproval } from '@/services';
-import { currentToApprove } from '@/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useGetToken from '../common/useGetToken';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
+import { CurrentToApprove } from '@/types';
 
 const usePatchRequestApproval = () => {
   const {
@@ -17,7 +17,7 @@ const usePatchRequestApproval = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { token } = useGetToken();
   const [selectedRequest, setSelectedRequest] =
-    useState<currentToApprove | null>(null);
+    useState<CurrentToApprove | null>(null);
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (data: { approved: boolean; observation: string }) => {
@@ -33,7 +33,7 @@ const usePatchRequestApproval = () => {
     },
   });
 
-  const handleRequestClick = (request: currentToApprove) => {
+  const handleRequestClick = (request: CurrentToApprove) => {
     setSelectedRequest(request);
     setIsModalOpen(true);
   };

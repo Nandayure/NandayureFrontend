@@ -1,4 +1,3 @@
-import { RequestDetails } from '@/types';
 import {
   Dialog,
   DialogContent,
@@ -13,6 +12,7 @@ import { getRequestState, getRequestType } from '../../request-helpers';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal, AwaitedReactNode } from 'react';
 
 const requestTypeRoutes: { [key: number]: string } = {
   1: '/request/vacation-request/',
@@ -25,7 +25,7 @@ const RequestModal = ({
   isOpen,
   onClose,
 }: {
-  request: RequestDetails | null;
+  request: any
   isOpen: boolean;
   onClose: () => void;
 }) => {
@@ -97,7 +97,7 @@ const RequestModal = ({
 
           <div className="space-y-2">
             <h3 className="text-lg font-semibold">Proceso de aprobación</h3>
-            {request.RequestApprovals.map((approval) => (
+            {request.RequestApprovals.map((approval: { id: Key | null | undefined; processNumber: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; approverId: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; Name: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; Surname1: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; Surname2: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; approved: boolean; ApprovedDate: string; observation: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; }) => (
               <div key={approval.id} className="rounded-md border p-4">
                 <div className="grid grid-cols-2 gap-2">
                   <span className="font-semibold">Número de proceso:</span>

@@ -42,6 +42,7 @@ export interface RequestVacation {
 }
 
 export interface RequestDetails {
+  RequestApprovals: any;
   id: number;
   date: string;
   RequestStateId: number;

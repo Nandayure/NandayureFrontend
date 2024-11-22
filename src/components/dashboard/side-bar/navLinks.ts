@@ -84,7 +84,7 @@ export const navLinksRH: Record<string, NavLink> = {
 
 export const navLinksUser: Record<string, NavLink> = {
   home: { href: '/', icon: Home, label: 'Inicio' },
-  miExpediente: { href: '/my-file', icon: Folder, label: 'Mi expediente' },
+  miExpediente: { href: '/my-file', icon: Folder, label: 'Mis Documentos' },
   gestionSolicitudes: {
     href: '/request-management',
     icon: UserCheck,

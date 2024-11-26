@@ -1,4 +1,5 @@
 'use client';
+import Flag from '@/components/common/Flag';
 import { Button } from '@/components/ui/button';
 import InputField from '@/components/ui/input-field';
 import Spinner from '@/components/ui/spinner';
@@ -15,13 +16,9 @@ const PaySlipForm = () => {
         Solicitud de boletas de pago
       </h5>
       <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-        Por favor, introduce la fecha y el motivo de la solicitud.
+        Por favor, indique el motivo de la solicitud.
       </p>
-      <div className="flex mb-6 mt-4">
-        <div className="flex-1 h-1 bg-dodger-blue-500"></div>
-        <div className="flex-1 h-1 bg-golden-dream-500"></div>
-        <div className="flex-1 h-1 bg-apple-500"></div>
-      </div>
+      <Flag />
       <div className="mt-4" />
       <InputField
         id="reason"
@@ -30,13 +27,11 @@ const PaySlipForm = () => {
         placeholder="Escribe el motivo de la solicitud"
         register={register}
       />
-      <Button
-        type="submit"
-        className="mt-4 w-full"
-        disabled={mutation.isPending}
-      >
-        {mutation.isPending ? <Spinner /> : 'Enviar solicitud'}
-      </Button>
+      <div className="flex w-full justify-end">
+        <Button type="submit" className="mt-4 w-full sm:w-auto" disabled={mutation.isPending}>
+          {mutation.isPending ? <Spinner /> : 'Enviar solicitud'}
+        </Button>
+      </div>
     </form>
   );
 };

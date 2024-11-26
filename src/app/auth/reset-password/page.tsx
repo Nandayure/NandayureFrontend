@@ -1,12 +1,24 @@
 'use client';
+
 import ResetPasswordForm from '@/components/auth/reset-password/reset-password-form';
 import { titleFont } from '@/config/fonts';
 import { useSearchParams } from 'next/navigation';
+import React, { Suspense } from 'react';
 
 export default function ResetPasswordTokenPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetPasswordTokenContent />
+    </Suspense>
+  );
+}
+
+function ResetPasswordTokenContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
+
   if (!token) return null;
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-4 sm:px-6 lg:px-8 py-24 select-none">
       <div className="w-full sm:w-96 p-6 bg-white border border-gray-200 rounded-lg shadow">

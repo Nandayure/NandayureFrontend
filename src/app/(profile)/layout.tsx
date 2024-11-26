@@ -1,3 +1,4 @@
+import Flag from '@/components/common/Flag';
 import Nav from '@/components/dashboard/nav/nav';
 import { SideBarProfile } from '@/components/profile/side-bar/side-bar';
 import { Metadata } from 'next';
@@ -13,12 +14,30 @@ export default function ProfileLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="min-h-screen flex">
-      <SideBarProfile />
-      <div className="flex-1 p-4">
-        <Nav />
-        {children}
+    <>
+      <div className="hidden sm:block">
+        <main className="min-h-screen flex">
+          <SideBarProfile />
+          <div className="flex-1 p-2">
+            <Nav />
+            <Flag />
+            {children}
+          </div>
+        </main>
       </div>
-    </main>
+
+      <div className="block sm:hidden w-full">
+        <main className="min-h-screen w-full flex flex-col overflow-hidden">
+          {/* navigation mobile */}
+          <div className="flex items-center w-full">
+            <SideBarProfile /> {/* Barra lateral a la izquierda */}
+            <div className="flex w-full py-2">
+              <Nav /> {/* Navbar a la derecha */}
+            </div>
+          </div>
+          {children}
+        </main>
+      </div>
+    </>
   );
 }

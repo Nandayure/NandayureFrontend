@@ -85,15 +85,18 @@ const ChangePasswordForm = () => {
       {errors.root && (
         <div className="text-red-500 text-sm mt-2">{errors.root.message}</div>
       )}
+      <div className='flex w-full justify-end'>
       <Button
         type="submit"
-        className="w-full mt-4"
+        className="mt-4"
         disabled={mutation.isPending}
       >
+
         <div className="flex justify-center items-center">
           {mutation.isPending ? <Spinner /> : <span>Actualizar</span>}
         </div>
       </Button>
+      </div>
     </form>
   );
 };

@@ -1,19 +1,34 @@
+'use client';
+import Image from 'next/image';
 import LoginForm from '@/components/auth/login/login-form';
 import { titleFont } from '@/config/fonts';
 
-const LoginPage = () => {
+export default function LoginPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between px-4 sm:px-6 lg:px-8 py-24 select-none">
-      <div className="w-full sm:w-96 p-6 bg-white border border-gray-200 rounded-lg shadow">
-        <h5
-          className={`${titleFont.className} flex justify-center mb-3 text-lg sm:text-2xl font-bold tracking-tight text-gray-900`}
-        >
-          Inicio de sesión
-        </h5>
-        <LoginForm />
+    <main className="flex min-h-screen">
+      {/* Left side - Image */}
+      <div className="hidden lg:block lg:w-1/2 relative">
+        <Image
+          src="/MunicipalidadLogin.jpg"
+          alt="Municipalidad Login"
+          layout="fill"
+          objectFit="cover"
+          priority
+          className="brightness-75"
+        />
+      </div>
+
+      {/* Right side - Login Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 bg-gray-50">
+        <div className="w-full max-w-md">
+          <div className="bg-white p-8 border border-gray-200 rounded-lg shadow-lg">
+            <h1 className={`${titleFont.className} text-center mb-6 text-2xl font-bold tracking-tight text-gray-900`}>
+              Inicio de sesión
+            </h1>
+            <LoginForm />
+          </div>
+        </div>
       </div>
     </main>
   );
-};
-
-export default LoginPage;
+}

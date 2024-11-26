@@ -41,7 +41,6 @@ export function DialogProfile({
       setIsOpen,
     });
 
-  console.log(errors);
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>

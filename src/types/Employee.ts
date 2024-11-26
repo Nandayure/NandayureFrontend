@@ -8,5 +8,4 @@ export interface Employee extends Person {
   MaritalStatusId: number;
   GenderId: number;
   JobPositionId: number;
-  EmbargoId: number;
 }

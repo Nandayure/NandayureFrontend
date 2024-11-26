@@ -131,7 +131,7 @@ const SalaryCertificateTemplate = ({ id }: { id: string }) => {
         <Document>
           <Page size="A4" style={styles.page}>
             <View style={styles.header}>
-              <Image style={styles.logo} src={logo.src} />
+              <Image style={styles.logo} src={logo.src}  />
               <View style={styles.tituloContainer}>
                 <Text style={[styles.titulo, styles.boldText]}>
                   Municipalidad de Nandayure

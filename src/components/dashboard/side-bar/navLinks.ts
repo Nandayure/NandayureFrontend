@@ -30,11 +30,6 @@ interface Props {
 
 export const navLinksRH: Record<string, NavLink> = {
   home: { href: '/', icon: Home, label: 'Inicio' },
-  creacionPlanillas: {
-    href: '/payroll-creation',
-    icon: FileText,
-    label: 'Creación de planillas',
-  },
   gestionDocumentos: {
     href: '/document-management',
     icon: Folder,
@@ -111,11 +106,6 @@ export const navLinksUser: Record<string, NavLink> = {
 
 export const navLinksVA: Record<string, NavLink> = {
   home: { href: '/', icon: Home, label: 'Inicio' },
-  creacionPlanillas: {
-    href: '/payroll-creation',
-    icon: FileText,
-    label: 'Creación de planillas',
-  },
   Solicitudes: {
     href: '/request',
     icon: SquarePen,

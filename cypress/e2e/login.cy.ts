@@ -4,9 +4,11 @@ describe('Login Page', () => {
   });
 
   it('should login with valid credentials', () => {
-    cy.get('[data-cy="login-input-id"]').type('504510677');
+    const loginId = Cypress.env('loginId');
+    const loginPassword = Cypress.env('loginPassword');
 
-    cy.get('[data-cy="login-input-password"]').type('SuarezG271003#$', {
+    cy.get('[data-cy="login-input-id"]').type(loginId);
+    cy.get('[data-cy="login-input-password"]').type(loginPassword, {
       log: false,
     });
     cy.get('[data-cy="login-button"]').click();

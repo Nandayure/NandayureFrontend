@@ -1,7 +1,5 @@
-// src/common/navLinks.ts
 import {
   Clock,
-  FileText,
   Folder,
   Home,
   LucideIcon,
@@ -27,19 +25,12 @@ interface Props {
   navLinks: Record<string, NavLink>;
 }
 
-
 export const navLinksRH: Record<string, NavLink> = {
   home: { href: '/', icon: Home, label: 'Inicio' },
   gestionDocumentos: {
-    href: '/document-management',
+    href: '/document-management/digital-files',
     icon: Folder,
-    label: 'Gestión de documentos',
-    subLinks: {
-      ExpedientesDigitales: {
-        href: '/document-management/digital-files',
-        label: 'Documentos digitales',
-      }
-    },
+    label: 'Documentos digitales',
   },
   gestionSolicitudes: {
     href: '/request-management',
@@ -103,7 +94,6 @@ export const navLinksUser: Record<string, NavLink> = {
   },
 };
 
-
 export const navLinksVA: Record<string, NavLink> = {
   home: { href: '/', icon: Home, label: 'Inicio' },
   Solicitudes: {
@@ -129,5 +119,5 @@ export const navLinksVA: Record<string, NavLink> = {
     href: '/request-management/my-requests',
     icon: PanelTopOpen,
     label: 'Mis solicitudes',
-  }
+  },
 };

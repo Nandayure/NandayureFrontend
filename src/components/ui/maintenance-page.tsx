@@ -1,4 +1,4 @@
-import { titleFont } from '@/config/fonts';
+import { titleFont } from '@/lib/fonts';
 import Image from 'next/image';
 import React from 'react';
 interface Props {

@@ -1,5 +1,5 @@
 'use client';
-import { titleFont } from '@/config/fonts';
+import { titleFont } from '@/lib/fonts';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 import User from './user';

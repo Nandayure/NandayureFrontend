@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import LoginForm from '@/components/auth/login/login-form';
-import { titleFont } from '@/config/fonts';
+import { titleFont } from '@/lib/fonts';
 
 export default function LoginPage() {
   return (

@@ -19,18 +19,9 @@ describe('Login Page', () => {
    * @test Debe iniciar sesión exitosamente cuando se proporcionan credenciales correctas
    */
   it('should login with valid credentials', () => {
-    const loginId = Cypress.env('loginId');
-    const loginPassword = Cypress.env('loginPassword');
-
-    cy.get('[data-cy="login-input-id"]').type(loginId);
-    cy.get('[data-cy="login-input-password"]').type(loginPassword, {
-      log: false,
-    });
-    cy.get('[data-cy="login-button"]').click();
-
+    cy.login();
     cy.url().should('include', '/');
   });
-
   /**
    * @description Prueba el manejo de credenciales inválidas
    * @test Debe mostrar un mensaje de error cuando se ingresan credenciales incorrectas
@@ -71,14 +62,7 @@ describe('Login Page', () => {
    * @test Debe redireccionar a la página de login después del logout
    */
   it('should redirect to login page after logout', () => {
-    const loginId = Cypress.env('loginId');
-    const loginPassword = Cypress.env('loginPassword');
-
-    cy.get('[data-cy="login-input-id"]').clear().type(loginId);
-    cy.get('[data-cy="login-input-password"]').clear().type(loginPassword, {
-      log: false,
-    });
-    cy.get('[data-cy="login-button"]').click();
+    cy.login();
     cy.url().should('not.include', '/auth/login');
 
     cy.get('[data-cy="user-menu"]').first().should('be.visible').click();

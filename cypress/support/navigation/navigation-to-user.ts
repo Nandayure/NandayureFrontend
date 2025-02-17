@@ -1,13 +1,4 @@
-interface NavigationTest {
-  description: string;
-  path: string;
-  steps: NavigationStep[];
-}
-
-interface NavigationStep {
-  selector: string;
-  urlIncludes?: string;
-}
+import { NavigationTest } from "../types/navigation";
 
 export const navigationTests: NavigationTest[] = [
   {

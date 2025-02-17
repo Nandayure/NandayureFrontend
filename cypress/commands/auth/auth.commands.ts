@@ -1,15 +1,21 @@
 declare namespace Cypress {
   interface Chainable {
-    login(): Chainable<Element>;
+    login(role: 'rh' | 'user' | 'mayor'): Chainable<Element>;
   }
 }
-Cypress.Commands.add('login', () => {
-  const loginId = Cypress.env('loginId');
-  const loginPassword = Cypress.env('loginPassword');
+
+Cypress.Commands.add('login', (role: 'rh' | 'user' | 'mayor') => {
+  if (!role) {
+    throw new Error('Debe especificar un rol: "rh", "user" o "mayor".');
+  }
+  const user = Cypress.env(role);
+  if (!user) {
+    throw new Error(`No se encontraron credenciales para el rol: ${role}`);
+  }
   cy.visit('/auth/login');
-  cy.get('[data-cy="login-input-id"]').clear().type(loginId);
+  cy.get('[data-cy="login-input-id"]').clear().type(user.loginId);
   cy.get('[data-cy="login-input-password"]')
     .clear()
-    .type(loginPassword, { log: false });
+    .type(user.loginPassword, { log: false });
   cy.get('[data-cy="login-button"]').click();
 });

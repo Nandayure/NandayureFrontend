@@ -19,7 +19,7 @@ describe('Login Page', () => {
    * @test Debe iniciar sesión exitosamente cuando se proporcionan credenciales correctas
    */
   it('should login with valid credentials', () => {
-    cy.login();
+    cy.login('rh');
     cy.url().should('include', '/');
   });
   /**
@@ -62,7 +62,7 @@ describe('Login Page', () => {
    * @test Debe redireccionar a la página de login después del logout
    */
   it('should redirect to login page after logout', () => {
-    cy.login();
+    cy.login('rh');
     cy.url().should('not.include', '/auth/login');
 
     cy.get('[data-cy="user-menu"]').first().should('be.visible').click();

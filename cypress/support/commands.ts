@@ -1,5 +1,5 @@
 import '../commands/auth/auth.commands';
-import '../commands/auth/navigation.commands';
+import '../commands/navigation/navigation.commands';
 
 /// <reference types="cypress" />
 // ***********************************************

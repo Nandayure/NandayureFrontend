@@ -1,4 +1,4 @@
-import { navigationTests } from '../../support/navigation/navigation-to-user';
+import { navigationTests } from '../../support/navigation/navigation-to-user-dashboard';
 
 describe('User Navigation - Authorized Routes', () => {
   beforeEach(() => {

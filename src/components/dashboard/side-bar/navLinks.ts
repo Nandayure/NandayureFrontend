@@ -11,6 +11,7 @@ import {
 export interface SubLink {
   href: string;
   label: string;
+  dataCy?: string;
 }
 
 export interface NavLink {
@@ -49,14 +50,17 @@ export const baseNavLinks: Record<string, NavLink> = {
       solicitudVacaciones: {
         href: '/request/vacation-request',
         label: 'Solicitud de vacaciones',
+        dataCy: 'sidebar-dashboard-vacation-request',
       },
       boletaPago: {
         href: '/request/pay-slip',
         label: 'Boleta de pago',
+        dataCy: 'sidebar-dashboard-pay-slip',
       },
       constanciaSalarial: {
         href: '/request/salary-certificate',
         label: 'Constancia salarial',
+        dataCy: 'sidebar-dashboard-salary-certificate',
       },
     },
   },

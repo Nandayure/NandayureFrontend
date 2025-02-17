@@ -11,13 +11,14 @@ import {
 export interface SubLink {
   href: string;
   label: string;
+  dataCy?: string;
 }
 
 export interface NavLink {
   href: string;
   icon: LucideIcon;
   label: string;
-  dataCy?: string; 
+  dataCy?: string;
   subLinks?: Record<string, SubLink>;
 }
 
@@ -26,37 +27,40 @@ export const baseNavLinks: Record<string, NavLink> = {
     href: '/',
     icon: Home,
     label: 'Inicio',
-    dataCy: 'nav-home',
+    dataCy: 'sidebar-dashboard-home',
   },
   gestionDocumentos: {
     href: '/document-management/digital-files',
     icon: Folder,
     label: 'Documentos digitales',
-    dataCy: 'nav-gestion-documentos',
+    dataCy: 'sidebar-dashboard-digital-documents',
   },
   gestionSolicitudes: {
     href: '/request-management',
     icon: UserCheck,
     label: 'Gestión de solicitudes',
-    dataCy: 'nav-gestion-solicitudes',
+    dataCy: 'sidebar-dashboard-request-management',
   },
   Solicitudes: {
     href: '/request',
     icon: SquarePen,
     label: 'Solicitudes',
-    dataCy: 'nav-solicitudes',
+    dataCy: 'sidebar-dashboard-requests',
     subLinks: {
       solicitudVacaciones: {
         href: '/request/vacation-request',
         label: 'Solicitud de vacaciones',
+        dataCy: 'sidebar-dashboard-vacation-request',
       },
       boletaPago: {
         href: '/request/pay-slip',
         label: 'Boleta de pago',
+        dataCy: 'sidebar-dashboard-pay-slip',
       },
       constanciaSalarial: {
         href: '/request/salary-certificate',
         label: 'Constancia salarial',
+        dataCy: 'sidebar-dashboard-salary-certificate',
       },
     },
   },
@@ -64,25 +68,26 @@ export const baseNavLinks: Record<string, NavLink> = {
     href: '/request-management/my-requests',
     icon: PanelTopOpen,
     label: 'Mis solicitudes',
-    dataCy: 'nav-mi-solicitudes',
+    dataCy: 'sidebar-dashboard-my-requests',
   },
   controlMarcas: {
     href: '/time-tracking',
     icon: Clock,
     label: 'Control de marcas',
-    dataCy: 'nav-control-marcas',
+    dataCy: 'sidebar-dashboard-time-tracking',
   },
   miExpediente: {
     href: '/my-file',
     icon: Folder,
     label: 'Mis Documentos',
-    dataCy: 'nav-mi-expediente',
+    dataCy: 'sidebar-dashboard-my-documents',
   },
 };
 
-// Se conforman los navLinks por rol extrayendo del objeto base
+// The navLinks are structured for each role by extracting from the base object.
 export const navLinksRH: Record<string, NavLink> = {
   home: baseNavLinks.home,
+  miExpediente: baseNavLinks.miExpediente,
   gestionDocumentos: baseNavLinks.gestionDocumentos,
   gestionSolicitudes: baseNavLinks.gestionSolicitudes,
   Solicitudes: baseNavLinks.Solicitudes,
@@ -93,12 +98,13 @@ export const navLinksRH: Record<string, NavLink> = {
 export const navLinksUser: Record<string, NavLink> = {
   home: baseNavLinks.home,
   miExpediente: baseNavLinks.miExpediente,
-  gestionSolicitudes: baseNavLinks.gestionSolicitudes,
+  Solicitudes: baseNavLinks.Solicitudes,
   miSolicitudes: baseNavLinks.miSolicitudes,
 };
 
 export const navLinksVA: Record<string, NavLink> = {
   home: baseNavLinks.home,
+  miExpediente: baseNavLinks.miExpediente,
   Solicitudes: baseNavLinks.Solicitudes,
   miSolicitudes: baseNavLinks.miSolicitudes,
 };

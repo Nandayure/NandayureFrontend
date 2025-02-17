@@ -65,8 +65,7 @@ describe('Login Page', () => {
     cy.login('rh');
     cy.url().should('not.include', '/auth/login');
 
-    cy.get('[data-cy="user-menu"]').first().should('be.visible').click();
-    cy.get('[data-cy="logout-button"]').should('be.visible').click();
+    cy.logout();
     cy.url().should('include', '/auth/login');
   });
 });

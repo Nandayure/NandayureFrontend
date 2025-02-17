@@ -1,6 +1,7 @@
 declare namespace Cypress {
   interface Chainable {
     login(role: 'rh' | 'user' | 'mayor'): Chainable<Element>;
+    logout(): Chainable<Element>;
   }
 }
 
@@ -18,4 +19,9 @@ Cypress.Commands.add('login', (role: 'rh' | 'user' | 'mayor') => {
     .clear()
     .type(user.loginPassword, { log: false });
   cy.get('[data-cy="login-button"]').click();
+});
+
+Cypress.Commands.add('logout', () => {
+  cy.get('[data-cy="user-menu"]').first().should('be.visible').click();
+  cy.get('[data-cy="logout-button"]').should('be.visible').click();
 });

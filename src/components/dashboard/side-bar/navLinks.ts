@@ -17,7 +17,7 @@ export interface NavLink {
   href: string;
   icon: LucideIcon;
   label: string;
-  dataCy?: string; 
+  dataCy?: string;
   subLinks?: Record<string, SubLink>;
 }
 
@@ -83,6 +83,7 @@ export const baseNavLinks: Record<string, NavLink> = {
 // Se conforman los navLinks por rol extrayendo del objeto base
 export const navLinksRH: Record<string, NavLink> = {
   home: baseNavLinks.home,
+  miExpediente: baseNavLinks.miExpediente,
   gestionDocumentos: baseNavLinks.gestionDocumentos,
   gestionSolicitudes: baseNavLinks.gestionSolicitudes,
   Solicitudes: baseNavLinks.Solicitudes,
@@ -99,6 +100,7 @@ export const navLinksUser: Record<string, NavLink> = {
 
 export const navLinksVA: Record<string, NavLink> = {
   home: baseNavLinks.home,
+  miExpediente: baseNavLinks.miExpediente,
   Solicitudes: baseNavLinks.Solicitudes,
   miSolicitudes: baseNavLinks.miSolicitudes,
 };

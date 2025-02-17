@@ -28,8 +28,7 @@ async function rolesMiddleware(req: NextRequest, roles: string[]) {
       req,
       secret: process.env.NEXTAUTH_SECRET,
     });
-    let tokenDecoded: Payload | null;
-    tokenDecoded = jwtDecode(session?.access_token as string);
+    const tokenDecoded: Payload | null = jwtDecode(session?.access_token as string);
 
     if (roles.some((role) => tokenDecoded?.roles.includes(role))) {
       return null;
@@ -57,6 +56,12 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // Limitar acceso a /request-management a los roles ADMIN y RH
+  if (pathname.startsWith('/request-management')) {
+    const roleResponse = await rolesMiddleware(req, [Roles.admin, Roles.rh]);
+    if (roleResponse) return roleResponse;
+  }
+
   // Protect all private routes
   let response = await authMiddleware(req);
   if (response) {
@@ -66,7 +71,7 @@ export async function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 
-// Define matcher for all private routes including sub-routes
+// Define matcher for all private routes incluyendo sub-rutas
 export const config = {
   matcher: [
     '/',

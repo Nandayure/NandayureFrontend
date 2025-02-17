@@ -3,7 +3,7 @@ import Flag from '@/components/common/Flag';
 import { Button } from '@/components/ui/button';
 import InputField from '@/components/ui/input-field';
 import Spinner from '@/components/ui/spinner';
-import { titleFont } from '@/config/fonts';
+import { titleFont } from '@/lib/fonts';
 import { usePostPaySlip } from '@/hooks';
 
 const PaySlipForm = () => {

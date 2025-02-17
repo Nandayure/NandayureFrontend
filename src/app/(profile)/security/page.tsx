@@ -1,6 +1,6 @@
 import ChangePasswordForm from '@/components/auth/change-password/change-password-form';
 import Flag from '@/components/common/Flag';
-import { titleFont } from '@/config/fonts';
+import { titleFont } from '@/lib/fonts';
 
 const SecurityPage = () => {
   return (

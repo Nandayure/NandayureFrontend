@@ -29,6 +29,7 @@ export default function User() {
         <Button
           variant="ghost"
           className="relative h-8 w-8 rounded-full p-0 m-0"
+          data-cy="user-menu"
         >
           <CircleUserRound strokeWidth={1.5} size={24} />
         </Button>
@@ -75,6 +76,7 @@ export default function User() {
         <DropdownMenuItem
           className="flex items-center text-red-600 focus:text-red-600"
           onSelect={() => signOut()}
+          data-cy="logout-button"
         >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Cerrar sesión</span>

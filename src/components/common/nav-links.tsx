@@ -15,13 +15,14 @@ export interface NavLink {
   href: string;
   icon: React.ElementType;
   label: string;
+  dataCy?: string;
   subLinks?: Record<string, SubLink>;
 }
 
 interface Props {
   isOpen: boolean;
   navLinks: Record<string, NavLink>;
-  onLinkClick?: () => void; // Para cerrar el sidebar móvil al hacer clic
+  onLinkClick?: () => void; 
 }
 
 export function NavLinks({ isOpen, navLinks, onLinkClick }: Props) {
@@ -39,6 +40,7 @@ export function NavLinks({ isOpen, navLinks, onLinkClick }: Props) {
           return (
             <div key={key}>
               <Button
+                data-cy={link.dataCy} 
                 variant="ghost"
                 className="flex items-center justify-between w-full"
                 onClick={() => setOpenSubMenu(openSubMenu === key ? null : key)}
@@ -105,6 +107,7 @@ export function NavLinks({ isOpen, navLinks, onLinkClick }: Props) {
         return (
           <Button
             key={key}
+            data-cy={link.dataCy} // Se añade data-cy aquí también
             variant="ghost"
             className="flex items-center justify-start w-full"
             asChild

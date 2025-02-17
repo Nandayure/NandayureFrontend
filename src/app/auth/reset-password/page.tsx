@@ -1,7 +1,7 @@
 'use client';
 
 import ResetPasswordForm from '@/components/auth/reset-password/reset-password-form';
-import { titleFont } from '@/config/fonts';
+import { titleFont } from '@/lib/fonts';
 import { useSearchParams } from 'next/navigation';
 import React, { Suspense } from 'react';
 

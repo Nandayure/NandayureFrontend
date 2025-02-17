@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import Spinner from '@/components/ui/spinner';
-import { titleFont } from '@/config/fonts';
+import { titleFont } from '@/lib/fonts';
 import { Button } from '@/components/ui/button';
 import usePostSendEmail from '@/hooks/auth/forgot-password/usePostSendEmail';
 

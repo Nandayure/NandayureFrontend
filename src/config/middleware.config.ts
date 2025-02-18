@@ -1,51 +1,35 @@
-import { Roles } from "@/lib/constants";
+import { Roles } from '@/lib/constants';
 
+// Rutas públicas
+export const PUBLIC_ROUTES: string[] = ['/auth/login', '/auth/forgot-password'];
 
-export const PUBLIC_ROUTES: string[] = [
-  '/auth/login',
-  '/auth/forgot-password'
+// Rutas comunes (intersección entre todos los roles)
+export const commonRoutes: string[] = [
+  '/',
+  '/my-file',
+  '/request/vacation-request',
+  '/request/pay-slip',
+  '/request/salary-certificate',
+  '/request-management/my-requests',
+  '/profile',
+  '/security',
 ];
 
 export type RoleRoutes = Record<string, string[]>;
 
 export const ROLE_ROUTES: RoleRoutes = {
-  [Roles.user]: [
-    '/',
-    '/my-file',
-    '/request/vacation-request',
-    '/request/pay-slip',
-    '/request/salary-certificate',
-    '/request-management/my-requests',
-    '/profile',
-    '/security'
-  ],
+  [Roles.user]: [...commonRoutes],
   [Roles.rh]: [
-    '/',
-    '/my-file',
-    '/request/vacation-request',
-    '/request/pay-slip',
-    '/request/salary-certificate',
-    '/request-management/my-requests',
-    '/profile',
-    '/security',
+    ...commonRoutes,
     '/document-management/*',
+    '/request-management',
     '/request-management/*',
     '/time-tracking',
     '/system-configuration/*',
-    '/auth/register'
+    '/auth/register',
   ],
   // VA para Alcalde
-  VA: [
-    '/',
-    '/my-file',
-    '/request/vacation-request',
-    '/request/pay-slip',
-    '/request/salary-certificate',
-    '/request-management/my-requests',
-    '/profile',
-    '/security',
-    '/request-management/*'
-  ]
+  VA: [...commonRoutes, '/request-management'],
 };
 
 /**

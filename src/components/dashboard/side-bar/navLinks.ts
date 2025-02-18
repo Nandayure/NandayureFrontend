@@ -105,6 +105,7 @@ export const navLinksUser: Record<string, NavLink> = {
 export const navLinksVA: Record<string, NavLink> = {
   home: baseNavLinks.home,
   miExpediente: baseNavLinks.miExpediente,
+  gestionSolicitudes: baseNavLinks.gestionSolicitudes,
   Solicitudes: baseNavLinks.Solicitudes,
   miSolicitudes: baseNavLinks.miSolicitudes,
 };

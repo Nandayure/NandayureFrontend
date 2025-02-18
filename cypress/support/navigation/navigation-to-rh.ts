@@ -40,6 +40,7 @@ export const rhSpecificNavigationTests: NavigationTest[] = [
     ],
   },
   {
+    // FIXME: This test is failing 
     description: 'should navigate to "/system-configuration/departments" from the sidebar',
     path: '/departments',
     steps: [

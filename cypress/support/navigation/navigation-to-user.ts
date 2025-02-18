@@ -1,4 +1,4 @@
-import { NavigationTest } from "../types/navigation";
+import { NavigationTest } from '../types/navigation';
 
 export const navigationTests: NavigationTest[] = [
   {
@@ -38,5 +38,25 @@ export const navigationTests: NavigationTest[] = [
       'should navigate to "/request-management/my-requests" by clicking through the sidebar',
     path: '/request-management/my-requests',
     steps: [{ selector: '[data-cy="sidebar-dashboard-my-requests"]' }],
+  },
+];
+
+export const navigationProfileTests: NavigationTest[] = [
+  {
+    description: 'should navigate to "/profile" from the sidebar',
+    path: '/profile',
+    steps: [
+      { selector: '[ data-cy="user-menu"]' },
+      { selector: '[data-cy="profile-button"]' },
+    ],
+  },
+  {
+    description: 'should navigate to "/security" from the sidebar',
+    path: '/security',
+    steps: [
+      { selector: '[ data-cy="user-menu"]' },
+      { selector: '[data-cy="profile-button"]' },
+      { selector: '[data-cy="sidebar-profile-security"]' },
+    ],
   },
 ];

@@ -1,4 +1,3 @@
-// src/components/common/nav-links.tsx
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -109,7 +108,7 @@ export function NavLinks({ isOpen, navLinks, onLinkClick }: Props) {
         return (
           <Button
             key={key}
-            data-cy={link.dataCy} // Se añade data-cy aquí también
+            data-cy={link.dataCy} 
             variant="ghost"
             className="flex items-center justify-start w-full"
             asChild

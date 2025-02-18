@@ -63,7 +63,6 @@ export const commonProfileNavigationTests: NavigationTest[] = [
   },
 ];
 
-// Función base para ejecutar tests de navegación
 export function runNavigationTests(
   role: 'rh' | 'user' | 'mayor',
   navigationTests: NavigationTest[],

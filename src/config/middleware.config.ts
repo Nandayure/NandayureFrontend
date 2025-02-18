@@ -26,6 +26,7 @@ export const ROLE_ROUTES: RoleRoutes = {
     '/request-management/*',
     '/time-tracking',
     '/system-configuration/*',
+    '/system-configuration',
     '/auth/register',
   ],
   // VA para Alcalde

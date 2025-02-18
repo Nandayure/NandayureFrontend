@@ -1,4 +1,3 @@
-// navigation-base.ts
 import { NavigationTest } from '../types/navigation';
 
 // Rutas comunes para todos los roles

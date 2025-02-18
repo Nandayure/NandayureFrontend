@@ -84,7 +84,6 @@ export const baseNavLinks: Record<string, NavLink> = {
   },
 };
 
-// The navLinks are structured for each role by extracting from the base object.
 export const navLinksRH: Record<string, NavLink> = {
   home: baseNavLinks.home,
   miExpediente: baseNavLinks.miExpediente,
@@ -105,6 +104,7 @@ export const navLinksUser: Record<string, NavLink> = {
 export const navLinksVA: Record<string, NavLink> = {
   home: baseNavLinks.home,
   miExpediente: baseNavLinks.miExpediente,
+  gestionSolicitudes: baseNavLinks.gestionSolicitudes,
   Solicitudes: baseNavLinks.Solicitudes,
   miSolicitudes: baseNavLinks.miSolicitudes,
 };

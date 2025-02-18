@@ -9,7 +9,6 @@ declare namespace Cypress {
   }
 }
 
-
 Cypress.Commands.add('performNavigation', (steps: NavigationStep[]) => {
   steps.forEach((step) => {
     cy.get(step.selector).should('be.visible').first().click();

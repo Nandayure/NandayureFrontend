@@ -12,6 +12,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "baseUrl": "http://localhost:3000",
     "plugins": [
       {
         "name": "next"

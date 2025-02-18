@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useGetRoles } from '@/hooks';
 import { navLinksRH, navLinksUser, navLinksVA } from './navLinks';
 import { MobileSidebar } from './mobile-side-bar';
@@ -8,40 +8,28 @@ import { DesktopSidebar } from './desktop-side-bar';
 import { SidebarSkeleton } from './skeleton-loader';
 import { useSidebarStore } from '@/store/useSidebarStore';
 
-// Objeto de caché para almacenar los navLinks según el rol.
-const navLinksCache: Record<string, any> = {};
-
 function getSelectedNavLinks(userRoles: string[]) {
   if (userRoles.includes('RH')) {
-    if (!navLinksCache['RH']) {
-      navLinksCache['RH'] = navLinksRH;
-    }
-    return navLinksCache['RH'];
+    return navLinksRH;
   } else if (userRoles.includes('VA')) {
-    if (!navLinksCache['VA']) {
-      navLinksCache['VA'] = navLinksVA;
-    }
-    return navLinksCache['VA'];
+    return navLinksVA;
   } else if (userRoles.includes('USER')) {
-    if (!navLinksCache['USER']) {
-      navLinksCache['USER'] = navLinksUser;
-    }
-    return navLinksCache['USER'];
+    return navLinksUser;
   }
   return {};
 }
-
 export function Sidebar() {
   const { roles, status } = useGetRoles();
   const { isOpen } = useSidebarStore();
 
+  const selectedNavLinks = useMemo(() => {
+    const userRoles = roles || [];
+    return getSelectedNavLinks(userRoles);
+  }, [roles]);
+
   if (status === 'loading') {
     return <SidebarSkeleton isOpen={isOpen} />;
   }
-
-  const userRoles = roles || [];
-  const selectedNavLinks = getSelectedNavLinks(userRoles);
-
   return (
     <>
       {/* Sidebar Móvil */}

@@ -1,6 +1,7 @@
 import Flag from '@/components/common/Flag';
 import Nav from '@/components/dashboard/nav/nav';
 import Sidebar from '@/components/dashboard/side-bar/side-bar';
+import { Suspense } from 'react';
 
 export default function DashboardLayout({
   children,
@@ -11,9 +12,13 @@ export default function DashboardLayout({
     <>
       <div className="hidden sm:block">
         <main className="min-h-screen flex">
-          <Sidebar />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Sidebar />
+          </Suspense>
           <div className="flex-1 p-2">
-            <Nav />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Nav />
+            </Suspense>
             <Flag />
             {children}
           </div>
@@ -24,9 +29,13 @@ export default function DashboardLayout({
         <main className="min-h-screen w-full flex flex-col overflow-hidden">
           {/* navigation mobile */}
           <div className="flex items-center w-full">
-            <Sidebar /> {/* Barra lateral a la izquierda */}
+            <Suspense fallback={<div>Loading...</div>}>
+              <Sidebar /> {/* Barra lateral a la izquierda */}
+            </Suspense>
             <div className="flex w-full py-2">
-              <Nav /> {/* Navbar a la derecha */}
+              <Suspense fallback={<div>Loading...</div>}>
+                <Nav /> {/* Navbar a la derecha */}
+              </Suspense>
             </div>
           </div>
           {children}

@@ -1,6 +1,6 @@
 import { NavigationTest } from '../types/navigation';
 
-export const navigationTests: NavigationTest[] = [
+export const navigationUserTests: NavigationTest[] = [
   {
     description: 'should navigate to "/my-file" from the sidebar',
     path: '/my-file',
@@ -41,7 +41,7 @@ export const navigationTests: NavigationTest[] = [
   },
 ];
 
-export const navigationProfileTests: NavigationTest[] = [
+export const navigationUserProfileTests: NavigationTest[] = [
   {
     description: 'should navigate to "/profile" from the sidebar',
     path: '/profile',

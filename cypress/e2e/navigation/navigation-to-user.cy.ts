@@ -1,7 +1,5 @@
-import {
-  navigationProfileTests,
-  navigationTests,
-} from '../../support/navigation/navigation-to-user';
+import { navigationUserProfileTests, navigationUserTests } from "../../support/navigation/navigation-to-user";
+
 
 describe('User Navigation dashboard - Authorized Routes', () => {
   beforeEach(() => {
@@ -27,7 +25,7 @@ describe('User Navigation dashboard - Authorized Routes', () => {
   });
 
   // Genera los tests dinámicamente
-  navigationTests.forEach(({ description, path, steps }) => {
+  navigationUserTests.forEach(({ description, path, steps }) => {
     it(description, () => {
       cy.performNavigation(steps);
       cy.url().should('include', path);
@@ -60,7 +58,7 @@ describe('User Navigation profile - Authorized Routes', () => {
     cy.url().should('include', '/auth/login');
   });
 
-  navigationProfileTests.forEach(({ description, path, steps }) => {
+  navigationUserProfileTests.forEach(({ description, path, steps }) => {
     it(description, () => {
       cy.performNavigation(steps);
       cy.url().should('include', path);

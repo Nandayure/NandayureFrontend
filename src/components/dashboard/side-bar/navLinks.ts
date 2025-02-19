@@ -1,7 +1,5 @@
-// src/common/navLinks.ts
 import {
   Clock,
-  FileText,
   Folder,
   Home,
   LucideIcon,
@@ -13,55 +11,56 @@ import {
 export interface SubLink {
   href: string;
   label: string;
+  dataCy?: string;
 }
 
 export interface NavLink {
   href: string;
   icon: LucideIcon;
   label: string;
+  dataCy?: string;
   subLinks?: Record<string, SubLink>;
 }
 
-interface Props {
-  isOpen: boolean;
-  navLinks: Record<string, NavLink>;
-}
-
-
-export const navLinksRH: Record<string, NavLink> = {
-  home: { href: '/', icon: Home, label: 'Inicio' },
+export const baseNavLinks: Record<string, NavLink> = {
+  home: {
+    href: '/',
+    icon: Home,
+    label: 'Inicio',
+    dataCy: 'sidebar-dashboard-home',
+  },
   gestionDocumentos: {
-    href: '/document-management',
+    href: '/document-management/digital-files',
     icon: Folder,
-    label: 'Gestión de documentos',
-    subLinks: {
-      ExpedientesDigitales: {
-        href: '/document-management/digital-files',
-        label: 'Documentos digitales',
-      }
-    },
+    label: 'Documentos digitales',
+    dataCy: 'sidebar-dashboard-digital-documents',
   },
   gestionSolicitudes: {
     href: '/request-management',
     icon: UserCheck,
     label: 'Gestión de solicitudes',
+    dataCy: 'sidebar-dashboard-request-management',
   },
   Solicitudes: {
     href: '/request',
     icon: SquarePen,
     label: 'Solicitudes',
+    dataCy: 'sidebar-dashboard-requests',
     subLinks: {
       solicitudVacaciones: {
         href: '/request/vacation-request',
         label: 'Solicitud de vacaciones',
+        dataCy: 'sidebar-dashboard-vacation-request',
       },
       boletaPago: {
         href: '/request/pay-slip',
         label: 'Boleta de pago',
+        dataCy: 'sidebar-dashboard-pay-slip',
       },
       constanciaSalarial: {
         href: '/request/salary-certificate',
         label: 'Constancia salarial',
+        dataCy: 'sidebar-dashboard-salary-certificate',
       },
     },
   },
@@ -69,65 +68,43 @@ export const navLinksRH: Record<string, NavLink> = {
     href: '/request-management/my-requests',
     icon: PanelTopOpen,
     label: 'Mis solicitudes',
+    dataCy: 'sidebar-dashboard-my-requests',
   },
   controlMarcas: {
     href: '/time-tracking',
     icon: Clock,
     label: 'Control de marcas',
+    dataCy: 'sidebar-dashboard-time-tracking',
   },
+  miExpediente: {
+    href: '/my-file',
+    icon: Folder,
+    label: 'Mis Documentos',
+    dataCy: 'sidebar-dashboard-my-documents',
+  },
+};
+
+export const navLinksRH: Record<string, NavLink> = {
+  home: baseNavLinks.home,
+  miExpediente: baseNavLinks.miExpediente,
+  gestionDocumentos: baseNavLinks.gestionDocumentos,
+  gestionSolicitudes: baseNavLinks.gestionSolicitudes,
+  Solicitudes: baseNavLinks.Solicitudes,
+  miSolicitudes: baseNavLinks.miSolicitudes,
+  controlMarcas: baseNavLinks.controlMarcas,
 };
 
 export const navLinksUser: Record<string, NavLink> = {
-  home: { href: '/', icon: Home, label: 'Inicio' },
-  miExpediente: { href: '/my-file', icon: Folder, label: 'Mis Documentos' },
-  gestionSolicitudes: {
-    href: '/request-management',
-    icon: UserCheck,
-    label: 'Solicitudes',
-    subLinks: {
-      solicitudVacaciones: {
-        href: '/request/vacation-request',
-        label: 'Solicitud de vacaciones',
-      },
-      boletaPago: { href: '/request/pay-slip', label: 'Boleta de pago' },
-      constanciaSalarial: {
-        href: '/request/salary-certificate',
-        label: 'Constancia salarial',
-      },
-    },
-  },
-  miSolicitudes: {
-    href: '/request-management/my-requests',
-    icon: PanelTopOpen,
-    label: 'Mis solicitudes',
-  },
+  home: baseNavLinks.home,
+  miExpediente: baseNavLinks.miExpediente,
+  Solicitudes: baseNavLinks.Solicitudes,
+  miSolicitudes: baseNavLinks.miSolicitudes,
 };
 
-
 export const navLinksVA: Record<string, NavLink> = {
-  home: { href: '/', icon: Home, label: 'Inicio' },
-  Solicitudes: {
-    href: '/request',
-    icon: SquarePen,
-    label: 'Solicitudes',
-    subLinks: {
-      solicitudVacaciones: {
-        href: '/request/vacation-request',
-        label: 'Solicitud de vacaciones',
-      },
-      boletaPago: {
-        href: '/request/pay-slip',
-        label: 'Boleta de pago',
-      },
-      constanciaSalarial: {
-        href: '/request/salary-certificate',
-        label: 'Constancia salarial',
-      },
-    },
-  },
-  miSolicitudes: {
-    href: '/request-management/my-requests',
-    icon: PanelTopOpen,
-    label: 'Mis solicitudes',
-  }
+  home: baseNavLinks.home,
+  miExpediente: baseNavLinks.miExpediente,
+  gestionSolicitudes: baseNavLinks.gestionSolicitudes,
+  Solicitudes: baseNavLinks.Solicitudes,
+  miSolicitudes: baseNavLinks.miSolicitudes,
 };

@@ -23,6 +23,7 @@ const LoginForm = () => {
           type="text"
           placeholder="Escribe tu identificación aquí"
           id="EmployeeId"
+          data-cy="login-input-id"
           className="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
           {...register('EmployeeId')}
         />
@@ -45,6 +46,7 @@ const LoginForm = () => {
             type={showPassword ? 'text' : 'password'}
             placeholder="Escribe tu contraseña aquí"
             id="password"
+            data-cy="login-input-password"
             className="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
             {...register('Password')}
           />
@@ -62,14 +64,13 @@ const LoginForm = () => {
         {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
       </div>
 
-      <div className="flex ">
-    
+      <div className="flex">
         <Link href="/auth/forgot-password" className="text-sm text-indigo-600 hover:text-indigo-500">
           ¿Olvidaste tu contraseña?
         </Link>
       </div>
 
-      <Button className="w-full mt-4" type="submit" disabled={isLoading}>
+      <Button className="w-full mt-4" type="submit" disabled={isLoading} data-cy="login-button">
         {isLoading ? <Spinner /> : 'Iniciar Sesión'}
       </Button>
     </form>

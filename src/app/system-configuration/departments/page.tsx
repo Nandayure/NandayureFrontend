@@ -1,15 +1,14 @@
 'use client'
 
+import AddBudgetCodesModal from "@/components/system-configuration/budget-codes/add-budget-codes-modal"
+import BudgetCodesTable from "@/components/system-configuration/budget-codes/budget-codes-table"
+import AddDepartmentProgramModal from "@/components/system-configuration/departments-programs/add-department-program-modal"
+import DepartmentProgramsTable from "@/components/system-configuration/departments-programs/department-programs-table"
+import AddDepartmentModal from "@/components/system-configuration/departments/add-department-modal"
+import DepartmentsTable from "@/components/system-configuration/departments/departments-table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
+import { Suspense } from "react"
 
-const AddBudgetCodesModal = dynamic(() => import('@/components/system-configuration/budget-codes/add-budget-codes-modal'), { suspense: true })
-const BudgetCodesTable = dynamic(() => import('@/components/system-configuration/budget-codes/budget-codes-table'), { suspense: true })
-const AddDepartmentProgramModal = dynamic(() => import('@/components/system-configuration/departments-programs/add-department-program-modal'), { suspense: true })
-const DepartmentProgramsTable = dynamic(() => import('@/components/system-configuration/departments-programs/department-programs-table'), { suspense: true })
-const AddDepartamenModal = dynamic(() => import('@/components/system-configuration/departments/add-department-modal'), { suspense: true })
-const DepartmentsTable = dynamic(() => import('@/components/system-configuration/departments/departments-table'), { suspense: true })
 
 export default function DepartmentsPage() {
   return (
@@ -25,7 +24,7 @@ export default function DepartmentsPage() {
           <div className="mt-6">
             <h2 className="text-2xl font-bold mb-4">Configuración de Departamentos</h2>
             <Suspense fallback={<div>Cargando...</div>}>
-              <AddDepartamenModal />
+              <AddDepartmentModal />
               <DepartmentsTable />
             </Suspense>
           </div>

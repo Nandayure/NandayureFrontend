@@ -2,7 +2,7 @@
 import { useTimeTracking } from '@/hooks';
 import { Button } from '../ui/button';
 import Image from 'next/image';
-import { titleFont } from '@/config/fonts';
+import { titleFont } from '@/lib/fonts';
 
 const TimeTrackingDragAndDrop = () => {
   const {
@@ -33,9 +33,8 @@ const TimeTrackingDragAndDrop = () => {
       />
 
       <div
-        className={`border-4 border-dashed p-4 w-[800px] h-[300px] flex items-center justify-center overflow-hidden ${
-          dragging ? 'border-blue-500 bg-blue-100' : 'border-gray-300 bg-white'
-        }`}
+        className={`border-4 border-dashed p-4 w-[800px] h-[300px] flex items-center justify-center overflow-hidden ${dragging ? 'border-blue-500 bg-blue-100' : 'border-gray-300 bg-white'
+          }`}
         onDrop={onDrop}
         onDragOver={onDragOver}
         onDragLeave={() => setDragging(false)}

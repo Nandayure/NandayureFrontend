@@ -3,70 +3,72 @@ import { NextRequest, NextResponse } from 'next/server';
 import { jwtDecode } from 'jwt-decode';
 import { Payload } from './types/auth/authResponseTypes';
 import { Roles } from './lib/constants';
-
-async function authMiddleware(req: NextRequest) {
-  try {
-    const session = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
-
-    if (session) {
-      return null;
-    }
-
-    return NextResponse.redirect(new URL('/auth/login', req.url));
-  } catch (error) {
-    console.error('Error al obtener el token:', error);
-    return NextResponse.redirect(new URL('/auth/login', req.url));
-  }
-}
-
-async function rolesMiddleware(req: NextRequest, roles: string[]) {
-  try {
-    const session = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
-    let tokenDecoded: Payload | null;
-    tokenDecoded = jwtDecode(session?.access_token as string);
-
-    if (roles.some((role) => tokenDecoded?.roles.includes(role))) {
-      return null;
-    }
-    return NextResponse.redirect(new URL('/unauthorized', req.url));
-  } catch (error) {
-    console.error('Error al verificar roles:', error);
-    return NextResponse.redirect(new URL('/', req.url));
-  }
-}
+import {
+  ROLE_ROUTES,
+  isPublicRoute,
+  routeMatches,
+} from './config/middleware.config';
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Allow access to static files
+  // Permitir archivos estáticos
   if (pathname.startsWith('/_next') || pathname.startsWith('/static')) {
     return NextResponse.next();
   }
 
-  // Allow access to public auth routes
-  if (pathname.startsWith('/auth')) {
-    if (pathname === '/auth/register') {
-      return await rolesMiddleware(req, [Roles.rh]);
-    }
+  // Permitir rutas públicas
+  if (isPublicRoute(pathname)) {
     return NextResponse.next();
   }
 
-  // Protect all private routes
-  let response = await authMiddleware(req);
-  if (response) {
-    return response;
+  // Obtiene la sesión (token)
+  const session = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+
+  if (!session) {
+    return NextResponse.redirect(new URL('/auth/login', req.url));
+  }
+
+  // Decodifica el token para obtener roles
+  const tokenDecoded: Payload | null = jwtDecode(
+    session.access_token as string,
+  );
+  if (!tokenDecoded || !tokenDecoded.roles) {
+    console.error('Token inválido o sin roles');
+    return NextResponse.redirect(new URL('/auth/login', req.url));
+  }
+
+  // Los administradores tienen acceso total
+  if (tokenDecoded.roles.includes(Roles.admin)) {
+    return NextResponse.next();
+  }
+
+  // Valida acceso según lo definido en ROLE_ROUTES
+  let hasPermission = false;
+  for (const role of tokenDecoded.roles) {
+    const allowedRoutes = ROLE_ROUTES[role];
+    if (allowedRoutes) {
+      for (const route of allowedRoutes) {
+        if (routeMatches(pathname, route)) {
+          hasPermission = true;
+          break;
+        }
+      }
+      if (hasPermission) break;
+    }
+  }
+
+  if (!hasPermission) {
+    return NextResponse.redirect(new URL('/unauthorized', req.url));
   }
 
   return NextResponse.next();
 }
 
-// Define matcher for all private routes including sub-routes
+// Define matcher para las rutas privadas y otras que requieren pasar por el middleware
 export const config = {
   matcher: [
     '/',

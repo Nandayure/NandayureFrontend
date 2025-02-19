@@ -29,6 +29,7 @@ export default function User() {
         <Button
           variant="ghost"
           className="relative h-8 w-8 rounded-full p-0 m-0"
+          data-cy="user-menu"
         >
           <CircleUserRound strokeWidth={1.5} size={24} />
         </Button>
@@ -43,7 +44,10 @@ export default function User() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem
+          asChild
+          data-cy="profile-button"
+        >
           <Link href="/profile" className="flex items-center">
             <Settings className="mr-2 h-4 w-4" />
             <span>Configuración</span>
@@ -51,13 +55,19 @@ export default function User() {
         </DropdownMenuItem>
         {roles && roles.includes('RH') && (
           <>
-            <DropdownMenuItem asChild>
+            <DropdownMenuItem
+              data-cy="system-configuration-button"
+              asChild
+            >
               <Link href="/system-configuration" className="flex items-center">
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Configuración del sistema</span>
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
+            <DropdownMenuItem
+              data-cy="register-user-button"
+              asChild
+            >
               <Link href="/auth/register" className="flex items-center">
                 <UserPlus className="mr-2 h-4 w-4" />
                 <span>Registrar usuario</span>
@@ -65,7 +75,10 @@ export default function User() {
             </DropdownMenuItem>
           </>
         )}
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem
+          data-cy="help-button"
+          asChild
+        >
           <Link href="/helps" className="flex items-center">
             <HelpCircle className="mr-2 h-4 w-4" />
             <span>Ayuda</span>
@@ -75,6 +88,7 @@ export default function User() {
         <DropdownMenuItem
           className="flex items-center text-red-600 focus:text-red-600"
           onSelect={() => signOut()}
+          data-cy="logout-button"
         >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Cerrar sesión</span>

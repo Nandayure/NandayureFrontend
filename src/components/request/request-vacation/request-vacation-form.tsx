@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/popover';
 import Flag from '@/components/common/Flag';
 import Spinner from '@/components/ui/spinner';
-import { titleFont } from '@/config/fonts';
+import { titleFont } from '@/lib/fonts';
 import { usePostVacation } from '@/hooks';
 
 export default function RequestVacationForm() {
@@ -34,7 +34,7 @@ export default function RequestVacationForm() {
       setValue('daysRequested', daysRequested);
       setValue('departureDate', date.from);
       setValue('entryDate', date.to);
-      
+
       submitVacationRequest(); // Ejecuta la solicitud de vacaciones
     }
   };
@@ -94,7 +94,7 @@ export default function RequestVacationForm() {
       {errors.root && (
         <div className="mt-2 text-sm text-red-500">{errors.root.message}</div>
       )}
-      
+
       <div className='mt-4 flex w-full justify-end'>
         <Button
           type="submit"

@@ -79,6 +79,7 @@ export const config = {
     '/profile/:path*',
     '/security/:path*',
     '/dashboard/:path*',
+    '/my-file/:path*',
     '/system-configuration/:path*',
     '/document-management/:path*',
     '/payroll-creation/:path*',

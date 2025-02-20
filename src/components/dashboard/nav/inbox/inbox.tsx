@@ -33,6 +33,7 @@ export default function InboxComponent() {
     handleRequestClick,
   } = usePatchRequestApproval();
 
+
   return (
     <div className="relative">
       <Popover>
@@ -128,7 +129,7 @@ export default function InboxComponent() {
                         <span className="font-medium">Fecha entrada:</span>{' '}
                         {formatDate(
                           selectedRequest.Request.RequestVacation?.entryDate ??
-                            '',
+                          '',
                         )}
                       </p>
                     </>

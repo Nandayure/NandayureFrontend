@@ -4,7 +4,7 @@ import Image from "next/image"
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col items-center justify-center pt-6 sm:pt-10 md:pt-14">
+    <div className="flex flex-col items-center justify-center pt-2 sm:pt-6 md:pt-10">
       <div className="w-full max-w-2xl text-center px-4">
         <Image
           src="/hr.svg"

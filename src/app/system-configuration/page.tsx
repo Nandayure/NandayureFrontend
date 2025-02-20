@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function SystemConfigurationPage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center pt-4 sm:pt-8 md:pt-12">
       <h1 className="text-4xl font-bold mb-8 text-gray-800">
         Configuración general del sistema
       </h1>
@@ -15,10 +15,6 @@ export default function SystemConfigurationPage() {
           priority
         />
       </div>
-      <p className="text-xl text-gray-600 max-w-2xl text-center">
-        Bienvenido a la página de configuración general del sistema. Aquí podrás
-        ajustar las preferencias y opciones principales de tu aplicación.
-      </p>
     </div>
   );
 }

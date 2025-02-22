@@ -1,7 +1,7 @@
 describe('Validate register emplooyee', () => {
   beforeEach(() => {
     cy.session(`sesion-rh`, () => {
-      cy.login('rh');
+      cy.login('rh')
       cy.url().should('not.include', '/auth/login');
     });
 

@@ -28,7 +28,7 @@ describe('Login Page', () => {
    * @test Debe mantener al usuario en la página de login
    */
   it('should show error for invalid credentials', () => {
-    cy.get('[data-cy="login-input-id"]').clear().type('invalidId');
+    cy.get('[data-cy="login-input-id"]').clear().type('adriana');
     cy.get('[data-cy="login-input-password"]').clear().type('invalidPassword', {
       log: false,
     });

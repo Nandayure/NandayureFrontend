@@ -15,6 +15,21 @@ interface ChatMessage {
   content: string
 }
 
+// Function to parse and convert URLs and emails to clickable links
+const parseLinks = (text: string) => {
+  // Regular expressions for URLs and email addresses
+  const urlRegex = /(https?:\/\/[^\s]+)/g
+  const emailRegex = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g
+
+  // Replace URLs with anchor tags
+  let parsedText = text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700 underline">${url}</a>`)
+
+  // Replace email addresses with mailto links
+  parsedText = parsedText.replace(emailRegex, (email) => `<a href="mailto:${email}" class="text-blue-500 hover:text-blue-700 underline">${email}</a>`)
+
+  return parsedText
+}
+
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState("")
@@ -65,11 +80,11 @@ export default function Chatbot() {
             {messages.map((msg, index) => (
               <div key={index} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`max-w-[80%] p-3 rounded-lg ${msg.role === "user" ? "bg-dodger-blue-500 text-white" : "bg-muted"
-                    }`}
-                >
-                  {msg.content}
-                </div>
+                  className={`max-w-[80%] p-3 rounded-lg ${msg.role === "user" ? "bg-dodger-blue-500 text-white" : "bg-muted"}`}
+                  dangerouslySetInnerHTML={{
+                    __html: msg.role === "bot" ? parseLinks(msg.content) : msg.content
+                  }}
+                />
               </div>
             ))}
             {isPending && (
@@ -125,4 +140,3 @@ export default function Chatbot() {
     </>
   )
 }
-

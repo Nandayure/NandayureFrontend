@@ -17,6 +17,7 @@ import {
   useGetMaritalStatus,
   usePostEmployee,
 } from '@/hooks';
+import { Controller, useForm } from 'react-hook-form';
 
 const RegisterForm = () => {
   const { genders } = useGetAllGender();
@@ -25,6 +26,7 @@ const RegisterForm = () => {
   const {
     handleSubmit,
     onSubmit,
+    control,
     register,
     mutation,
     errors,
@@ -32,7 +34,12 @@ const RegisterForm = () => {
   } = usePostEmployee();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="space-y-6"
+      data-cy="form-register"
+    >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Información Personal */}
         <div>
@@ -47,9 +54,12 @@ const RegisterForm = () => {
                 id="Name"
                 placeholder="Escribe tu nombre aquí"
                 {...register('Name')}
+                data-cy="input-Name"
               />
               {errors.Name && (
-                <p className="text-red-500 text-xs">{errors.Name.message}</p>
+                <p className="text-red-500 text-xs" data-cy="error-Name">
+                  {errors.Name.message}
+                </p>
               )}
             </div>
             {/* Primer apellido */}
@@ -59,9 +69,10 @@ const RegisterForm = () => {
                 id="Surname1"
                 placeholder="Escribe tu primer apellido aquí"
                 {...register('Surname1')}
+                data-cy="input-Surname1"
               />
               {errors.Surname1 && (
-                <p className="text-red-500 text-xs">
+                <p className="text-red-500 text-xs" data-cy="error-Surname1">
                   {errors.Surname1.message}
                 </p>
               )}
@@ -73,9 +84,10 @@ const RegisterForm = () => {
                 id="Surname2"
                 placeholder="Escribe tu segundo apellido aquí"
                 {...register('Surname2')}
+                data-cy="input-Surname2"
               />
               {errors.Surname2 && (
-                <p className="text-red-500 text-xs">
+                <p className="text-red-500 text-xs" data-cy="error-Surname2">
                   {errors.Surname2.message}
                 </p>
               )}
@@ -83,9 +95,14 @@ const RegisterForm = () => {
             {/* Fecha de nacimiento */}
             <div className="grid gap-2">
               <Label htmlFor="Birthdate">Fecha de nacimiento</Label>
-              <Input id="Birthdate" type="date" {...register('Birthdate')} />
+              <Input
+                id="Birthdate"
+                type="date"
+                {...register('Birthdate')}
+                data-cy="input-Birthdate"
+              />
               {errors.Birthdate && (
-                <p className="text-red-500 text-xs">
+                <p className="text-red-500 text-xs" data-cy="error-Birthdate">
                   {errors.Birthdate.message}
                 </p>
               )}
@@ -93,28 +110,28 @@ const RegisterForm = () => {
             {/* Género */}
             <div className="grid gap-2">
               <Label htmlFor="GenderId">Género</Label>
-              <Select
-                onValueChange={(value) =>
-                  setValue('GenderId', value)
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar género" />
-                </SelectTrigger>
-                <SelectContent>
-                  {genders &&
-                    genders.map((gender) => (
-                      <SelectItem
-                        key={gender.id}
-                        value={gender.id.toString()}
-                      >
-                        {gender.Name}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
+              <Controller
+                name="GenderId"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger data-cy="select-GenderId">
+                      <SelectValue placeholder="Seleccionar género" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {genders &&
+                        genders.map((gender) => (
+                          <SelectItem key={gender.id} value={gender.id.toString()}>
+                            {gender.Name}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
               {errors.GenderId && (
-                <p className="text-red-500 text-xs">
+                <p className="text-red-500 text-xs" data-cy="error-GenderId">
                   {errors.GenderId.message}
                 </p>
               )}
@@ -122,28 +139,28 @@ const RegisterForm = () => {
             {/* Estado civil */}
             <div className="grid gap-2">
               <Label htmlFor="MaritalStatusId">Estado civil</Label>
-              <Select
-                onValueChange={(value) =>
-                  setValue('MaritalStatusId', value)
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar estado civil" />
-                </SelectTrigger>
-                <SelectContent>
-                  {maritalStatus &&
-                    maritalStatus.map((status) => (
-                      <SelectItem
-                        key={status.id}
-                        value={status.id.toString()}
-                      >
-                        {status.Name}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
+              <Controller
+                name="MaritalStatusId"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger data-cy="select-MaritalStatusId">
+                      <SelectValue placeholder="Seleccionar estado civil" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {maritalStatus &&
+                        maritalStatus.map((status) => (
+                          <SelectItem key={status.id} value={status.id.toString()}>
+                            {status.Name}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
               {errors.MaritalStatusId && (
-                <p className="text-red-500 text-xs">
+                <p className="text-red-500 text-xs" data-cy="error-MaritalStatusId">
                   {errors.MaritalStatusId.message}
                 </p>
               )}
@@ -164,9 +181,10 @@ const RegisterForm = () => {
                   type="email"
                   placeholder="Escribe tu correo electrónico aquí"
                   {...register('Email')}
+                  data-cy="input-Email"
                 />
                 {errors.Email && (
-                  <p className="text-red-500 text-xs">
+                  <p className="text-red-500 text-xs" data-cy="error-Email">
                     {errors.Email.message}
                   </p>
                 )}
@@ -179,9 +197,10 @@ const RegisterForm = () => {
                   type="tel"
                   placeholder="Escribe tu número de teléfono aquí"
                   {...register('CellPhone')}
+                  data-cy="input-CellPhone"
                 />
                 {errors.CellPhone && (
-                  <p className="text-red-500 text-xs">
+                  <p className="text-red-500 text-xs" data-cy="error-CellPhone">
                     {errors.CellPhone.message}
                   </p>
                 )}
@@ -203,17 +222,25 @@ const RegisterForm = () => {
                 id="id"
                 placeholder="Escribe tu identificación laboral aquí"
                 {...register('id')}
+                data-cy="input-id"
               />
               {errors.id && (
-                <p className="text-red-500 text-xs">{errors.id.message}</p>
+                <p className="text-red-500 text-xs" data-cy="error-id">
+                  {errors.id.message}
+                </p>
               )}
             </div>
             {/* Fecha de contratación */}
             <div className="grid gap-2">
               <Label htmlFor="HiringDate">Fecha de contratación</Label>
-              <Input id="HiringDate" type="date" {...register('HiringDate')} />
+              <Input
+                id="HiringDate"
+                type="date"
+                {...register('HiringDate')}
+                data-cy="input-HiringDate"
+              />
               {errors.HiringDate && (
-                <p className="text-red-500 text-xs">
+                <p className="text-red-500 text-xs" data-cy="error-HiringDate">
                   {errors.HiringDate.message}
                 </p>
               )}
@@ -226,9 +253,10 @@ const RegisterForm = () => {
                 type="number"
                 placeholder="Escribe el número de hijos aquí"
                 {...register('NumberChlidren')}
+                data-cy="input-NumberChlidren"
               />
               {errors.NumberChlidren && (
-                <p className="text-red-500 text-xs">
+                <p className="text-red-500 text-xs" data-cy="error-NumberChlidren">
                   {errors.NumberChlidren.message}
                 </p>
               )}
@@ -236,28 +264,31 @@ const RegisterForm = () => {
             {/* Puesto de trabajo */}
             <div className="grid gap-2">
               <Label htmlFor="JobPositionId">Puesto de trabajo</Label>
-              <Select
-                onValueChange={(value) =>
-                  setValue('JobPositionId', value)
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar puesto de trabajo" />
-                </SelectTrigger>
-                <SelectContent>
-                  {jobPositions &&
-                    jobPositions.map((position) => (
-                      <SelectItem
-                        key={position.id}
-                        value={position.id.toString()}
-                      >
-                        {position.Name}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
+              <Controller
+                name="JobPositionId"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger data-cy="select-JobPositionId">
+                      <SelectValue placeholder="Seleccionar puesto de trabajo" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {jobPositions &&
+                        jobPositions.map((position) => (
+                          <SelectItem
+                            key={position.id}
+                            value={position.id.toString()}
+                          >
+                            {position.Name}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
               {errors.JobPositionId && (
-                <p className="text-red-500 text-xs">
+                <p className="text-red-500 text-xs" data-cy="error-JobPositionId">
                   {errors.JobPositionId.message}
                 </p>
               )}
@@ -270,9 +301,10 @@ const RegisterForm = () => {
                 type="number"
                 placeholder="Escribe los días de vacaciones aquí"
                 {...register('AvailableVacationDays')}
+                data-cy="input-AvailableVacationDays"
               />
               {errors.AvailableVacationDays && (
-                <p className="text-red-500 text-xs">
+                <p className="text-red-500 text-xs" data-cy="error-AvailableVacationDays">
                   {errors.AvailableVacationDays.message}
                 </p>
               )}
@@ -281,14 +313,20 @@ const RegisterForm = () => {
         </div>
       </div>
       {errors.root && (
-        <div className="text-red-500 text-sm">{errors.root.message}</div>
+        <div className="text-red-500 text-sm" data-cy="error-root">
+          {errors.root.message}
+        </div>
       )}
       <div className="flex flex-col items-center">
-        <Button type="submit" disabled={mutation.isPending}>
+        <Button
+          type="submit"
+          disabled={mutation.isPending}
+          data-cy="button-Registrarse"
+        >
           {mutation.isPending ? <Spinner /> : 'Registrarse'}
         </Button>
         <Link href={'/'}>
-          <Button className="mt-4 w-full" variant={'link'}>
+          <Button className="mt-4 w-full" variant={'link'} data-cy="button-Regresar">
             Regresar al inicio
           </Button>
         </Link>

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const RegisterSchema = z.object({
   id: z
@@ -31,13 +31,22 @@ export const RegisterSchema = z.object({
     .refine((val) => !isNaN(Number(val)), {
       message: 'Los días de vacaciones disponibles deben ser un número.',
     }),
-  MaritalStatusId: z.string().refine((val) => !isNaN(Number(val)), {
-    message: 'El estado civil debe ser un número.',
-  }),
-  GenderId: z.string().refine((val) => !isNaN(Number(val)), {
-    message: 'El género debe ser un número.',
-  }),
-  JobPositionId: z.string().refine((val) => !isNaN(Number(val)), {
-    message: 'La posición laboral debe ser un número.',
-  }),
+  MaritalStatusId: z
+    .string()
+    .min(1, 'El estado civil es requerido.')
+    .refine((val) => !isNaN(Number(val)), {
+      message: 'El estado civil debe ser un número.',
+    }),
+  GenderId: z
+    .string()
+    .min(1, 'El género es requerido.')
+    .refine((val) => !isNaN(Number(val)), {
+      message: 'El género debe ser un número.',
+    }),
+  JobPositionId: z
+    .string()
+    .min(1, 'El puesto de trabajo es requerido.')
+    .refine((val) => !isNaN(Number(val)), {
+      message: 'La posición laboral debe ser un número.',
+    }),
 });

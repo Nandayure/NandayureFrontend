@@ -65,7 +65,8 @@ const ProfilePage = () => {
                 id: 'Name',
                 label: 'Nombre',
                 defaultValue: employeeData.Name,
-              }}
+              }} 
+              data-cy="profile-name"
             />
             <ProfileField
               label="Primer apellido"
@@ -75,6 +76,7 @@ const ProfilePage = () => {
                 label: 'Primer apellido',
                 defaultValue: employeeData.Surname1,
               }}
+              data-cy="profile-surname1"
             />
             <ProfileField
               label="Segundo apellido"
@@ -84,6 +86,7 @@ const ProfilePage = () => {
                 label: 'Segundo apellido',
                 defaultValue: employeeData.Surname2,
               }}
+              data-cy="profile-surname2"
             />
             <ProfileField
               label="Teléfono"
@@ -93,6 +96,7 @@ const ProfilePage = () => {
                 label: 'Teléfono',
                 defaultValue: employeeData.CellPhone,
               }}
+              data-cy="profile-cellphone"
             />
             <ProfileField
               label="Correo electrónico"
@@ -102,6 +106,7 @@ const ProfilePage = () => {
                 label: 'Correo electrónico',
                 defaultValue: employeeData.Email,
               }}
+              data-cy="profile-email"
             />
             <ProfileField
               label="Fecha nacimiento"
@@ -112,6 +117,7 @@ const ProfilePage = () => {
                 defaultValue: Date,
                 type: 'date',
               }}
+              data-cy="profile-birthdate"
             />
             <ProfileField
               label="Dias de Vacaciones"
@@ -144,6 +150,7 @@ const ProfileField = ({
           title={`Editar ${field.label}`}
           description={`Actualiza tu ${field.label} aquí. Haz clic en guardar cuando hayas terminado.`}
           fields={[field]}
+        data-cy="edit-profile"
         />
       )}
     </div>

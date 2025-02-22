@@ -42,10 +42,11 @@ export function DialogProfile({
     });
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}  data-cy="dialog-profile">
       <DialogTrigger asChild>
-        <Button variant="outline">Editar</Button>
-      </DialogTrigger>
+  <Button variant="outline" data-cy="edit-profile">Editar</Button>
+</DialogTrigger>
+
       <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
@@ -66,6 +67,7 @@ export function DialogProfile({
                   defaultValue={field.defaultValue}
                   type={field.type || 'text'}
                   className="col-span-3"
+                  data-cy={`input-${field.id}`}
                   {...register(field.id as keyof UpdateEmployee, {
                     onBlur: () => trigger(field.id as keyof UpdateEmployee),
                   })}
@@ -83,6 +85,7 @@ export function DialogProfile({
               type="submit"
               className=""
               disabled={mutation.isPending}
+              data-cy="button-save"
             >
               {mutation.isPending ? <Spinner /> : 'Guardar'}
             </Button>

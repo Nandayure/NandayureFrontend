@@ -1,63 +1,128 @@
-'use client';
+"use client"
 
-import { useState } from 'react';
+import { useState } from "react"
+import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Card } from "@/components/ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Input } from "@/components/ui/input"
+import { MessageCircle, Send } from "lucide-react"
+import { useChatbot } from "@/hooks/common/useChatbot"
+
+interface ChatMessage {
+  role: string
+  content: string
+}
 
 export default function Chatbot() {
-  const [input, setInput] = useState('');
-  const [messages, setMessages] = useState<{ role: string; content: string }[]>([]);
+  const [isOpen, setIsOpen] = useState(false)
+  const [input, setInput] = useState("")
+  const [messages, setMessages] = useState<ChatMessage[]>([])
 
-  const handleSend = async () => {
-    if (!input.trim()) return;
+  const { mutate: sendMessage, isPending, isError } = useChatbot()
 
-    const userMessage = { role: 'user', content: input };
-    setMessages((prev) => [...prev, userMessage]);
+  const handleSend = () => {
+    if (!input.trim()) return
 
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const userMessage: ChatMessage = { role: "user", content: input }
+    setMessages((prev) => [...prev, userMessage])
+
+    sendMessage(input, {
+      onSuccess: (botMessage) => {
+        setMessages((prev) => [...prev, botMessage])
+        setInput("")
       },
-      body: JSON.stringify({ prompt: input }),
-    });
-
-    const data = await response.json();
-    const botMessage = { role: 'bot', content: data.response };
-    setMessages((prev) => [...prev, botMessage]);
-
-    setInput('');
-  };
+      onError: (error) => {
+        setMessages((prev) => [
+          ...prev,
+          { role: "bot", content: "Ocurrió un error al procesar tu solicitud. Por favor, inténtalo de nuevo." },
+        ])
+        console.error("Error del chat:", error)
+      },
+    })
+  }
 
   return (
-    <div className="max-w-lg mx-auto p-4 border border-gray-300 rounded-lg shadow-lg">
-      <div className="h-80 overflow-y-auto mb-4 p-3 border border-gray-200 rounded-lg">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`my-2 p-3 rounded-lg ${msg.role === 'user'
-              ? 'bg-blue-100 text-blue-900 ml-auto max-w-xs'
-              : 'bg-gray-100 text-gray-900 mr-auto max-w-xs'
-              }`}
-          >
-            {msg.content}
+    <>
+      <Button className="fixed bottom-4 right-4 rounded-full w-12 h-12 shadow-lg" onClick={() => setIsOpen(true)}>
+        <MessageCircle className="w-6 h-6" />
+      </Button>
+
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="sm:max-w-[425px] shadow-none">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Avatar>
+                <AvatarImage src="/placeholder.svg" alt="Bot" />
+                <AvatarFallback>IA</AvatarFallback>
+              </Avatar>
+              Chatear con IA
+            </DialogTitle>
+          </DialogHeader>
+
+          <Card className="h-[50vh] overflow-y-auto p-4 space-y-4 shadow-none border-0">
+            {messages.map((msg, index) => (
+              <div key={index} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                <div
+                  className={`max-w-[80%] p-3 rounded-lg ${msg.role === "user" ? "bg-dodger-blue-500 text-white" : "bg-muted"
+                    }`}
+                >
+                  {msg.content}
+                </div>
+              </div>
+            ))}
+            {isPending && (
+              <div className="flex justify-start">
+                <motion.div
+                  className="bg-muted p-3 rounded-lg flex space-x-1"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1 }}
+                >
+                  {[0, 1, 2].map((i) => (
+                    <motion.div
+                      key={i}
+                      className="w-2 h-2 bg-[#0F172A] rounded-full"
+                      animate={{ y: ["0%", "-50%", "0%"] }}
+                      transition={{ duration: 0.6, repeat: Number.POSITIVE_INFINITY, delay: i * 0.2 }}
+                    />
+                  ))}
+                </motion.div>
+              </div>
+            )}
+          </Card>
+
+          <div className="flex items-center space-x-2">
+            <Input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && handleSend()}
+              placeholder="Escribe tu mensaje..."
+              disabled={isPending}
+              className={`shadow-none ${!input.trim() ? "opacity-50" : ""}`}
+            />
+            <Button
+              onClick={handleSend}
+              disabled={isPending || !input.trim()}
+              className={!input.trim() ? "opacity-50" : ""}
+            >
+              <Send className="w-4 h-4" />
+            </Button>
           </div>
-        ))}
-      </div>
-      <div className="flex gap-2">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-          className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Escribe tu pregunta..."
-        />
-        <button
-          onClick={handleSend}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          Enviar
-        </button>
-      </div>
-    </div>
-  );
+
+          {isError && (
+            <p className="text-destructive text-sm">
+              Ocurrió un error al enviar tu mensaje. Por favor, inténtalo de nuevo.
+            </p>
+          )}
+
+          <DialogFooter>
+            <p className="text-xs text-muted-foreground w-full text-center">Respuestas generadas por IA</p>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  )
 }
+

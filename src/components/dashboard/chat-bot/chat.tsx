@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
+import { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Card } from "@/components/ui/card"
@@ -9,46 +9,49 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { MessageCircle, Send } from "lucide-react"
 import { useChatbot } from "@/hooks/common/useChatbot"
+import ReactMarkdown from "react-markdown"
 
 interface ChatMessage {
   role: string
   content: string
 }
 
-// Function to parse and convert URLs and emails to clickable links
-const parseLinks = (text: string) => {
-  // Regular expressions for URLs and email addresses
-  const urlRegex = /(https?:\/\/[^\s]+)/g
-  const emailRegex = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g
-
-  // Replace URLs with anchor tags
-  let parsedText = text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700 underline">${url}</a>`)
-
-  // Replace email addresses with mailto links
-  parsedText = parsedText.replace(emailRegex, (email) => `<a href="mailto:${email}" class="text-blue-500 hover:text-blue-700 underline">${email}</a>`)
-
-  return parsedText
+const linkStyle = (href?: string) => {
+  let color = "blue"
+  if (href?.startsWith("mailto:")) color = "green"
+  else if (href?.startsWith("tel:")) color = "orange"
+  else if (href?.startsWith("http")) color = "purple"
+  return { color, textDecoration: "underline" }
 }
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState("")
   const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [isTyping, setIsTyping] = useState(false)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const { mutate: sendMessage, isPending, isError } = useChatbot()
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [])
 
   const handleSend = () => {
     if (!input.trim()) return
 
     const userMessage: ChatMessage = { role: "user", content: input }
     setMessages((prev) => [...prev, userMessage])
+    setInput("")
+    setIsTyping(true)
 
     sendMessage(input, {
       onSuccess: (botMessage) => {
+        setIsTyping(false)
         setMessages((prev) => [...prev, botMessage])
-        setInput("")
       },
       onError: (error) => {
+        setIsTyping(false)
         setMessages((prev) => [
           ...prev,
           { role: "bot", content: "Ocurrió un error al procesar tu solicitud. Por favor, inténtalo de nuevo." },
@@ -58,6 +61,11 @@ export default function Chatbot() {
     })
   }
 
+  const messageVariants = {
+    hidden: { opacity: 0, y: 50, transition: { duration: 0.3, ease: "easeIn" } },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 30 } },
+  }
+
   return (
     <>
       <Button className="fixed bottom-4 right-4 rounded-full w-12 h-12 shadow-lg" onClick={() => setIsOpen(true)}>
@@ -65,7 +73,7 @@ export default function Chatbot() {
       </Button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[425px] shadow-none">
+        <DialogContent className="sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] w-[90vw] shadow-none">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Avatar>
@@ -76,25 +84,40 @@ export default function Chatbot() {
             </DialogTitle>
           </DialogHeader>
 
-          <Card className="h-[50vh] overflow-y-auto p-4 space-y-4 shadow-none border-0">
-            {messages.map((msg, index) => (
-              <div key={index} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div
-                  className={`max-w-[80%] p-3 rounded-lg ${msg.role === "user" ? "bg-dodger-blue-500 text-white" : "bg-muted"}`}
-                  dangerouslySetInnerHTML={{
-                    __html: msg.role === "bot" ? parseLinks(msg.content) : msg.content
-                  }}
-                />
-              </div>
-            ))}
-            {isPending && (
-              <div className="flex justify-start">
+          <Card className="h-[60vh] overflow-y-auto p-4 space-y-4 shadow-none border-0">
+            <AnimatePresence mode="wait">
+              {messages.map((msg, index) => (
                 <motion.div
-                  className="bg-muted p-3 rounded-lg flex space-x-1"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1 }}
+                  key={index}
+                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                  variants={messageVariants}
                 >
+                  <div
+                    className={`max-w-[80%] p-3 rounded-lg ${msg.role === "user" ? "bg-dodger-blue-500 text-white" : "bg-muted"}`}
+                  >
+                    <ReactMarkdown
+                      components={{
+                        a: ({ node, ...props }) => <a {...props} style={linkStyle(props.href)} />,
+                      }}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+            {isTyping && (
+              <motion.div
+                className="flex justify-start"
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                variants={messageVariants}
+              >
+                <div className="bg-muted p-3 rounded-lg flex space-x-1">
                   {[0, 1, 2].map((i) => (
                     <motion.div
                       key={i}
@@ -103,9 +126,10 @@ export default function Chatbot() {
                       transition={{ duration: 0.6, repeat: Number.POSITIVE_INFINITY, delay: i * 0.2 }}
                     />
                   ))}
-                </motion.div>
-              </div>
+                </div>
+              </motion.div>
             )}
+            <div ref={messagesEndRef} />
           </Card>
 
           <div className="flex items-center space-x-2">
@@ -140,3 +164,4 @@ export default function Chatbot() {
     </>
   )
 }
+

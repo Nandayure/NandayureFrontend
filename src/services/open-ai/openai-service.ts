@@ -1,6 +1,5 @@
 import { createOpenAI } from '@ai-sdk/openai';
 import { generateText } from 'ai';
-import logger from '@/utils/logger';
 import { CHAT_CONTEXT, config } from '@/config/openai.config';
 
 const openai = createOpenAI({
@@ -16,7 +15,6 @@ export async function generateResponse(prompt: string): Promise<string> {
 
     return text;
   } catch (error) {
-    logger.error('Error generating text:', error);
     throw new Error('Failed to generate text');
   }
 }

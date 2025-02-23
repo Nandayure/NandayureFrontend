@@ -1,5 +1,6 @@
 "use client"
 
+import Chatbot from "@/components/dashboard/chat-bot/chat"
 import Image from "next/image"
 
 export default function HomePage() {
@@ -20,6 +21,7 @@ export default function HomePage() {
           través del menú de navegación para gestionar personal, nóminas, asistencias y más.
         </p>
       </div>
+      <Chatbot />
     </div>
   )
 }

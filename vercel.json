@@ -1,0 +1,11 @@
+{
+  "routes": [
+    {
+      "src": "/api/chat",
+      "methods": [
+        "POST"
+      ],
+      "dest": "/api/chat"
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 "use client"
 
-import { FAQItem } from "@/app/helps/page"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { motion, AnimatePresence } from "framer-motion"
 import { Clock } from "lucide-react"
 import { FormattedDate } from "./formatted-date"
 import React from "react"
+import { FAQItem } from "@/types/faqs/faq.types"
 
 interface FAQAccordionProps {
   items: FAQItem[]

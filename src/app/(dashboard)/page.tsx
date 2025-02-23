@@ -6,7 +6,7 @@ import Image from "next/image"
 export default function HomePage() {
   return (
     <div className="flex flex-col items-center justify-center pt-2 sm:pt-6 md:pt-10">
-      {/* <div className="w-full max-w-2xl text-center px-4">
+      <div className="w-full max-w-2xl text-center px-4">
         <Image
           src="/hr.svg"
           alt="Recursos Humanos"
@@ -20,7 +20,7 @@ export default function HomePage() {
           optimizando y automatizando todos los procesos clave del departamento. Acceda a los diferentes módulos a
           través del menú de navegación para gestionar personal, nóminas, asistencias y más.
         </p>
-      </div> */}
+      </div>
       <Chatbot />
     </div>
   )

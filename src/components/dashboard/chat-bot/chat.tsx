@@ -68,9 +68,25 @@ export default function Chatbot() {
 
   return (
     <>
-      <Button className="fixed bottom-4 right-4 rounded-full w-12 h-12 shadow-lg" onClick={() => setIsOpen(true)}>
-        <MessageCircle className="w-6 h-6" />
-      </Button>
+      <div className="fixed bottom-4 right-4">
+        <div className="relative">
+          {/* Animated border: se muestra solo si el diálogo está cerrado */}
+          {!isOpen && (
+            <span
+              className="absolute inset-0 rounded-full bg-primary opacity-30"
+              style={{ animation: "ping 5s cubic-bezier(0, 0, 0.2, 1) infinite" }}
+            ></span>
+          )}
+
+          {/* Main button */}
+          <Button
+            className="relative rounded-full w-12 h-12 shadow-lg"
+            onClick={() => setIsOpen(true)}
+          >
+            <MessageCircle className="w-6 h-6" />
+          </Button>
+        </div>
+      </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] w-[90vw] shadow-none">

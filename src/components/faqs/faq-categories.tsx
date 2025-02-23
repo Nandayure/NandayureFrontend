@@ -1,7 +1,8 @@
 "use client"
 
-import { categories, FAQCategory } from "@/app/helps/page"
 import { Button } from "@/components/ui/button"
+import { categories } from "@/mocks/faqs"
+import { FAQCategory } from "@/types/faqs/faq.types"
 import { motion } from "framer-motion"
 
 interface FAQCategoriesProps {

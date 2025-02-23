@@ -6,7 +6,8 @@ import { FAQSearch } from "@/components/faqs/faq-search"
 import { FAQCategories } from "@/components/faqs/faq-categories"
 import { FAQAccordion } from "@/components/faqs/faq-accordion"
 import { BackButton } from "@/components/faqs/back-button"
-import { FAQCategory, faqs } from "@/mocks/faqs"
+import { faqs } from "@/mocks/faqs"
+import { FAQCategory } from "@/types/faqs/faq.types"
 
 export default function FAQPage() {
   const [searchTerm, setSearchTerm] = useState("")

@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { MessageCircle, Send } from "lucide-react"
 import { useChatbot } from "@/hooks/common/useChatbot"
 import ReactMarkdown from "react-markdown"
+import Flag from "@/components/common/Flag"
 
 interface ChatMessage {
   role: string
@@ -98,6 +99,7 @@ export default function Chatbot() {
               </Avatar>
               Chatear con IA
             </DialogTitle>
+            <Flag />
           </DialogHeader>
 
           <Card className="h-[60vh] overflow-y-auto p-4 space-y-4 shadow-none border-0">

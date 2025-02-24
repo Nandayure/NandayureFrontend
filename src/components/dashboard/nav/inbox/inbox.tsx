@@ -41,12 +41,20 @@ export default function InboxComponent() {
           <Button className="relative bg-transparent text-black hover:bg-gray-100 focus:outline-none">
             <Inbox className="h-5 w-5" />
             {Array.isArray(currentToApprove) && currentToApprove.length > 0 && (
-              <Badge
-                variant="destructive"
-                className="absolute -top-2 -right-2 px-2 py-1"
-              >
-                {currentToApprove.length}
-              </Badge>
+              <>
+                <Badge
+                  className="absolute -top-2 -right-2 px-2 py-1 bg-dodger-blue-500 text-white rounded-full text-xs hover:bg-dodger-blue-600 animate-ping"
+                  aria-label="Solicitudes pendientes"
+                >
+                  0
+                </Badge>
+                <Badge
+                  className="absolute -top-2 -right-2 px-2 py-1 bg-dodger-blue-500 text-white rounded-full text-xs hover:bg-dodger-blue-600"
+                  aria-label="Solicitudes pendientes"
+                >
+                  {currentToApprove.length}
+                </Badge>
+              </>
             )}
           </Button>
         </PopoverTrigger>

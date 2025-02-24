@@ -11,8 +11,8 @@ export default function LoginPage() {
         <Image
           src="/MunicipalidadLogin.jpg"
           alt="Municipalidad Login"
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: 'cover' }}
           priority
           className="brightness-75"
         />

@@ -15,7 +15,7 @@ export default function FAQSuggestions({ questions, onSelect }: FAQSuggestionsPr
             <Button
               variant="outline"
               type="button"
-              className="w-full justify-start text-left h-auto p-4 whitespace-normal"
+              className="w-full justify-start text-left h-auto p-4 whitespace-normal rounded-full"
               onClick={() => onSelect(question)}
             >
               {question}

@@ -1,4 +1,5 @@
-import Chatbot from "@/components/dashboard/chat-bot/chat"
+import Chatbot from "@/components/dashboard/chat-bot/chat-bot"
+
 
 export default function Layout({
   children,

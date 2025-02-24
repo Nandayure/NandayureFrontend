@@ -1,6 +1,6 @@
 "use client"
 
-import Chatbot from "@/components/dashboard/chat-bot/chat"
+import Chatbot from "@/components/dashboard/chat-bot/chat-bot"
 import Image from "next/image"
 
 export default function HomePage() {

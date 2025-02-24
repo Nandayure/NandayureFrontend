@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
-import { Send, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { useChatbot } from "@/hooks/common/useChatbot";
 import ChatMessages, { ChatMessage } from "./chat-messages";
 import ChatHeader from "./chat-header";
@@ -100,11 +100,10 @@ export default function Chatbot() {
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent
-          className={`${
-            isExpanded
-              ? "sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] w-[90vw] shadow-none"
-              : "sm:max-w-[480px] md:max-w-[560px] lg:max-w-[640px] w-[72vw] shadow-none"
-          }`}
+          className={`${isExpanded
+            ? "sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] w-[90vw] shadow-none"
+            : "sm:max-w-[480px] md:max-w-[560px] lg:max-w-[640px] w-[72vw] shadow-none"
+            }`}
           hideCloseButton
         >
           <ChatHeader
@@ -116,7 +115,7 @@ export default function Chatbot() {
           <Card className="h-[60vh] overflow-y-auto p-4 space-y-4 shadow-none border-0 hide-scrollbar">
             {messages.length > 0 || isTyping ? (
               <>
-                <ChatMessages messages={messages} isTyping={isTyping} messageVariants={messageVariants} />
+                <ChatMessages messages={messages} messageVariants={messageVariants} />
                 {isTyping && (
                   <motion.div
                     aria-live="polite"
@@ -131,7 +130,7 @@ export default function Chatbot() {
                       {[0, 1, 2].map((i) => (
                         <motion.div
                           key={i}
-                          className="w-2 h-2 bg-[#0F172A] rounded-full"
+                          className="w-2 h-2 bg-[#4caf50] rounded-full"
                           animate={{ y: ["0%", "-50%", "0%"] }}
                           transition={{
                             duration: 0.6,

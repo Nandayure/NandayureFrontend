@@ -8,7 +8,6 @@ export interface ChatMessage {
 
 interface ChatMessagesProps {
   messages: ChatMessage[];
-  isTyping: boolean;
   messageVariants: Variants;
 }
 
@@ -20,7 +19,7 @@ const linkStyle = (href?: string) => {
   return { color, textDecoration: "underline" };
 };
 
-export default function ChatMessages({ messages, isTyping, messageVariants }: ChatMessagesProps) {
+export default function ChatMessages({ messages, messageVariants }: ChatMessagesProps) {
   return (
     <AnimatePresence mode="wait">
       <ul className="space-y-4">

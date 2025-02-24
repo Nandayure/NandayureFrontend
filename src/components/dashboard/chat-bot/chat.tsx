@@ -138,7 +138,7 @@ export default function Chatbot() {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent
           className={`${isExpanded
-            ? "sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] w-[90vw] shadow-none"
+            ? "sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] w-[90vw] shadow-none"
             : "sm:max-w-[480px] md:max-w-[560px] lg:max-w-[640px] w-[72vw] shadow-none"
             }`}
           hideCloseButton
@@ -152,7 +152,6 @@ export default function Chatbot() {
                 </Avatar>
                 <div className="flex flex-col">
                   <DialogTitle>Nanda IA</DialogTitle>
-                  {/* Bandera integrada debajo del título */}
                 </div>
               </div>
 

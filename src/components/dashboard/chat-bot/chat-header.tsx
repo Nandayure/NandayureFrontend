@@ -21,12 +21,12 @@ export default function ChatHeader({ isExpanded, onDownload, onToggleExpand }: C
     <DialogHeader>
       <header className="flex flex-row items-center justify-between w-full">
         <div className="flex items-center gap-2">
-          <Avatar className="w-12 h-12">
-            <AvatarImage src="/placeholder.svg" alt="" aria-hidden="true" />
-            <AvatarFallback>IA</AvatarFallback>
+          <Avatar className="w-12 h-12 p-1">
+            <AvatarImage src="/NandaAI.svg" alt="" aria-hidden="true" />
+            <AvatarFallback >IA</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <DialogTitle>Nanda IA</DialogTitle>
+            <DialogTitle className="pt-2">Nanda IA</DialogTitle>
           </div>
         </div>
         <nav aria-label="Opciones del chat" className="flex items-center gap-2">

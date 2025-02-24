@@ -11,7 +11,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${roboto.variable} ${poppins.className}`}>
-      <body className="">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body>
         <SessionAuthProvider>
           <ReactQueryProvider>
             <Toaster reverseOrder={false} />

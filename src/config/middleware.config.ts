@@ -1,7 +1,12 @@
 import { Roles } from '@/lib/constants';
 
 // Rutas públicas
-export const PUBLIC_ROUTES: string[] = ['/auth/login', '/auth/forgot-password'];
+export const PUBLIC_ROUTES: string[] = [
+  '/auth/login',
+  '/auth/forgot-password',
+  '/auth/*',
+  '/auth/reset-password'
+];
 
 // Rutas comunes (intersección entre todos los roles)
 export const commonRoutes: string[] = [

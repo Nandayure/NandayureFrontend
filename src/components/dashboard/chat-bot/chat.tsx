@@ -11,11 +11,19 @@ import { MessageCircle, Send } from "lucide-react"
 import { useChatbot } from "@/hooks/common/useChatbot"
 import ReactMarkdown from "react-markdown"
 import Flag from "@/components/common/Flag"
+import Image from "next/image"
 
 interface ChatMessage {
   role: string
   content: string
 }
+
+const FAQ_QUESTIONS = [
+  "¿Qué puedo preguntarte?",
+  "¿Cuál de mis proyectos está teniendo mejor rendimiento?",
+  "¿De qué proyectos debería preocuparme ahora mismo?",
+]
+
 
 const linkStyle = (href?: string) => {
   let color = "blue"
@@ -62,6 +70,10 @@ export default function Chatbot() {
     })
   }
 
+  const handleFAQClick = (question: string) => {
+    setInput(question)
+  }
+
   const messageVariants = {
     hidden: { opacity: 0, y: 50, transition: { duration: 0.3, ease: "easeIn" } },
     visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 30 } },
@@ -93,16 +105,16 @@ export default function Chatbot() {
         <DialogContent className="sm:max-w-[600px] md:max-w-[700px] lg:max-w-[800px] w-[90vw] shadow-none">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Avatar>
+              <Avatar className="w-12 h-12">
                 <AvatarImage src="/placeholder.svg" alt="Bot" />
                 <AvatarFallback>IA</AvatarFallback>
               </Avatar>
-              Chatear con IA
+              Nanda IA
             </DialogTitle>
             <Flag />
           </DialogHeader>
 
-          <Card className="h-[60vh] overflow-y-auto p-4 space-y-4 shadow-none border-0">
+          <Card className="h-[60vh] overflow-y-auto p-4 space-y-4 shadow-none border-0 hide-scrollbar">
             <AnimatePresence mode="wait">
               {messages.map((msg, index) => (
                 <motion.div
@@ -147,6 +159,33 @@ export default function Chatbot() {
                 </div>
               </motion.div>
             )}
+            {messages.length === 0 && !isTyping && (
+              <div className="flex flex-col items-center justify-center h-full text-center">
+                <div className="mb-8">
+                  <div className="inline-flex items-center justify-center w-12 h-12 mb-4">
+                    <Image src="/Spark.svg" alt="Bot" width={24} height={24} />
+                  </div>
+                  <h2 className="text-xl font-semibold mb-2">Pregúntale cualquier cosa a nuestra IA</h2>
+                  <p className="text-muted-foreground mb-8">Estoy aquí para ayudarte con tus consultas</p>
+                </div>
+                <div className="space-y-4 w-full max-w-md">
+                  <h3 className="text-sm font-medium text-muted-foreground">Sugerencias de preguntas</h3>
+                  <div className="grid gap-3">
+                    {FAQ_QUESTIONS.map((question, index) => (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        className="w-full justify-start text-left h-auto p-4 whitespace-normal"
+                        onClick={() => handleFAQClick(question)}
+                      >
+                        {question}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div ref={messagesEndRef} />
           </Card>
 
@@ -154,7 +193,7 @@ export default function Chatbot() {
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && handleSend()}
+              onKeyUp={(e) => e.key === "Enter" && handleSend()}
               placeholder="Escribe tu mensaje..."
               disabled={isPending}
               className={`shadow-none ${!input.trim() ? "opacity-50" : ""}`}

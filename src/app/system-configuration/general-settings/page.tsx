@@ -10,7 +10,12 @@ export default function GeneralSettingsPage() {
       <h1 className="text-3xl font-bold mb-6">Configuración del Sistema</h1>
       <Tabs defaultValue="civilStatus">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="civilStatus">Estado civil</TabsTrigger>
+          <TabsTrigger
+            data-cy="civil-status-tab"
+            value="civilStatus"
+          >
+            Estado civil
+          </TabsTrigger>
           <TabsTrigger value="gender">Genero</TabsTrigger>
         </TabsList>
         <TabsContent value="civilStatus">

@@ -24,7 +24,7 @@ export default function AddCivilStatusModal() {
 
   return (
     <>
-      <Button onClick={handleAddNew} className="mb-4">
+      <Button onClick={handleAddNew} className="mb-4" data-cy="btn-add-civil-status">
         <Plus className="mr-2 h-4 w-4" /> Agregar Estado Civil
       </Button>
       <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
@@ -40,6 +40,8 @@ export default function AddCivilStatusModal() {
                 type="text"
                 register={register}
                 errors={errors}
+                dataCy='input-name-civil-status'
+                errorDataCy='error-name-civil-status'
               />
               <InputField
                 id="Description"
@@ -47,20 +49,23 @@ export default function AddCivilStatusModal() {
                 type="text"
                 register={register}
                 errors={errors}
+                dataCy='input-description-civil-status'
+                errorDataCy='error-description-civil-status'
               />
-              
+
               {errors.root && (
-                <p className="text-red-500 text-xs mt-2">
+                <p className="text-red-500 text-xs mt-2" data-cy="error-root-civil-status">
                   {' '}
                   {errors.root.message}{' '}
                 </p>
               )}
             </div>
             <DialogFooter>
-              <Button type="submit">Agregar Estado Civil </Button>
+              <Button type="submit" data-cy="btn-submit-civil-status">Agregar Estado Civil</Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
     </>
-  );}
+  );
+}

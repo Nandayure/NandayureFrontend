@@ -7,6 +7,8 @@ interface InputFieldProps {
   type: string;
   className?: string;
   placeholder?: string;
+  dataCy?: string;
+  errorDataCy?: string;
   register: UseFormRegister<any>;
   errors?: Record<string, any>;
 }
@@ -17,6 +19,8 @@ const InputField: React.FC<InputFieldProps> = ({
   type,
   className,
   placeholder,
+  dataCy,
+  errorDataCy,
   register,
   errors,
 }) => {
@@ -35,10 +39,11 @@ const InputField: React.FC<InputFieldProps> = ({
         aria-label={label}
         aria-describedby={`${id}-error`}
         className="block w-full px-3 py-2 sm:py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
+        data-cy={dataCy}
         {...register(id)}
       />
       {errors?.[id] && (
-        <span id={`${id}-error`} className="text-red-500 text-sm">
+        <span id={`${id}-error`} className="text-red-500 text-sm" data-cy={errorDataCy}>
           {errors[id].message}
         </span>
       )}

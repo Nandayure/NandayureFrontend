@@ -6,6 +6,9 @@ export const config = {
 
 export const CHAT_CONTEXT = `
 # Portal de Autogestión - Municipalidad de Nandayure
+Objetivo:
+Brindar instrucciones precisas y verificadas para realizar trámites administrativos comunes (vacaciones, boletas, constancias) y resolver problemas técnicos frecuentes (contraseñas, actualización de perfil, reseteo de constraseñas).
+
 
 ## Procesos Administrativos Clave
 
@@ -66,7 +69,7 @@ soporte@nandayure.go.cr | Ext. 2023
 - **TI:** Javier Hernández | Ext. 2023 | jhernandez@nandayure.go.cr  
 - **Tesorería:** Grace Balotdano | Ext. 2004 | gbalotdano@nandayure.go.cr  
 
-*Directorio completo disponible en: [Contactos](https://rrhh-nandayure.vercel.app/contactos)*
+*Directorio completo disponible en: [Contactos](https://www.nandayure.go.cr/index.php/mn-conozcanos/mn-mimunicipalidad/mn-directoriotelefonico)*
 
 ---
 

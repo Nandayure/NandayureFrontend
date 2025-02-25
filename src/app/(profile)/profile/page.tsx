@@ -96,7 +96,7 @@ const ProfilePage = () => {
                 label: 'Teléfono',
                 defaultValue: employeeData.CellPhone,
               }}
-              data-cy="profile-cellphone"
+              data-cy="profile-CellPhone"
             />
             <ProfileField
               label="Correo electrónico"
@@ -117,7 +117,7 @@ const ProfilePage = () => {
                 defaultValue: Date,
                 type: 'date',
               }}
-              data-cy="profile-birthdate"
+              data-cy="profile-Birthdate"
             />
             <ProfileField
               label="Dias de Vacaciones"

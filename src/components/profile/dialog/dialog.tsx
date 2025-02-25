@@ -11,9 +11,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
+import { X } from 'lucide-react';
 import { useGetEmployeeId, useUpdateEmployee } from '@/hooks';
 import { UpdateEmployee } from '@/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Field {
   id: string;
@@ -33,7 +34,10 @@ export function DialogProfile({
   title,
   description,
 }: DialogProfileProps) {
+
   const [isOpen, setIsOpen] = useState(false);
+  
+
   const { employeeId } = useGetEmployeeId();
   const { trigger, handleSubmit, mutation, onSubmit, register, errors } =
     useUpdateEmployee({
@@ -42,12 +46,14 @@ export function DialogProfile({
     });
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}  data-cy="dialog-profile">
+    <Dialog open={isOpen} onOpenChange={setIsOpen} >
       <DialogTrigger asChild>
+     
   <Button variant="outline" data-cy="edit-profile">Editar</Button>
+
 </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[450px]">
+      <DialogContent className="sm:max-w-[450px] ">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

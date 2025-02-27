@@ -1,5 +1,3 @@
-import { first } from "node_modules/cypress/types/lodash";
-
 describe('template spec', () => {
   beforeEach(() => {
     cy.session(`sesion-rh`, () => {

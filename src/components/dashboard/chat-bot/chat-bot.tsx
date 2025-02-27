@@ -102,14 +102,15 @@ export default function Chatbot() {
         <DialogContent
           className={`${isExpanded
             ? "sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] w-[90vw] shadow-none"
-            : "sm:max-w-[480px] md:max-w-[560px] lg:max-w-[640px] w-[72vw] shadow-none"
-            } !right-0 !left-auto !translate-x-0 mr-4 mb-4`}
+            : "w-full mr-0 mb-0 sm:w-[72vw] sm:mr-4 sm:mb-4 sm:max-w-[480px] md:max-w-[560px] lg:max-w-[640px] shadow-none"
+            } !right-4 !left-auto !translate-x-0 transition-all duration-300 origin-right`}
           hideCloseButton
           rounded='2xl'
         >
           <ChatHeader
             isExpanded={isExpanded}
             onDownload={handleDownloadChat}
+            onClose={() => setIsOpen(false)}
             onToggleExpand={() => setIsExpanded(!isExpanded)}
           />
 

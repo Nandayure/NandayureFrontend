@@ -40,7 +40,7 @@ export default function AddCivilStatusModal() {
                 type="text"
                 register={register}
                 errors={errors}
-                dataCy='input-name-civil-status'
+                dataCy='input-add-name-civil-status'
                 errorDataCy='error-name-civil-status'
               />
               <InputField
@@ -49,19 +49,19 @@ export default function AddCivilStatusModal() {
                 type="text"
                 register={register}
                 errors={errors}
-                dataCy='input-description-civil-status'
+                dataCy='input-add-description-civil-status'
                 errorDataCy='error-description-civil-status'
               />
 
               {errors.root && (
-                <p className="text-red-500 text-xs mt-2" data-cy="error-root-civil-status">
+                <p className="text-red-500 text-xs mt-2" data-cy="error-add-root-civil-status">
                   {' '}
                   {errors.root.message}{' '}
                 </p>
               )}
             </div>
             <DialogFooter>
-              <Button type="submit" data-cy="btn-submit-civil-status">Agregar Estado Civil</Button>
+              <Button type="submit" data-cy="btn-submit-add-civil-status">Agregar Estado Civil</Button>
             </DialogFooter>
           </form>
         </DialogContent>

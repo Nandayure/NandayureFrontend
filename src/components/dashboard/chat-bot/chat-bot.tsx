@@ -15,8 +15,8 @@ import ChatInput from "./chat-input";
 
 const FAQ_QUESTIONS = [
   "¿Qué puedo preguntarte?",
-  "¿Cuál de mis proyectos está teniendo mejor rendimiento?",
-  "¿De qué proyectos debería preocuparme ahora mismo?",
+  "¿Como puedo solicitar vacaciones?",
+  "¿Como puedo cambiar mi contraseña?",
 ];
 
 export default function Chatbot() {
@@ -105,6 +105,7 @@ export default function Chatbot() {
             : "sm:max-w-[480px] md:max-w-[560px] lg:max-w-[640px] w-[72vw] shadow-none"
             }`}
           hideCloseButton
+          rounded="3xl"
         >
           <ChatHeader
             isExpanded={isExpanded}

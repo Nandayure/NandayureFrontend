@@ -8,6 +8,12 @@ html {
   overflow-y: scroll;
 }
 
+input {
+  font-size: 16px;
+  touch-action: manipulation;
+}
+
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -103,6 +109,7 @@ html {
   body {
     @apply bg-background text-foreground;
   }
+
 }
 
 @layer base {

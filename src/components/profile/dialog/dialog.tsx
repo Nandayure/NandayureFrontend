@@ -11,9 +11,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
+import { X } from 'lucide-react';
 import { useGetEmployeeId, useUpdateEmployee } from '@/hooks';
 import { UpdateEmployee } from '@/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Field {
   id: string;
@@ -33,7 +34,10 @@ export function DialogProfile({
   title,
   description,
 }: DialogProfileProps) {
+
   const [isOpen, setIsOpen] = useState(false);
+  
+
   const { employeeId } = useGetEmployeeId();
   const { trigger, handleSubmit, mutation, onSubmit, register, errors } =
     useUpdateEmployee({
@@ -42,11 +46,14 @@ export function DialogProfile({
     });
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen} >
       <DialogTrigger asChild>
-        <Button variant="outline">Editar</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[450px]">
+     
+  <Button variant="outline" data-cy="edit-profile">Editar</Button>
+
+</DialogTrigger>
+
+      <DialogContent className="sm:max-w-[450px] ">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
@@ -66,6 +73,7 @@ export function DialogProfile({
                   defaultValue={field.defaultValue}
                   type={field.type || 'text'}
                   className="col-span-3"
+                  data-cy={`input-${field.id}`}
                   {...register(field.id as keyof UpdateEmployee, {
                     onBlur: () => trigger(field.id as keyof UpdateEmployee),
                   })}
@@ -83,6 +91,7 @@ export function DialogProfile({
               type="submit"
               className=""
               disabled={mutation.isPending}
+              data-cy="button-save"
             >
               {mutation.isPending ? <Spinner /> : 'Guardar'}
             </Button>

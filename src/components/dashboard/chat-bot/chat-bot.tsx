@@ -103,9 +103,9 @@ export default function Chatbot() {
           className={`${isExpanded
             ? "sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] w-[90vw] shadow-none"
             : "sm:max-w-[480px] md:max-w-[560px] lg:max-w-[640px] w-[72vw] shadow-none"
-            }`}
+            } !right-0 !left-auto !translate-x-0 mr-4 mb-4`}
           hideCloseButton
-          rounded="3xl"
+          rounded='2xl'
         >
           <ChatHeader
             isExpanded={isExpanded}
@@ -127,7 +127,7 @@ export default function Chatbot() {
                     exit="hidden"
                     variants={messageVariants}
                   >
-                    <div className="bg-muted p-3 rounded-lg flex space-x-1">
+                    <div className="bg-muted p-3 rounded-2xl flex space-x-1">
                       {[0, 1, 2].map((i) => (
                         <motion.div
                           key={i}
@@ -170,12 +170,6 @@ export default function Chatbot() {
               Ocurrió un error al enviar tu mensaje. Por favor, inténtalo de nuevo.
             </p>
           )}
-
-          <DialogFooter>
-            <small className="text-xs text-muted-foreground w-full text-center">
-              Respuestas generadas por IA
-            </small>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>

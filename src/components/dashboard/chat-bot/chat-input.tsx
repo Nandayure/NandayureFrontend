@@ -11,7 +11,7 @@ interface ChatInputProps {
 
 export default function ChatInput({ input, onChange, onSend, disabled }: ChatInputProps) {
   return (
-    <div className="w-full max-w-4xl mx-auto p-2 rounded-full bg-gray-100 dark:bg-gray-800">
+    <div className="w-full max-w-4xl mx-auto p-2 rounded-2xl bg-gray-100 dark:bg-gray-800">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -30,7 +30,7 @@ export default function ChatInput({ input, onChange, onSend, disabled }: ChatInp
         <Button
           type="submit"
           disabled={disabled || !input.trim()}
-          className="absolute right-2 rounded-full w-10 h-10 p-0 bg-blue-500 hover:bg-blue-600"
+          className="absolute right-2 rounded-2xl w-10 h-10 p-0 bg-blue-500 hover:bg-blue-600"
           aria-label="Enviar mensaje"
         >
           <ArrowUp className="w-5 h-5 text-white" />

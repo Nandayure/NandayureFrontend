@@ -15,7 +15,7 @@ import DeleteCivilStatusModal from './delete-civilStatus-modal';
 export default function CivilStatusTable() {
   const { civilStatus, isLoading } = useGetAllCivilStatus();
   return (
-    <Table>
+    <Table data-cy="civil-status-table">
       <TableHeader>
         <TableRow>
           <TableHead>ID</TableHead>

@@ -19,8 +19,8 @@ interface Props {
 }
 
 export default function EditCivilStatusModal({
-    CivilStatus,
-    civilStatusId,
+  CivilStatus,
+  civilStatusId,
 }: Props) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { register, errors, handleSubmit, onSubmit, mutation } =
@@ -31,8 +31,8 @@ export default function EditCivilStatusModal({
 
   return (
     <>
-      <Button variant="outline" size="icon" className="mr-2">
-        <Pencil onClick={() => setIsEditModalOpen(true)} className="h-4 w-4" />
+      <Button variant="outline" size="icon" onClick={() => setIsEditModalOpen(true)} className="mr-2" data-cy="btn-edit-civil-status">
+        <Pencil className="h-4 w-4" />
       </Button>
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
         <DialogContent>
@@ -46,18 +46,19 @@ export default function EditCivilStatusModal({
                   Nombre
                 </Label>
                 <div className="col-span-3 flex flex-col">
-                <Input
-                  id="name"
-                  defaultValue={CivilStatus.Name}
-                  className="col-span-3"
-                  type="text"
-                  {...register('Name')}
-                />
-                {errors?.Name && (
-                  <span id="name-error" className="text-red-500 text-sm mt-2">
-                    {errors.Name.message}
-                  </span>
-                )}
+                  <Input
+                    id="name"
+                    defaultValue={CivilStatus.Name}
+                    data-cy="input-edit-name-civil-status"
+                    className="col-span-3"
+                    type="text"
+                    {...register('Name')}
+                  />
+                  {errors?.Name && (
+                    <span id="name-error" className="text-red-500 text-sm mt-2" data-cy="error-edit-name-civil-status">
+                      {errors.Name.message}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
@@ -65,22 +66,24 @@ export default function EditCivilStatusModal({
                   Descripción
                 </Label>
                 <div className="col-span-3 flex flex-col">
-                <Input
-                  id="description"
-                  defaultValue={CivilStatus.Description}
-                  className="col-span-3"
-                  {...register('Description')}
-                />
-                {errors?.Description && (
-                  <span id="description-error" className="text-red-500 text-sm mt-2">
-                    {errors.Description.message}
-                  </span>
-                )}
+                  <Input
+                    id="description"
+                    defaultValue={CivilStatus.Description}
+                    data-cy="input-edit-description-civil-status"
+                    className="col-span-3"
+                    {...register('Description')}
+                  />
+                  {errors?.Description && (
+                    <span id="description-error" className="text-red-500 text-sm mt-2" data-cy="error-edit-description-civil-status">
+                      {errors.Description.message}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Guardar cambios</Button>
+              <Button type="submit" data-cy="btn-submit-edit-civil-status"
+              >Guardar cambios</Button>
             </DialogFooter>
           </form>
         </DialogContent>

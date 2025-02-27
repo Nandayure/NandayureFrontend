@@ -7,16 +7,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Ellipsis, Download, Minimize2, Maximize2 } from "lucide-react";
+import { Ellipsis, Download, Minimize2, Maximize2, X } from "lucide-react";
 import Flag from "@/components/common/Flag";
 
 interface ChatHeaderProps {
   isExpanded: boolean;
   onDownload: () => void;
   onToggleExpand: () => void;
+  onClose: () => void;
 }
 
-export default function ChatHeader({ isExpanded, onDownload, onToggleExpand }: ChatHeaderProps) {
+export default function ChatHeader({ isExpanded, onDownload, onToggleExpand, onClose }: ChatHeaderProps) {
   return (
     <DialogHeader>
       <header className="flex flex-row items-center justify-between w-full">
@@ -43,18 +44,30 @@ export default function ChatHeader({ isExpanded, onDownload, onToggleExpand }: C
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label={isExpanded ? "Minimizar chat" : "Expandir chat"}
-            onClick={onToggleExpand}
-          >
-            {isExpanded ? (
-              <Minimize2 className="h-4 w-4" />
-            ) : (
-              <Maximize2 className="h-4 w-4" />
-            )}
-          </Button>
+          <div className="hidden sm:block">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={isExpanded ? "Minimizar chat" : "Expandir chat"}
+              onClick={onToggleExpand}
+            >
+              {isExpanded ? (
+                <Minimize2 className="h-4 w-4" />
+              ) : (
+                <Maximize2 className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
+          <div className="block sm:hidden">
+            <Button
+              variant={'ghost'}
+              size={'icon'}
+              aria-label="Cerrar chat"
+              onClick={onClose}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </nav>
       </header>
       <Flag />

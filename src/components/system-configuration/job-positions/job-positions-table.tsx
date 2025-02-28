@@ -12,26 +12,65 @@ import {
 } from '@/components/ui/table';
 import DeleteJobPositionsModal from './delete-job-positions-modal';
 import EditJobPositionsModal from './edit-job-positions-modal';
+import { useEffect, useState } from "react";
+import { PaginationController } from "@/components/ui/pagination-controller";
+import { SearchBar } from "@/components/ui/search-bar";
+import { useSearchFilter } from "@/hooks/use-search-filter";
+import AddJobPositionsModal from './add-job-positions-modal';
 
 export default function JobPositionsTable() {
   const { jobPositions, isLoading } = useGetAllJobPositions();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  // Usar el hook de búsqueda
+  const { filteredData: filteredJobPositions, setSearchValue } = useSearchFilter({
+    data: jobPositions || [],
+    searchFields: ["id", "Name", "Description", "DepartmentId"],
+  });
+
+  // Resetear la página cuando cambia la búsqueda
+  useEffect(() => {
+    setCurrentPage(1);
+  }, []);
+
+  // Calcular los puestos a mostrar en la página actual
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentJobPositions = filteredJobPositions.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Función para cambiar de página
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Función para manejar la búsqueda
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+  };
+
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>ID</TableHead>
-          <TableHead>Nombre</TableHead>
-          <TableHead>Descripción</TableHead>
-          <TableHead>Salario base</TableHead>
-          <TableHead>Salario global</TableHead>
-          <TableHead>Salario extra</TableHead>
-          <TableHead>Departamento</TableHead>
-          <TableHead>Acciones</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {isLoading
-          ? Array.from({ length: 3 }).map((_, index) => (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between gap-4">
+        <AddJobPositionsModal />
+        <SearchBar onSearch={handleSearch} placeholder="Buscar puestos de trabajo..." className="max-w-md" />
+      </div>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>ID</TableHead>
+            <TableHead>Nombre</TableHead>
+            <TableHead>Descripción</TableHead>
+            <TableHead>Salario base</TableHead>
+            <TableHead>Salario global</TableHead>
+            <TableHead>Salario extra</TableHead>
+            <TableHead>Departamento</TableHead>
+            <TableHead>Acciones</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {isLoading
+            ? Array.from({ length: 3 }).map((_, index) => (
               <TableRow key={index}>
                 {Array.from({ length: 7 }).map((_, idx) => (
                   <TableCell key={idx}>
@@ -40,26 +79,46 @@ export default function JobPositionsTable() {
                 ))}
               </TableRow>
             ))
-          : jobPositions?.map((jobPosition) => (
-              <TableRow key={jobPosition.id}>
-                <TableCell>{jobPosition.id}</TableCell>
-                <TableCell>{jobPosition.Name}</TableCell>
-                <TableCell>{jobPosition.Description}</TableCell>
-                <TableCell className="w-32">
-                  ₡ {jobPosition.baseSalary}
-                </TableCell>
-                <TableCell>₡ {jobPosition.globalSalary}</TableCell>
-                <TableCell>₡ {jobPosition.extrafees}</TableCell>
-                <TableCell>{jobPosition.DepartmentId}</TableCell>
-                <TableCell>
-                  <div className="flex">
-                    <EditJobPositionsModal jobPosition={jobPosition} />
-                    <DeleteJobPositionsModal id={jobPosition.id} />
-                  </div>
+            : currentJobPositions.length > 0 ? (
+              currentJobPositions.map((jobPosition) => (
+                <TableRow key={jobPosition.id}>
+                  <TableCell>{jobPosition.id}</TableCell>
+                  <TableCell>{jobPosition.Name}</TableCell>
+                  <TableCell>{jobPosition.Description}</TableCell>
+                  <TableCell className="w-32">
+                    ₡ {jobPosition.baseSalary}
+                  </TableCell>
+                  <TableCell>₡ {jobPosition.globalSalary}</TableCell>
+                  <TableCell>₡ {jobPosition.extrafees}</TableCell>
+                  <TableCell>{jobPosition.DepartmentId}</TableCell>
+                  <TableCell>
+                    <div className="flex">
+                      <EditJobPositionsModal jobPosition={jobPosition} />
+                      <DeleteJobPositionsModal id={jobPosition.id} />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={8} className="h-24 text-center">
+                  No se encontraron resultados.
                 </TableCell>
               </TableRow>
-            ))}
-      </TableBody>
-    </Table>
+            )}
+        </TableBody>
+      </Table>
+
+      {!isLoading && filteredJobPositions.length > 0 && (
+        <PaginationController
+          totalItems={filteredJobPositions.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+          siblingCount={1}
+          className="mt-4"
+        />
+      )}
+    </div>
   );
 }

@@ -28,7 +28,7 @@ export default function AddAnnuityModal() {
 
   return (
     <>
-      <Button onClick={handleAddNew} className="mb-4">
+      <Button onClick={handleAddNew}>
         <Plus className="mr-2 h-4 w-4" /> Agregar Anualidad
       </Button>
       <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>

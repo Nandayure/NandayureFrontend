@@ -10,7 +10,6 @@ export default function PositionsPage() {
             Configuración de puestos de trabajo
           </h1>
         </div>
-        <AddJobPositionsModal />
         <JobPositionsTable />
       </div>
     </div>

@@ -34,7 +34,7 @@ export default function ChatMessages({ messages, messageVariants }: ChatMessages
           >
             <div
               role={msg.role === "user" ? "status" : "article"}
-              className={`max-w-[80%] p-3 rounded-lg ${msg.role === "user" ? "bg-dodger-blue-500 text-white" : "bg-muted"}`}
+              className={`max-w-[80%] p-3 rounded-2xl leading-relaxed ${msg.role === "user" ? "bg-dodger-blue-500 text-white" : "bg-muted"}`}
             >
               <ReactMarkdown
                 components={{

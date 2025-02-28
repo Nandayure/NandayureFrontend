@@ -88,6 +88,12 @@ describe('Civil Status Management Flow', () => {
       .should('be.enabled')
       .click();
 
+    // Buscar el registro usando el search bar
+    cy.get('[data-cy="search-civil-status"]').first().type(civilStatusData.name);
+
+    // Esperar que se filtren los resultados
+    cy.wait(500);
+
     // Verify the new record is visible in the table and capture its ID
     cy.contains('[data-cy^="civil-status-name-"]', civilStatusData.name)
       .should('be.visible')
@@ -121,16 +127,7 @@ describe('Civil Status Management Flow', () => {
 
   /**
    * @test Edición de un estado civil existente
-   * @description Prueba el proceso de edición de un estado civil existente:
-   * - Recupera el ID guardado de la prueba de creación
-   * - Navega a la página de estados civiles
-   * - Localiza la fila correspondiente al ID guardado
-   * - Activa el botón de edición
-   * - Introduce nuevos datos en el formulario
-   * - Envía el formulario de edición
-   * - Verifica que los datos se hayan actualizado correctamente en la tabla
    */
-
   it('should edit an existing civil status', function () {
     // Use the ID saved from the creation test via this context
     const savedId = this.savedCivilStatusId;
@@ -147,6 +144,12 @@ describe('Civil Status Management Flow', () => {
 
     // Store the updated name
     civilStatusData.updatedName = `${civilStatusData.name} editado`;
+
+    // Buscar el registro usando el search bar
+    cy.get('[data-cy="search-civil-status"]').first().type(civilStatusData.name);
+
+    // Esperar que se filtren los resultados
+    cy.wait(500);
 
     // Find the row with the civil status and click the edit button
     cy.get(`[data-cy="civil-status-id-${civilStatusId}"]`)
@@ -176,13 +179,6 @@ describe('Civil Status Management Flow', () => {
 
   /**
    * @test Eliminación de un estado civil
-   * @description Prueba el proceso de eliminación de un estado civil:
-   * - Recupera el ID guardado de la prueba de creación
-   * - Navega a la página de estados civiles
-   * - Localiza la fila correspondiente al ID guardado
-   * - Activa el botón de eliminación
-   * - Confirma la eliminación en el diálogo
-   * - Verifica que el registro ya no exista en la tabla
    */
   it('should delete the created civil status', function () {
     // Use the ID saved from the creation test via this context
@@ -197,6 +193,16 @@ describe('Civil Status Management Flow', () => {
 
     // Navigate to civil status page
     navigateToCivilStatusPage();
+
+    // Buscar el registro usando el search bar y el nombre actualizado
+    if (!civilStatusData.updatedName) {
+      throw new Error('Updated name is not defined');
+    }
+    cy.get('[data-cy="search-civil-status"]').first().type(civilStatusData.updatedName);
+
+
+    // Esperar que se filtren los resultados
+    cy.wait(500);
 
     // Find the row with the civil status and click the delete button
     cy.get(`[data-cy="civil-status-id-${civilStatusId}"]`)

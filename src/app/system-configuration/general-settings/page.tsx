@@ -23,7 +23,6 @@ export default function GeneralSettingsPage() {
             <h2 className="text-2xl font-bold mb-4">
               Configuración de estado civil
             </h2>
-            <AddCivilStatusModal />
             <CivilStatusTable />
           </div>
         </TabsContent>
@@ -32,7 +31,6 @@ export default function GeneralSettingsPage() {
             <h2 className="text-2xl font-bold mb-4">
               Configuración del género
             </h2>
-            <AddGenderModal />
             <GendersTable />
           </div>
         </TabsContent>

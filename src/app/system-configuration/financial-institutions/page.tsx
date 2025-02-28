@@ -23,7 +23,6 @@ export default function FinancialInstitutionsPage() {
             <h2 className="text-2xl font-bold mb-4">
               Configuración de instituciones financieras
             </h2>
-            <AddFinancialInstitutionsModal />
             <FinancialInstitutionsTable />
           </div>
         </TabsContent>
@@ -32,7 +31,6 @@ export default function FinancialInstitutionsPage() {
             <h2 className="text-2xl font-bold mb-4">
               Configuración de tipos de instituciones financieras
             </h2>
-            <AddTypeFinancialInstitutionsModal />
             <TypeFinancialInstitutionsTable />
           </div>
         </TabsContent>

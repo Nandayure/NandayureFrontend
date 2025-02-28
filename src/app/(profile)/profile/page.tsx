@@ -33,14 +33,24 @@ const ProfilePage = () => {
     );
   }
 
+  // Solución para el problema de la fecha
   const inputDate = employeeData.Birthdate;
+
+  // Obtener directamente la fecha sin conversiones de zona horaria
+  // Simplemente extrayendo año-mes-día de la cadena ISO
+  const [dateOnly] = (inputDate instanceof Date ? inputDate.toISOString() : inputDate).split('T');
+  const [year, month, day] = dateOnly.split('-').map(num => parseInt(num));
+
+  // Formatear para mostrar
   const formattedData = format({
-    date: inputDate,
+    // Usamos el constructor que NO utiliza zona horaria
+    date: new Date(year, month - 1, day),
     format: 'D MMMM YYYY',
     locale: 'es',
   });
 
-  const Date = format({ date: inputDate, format: 'YYYY-MM-DD', locale: 'en' });
+  // Para el input type="date"
+  const formattedDateForInput = dateOnly;
 
   return (
     <div className="min-h-screen p-6 ">
@@ -65,7 +75,7 @@ const ProfilePage = () => {
                 id: 'Name',
                 label: 'Nombre',
                 defaultValue: employeeData.Name,
-              }} 
+              }}
               data-cy="profile-name"
             />
             <ProfileField
@@ -114,7 +124,7 @@ const ProfilePage = () => {
               field={{
                 id: 'Birthdate',
                 label: 'Fecha nacimiento',
-                defaultValue: Date,
+                defaultValue: formattedDateForInput,
                 type: 'date',
               }}
               data-cy="profile-Birthdate"
@@ -150,7 +160,7 @@ const ProfileField = ({
           title={`Editar ${field.label}`}
           description={`Actualiza tu ${field.label} aquí. Haz clic en guardar cuando hayas terminado.`}
           fields={[field]}
-        data-cy="edit-profile"
+          data-cy="edit-profile"
         />
       )}
     </div>

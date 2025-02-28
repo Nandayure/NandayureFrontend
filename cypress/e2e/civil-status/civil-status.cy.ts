@@ -119,8 +119,6 @@ describe('Civil Status Management Flow', () => {
       });
   });
 
-  // FIXME: This test is failing because the backend is not returning the updated data correctly
-
   /**
    * @test Edición de un estado civil existente
    * @description Prueba el proceso de edición de un estado civil existente:
@@ -133,48 +131,48 @@ describe('Civil Status Management Flow', () => {
    * - Verifica que los datos se hayan actualizado correctamente en la tabla
    */
 
-  // it('should edit an existing civil status', function () {
-  //   // Use the ID saved from the creation test via this context
-  //   const savedId = this.savedCivilStatusId;
+  it('should edit an existing civil status', function () {
+    // Use the ID saved from the creation test via this context
+    const savedId = this.savedCivilStatusId;
 
-  //   // Check if savedId exists
-  //   if (!savedId) {
-  //     throw new Error('Failed to get saved civil status ID from previous test');
-  //   }
+    // Check if savedId exists
+    if (!savedId) {
+      throw new Error('Failed to get saved civil status ID from previous test');
+    }
 
-  //   civilStatusId = String(savedId);
+    civilStatusId = String(savedId);
 
-  //   // Navigate to civil status page
-  //   navigateToCivilStatusPage();
+    // Navigate to civil status page
+    navigateToCivilStatusPage();
 
-  //   // Store the updated name
-  //   civilStatusData.updatedName = `${civilStatusData.name} editado`;
+    // Store the updated name
+    civilStatusData.updatedName = `${civilStatusData.name} editado`;
 
-  //   // Find the row with the civil status and click the edit button
-  //   cy.get(`[data-cy="civil-status-id-${civilStatusId}"]`)
-  //     .closest('tr')
-  //     .find('[data-cy="btn-edit-civil-status"]')
-  //     .first()
-  //     .click({ force: true });
+    // Find the row with the civil status and click the edit button
+    cy.get(`[data-cy="civil-status-id-${civilStatusId}"]`)
+      .closest('tr')
+      .find('[data-cy="btn-edit-civil-status"]')
+      .first()
+      .click({ force: true });
 
-  //   // Edit the name field
-  //   cy.get('[data-cy="input-edit-name-civil-status"]')
-  //     .should('be.visible')
-  //     .clear()
-  //     .type(civilStatusData.updatedName)
-  //     .should('have.value', civilStatusData.updatedName);
+    // Edit the name field
+    cy.get('[data-cy="input-edit-name-civil-status"]')
+      .should('be.visible')
+      .clear()
+      .type(civilStatusData.updatedName)
+      .should('have.value', civilStatusData.updatedName);
 
-  //   // Submit the edit form
-  //   cy.get('[data-cy="btn-submit-edit-civil-status"]')
-  //     .should('be.enabled')
-  //     .click();
+    // Submit the edit form
+    cy.get('[data-cy="btn-submit-edit-civil-status"]')
+      .should('be.enabled')
+      .click();
 
-  //   // Verify the changes were saved
-  //   cy.get(`[data-cy="civil-status-name-${civilStatusId}"]`).should(
-  //     'contain',
-  //     civilStatusData.updatedName,
-  //   );
-  // });
+    // Verify the changes were saved
+    cy.get(`[data-cy="civil-status-name-${civilStatusId}"]`).should(
+      'contain',
+      civilStatusData.updatedName,
+    );
+  });
 
   /**
    * @test Eliminación de un estado civil

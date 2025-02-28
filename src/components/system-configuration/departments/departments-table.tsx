@@ -1,6 +1,6 @@
 "use client"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { useGetAllDepartments } from "@/hooks"
+import { useGetAllDepartmentPrograms, useGetAllDepartments, useGetAllEmployees } from "@/hooks"
 import SkeletonLoader from "@/components/ui/skeleton-loader"
 import EditDepartmentModal from "./edit-department-modal"
 import DeleteDepartmentModal from "./delete-department-modal"
@@ -12,6 +12,8 @@ import AddDepartmentModal from "./add-department-modal"
 
 export default function DepartmentsTable() {
   const { departments, isLoading } = useGetAllDepartments()
+  const { departmentPrograms = [] } = useGetAllDepartmentPrograms()
+  const { employees = [] } = useGetAllEmployees()
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5 // Puedes ajustar esto según tus necesidades
 
@@ -53,9 +55,9 @@ export default function DepartmentsTable() {
             <TableHead>ID</TableHead>
             <TableHead>Nombre</TableHead>
             <TableHead>Descripción</TableHead>
-            <TableHead>Programa ID</TableHead>
+            <TableHead>Programa</TableHead>
             <TableHead>Código Presupuesto</TableHead>
-            <TableHead>Jefe ID</TableHead>
+            <TableHead>Jefe</TableHead>
             <TableHead>Acciones</TableHead>
           </TableRow>
         </TableHeader>
@@ -76,9 +78,9 @@ export default function DepartmentsTable() {
                 <TableCell>{department.id}</TableCell>
                 <TableCell>{department.name}</TableCell>
                 <TableCell>{department.description}</TableCell>
-                <TableCell>{department.departmentProgramId}</TableCell>
+                <TableCell>{departmentPrograms.find((program) => program.id === department.departmentProgramId)?.name || "N/A"}</TableCell>
                 <TableCell>{department.budgetCodeId}</TableCell>
-                <TableCell>{department.departmentHeadId || "N/A"}</TableCell>
+                <TableCell>{employees.find((employee) => employee.id === department.departmentHeadId)?.Name} {employees.find((employee) => employee.id === department.departmentHeadId)?.Surname1 || "N/A"}</TableCell>
                 <TableCell>
                   <div className="flex">
                     <EditDepartmentModal department={department} departmentId={department.id} />

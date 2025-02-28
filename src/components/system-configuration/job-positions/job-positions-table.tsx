@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetAllJobPositions } from '@/hooks';
+import { useGetAllDepartments, useGetAllJobPositions } from '@/hooks';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
@@ -20,6 +20,7 @@ import AddJobPositionsModal from './add-job-positions-modal';
 
 export default function JobPositionsTable() {
   const { jobPositions, isLoading } = useGetAllJobPositions();
+  const { departments = [] } = useGetAllDepartments()
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -88,9 +89,9 @@ export default function JobPositionsTable() {
                   <TableCell className="w-32">
                     ₡ {jobPosition.baseSalary}
                   </TableCell>
-                  <TableCell>₡ {jobPosition.globalSalary}</TableCell>
-                  <TableCell>₡ {jobPosition.extrafees}</TableCell>
-                  <TableCell>{jobPosition.DepartmentId}</TableCell>
+                  <TableCell className="w-32">₡ {jobPosition.globalSalary}</TableCell>
+                  <TableCell className="w-32">₡ {jobPosition.extrafees}</TableCell>
+                  <TableCell>{departments.find((department) => department.id === jobPosition.DepartmentId)?.name}</TableCell>
                   <TableCell>
                     <div className="flex">
                       <EditJobPositionsModal jobPosition={jobPosition} />

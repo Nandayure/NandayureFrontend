@@ -83,7 +83,7 @@ export default function FinancialInstitutionsTable() {
                   <TableCell>{institution.name}</TableCell>
                   <TableCell>{institution.description}</TableCell>
                   <TableCell>
-                    {institution.deductionPercentage}
+                   %  {institution.deductionPercentage}
                   </TableCell>
                   <TableCell>
                     <div className="flex">

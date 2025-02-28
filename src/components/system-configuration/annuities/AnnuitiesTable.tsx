@@ -80,7 +80,7 @@ export default function AnnuitiesTable() {
                   })}
                 </TableCell>
                 <TableCell>{annuity.Description}</TableCell>
-                <TableCell>{Number(annuity.Amount || 0).toFixed(2)}</TableCell>
+                <TableCell>₡ {Number(annuity.Amount || 0).toFixed(2)}</TableCell>
                 <TableCell>
                   {annuity.employee
                     ? `${annuity.employee.Name} ${annuity.employee.Surname1} ${annuity.employee.Surname2}`

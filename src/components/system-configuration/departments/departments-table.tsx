@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { PaginationController } from "@/components/ui/pagination-controller"
 import { SearchBar } from "@/components/ui/search-bar"
 import { useSearchFilter } from "@/hooks/use-search-filter"
+import AddDepartmentModal from "./add-department-modal"
 
 export default function DepartmentsTable() {
   const { departments, isLoading } = useGetAllDepartments()
@@ -42,8 +43,10 @@ export default function DepartmentsTable() {
 
   return (
     <div className="space-y-4">
-      <SearchBar onSearch={handleSearch} placeholder="Buscar departamentos..." className="max-w-md" />
-
+      <div className="flex items-center justify-between gap-4">
+        <AddDepartmentModal />
+        <SearchBar onSearch={handleSearch} placeholder="Buscar departamentos..." className="max-w-md" />
+      </div>
       <Table>
         <TableHeader>
           <TableRow>

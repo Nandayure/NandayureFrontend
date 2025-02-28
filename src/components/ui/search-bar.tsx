@@ -34,6 +34,14 @@ export interface SearchBarProps extends React.InputHTMLAttributes<HTMLInputEleme
    * @default true
    */
   showClearButton?: boolean
+  /**
+   * Atributo data-cy para el input
+   */
+  InputDataCy?: string
+  /**
+   * Atributo data-cy para el botón
+   */
+  ButtonDataCy?: string
 }
 
 export function SearchBar({
@@ -43,6 +51,7 @@ export function SearchBar({
   className,
   containerClassName,
   showClearButton = true,
+  InputDataCy,
   ...props
 }: SearchBarProps) {
   const [value, setValue] = React.useState<string>(props.defaultValue?.toString() || "")
@@ -91,6 +100,7 @@ export function SearchBar({
         className={cn("pl-8 pr-10", className)}
         value={value}
         onChange={handleChange}
+        data-cy={InputDataCy}
         {...props}
       />
       {showClearButton && value && (

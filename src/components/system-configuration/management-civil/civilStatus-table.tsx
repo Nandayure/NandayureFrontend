@@ -52,7 +52,7 @@ export default function CivilStatusTable() {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-4">
         <AddCivilStatusModal />
-        <SearchBar onSearch={handleSearch} placeholder="Buscar estado civil..." className="max-w-md" />
+        <SearchBar onSearch={handleSearch} placeholder="Buscar estado civil..." className="max-w-md" InputDataCy='search-civil-status' />
       </div>
       <Table data-cy="civil-status-table">
         <TableHeader>

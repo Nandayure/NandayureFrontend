@@ -8,8 +8,10 @@ html {
   overflow-y: scroll;
 }
 
-input {
-  font-size: 16px;
+input,
+select,
+textarea {
+  font-size: 16px !important;
   touch-action: manipulation;
 }
 

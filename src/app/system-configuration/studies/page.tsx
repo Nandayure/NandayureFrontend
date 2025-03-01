@@ -20,7 +20,6 @@ export default function StudiesPage() {
             <h2 className="text-2xl font-bold mb-4">
               Configuración de estudios
             </h2>
-            <AddStudyModal />
             <StudiesTable />
           </div>
         </TabsContent>
@@ -30,7 +29,6 @@ export default function StudiesPage() {
             <h2 className="text-2xl font-bold mb-4">
               Configuración de categorías de estudios
             </h2>
-            <AddStudiesCategoryModal />
             <StudiesCategoryTable />
           </div>
         </TabsContent>

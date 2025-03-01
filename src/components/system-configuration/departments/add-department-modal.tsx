@@ -41,7 +41,7 @@ export default function AddDepartmentModal() {
 
   return (
     <>
-      <Button onClick={handleAddNew} className="mb-4">
+      <Button onClick={handleAddNew}>
         <Plus className="mr-2 h-4 w-4" /> Agregar Departamento
       </Button>
       <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>

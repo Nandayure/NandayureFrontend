@@ -24,7 +24,7 @@ export default function AddCivilStatusModal() {
 
   return (
     <>
-      <Button onClick={handleAddNew} className="mb-4" data-cy="btn-add-civil-status">
+      <Button onClick={handleAddNew} data-cy="btn-add-civil-status">
         <Plus className="mr-2 h-4 w-4" /> Agregar Estado Civil
       </Button>
       <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>

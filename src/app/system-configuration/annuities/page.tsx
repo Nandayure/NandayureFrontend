@@ -10,8 +10,6 @@ export default function AnnuitiesPage() {
         <div className="flex justify-between mb-4">
           <h1 className="text-2xl font-bold mb-4">Configuración de Anualidades</h1>
         </div>
-        {/* Botón y modal para agregar una nueva anualidad */}
-        <AddAnnuityModal />
         {/* Tabla para mostrar las anualidades */}
         <AnnuitiesTable />
       </div>

@@ -91,7 +91,6 @@ export const navLinksRH: Record<string, NavLink> = {
   gestionSolicitudes: baseNavLinks.gestionSolicitudes,
   Solicitudes: baseNavLinks.Solicitudes,
   miSolicitudes: baseNavLinks.miSolicitudes,
-  controlMarcas: baseNavLinks.controlMarcas,
 };
 
 export const navLinksUser: Record<string, NavLink> = {

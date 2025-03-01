@@ -24,7 +24,6 @@ export default function DepartmentsPage() {
           <div className="mt-6">
             <h2 className="text-2xl font-bold mb-4">Configuración de Departamentos</h2>
             <Suspense fallback={<div>Cargando...</div>}>
-              <AddDepartmentModal />
               <DepartmentsTable />
             </Suspense>
           </div>
@@ -33,7 +32,6 @@ export default function DepartmentsPage() {
           <div className="mt-6">
             <h2 className="text-2xl font-bold mb-4">Configuración de Programas Departamentales</h2>
             <Suspense fallback={<div>Cargando...</div>}>
-              <AddDepartmentProgramModal />
               <DepartmentProgramsTable />
             </Suspense>
           </div>
@@ -42,7 +40,6 @@ export default function DepartmentsPage() {
           <div className="mt-6">
             <h2 className="text-2xl font-bold mb-4">Configuración de Códigos de Presupuesto</h2>
             <Suspense fallback={<div>Cargando...</div>}>
-              <AddBudgetCodesModal />
               <BudgetCodesTable />
             </Suspense>
           </div>

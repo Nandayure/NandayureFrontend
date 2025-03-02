@@ -3,7 +3,6 @@ export { default as useForgotPassword } from './auth/forgot-password/usePostSend
 export { default as useLogin } from './auth/login/usePostLogin';
 export { default as useRegister } from './auth/register/usePostEmployee';
 export { default as usePostResetPassword } from './auth/reset-password/usePostResetPasssword';
-export { default as useGetMaritalStatus } from './auth/register/useGetMaritalStatus';
 export { default as usePostEmployee } from './auth/register/usePostEmployee';
 
 export { default as useGetEmployeeId } from './common/useGetEmployeeId';

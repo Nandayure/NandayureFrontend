@@ -3,15 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 import useGetToken from '../common/useGetToken';
 
 const useGetCurrentToApprove = () => {
-  const { token, status } = useGetToken();
-
   const { data, isLoading: queryLoading } = useQuery({
-    queryFn: async () => await getCurrentToApprove(token),
+    queryFn: async () => await getCurrentToApprove(),
     queryKey: ['getCurrentToApprove'],
-    enabled: status !== 'loading',
   });
 
-  const isLoading = status === 'loading' || queryLoading;
+  const isLoading = queryLoading;
   const sortedRequests = Array.isArray(data) ? [...data].reverse() : undefined;
 
   return {

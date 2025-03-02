@@ -5,7 +5,7 @@ export const PUBLIC_ROUTES: string[] = [
   '/auth/login',
   '/auth/forgot-password',
   '/auth/*',
-  '/auth/reset-password'
+  '/auth/reset-password',
 ];
 
 // Rutas comunes (intersección entre todos los roles)
@@ -29,6 +29,9 @@ export const ROLE_ROUTES: RoleRoutes = {
     '/document-management/*',
     '/request-management',
     '/request-management/*',
+    '/request/vacation-request/*',
+    '/request/pay-slip/*',
+    '/request/salary-certificate/*',
     '/time-tracking',
     '/system-configuration/*',
     '/system-configuration',

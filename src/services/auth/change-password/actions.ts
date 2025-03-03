@@ -1,30 +1,13 @@
-import { ChangePassword } from "@/types";
+import httpClient from '@/helpers/httpClient';
+import { ChangePassword } from '@/types';
 
-export async function postChangePassword(
-  resetPassword: ChangePassword,
-  token: string,
-) {
-  const { OldPassword, Password } = resetPassword;
-  const options = {
+export async function postChangePassword(resetPassword: ChangePassword) {
+  return httpClient({
     method: 'POST',
-    headers: {
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+    endpoint: '/auth/change-password',
+    data: {
+      oldPassword: resetPassword.OldPassword,
+      newPassword: resetPassword.Password,
     },
-    body: JSON.stringify({
-      oldPassword: OldPassword,
-      newPassword: Password,
-    }),
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/change-password`,
-    options,
-  );
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message);
-  }
-  return data;
+  });
 }

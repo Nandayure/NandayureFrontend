@@ -151,7 +151,7 @@ const RequestModal = ({
           </div>
         </div>
 
-        {request.RequestStateId === 2 && request.RequestTypeId === 1 && (
+        {/* {request.RequestStateId === 2 && request.RequestTypeId === 1 && (
           <div className="flex justify-end mt-4">
             <Link
               href={`/request/vacation-request/${request.RequestVacation?.id}`}
@@ -178,7 +178,7 @@ const RequestModal = ({
               <Button>Visualizar</Button>
             </Link>
           </div>
-        )}
+        )} */}
       </DialogContent>
     </Dialog>
   );

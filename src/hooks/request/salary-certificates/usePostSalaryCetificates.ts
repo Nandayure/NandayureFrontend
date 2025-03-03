@@ -10,11 +10,10 @@ const usePostSalaryCetificates = () => {
   const { register, handleSubmit } = useForm();
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { token } = useGetToken();
 
   const mutation = useMutation({
     mutationFn: async (data: RequestSalaryCertificate) =>
-      await postSalaryCertificates(data, token),
+      await postSalaryCertificates(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['getCurrentToApprove'],
@@ -39,7 +38,7 @@ const usePostSalaryCetificates = () => {
             } catch (error) {
               reject('Error al enviar solicitud');
             }
-          }, 500); // artificial waiting
+          }, 500); 
         }),
         {
           loading: 'Enviando solicitud...',

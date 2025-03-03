@@ -50,3 +50,5 @@ export * from './system-configuration/gender/commands/actions';
 
 export * from './system-configuration/annuities/commands/actions';
 export * from './system-configuration/annuities/queries/actions';
+
+export * from './files/actions';

@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import useGetToken from '@/hooks/common/useGetToken';
 import { z } from 'zod';
 
 import { ChangePassword } from '@/types';
@@ -13,8 +12,7 @@ import { useRouter } from 'next/navigation';
 type FormsFields = z.infer<typeof ChangePasswordSchema>;
 
 const useChangePassword = () => {
-  const { token } = useGetToken();
-  const router = useRouter(); 
+  const router = useRouter();
   const {
     handleSubmit,
     register,
@@ -25,8 +23,7 @@ const useChangePassword = () => {
   });
 
   const mutation = useMutation({
-    mutationFn: async (data: ChangePassword) =>
-      await postChangePassword(data, token),
+    mutationFn: async (data: ChangePassword) => await postChangePassword(data),
     onError: (error: any) => {
       setError('root', error.message);
     },
@@ -38,7 +35,7 @@ const useChangePassword = () => {
         loading: 'Cargando...',
         success: () => {
           setTimeout(() => {
-            router.push('/'); 
+            router.push('/');
           }, 3000);
           return 'Contraseña editada exitosamente.';
         },

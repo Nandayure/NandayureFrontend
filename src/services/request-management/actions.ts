@@ -1,72 +1,35 @@
-import { CurrentToApprove } from "@/types";
-import { RequestDetails } from "@/types/request-management/commonTypes";
+import httpClient from '@/helpers/httpClient';
+import { CurrentToApprove } from '@/types';
+import { RequestDetails } from '@/types/request-management/commonTypes';
 
 export async function getAllRequests() {
-  const options = {
+  return httpClient<RequestDetails[]>({
     method: 'GET',
-    headers: {
-      accept: 'application/json',
-    },
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/requests`,
-    options,
-  );
-  const data = (await res.json()) as RequestDetails[];
-  return data;
+    endpoint: '/requests',
+  });
 }
 
 export async function getAllRequestsById(employeeId: number) {
-  const options = {
+  return httpClient<RequestDetails[]>({
     method: 'GET',
-    headers: {
-      accept: 'application/json',
-    },
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/requests/${employeeId}`,
-    options,
-  );
-  const data = (await res.json()) as RequestDetails[];
-  return data;
+    endpoint: `/requests/${employeeId}`,
+  });
 }
 
-export async function getCurrentToApprove(token: string) {
-  const options = {
+export async function getCurrentToApprove() {
+  return httpClient<CurrentToApprove[]>({
     method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/request-approvals/currentToApprove`,
-    options,
-  );
-  const data = (await res.json()) as CurrentToApprove[];
-  return data;
+    endpoint: '/request-approvals/currentToApprove',
+  });
 }
 
 export async function patchRequestApproval(
   id: number,
   data: { approved: boolean; observation: string },
-  token: string,
 ) {
-  const options = {
+  return httpClient({
     method: 'PATCH',
-    headers: {
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/request-approvals/${id}`,
-    options,
-  );
-  return res;
+    endpoint: `/request-approvals/${id}`,
+    data,
+  });
 }

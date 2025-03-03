@@ -1,23 +1,17 @@
+import httpClient from '@/helpers/httpClient';
 import { Employee, UpdateEmployee } from '@/types';
 
 interface GetEmployeeByIdProps {
   employeeId: number;
 }
 
-export async function getByIdEmployee({ employeeId }: GetEmployeeByIdProps) {
-  const options = {
+export async function getByIdEmployee({
+  employeeId,
+}: GetEmployeeByIdProps): Promise<Employee> {
+  return httpClient<Employee>({
     method: 'GET',
-    headers: {
-      accept: 'application/json',
-    },
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/employees/${employeeId}`,
-    options,
-  );
-  const data = (await res.json()) as Employee;
-  return data;
+    endpoint: `/employees/${employeeId}`,
+  });
 }
 
 interface UpdateEmployeeProps {
@@ -28,19 +22,10 @@ interface UpdateEmployeeProps {
 export async function updateEmployee({
   employeeId,
   employee,
-}: UpdateEmployeeProps) {
-  const options = {
+}: UpdateEmployeeProps): Promise<UpdateEmployee> {
+  return httpClient<UpdateEmployee>({
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(employee),
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/employees/${employeeId}`,
-    options,
-  );
-  const data = (await res.json()) as UpdateEmployee;
-  return data;
+    endpoint: `/employees/${employeeId}`,
+    data: employee,
+  });
 }

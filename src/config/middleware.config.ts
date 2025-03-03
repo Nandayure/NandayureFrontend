@@ -6,6 +6,7 @@ export const PUBLIC_ROUTES: string[] = [
   '/auth/forgot-password',
   '/auth/*',
   '/auth/reset-password',
+  '/auth/session-expired',
 ];
 
 // Rutas comunes (intersección entre todos los roles)

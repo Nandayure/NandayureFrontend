@@ -1,4 +1,5 @@
 import { getSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 
 interface HttpClientOptions {
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -51,6 +52,13 @@ async function httpClient<T>({
   const responseData = await response.json();
 
   if (!response.ok) {
+    if (response.status === 498 && typeof window !== 'undefined') {
+      // Handle token expiration properly on client-side
+      await signOut({ callbackUrl: '/auth/session-expired' });
+      window.location.href = '/auth/session-expired';
+      // This throws an error to stop further execution
+      throw new Error('Token expired');
+    }
     throw new Error(responseData.message || 'Ocurrió un error en la solicitud');
   }
 

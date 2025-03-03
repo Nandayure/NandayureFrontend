@@ -8,7 +8,7 @@ export default function SessionExpired() {
       <div className="py-5 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
         <div className="mx-auto max-w-screen-sm text-center">
           <Image
-            src="/placeholder.svg?height=350&width=350"
+            src="/session-expired.svg"
             alt="Session Expired"
             width={350}
             height={350}
@@ -20,8 +20,11 @@ export default function SessionExpired() {
           <p className="mb-4 text-lg font-light text-gray-500">
             Por motivos de seguridad, tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.
           </p>
-          <Link href="/login" className="flex justify-center">
-            <Button variant="default" size="lg">
+          <Link href="/auth/login" className="flex justify-center">
+            <Button
+              type="submit"
+              className="block w-3/4 justify-center px-3 py-2 sm:py-3 mt-4 text-white bg-apple-500 rounded-md shadow-sm hover:bg-apple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
+            >
               Iniciar Sesión
             </Button>
           </Link>

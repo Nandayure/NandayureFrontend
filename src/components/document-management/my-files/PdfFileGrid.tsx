@@ -1,6 +1,6 @@
 import React from 'react';
 import SkeletonLoader from '../SkeletonLoader';
-import FileCard from './FileCard';
+import FileCard from '../FileCard';
 import { useUserFiles } from '@/hooks';
 
 const PdfFileGrid = () => {

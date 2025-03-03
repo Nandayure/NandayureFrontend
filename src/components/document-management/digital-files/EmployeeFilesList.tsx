@@ -1,8 +1,7 @@
 import React from 'react';
-import { Loader2 } from 'lucide-react';
-import EmployeeFileCard from './EmployeeFileCard';
 import { useEmployeeFiles } from '@/hooks/files/useEmployeeFiles';
 import SkeletonLoader from '../SkeletonLoader';
+import FileCard from '../FileCard';
 
 interface EmployeeFilesListProps {
   employeeId: string;
@@ -25,7 +24,7 @@ const EmployeeFilesList = ({ employeeId }: EmployeeFilesListProps) => {
       {files && files.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {files.map((file) => (
-            <EmployeeFileCard key={file.id} file={file} />
+            <FileCard key={file.id} file={file} />
           ))}
         </div>
       ) : (

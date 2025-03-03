@@ -18,7 +18,7 @@ export async function uploadDocument({
 
   const response = await httpClient<any>({
     method: 'POST',
-    endpoint: '/google-drive-files/upload', // Ajusta el endpoint según tu API
+    endpoint: '/google-drive-files/upload', 
     data: formData,
   });
 

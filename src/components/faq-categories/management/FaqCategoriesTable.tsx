@@ -9,9 +9,35 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CreateFaqCategory } from "./createFaqCategory";
 import UpdateFaqCategory from "./updateFaqCategory";
 import DeleteFaqCategory from "./deleteFaqCategory";
+import { useSearchFilter } from "@/hooks/use-search-filter";
+import { useEffect, useState } from "react";
+import { SearchBar } from "@/components/ui/search-bar";
+import { PaginationController } from "@/components/ui/pagination-controller";
 
 export default function FaqCategoriesList() {
+  const [currentPage, setCurrentPage] = useState(1)
   const { faqCategories = [], isLoading, isError, error, refetch } = useGetFaqCategories();
+  const { filteredData: filteredFaqCategories, setSearchValue } = useSearchFilter({
+    data: faqCategories,
+    searchFields: ["id", "name"],
+  })
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [])
+
+  const itemsPerPage = 5
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentFaqCategories = filteredFaqCategories.slice(indexOfFirstItem, indexOfLastItem)
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+  }
+
+  const handleSearch = (value: string) => {
+    setSearchValue(value)
+  }
 
   if (isLoading) {
     return (
@@ -84,7 +110,7 @@ export default function FaqCategoriesList() {
           </Button>
         </CreateFaqCategory>
 
-        {/* Aqui va el search bar */}
+        <SearchBar onSearch={handleSearch} placeholder="Buscar departamentos..." className="max-w-md" />
       </div>
       <Table className="w-full">
         <TableHeader>
@@ -95,7 +121,7 @@ export default function FaqCategoriesList() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {faqCategories?.length > 0 ? faqCategories?.map((faqCategory) => (
+          {currentFaqCategories?.length > 0 ? currentFaqCategories?.map((faqCategory) => (
             <TableRow key={faqCategory.id}>
               <TableCell>{faqCategory.id}</TableCell>
               <TableCell>{faqCategory.name}</TableCell>
@@ -110,7 +136,6 @@ export default function FaqCategoriesList() {
                     <Trash2Icon size={16} />
                   </Button>
                 </DeleteFaqCategory>
-                {/* Aqui van los botones de editar y eliminar */}
               </TableCell>
             </TableRow>
           )) : (
@@ -120,6 +145,16 @@ export default function FaqCategoriesList() {
           )}
         </TableBody>
       </Table>
+      {!isLoading && filteredFaqCategories.length > 0 && (
+        <PaginationController
+          totalItems={filteredFaqCategories.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+          siblingCount={1}
+          className="mt-4"
+        />
+      )}
     </div >
   )
 }

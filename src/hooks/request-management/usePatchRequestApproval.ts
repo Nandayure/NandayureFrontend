@@ -15,13 +15,12 @@ const usePatchRequestApproval = () => {
     formState: { errors },
   } = useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { token } = useGetToken();
   const [selectedRequest, setSelectedRequest] =
     useState<CurrentToApprove | null>(null);
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (data: { approved: boolean; observation: string }) => {
-      await patchRequestApproval(selectedRequest!.id, data, token);
+      await patchRequestApproval(selectedRequest!.id, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

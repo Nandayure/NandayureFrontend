@@ -1,6 +1,4 @@
-import PDFUploader from '@/components/common/pdf-uploader';
-import EmployeeTable from '@/components/document-management/digital-files/employee-table';
-import MaintenancePage from '@/components/ui/maintenance-page';
+import EmployeeTable from "@/components/document-management/digital-files/EmployeeTable";
 
 const DocumentManagementDigitalFilesPage = () => {
   return <EmployeeTable />;

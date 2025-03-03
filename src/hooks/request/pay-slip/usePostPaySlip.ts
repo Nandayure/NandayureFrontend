@@ -9,11 +9,10 @@ import toast from 'react-hot-toast';
 const usePostPaySlip = () => {
   const { register, handleSubmit } = useForm();
   const router = useRouter();
-  const { token } = useGetToken();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: async (data: RequestPaySlip) => await postPaySlip(data, token),
+    mutationFn: async (data: RequestPaySlip) => await postPaySlip(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['getCurrentToApprove'],

@@ -14,14 +14,14 @@ import {
 import {
   useGetAllJobPositions,
   useGetAllGender,
-  useGetMaritalStatus,
   usePostEmployee,
+  useGetAllCivilStatus,
 } from '@/hooks';
 import { Controller, useForm } from 'react-hook-form';
 
 const RegisterForm = () => {
   const { genders } = useGetAllGender();
-  const { maritalStatus } = useGetMaritalStatus();
+  const { civilStatus } = useGetAllCivilStatus();
   const { jobPositions } = useGetAllJobPositions();
   const {
     handleSubmit,
@@ -149,8 +149,8 @@ const RegisterForm = () => {
                       <SelectValue placeholder="Seleccionar estado civil" />
                     </SelectTrigger>
                     <SelectContent>
-                      {maritalStatus &&
-                        maritalStatus.map((status) => (
+                      {civilStatus &&
+                        civilStatus.map((status) => (
                           <SelectItem key={status.id} value={status.id.toString()}>
                             {status.Name}
                           </SelectItem>

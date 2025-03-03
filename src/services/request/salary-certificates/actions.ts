@@ -1,43 +1,19 @@
-import { RequestSalaryCertificate } from "@/types";
-
+import httpClient from '@/helpers/httpClient';
+import { RequestSalaryCertificate } from '@/types';
 
 export async function getSalaryCertificates() {
-  const options = {
+  return httpClient({
     method: 'GET',
-    headers: {
-      accept: 'application/json',
-    },
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_MOCK_BACKEND_UR}/salary-certificates`,
-    options,
-  );
-  const data = await res.json();
-  return data;
+    endpoint: '/salary-certificates',
+  });
 }
 
 export async function postSalaryCertificates(
   salaryCertificate: RequestSalaryCertificate,
-  token: string,
 ) {
-  const options = {
+  return httpClient({
     method: 'POST',
-    headers: {
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(salaryCertificate),
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/request-salary-certificates`,
-    options,
-  );
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message);
-  }
-  return data;
+    endpoint: '/request-salary-certificates',
+    data: salaryCertificate,
+  });
 }

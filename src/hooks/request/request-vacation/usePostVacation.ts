@@ -14,13 +14,11 @@ const usePostVacation = () => {
     setValue,
     setError,
   } = useForm<RequestVacation>();
-  const { token } = useGetToken();
   const queryClient = useQueryClient();
   const router = useRouter();
 
   const mutation = useMutation({
-    mutationFn: async (data: RequestVacation) =>
-      await postVacation(data, token),
+    mutationFn: async (data: RequestVacation) => await postVacation(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['getCurrentToApprove'],
@@ -46,7 +44,7 @@ const usePostVacation = () => {
           success: 'Solicitud enviada',
           error: 'Error al enviar solicitud',
         },
-        { duration: 4500 }
+        { duration: 4500 },
       );
       setTimeout(() => {
         router.push('/');

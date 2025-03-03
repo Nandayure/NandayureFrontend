@@ -3,6 +3,9 @@
 import SkeletonLoader from "@/components/ui/skeleton-loader";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import useGetFaqCategories from "@/hooks/faq-categories/queries/useGetFaqCategories";
+import { CreateFaqCategories } from "./createFaqCategories";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "lucide-react";
 
 export default function FaqCategoriesList() {
   const { faqCategories = [], isLoading, isError } = useGetFaqCategories();
@@ -24,6 +27,14 @@ export default function FaqCategoriesList() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-4">
+        <CreateFaqCategories>
+          <Button variant={'default'}>
+            <PlusIcon size={16} className="mr-2" />
+            <span>
+              Agregar categoría
+            </span>
+          </Button>
+        </CreateFaqCategories>
         {/* Aqui va el add button y el search bar */}
       </div>
       <Table>

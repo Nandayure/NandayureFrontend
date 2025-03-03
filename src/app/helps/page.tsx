@@ -8,10 +8,14 @@ import { FAQAccordion } from "@/components/faqs/faq-accordion"
 import { BackButton } from "@/components/faqs/back-button"
 import { faqs } from "@/mocks/faqs"
 import { FAQCategory } from "@/types/faqs/faq.types"
+import { Button } from "@/components/ui/button"
+import { useGetRoles } from "@/hooks"
+import Link from "next/link"
 
 export default function FAQPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<FAQCategory | "all">("all")
+  const { roles, status } = useGetRoles()
 
   const filteredFaqs = faqs.filter((faq) => {
     const matchesSearch =
@@ -35,6 +39,15 @@ export default function FAQPage() {
           <p className="text-muted-foreground">
             Encuentre respuestas a las preguntas más comunes sobre nuestros servicios
           </p>
+          {roles && roles.includes('RH') && (
+            <Button
+              className="mt-4"
+            >
+              <Link href="/helps/faqs-management">
+                Gestión de Preguntas Frecuentes
+              </Link>
+            </Button>
+          )}
         </div>
 
         <FAQSearch onSearch={setSearchTerm} />

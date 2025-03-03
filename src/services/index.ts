@@ -52,3 +52,6 @@ export * from './system-configuration/annuities/commands/actions';
 export * from './system-configuration/annuities/queries/actions';
 
 export * from './files/actions';
+
+export * from './faq-categories/commands/actions';
+export * from './faq-categories/queries/actions';

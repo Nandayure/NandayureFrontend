@@ -16,12 +16,25 @@ import {
   HelpCircle,
   LogOut,
 } from 'lucide-react';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 export default function User() {
   const { roles } = useGetRoles();
+  const { data: session, status } = useSession()
+  const name = session?.user.name
+
+  const getInitials = (name: string | null | undefined) => {
+    if (!name) return "U"
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .substring(0, 2)
+  }
 
   return (
     <DropdownMenu>
@@ -31,7 +44,9 @@ export default function User() {
           className="relative h-8 w-8 rounded-full p-0 m-0"
           data-cy="user-menu"
         >
-          <CircleUserRound strokeWidth={1.5} size={24} />
+          <Avatar>
+            <AvatarFallback>{getInitials(name)}</AvatarFallback>
+          </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>

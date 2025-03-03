@@ -76,21 +76,22 @@ export { default as usePostFinancialInstitution } from './system-configuration/f
 export { default as usePatchFinancialInstitution } from './system-configuration/financial-institutions/commands/usePatchFinancialInstitution';
 export { default as useDeleteFinancialInstitution } from './system-configuration/financial-institutions/commands/useDeleteFinancialInstitution';
 
-export {default as useGetAllCivilStatus} from './system-configuration/civilStatus/queries/useGetAllCivilState'
-export {default as useGetCivilStatusById} from './system-configuration/civilStatus/queries/useGetByIdCivilState'
-export {default as useDeleteCivilStatus} from './system-configuration/civilStatus/commands/useDeleteCivilState'
-export {default as usePostCivilStatus} from './system-configuration/civilStatus/commands/usePostCivilState'
-export {default as usePatchCivilStatus} from './system-configuration/civilStatus/commands/usePatchCivilState'
-
+export { default as useGetAllCivilStatus } from './system-configuration/civilStatus/queries/useGetAllCivilState';
+export { default as useGetCivilStatusById } from './system-configuration/civilStatus/queries/useGetByIdCivilState';
+export { default as useDeleteCivilStatus } from './system-configuration/civilStatus/commands/useDeleteCivilState';
+export { default as usePostCivilStatus } from './system-configuration/civilStatus/commands/usePostCivilState';
+export { default as usePatchCivilStatus } from './system-configuration/civilStatus/commands/usePatchCivilState';
 
 export { default as useGetAllGender } from './system-configuration/gender/queries/useGetAllGender';
 export { default as usePostGender } from './system-configuration/gender/commads/usePostGender';
 export { default as usePatchGender } from './system-configuration/gender/commads/usePatchGender';
 export { default as useDeleteGender } from './system-configuration/gender/commads/useDeleteGender';
 
-export {default as useDeleteAnnuity} from './system-configuration/annuities/commands/useDeleteAnnuity';
-export {default as usePatchAnnuity} from './system-configuration/annuities/commands/usePatchAnnuity';
-export {default as usePostAnnuity} from './system-configuration/annuities/commands/usePostAnnuity';
-export {default as useGetAllAnnuities} from './system-configuration/annuities/queries/useGetAllAnnuities';
-export {default as useGetAnnuity} from './system-configuration/annuities/queries/useGetAnnuityById';
-export {default as useGetEmployees} from './system-configuration/annuities/queries/useGetEmployees';
+export { default as useDeleteAnnuity } from './system-configuration/annuities/commands/useDeleteAnnuity';
+export { default as usePatchAnnuity } from './system-configuration/annuities/commands/usePatchAnnuity';
+export { default as usePostAnnuity } from './system-configuration/annuities/commands/usePostAnnuity';
+export { default as useGetAllAnnuities } from './system-configuration/annuities/queries/useGetAllAnnuities';
+export { default as useGetAnnuity } from './system-configuration/annuities/queries/useGetAnnuityById';
+export { default as useGetEmployees } from './system-configuration/annuities/queries/useGetEmployees';
+
+export { default as useUserFiles } from './files/useUserFiles';

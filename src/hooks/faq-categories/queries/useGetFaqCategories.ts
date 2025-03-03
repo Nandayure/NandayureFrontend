@@ -7,6 +7,7 @@ const useGetFaqCategories = () => {
     isLoading,
     isError,
     error,
+    refetch,
   } = useQuery({
     queryKey: ['faqCategories'],
     queryFn: fetchFaqCategories,
@@ -17,6 +18,7 @@ const useGetFaqCategories = () => {
     isLoading,
     isError,
     error,
+    refetch
   };
 };
 

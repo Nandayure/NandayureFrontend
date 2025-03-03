@@ -34,3 +34,4 @@ export * from './system-configuration/civilStatus/civilState';
 export * from './system-configuration/gender/gender';
 export * from './system-configuration/annuities/annuities';
 export * from './files/file';
+export * from './files/hr-files';

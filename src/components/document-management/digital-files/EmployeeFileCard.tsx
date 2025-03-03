@@ -1,14 +1,14 @@
 import React from 'react';
 import { FileText, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { PdfFile } from '@/types';
 import { getFileViewUrl } from '@/services';
+import { EmployeeFile } from '@/types';
 
-interface FileCardProps {
-  file: PdfFile;
+interface EmployeeFileCardProps {
+  file: EmployeeFile;
 }
 
-const FileCard = ({ file }: FileCardProps) => {
+const EmployeeFileCard = ({ file }: EmployeeFileCardProps) => {
   const handleFileSelect = async (fileId: string) => {
     const fileUrl = getFileViewUrl(fileId);
     window.open(fileUrl, '_blank');
@@ -19,7 +19,7 @@ const FileCard = ({ file }: FileCardProps) => {
       <div className="p-4 flex flex-col space-y-4">
         <div className="flex items-center space-x-2">
           <FileText className="w-6 h-6 text-blue-500 flex-shrink-0" />
-          <span className="font-semibold truncate">{file.name}</span>
+          <span className="font-semibold truncate">{file.name}.pdf</span>
         </div>
         <Button onClick={() => handleFileSelect(file.id)} className="w-full">
           <Eye className="w-4 h-4 mr-2" />
@@ -30,4 +30,4 @@ const FileCard = ({ file }: FileCardProps) => {
   );
 };
 
-export default FileCard;
+export default EmployeeFileCard;

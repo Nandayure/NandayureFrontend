@@ -1,4 +1,4 @@
-import FaqCategoriesList from "@/components/faq-categories/management/faqCategoriesTable";
+import FaqCategoriesList from "@/components/faq-categories/management/FaqCategoriesTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default async function Page() {

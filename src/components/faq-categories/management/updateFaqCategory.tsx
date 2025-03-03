@@ -1,25 +1,30 @@
 'use client'
 
+import { FaqCategory } from "@/types"
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Loader2Icon, TagIcon } from "lucide-react";
-import { useCreateFaqCategory } from "@/hooks/faq-categories/commands/useCreateFaqCategory";
+import { useUpdateFaqCategory } from "@/hooks/faq-categories/commands/useUpdateFaqCategory";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface Props {
   children: React.ReactNode
+  FaqCategory: FaqCategory
 }
 
-export function CreateFaqCategories({ children }: Props) {
+export default function UpdateFaqCategory({ children, FaqCategory }: Props) {
   const {
     form,
     isOpen,
     setIsOpen,
     onSubmit,
-    isPending
-  } = useCreateFaqCategory();
+    isPending,
+    isError,
+    error
+  } = useUpdateFaqCategory({ faqCategory: FaqCategory });
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -29,10 +34,10 @@ export function CreateFaqCategories({ children }: Props) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            Crear categoría de FAQ
+            Actualizar categoría de FAQ
           </DialogTitle>
           <DialogDescription>
-            Llena el formulario para crear una nueva categoría de FAQ
+            Actualiza la información de la categoría &quot;{FaqCategory.name}&quot;
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -45,22 +50,28 @@ export function CreateFaqCategories({ children }: Props) {
                   <FormItem>
                     <FormLabel className="text-sm font-medium">Nombre de la categoría</FormLabel>
                     <FormControl>
-                      <div className="relative">
-                        <TagIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                         <Input
                           {...field}
                           value={field.value || ""}
                           autoComplete="off"
                           placeholder="Ingresa el nombre de la categoría"
                           disabled={isPending}
-                          className="pl-10"
                         />
-                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
+              {isError && (
+                <Alert variant="destructive">
+                  <AlertDescription>
+                    {error instanceof Error
+                      ? error.message
+                      : 'Ha ocurrido un error al actualizar la categoría'}
+                  </AlertDescription>
+                </Alert>
+              )}
             </div>
             <DialogFooter>
               <DialogClose asChild>
@@ -80,10 +91,10 @@ export function CreateFaqCategories({ children }: Props) {
                 {isPending ? (
                   <>
                     <Loader2Icon size={16} className="mr-2 animate-spin" />
-                    <span>Creando...</span>
+                    <span>Actualizando...</span>
                   </>
                 ) : (
-                  <span>Crear categoría</span>
+                  <span>Actualizar categoría</span>
                 )}
               </Button>
             </DialogFooter>

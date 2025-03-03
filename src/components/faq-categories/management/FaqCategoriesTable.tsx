@@ -2,11 +2,12 @@
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import useGetFaqCategories from "@/hooks/faq-categories/queries/useGetFaqCategories";
-import { CreateFaqCategories } from "./createFaqCategories";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, PlusIcon, RefreshCw } from "lucide-react";
+import { AlertCircle, Pencil, PlusIcon, RefreshCw } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CreateFaqCategory } from "./createFaqCategory";
+import UpdateFaqCategory from "./updateFaqCategory";
 
 export default function FaqCategoriesList() {
   const { faqCategories = [], isLoading, isError, error, refetch } = useGetFaqCategories();
@@ -73,14 +74,14 @@ export default function FaqCategoriesList() {
   return (
     <div className="space-y-4 w-full">
       <div className="flex items-center justify-between gap-4">
-        <CreateFaqCategories>
-          <Button variant={'default'}>
+        <CreateFaqCategory>
+          <Button>
             <PlusIcon size={16} className="mr-2" />
             <span>
               Agregar categoría
             </span>
           </Button>
-        </CreateFaqCategories>
+        </CreateFaqCategory>
         {/* Aqui va el search bar */}
       </div>
       <Table className="w-full">
@@ -97,6 +98,11 @@ export default function FaqCategoriesList() {
               <TableCell>{faqCategory.id}</TableCell>
               <TableCell>{faqCategory.name}</TableCell>
               <TableCell className="text-right">
+                <UpdateFaqCategory FaqCategory={faqCategory}>
+                  <Button size={'icon'} variant={'outline'}>
+                    <Pencil size={16} />
+                  </Button>
+                </UpdateFaqCategory>
                 {/* Aqui van los botones de editar y eliminar */}
               </TableCell>
             </TableRow>

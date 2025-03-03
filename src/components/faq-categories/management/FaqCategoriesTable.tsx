@@ -3,11 +3,12 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import useGetFaqCategories from "@/hooks/faq-categories/queries/useGetFaqCategories";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, Pencil, PlusIcon, RefreshCw } from "lucide-react";
+import { AlertCircle, Pencil, PlusIcon, RefreshCw, Trash2Icon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CreateFaqCategory } from "./createFaqCategory";
 import UpdateFaqCategory from "./updateFaqCategory";
+import DeleteFaqCategory from "./deleteFaqCategory";
 
 export default function FaqCategoriesList() {
   const { faqCategories = [], isLoading, isError, error, refetch } = useGetFaqCategories();
@@ -82,6 +83,7 @@ export default function FaqCategoriesList() {
             </span>
           </Button>
         </CreateFaqCategory>
+
         {/* Aqui va el search bar */}
       </div>
       <Table className="w-full">
@@ -97,12 +99,17 @@ export default function FaqCategoriesList() {
             <TableRow key={faqCategory.id}>
               <TableCell>{faqCategory.id}</TableCell>
               <TableCell>{faqCategory.name}</TableCell>
-              <TableCell className="text-right">
+              <TableCell className="flex space-x-2 justify-end">
                 <UpdateFaqCategory FaqCategory={faqCategory}>
                   <Button size={'icon'} variant={'outline'}>
                     <Pencil size={16} />
                   </Button>
                 </UpdateFaqCategory>
+                <DeleteFaqCategory faqCategory={faqCategory}>
+                  <Button size={'icon'} variant={'outline'}>
+                    <Trash2Icon size={16} />
+                  </Button>
+                </DeleteFaqCategory>
                 {/* Aqui van los botones de editar y eliminar */}
               </TableCell>
             </TableRow>

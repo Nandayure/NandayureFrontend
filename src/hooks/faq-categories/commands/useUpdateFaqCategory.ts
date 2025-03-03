@@ -23,7 +23,7 @@ export const useUpdateFaqCategory = ({ faqCategory }: UseUpdateFaqCategoryProps)
   });
 
   const { mutate, isPending, isError, error } = useMutation({
-    mutationFn: (data: FaqCategoryUpdate) => updateFaqCategory(faqCategory.id, data),
+    mutationFn: (data: FaqCategoryUpdate) => updateFaqCategory({ id: faqCategory.id }, data),
     onSuccess: () => {
       toast.success('Categoría actualizada exitosamente');
       // Invalidar la query para refrescar los datos

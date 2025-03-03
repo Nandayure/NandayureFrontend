@@ -1,5 +1,5 @@
 import httpClient from '@/helpers/httpClient';
-import { FaqCategoryCreate, FaqCategoryUpdate, FaqCategoryAPI } from '@/types';
+import { FaqCategoryAPI } from '@/types';
 
 const URL_BASE = '/faq-categories';
 
@@ -7,7 +7,7 @@ const URL_BASE = '/faq-categories';
  * Función para crear una nueva categoría de FAQ.
  */
 export const createFaqCategory = async (
-  data: FaqCategoryCreate,
+  data: FaqCategoryAPI.Requests.Create,
 ): Promise<FaqCategoryAPI.Responses.Single> => {
   return await httpClient<FaqCategoryAPI.Responses.Single>({
     method: 'POST',
@@ -17,15 +17,27 @@ export const createFaqCategory = async (
 };
 
 /**
- * Función para eliminar una categoría de FAQ.
+ * Función para actualizar una categoría de FAQ.
  */
 export const updateFaqCategory = async (
-  id: number,
-  data: FaqCategoryUpdate,
+  params: FaqCategoryAPI.Params.ById,
+  data: FaqCategoryAPI.Requests.Update,
 ): Promise<FaqCategoryAPI.Responses.Single> => {
   return await httpClient<FaqCategoryAPI.Responses.Single>({
     method: 'PUT',
-    endpoint: `${URL_BASE}/${id}`,
+    endpoint: `${URL_BASE}/${params.id}`,
     data,
+  });
+};
+
+/**
+ * Función para eliminar una categoría de FAQ.
+ */
+export const deleteFaqCategory = async (
+  params: FaqCategoryAPI.Params.ById,
+): Promise<void> => {
+  await httpClient({
+    method: 'DELETE',
+    endpoint: `${URL_BASE}/${params.id}`,
   });
 };

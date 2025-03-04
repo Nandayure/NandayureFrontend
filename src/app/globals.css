@@ -65,6 +65,11 @@ textarea {
 
     --font-roboto: var(--font-roboto);
     --font-poppins: var(--font-poppins);
+
+    --birthday-background: 45 90% 60%;
+    --birthday-foreground: 255 100% 100%;
+    --birthday-border: 39 100% 50%;
+    --birthday-glow: 45 100% 70%;
   }
 
   .dark {
@@ -100,6 +105,11 @@ textarea {
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --birthday-background: 45 70% 50%;
+    --birthday-foreground: 0 0% 100%;
+    --birthday-border: 39 80% 45%;
+    --birthday-glow: 45 80% 60%;
   }
 }
 

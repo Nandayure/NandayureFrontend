@@ -38,13 +38,13 @@ export const baseNavLinks: Record<string, NavLink> = {
   gestionSolicitudes: {
     href: '/request-management',
     icon: UserCheck,
-    label: 'Gestión de solicitudes',
+    label: 'Gestión de Solicitudes',
     dataCy: 'sidebar-dashboard-request-management',
   },
   Solicitudes: {
     href: '/request',
     icon: SquarePen,
-    label: 'Solicitudes',
+    label: 'Tipos de Solicitudes',
     dataCy: 'sidebar-dashboard-requests',
     subLinks: {
       solicitudVacaciones: {

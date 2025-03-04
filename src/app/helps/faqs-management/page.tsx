@@ -1,4 +1,5 @@
 import FaqCategoriesList from "@/components/faq-categories/management/FaqCategoriesTable";
+import FaqTable from "@/components/faqs/management/faqTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default async function Page() {
@@ -13,7 +14,7 @@ export default async function Page() {
         <TabsContent value="faqs">
           <div className="mt-6">
             <h2 className="text-2xl font-bold font-roboto mb-4">Preguntas Frecuentes</h2>
-            {/* Aqui va el componente FaqsTable */}
+            <FaqTable />
           </div>
         </TabsContent>
         <TabsContent value="categories">

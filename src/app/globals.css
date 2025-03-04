@@ -2,10 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reservar espacio para la scrollbar */
+
+/* Fallback para navegadores que no soportan scrollbar-gutter */
 html {
-  scrollbar-gutter: stable;
   overflow-y: scroll;
+  /* Fuerza scrollbar permanente */
+}
+
+/* Navegadores modernos que soportan scrollbar-gutter */
+@supports (scrollbar-gutter: stable) {
+  html {
+    overflow-y: auto;
+    /* Scroll solo cuando es necesario */
+    scrollbar-gutter: stable;
+    /* Reserva espacio sin scroll visible */
+  }
+}
+
+/* Mejora para Firefox: hacer scrollbar transparente cuando no se usa */
+@-moz-document url-prefix() {
+  html {
+    scrollbar-color: rgba(0, 0, 0, 0) transparent;
+    scrollbar-width: thin;
+  }
+}
+
+/* Opcional: Estilizar scrollbar para navegadores WebKit */
+@media (hover: hover) and (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 12px;
+    background: inherit;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 20px;
+    border: 3px solid hsl(var(--background));
+  }
 }
 
 input,

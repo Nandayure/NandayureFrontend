@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useGetRoles } from '@/hooks';
 import {
-  CircleUserRound,
   Settings,
   UserPlus,
   HelpCircle,
@@ -41,10 +40,10 @@ export default function User() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="relative h-8 w-8 rounded-full p-0 m-0"
+          className="relative h-8 w-8 rounded-full p-0 m-0 border"
           data-cy="user-menu"
         >
-          <Avatar>
+          <Avatar >
             <AvatarFallback>{getInitials(name)}</AvatarFallback>
           </Avatar>
         </Button>

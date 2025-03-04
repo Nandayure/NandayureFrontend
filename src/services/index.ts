@@ -55,3 +55,6 @@ export * from './files/actions';
 
 export * from './faq-categories/commands/actions';
 export * from './faq-categories/queries/actions';
+
+export * from './faq/commands/actions';
+export * from './faq/queries/actions';

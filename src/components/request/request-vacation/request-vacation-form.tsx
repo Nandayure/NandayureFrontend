@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { addDays, format } from 'date-fns';
-import { es } from 'date-fns/locale'; // Importa el idioma español
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 
@@ -20,22 +20,19 @@ import { titleFont } from '@/lib/fonts';
 import { usePostVacation } from '@/hooks';
 
 export default function RequestVacationForm() {
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 7),
-  });
+  const [date, setDate] = useState<DateRange | undefined>(undefined);
 
   const { onSubmit: submitVacationRequest, setValue, mutation, errors } = usePostVacation();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (date?.from && date?.to) {
-      const daysRequested = Math.ceil((date.to.getTime() - date.from.getTime()) / (1000 * 3600 * 24));
+      const daysRequested = Math.ceil((date.to.getTime() - date.from.getTime()) / (1000 * 3600 * 24)) + 1;
       setValue('daysRequested', daysRequested);
       setValue('departureDate', date.from);
       setValue('entryDate', date.to);
 
-      submitVacationRequest(); // Ejecuta la solicitud de vacaciones
+      submitVacationRequest();
     }
   };
 
@@ -81,11 +78,11 @@ export default function RequestVacationForm() {
             <Calendar
               initialFocus
               mode="range"
-              defaultMonth={date?.from}
               selected={date}
               onSelect={setDate}
               numberOfMonths={2}
-              locale={es} // Configura el idioma del calendario a español
+              locale={es}
+              disabled={{ before: new Date() }} // Deshabilitar fechas pasadas
             />
           </PopoverContent>
         </Popover>

@@ -3,12 +3,13 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { motion, AnimatePresence } from "framer-motion"
 import { Clock } from "lucide-react"
-import { FormattedDate } from "./formatted-date"
 import React from "react"
-import { FAQItem } from "@/types/faqs/faq.types"
+import { Faq } from "@/types/faq/faq"
+import { format } from "date-fns"
+import { es } from "date-fns/locale"
 
 interface FAQAccordionProps {
-  items: FAQItem[]
+  items: Faq[]
 }
 
 function FormattedAnswer({ answer }: { answer: string }) {
@@ -16,10 +17,9 @@ function FormattedAnswer({ answer }: { answer: string }) {
   return (
     <>
       {lines.map((line, index) => {
-
         const words = line.split(" ")
         return (
-          <p key={index}>
+          <p key={index} className="py-1">
             {words.map((word, i) => {
               if (/^https?:\/\/[^\s]+$/.test(word)) {
                 return (
@@ -49,6 +49,23 @@ function FormattedAnswer({ answer }: { answer: string }) {
   )
 }
 
+// Componente para formatear la fecha reemplaza el anterior FormattedDate
+function FormattedDateDisplay({ dateString }: { dateString?: string | null }) {
+  if (!dateString) return <span>Fecha no disponible</span>;
+
+  try {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return <span>Fecha inválida</span>;
+
+    return (
+      <span>{format(date, 'd MMMM yyyy', { locale: es })}</span>
+    );
+  } catch (error) {
+    console.error('Error al formatear fecha:', error);
+    return <span>Error en formato de fecha</span>;
+  }
+}
+
 export function FAQAccordion({ items }: FAQAccordionProps) {
   return (
     <AnimatePresence>
@@ -60,14 +77,14 @@ export function FAQAccordion({ items }: FAQAccordionProps) {
       >
         <Accordion type="single" collapsible className="w-full">
           {items.map((item) => (
-            <AccordionItem key={item.id} value={item.id}>
+            <AccordionItem key={item.id} value={item.id.toString()}>
               <AccordionTrigger className="text-left">{item.question}</AccordionTrigger>
               <AccordionContent>
                 <div className="space-y-4">
                   <FormattedAnswer answer={item.answer} />
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Clock className="h-4 w-4" />
-                    <FormattedDate date={item.updated_at} />
+                    <FormattedDateDisplay dateString={item.updated_at || item.created_at} />
                   </div>
                 </div>
               </AccordionContent>

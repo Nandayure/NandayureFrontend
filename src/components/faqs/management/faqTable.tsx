@@ -1,7 +1,7 @@
 'use client'
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { AlertCircle, Pencil, PlusIcon, RefreshCw, Trash2Icon } from "lucide-react";
+import { AlertCircle, Eye, Pencil, PlusIcon, RefreshCw, Trash2Icon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -11,10 +11,37 @@ import { CreateFaq } from "./createFaq";
 import UpdateFaq from "./updateFaq";
 import DeleteFaq from "./deleteFaq";
 import FaqStatusBadge from "./FaqStatusBadge";
+import FaqPreview from "./faqPreview";
+import { useEffect, useState } from "react";
+import { useSearchFilter } from "@/hooks/use-search-filter";
+import { SearchBar } from "@/components/ui/search-bar";
+import { PaginationController } from "@/components/ui/pagination-controller";
 
 export default function FaqTable() {
+  const [currentPage, setCurrentPage] = useState(1)
   const { faqs = [], isLoading: isLoadingFaqs, isError: isErrorFaqs, error: faqError, refetch: refetchFaqs } = useGetFaqs();
   const { faqCategories = [], isLoading: isLoadingCategories } = useGetFaqCategories();
+  const { filteredData: filteredFaqs, setSearchValue } = useSearchFilter({
+    data: faqs,
+    searchFields: ["id", "question", "answer"],
+  })
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [])
+
+  const itemsPerPage = 5
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentFaqCategories = filteredFaqs.slice(indexOfFirstItem, indexOfLastItem)
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+  }
+
+  const handleSearch = (value: string) => {
+    setSearchValue(value)
+  }
 
   const getCategoryName = (categoryId: number) => {
     const category = faqCategories.find(cat => cat.id === categoryId);
@@ -22,6 +49,8 @@ export default function FaqTable() {
   };
 
   const isLoading = isLoadingFaqs || isLoadingCategories;
+
+
 
   if (isLoading) {
     return (
@@ -95,6 +124,7 @@ export default function FaqTable() {
             Crear FAQ
           </Button>
         </CreateFaq>
+        <SearchBar onSearch={handleSearch} placeholder="Buscar departamentos..." className="max-w-md" />
       </div>
       <Table className="w-full">
         <TableHeader>
@@ -116,6 +146,11 @@ export default function FaqTable() {
                 <FaqStatusBadge faq={faq} />
               </TableCell>
               <TableCell className="flex space-x-2 justify-end">
+                <FaqPreview faq={faq} categoryName={getCategoryName(faq.faqCategoryId)}>
+                  <Button size={'icon'} variant={'outline'}>
+                    <Eye size={16} />
+                  </Button>
+                </FaqPreview>
                 <UpdateFaq faq={faq} >
                   <Button size={'icon'} variant={'outline'}>
                     <Pencil size={16} />
@@ -135,6 +170,16 @@ export default function FaqTable() {
           )}
         </TableBody>
       </Table>
+      {!isLoading && filteredFaqs.length > 0 && (
+        <PaginationController
+          totalItems={filteredFaqs.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+          siblingCount={1}
+          className="mt-4"
+        />
+      )}
     </div>
   );
 }

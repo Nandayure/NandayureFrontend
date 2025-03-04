@@ -110,7 +110,7 @@ export default function FaqCategoriesList() {
           </Button>
         </CreateFaqCategory>
 
-        <SearchBar onSearch={handleSearch} placeholder="Buscar departamentos..." className="max-w-md" />
+        <SearchBar onSearch={handleSearch} placeholder="Buscar categorías de FAQ..." className="max-w-md" />
       </div>
       <Table className="w-full">
         <TableHeader>

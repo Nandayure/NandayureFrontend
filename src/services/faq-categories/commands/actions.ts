@@ -24,7 +24,7 @@ export const updateFaqCategory = async (
   data: FaqCategoryAPI.Requests.Update,
 ): Promise<FaqCategoryAPI.Responses.Single> => {
   return await httpClient<FaqCategoryAPI.Responses.Single>({
-    method: 'PUT',
+    method: 'PATCH',
     endpoint: `${URL_BASE}/${params.id}`,
     data,
   });

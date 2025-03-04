@@ -124,7 +124,7 @@ export default function FaqTable() {
             Crear FAQ
           </Button>
         </CreateFaq>
-        <SearchBar onSearch={handleSearch} placeholder="Buscar departamentos..." className="max-w-md" />
+        <SearchBar onSearch={handleSearch} placeholder="Buscar preguntas frecuentes..." className="max-w-md" />
       </div>
       <Table className="w-full">
         <TableHeader>

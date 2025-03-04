@@ -10,6 +10,7 @@ import useGetFaqCategories from "@/hooks/faq-categories/queries/useGetFaqCategor
 import { CreateFaq } from "./createFaq";
 import UpdateFaq from "./updateFaq";
 import DeleteFaq from "./deleteFaq";
+import FaqStatusBadge from "./FaqStatusBadge";
 
 export default function FaqTable() {
   const { faqs = [], isLoading: isLoadingFaqs, isError: isErrorFaqs, error: faqError, refetch: refetchFaqs } = useGetFaqs();
@@ -112,12 +113,7 @@ export default function FaqTable() {
               <TableCell className="truncate max-w-xs">{faq.answer}</TableCell>
               <TableCell>{getCategoryName(faq.faqCategoryId)}</TableCell>
               <TableCell>
-                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${faq.status === 'active'
-                  ? 'bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-400'
-                  : 'bg-gray-100 text-gray-800 dark:bg-gray-800/30 dark:text-gray-400'
-                  }`}>
-                  {faq.status === 'active' ? 'Activo' : 'Inactivo'}
-                </span>
+                <FaqStatusBadge faq={faq} />
               </TableCell>
               <TableCell className="flex space-x-2 justify-end">
                 <UpdateFaq faq={faq} >

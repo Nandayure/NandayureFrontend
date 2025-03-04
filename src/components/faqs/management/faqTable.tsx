@@ -1,12 +1,15 @@
 'use client'
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { AlertCircle, RefreshCw } from "lucide-react";
+import { AlertCircle, Pencil, PlusIcon, RefreshCw, Trash2Icon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import useGetFaqs from "@/hooks/faq/queries/useGetFaqs";
 import useGetFaqCategories from "@/hooks/faq-categories/queries/useGetFaqCategories";
+import { CreateFaq } from "./createFaq";
+import UpdateFaq from "./updateFaq";
+import DeleteFaq from "./deleteFaq";
 
 export default function FaqTable() {
   const { faqs = [], isLoading: isLoadingFaqs, isError: isErrorFaqs, error: faqError, refetch: refetchFaqs } = useGetFaqs();
@@ -84,6 +87,14 @@ export default function FaqTable() {
 
   return (
     <div className="space-y-4 w-full">
+      <div className="flex items-center justify-between gap-4">
+        <CreateFaq>
+          <Button>
+            <PlusIcon size={16} className="mr-2" />
+            Crear FAQ
+          </Button>
+        </CreateFaq>
+      </div>
       <Table className="w-full">
         <TableHeader>
           <TableRow>
@@ -108,7 +119,18 @@ export default function FaqTable() {
                   {faq.status === 'active' ? 'Activo' : 'Inactivo'}
                 </span>
               </TableCell>
-              <TableCell>acciones</TableCell>
+              <TableCell className="flex space-x-2 justify-end">
+                <UpdateFaq faq={faq} >
+                  <Button size={'icon'} variant={'outline'}>
+                    <Pencil size={16} />
+                  </Button>
+                </UpdateFaq>
+                <DeleteFaq faq={faq}>
+                  <Button size={'icon'} variant={'outline'}>
+                    <Trash2Icon size={16} />
+                  </Button>
+                </DeleteFaq>
+              </TableCell>
             </TableRow>
           )) : (
             <TableRow>

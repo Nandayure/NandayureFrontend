@@ -24,7 +24,7 @@ export const updateFaq = async (
   data: FaqAPI.Requests.Update,
 ): Promise<FaqAPI.Responses.Single> => {
   return await httpClient<FaqAPI.Responses.Single>({
-    method: 'PUT',
+    method: 'PATCH',
     endpoint: `${URL_BASE}/${id}`,
     data,
   });

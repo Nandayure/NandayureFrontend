@@ -1,5 +1,6 @@
 'use client'
 
+import { Faq } from "@/types"
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -8,15 +9,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Loader2Icon, HelpCircle } from "lucide-react";
-import { useCreateFaq } from "@/hooks/faq/commands/useCreateFaq";
+import { useUpdateFaq } from "@/hooks/faq/commands/useUpdateFaq";
 import useGetFaqCategories from "@/hooks/faq-categories/queries/useGetFaqCategories";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface Props {
   children: React.ReactNode
+  faq: Faq
 }
 
-export function CreateFaq({ children }: Props) {
+export default function UpdateFaq({ children, faq }: Props) {
   const {
     form,
     isOpen,
@@ -25,8 +27,8 @@ export function CreateFaq({ children }: Props) {
     isPending,
     isError,
     error
-  } = useCreateFaq();
-
+  } = useUpdateFaq({ faq });
+  
   const { faqCategories = [], isLoading: isCategoriesLoading } = useGetFaqCategories();
 
   return (
@@ -37,10 +39,10 @@ export function CreateFaq({ children }: Props) {
       <DialogContent className="sm:max-w-[550px]">
         <DialogHeader>
           <DialogTitle>
-            Crear nueva pregunta frecuente
+            Actualizar pregunta frecuente
           </DialogTitle>
           <DialogDescription>
-            Llena el formulario para crear una nueva pregunta frecuente
+            Edita la información de la pregunta &quot;{faq.question}&quot;
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -70,7 +72,7 @@ export function CreateFaq({ children }: Props) {
                   </FormItem>
                 )}
               />
-
+              
               {/* Campo de respuesta */}
               <FormField
                 control={form.control}
@@ -92,7 +94,7 @@ export function CreateFaq({ children }: Props) {
                   </FormItem>
                 )}
               />
-
+              
               {/* Dropdown de categorías */}
               <FormField
                 control={form.control}
@@ -100,14 +102,14 @@ export function CreateFaq({ children }: Props) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm font-medium">Categoría</FormLabel>
-                    <Select
-                      onValueChange={(value) => field.onChange(Number(value))}
-                      value={field.value ? field.value.toString() : undefined}
+                    <Select 
+                      onValueChange={(value) => field.onChange(Number(value))} 
+                      value={field.value ? field.value.toString() : undefined} 
                       disabled={isPending || isCategoriesLoading}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={faqCategories.length > 0 ? 'Selecciona una categoría' : 'No existen categorías'} />
+                          <SelectValue placeholder={faqCategories.length > 0 ? 'Selecciona una categoría' : 'No existen categorías'}  />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -122,13 +124,13 @@ export function CreateFaq({ children }: Props) {
                   </FormItem>
                 )}
               />
-
+              
               {isError && (
                 <Alert variant="destructive">
                   <AlertDescription>
-                    {error instanceof Error
-                      ? error.message
-                      : 'Ha ocurrido un error al crear la FAQ'}
+                    {error instanceof Error 
+                      ? error.message 
+                      : 'Ha ocurrido un error al actualizar la FAQ'}
                   </AlertDescription>
                 </Alert>
               )}
@@ -151,10 +153,10 @@ export function CreateFaq({ children }: Props) {
                 {isPending ? (
                   <>
                     <Loader2Icon size={16} className="mr-2 animate-spin" />
-                    <span>Creando...</span>
+                    <span>Actualizando...</span>
                   </>
                 ) : (
-                  <span>Crear FAQ</span>
+                  <span>Actualizar FAQ</span>
                 )}
               </Button>
             </DialogFooter>

@@ -25,7 +25,7 @@ export default function DeleteGenderModal({ id }: Props) {
 
   return (
     <>
-      <Button variant="outline" size="icon" onClick={() => handleDelete()}>
+      <Button variant="outline" size="icon" onClick={() => handleDelete()} data-cy ="btn-delete-gender">
         <Trash2 className="h-4 w-4" />
       </Button>
       <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
@@ -43,7 +43,7 @@ export default function DeleteGenderModal({ id }: Props) {
             >
               Cancelar
             </Button>
-            <Button variant="destructive" onClick={confirmDelete}>
+            <Button variant="destructive" onClick={confirmDelete}  data-cy="btn-confirm-delete-gender">
               Eliminar
             </Button>
           </DialogFooter>

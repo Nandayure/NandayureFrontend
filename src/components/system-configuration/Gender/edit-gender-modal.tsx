@@ -32,8 +32,8 @@ export default function EditGenderModal({
 
   return (
     <>
-      <Button variant="outline" size="icon" className="mr-2">
-        <Pencil onClick={() => setIsEditModalOpen(true)} className="h-4 w-4" />
+      <Button variant="outline" size="icon" onClick={() => setIsEditModalOpen(true)} className="mr-2"  data-cy="btn-edit-gender">
+        <Pencil  className="h-4 w-4" />
       </Button>
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
         <DialogContent>
@@ -53,9 +53,10 @@ export default function EditGenderModal({
                     className="col-span-3"
                     type="text"
                     {...register('Name')}
+                    data-cy="input-edit-name-gender"
                   />
                   {errors?.Name && (
-                    <span id="name-error" className="text-red-500 text-sm mt-2">
+                    <span id="name-error" className="text-red-500 text-sm mt-2"  data-cy="error-edit-name-gender">
                       {errors.Name.message}
                     </span>
                   )}
@@ -63,7 +64,7 @@ export default function EditGenderModal({
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Guardar cambios</Button>
+              <Button type="submit"  data-cy="btn-submit-edit-gender">Guardar cambios</Button>
             </DialogFooter>
           </form>
         </DialogContent>

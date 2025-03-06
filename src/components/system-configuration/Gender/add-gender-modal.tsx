@@ -24,7 +24,7 @@ export default function AddGenderModal() {
 
   return (
     <>
-      <Button onClick={handleAddNew} className="mb-4">
+      <Button onClick={handleAddNew} data-cy="btn-add-gender" className="mb-4">
         <Plus className="mr-2 h-4 w-4" /> Agregar Género
       </Button>
       <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
@@ -40,16 +40,18 @@ export default function AddGenderModal() {
                 type="text"
                 register={register}
                 errors={errors}
+                 dataCy='input-add-name-gender'
+                errorDataCy='error-name-gender'
               />
               {errors.root && (
-                <p className="text-red-500 text-xs mt-2">
+                <p className="text-red-500 text-xs mt-2"  data-cy="error-add-root-gender">
                   {' '}
                   {errors.root.message}{' '}
                 </p>
               )}
             </div>
             <DialogFooter>
-              <Button type="submit">Agregar Género</Button>
+              <Button type="submit"  data-cy="btn-submit-add-gender" >Agregar Género</Button>
             </DialogFooter>
           </form>
         </DialogContent>

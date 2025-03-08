@@ -16,7 +16,10 @@ export default function GeneralSettingsPage() {
           >
             Estado civil
           </TabsTrigger>
-          <TabsTrigger value="gender">Genero</TabsTrigger>
+          <TabsTrigger value="gender"
+          data-cy="gender-tab"
+          >
+            Genero</TabsTrigger>
         </TabsList>
         <TabsContent value="civilStatus">
           <div className="mt-6">
@@ -28,7 +31,8 @@ export default function GeneralSettingsPage() {
         </TabsContent>
         <TabsContent value="gender">
           <div className="mt-6">
-            <h2 className="text-2xl font-bold mb-4">
+            <h2 className="text-2xl font-bold mb-4"
+            >
               Configuración del género
             </h2>
             <GendersTable />

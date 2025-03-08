@@ -52,9 +52,9 @@ export default function GendersTable() {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-4">
         <AddGenderModal />
-        <SearchBar onSearch={handleSearch} placeholder="Buscar géneros..." className="max-w-md" />
+        <SearchBar onSearch={handleSearch} placeholder="Buscar géneros..." className="max-w-md" InputDataCy='search-gender' />
       </div>
-      <Table>
+      <Table data-cy="gender-table">
         <TableHeader>
           <TableRow>
             <TableHead>ID</TableHead>
@@ -65,7 +65,7 @@ export default function GendersTable() {
         <TableBody>
           {isLoading
             ? Array.from({ length: 3 }).map((_, index) => (
-              <TableRow key={index}>
+              <TableRow key={index} data-cy="gender-loading-row">
                 {Array.from({ length: 3 }).map((_, idx) => (
                   <TableCell key={idx}>
                     <SkeletonLoader className="h-4 w-full" />
@@ -75,9 +75,9 @@ export default function GendersTable() {
             ))
             : currentGenders.length > 0 ? (
               currentGenders.map((gender) => (
-                <TableRow key={gender.id}>
-                  <TableCell>{gender.id}</TableCell>
-                  <TableCell>{gender.Name}</TableCell>
+                <TableRow key={gender.id} data-cy={`gender-row-${gender.id}`}>
+                  <TableCell data-cy={`gender-id-${gender.id}`}>{gender.id}</TableCell>
+                  <TableCell data-cy={`gender-name-${gender.id}`}>{gender.Name}</TableCell>
                   <TableCell>
                     <div className="flex">
                       <EditGenderModal gender={gender} genderId={gender.id} />

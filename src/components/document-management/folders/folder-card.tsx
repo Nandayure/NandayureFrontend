@@ -11,9 +11,10 @@ interface FolderProps {
     name: string
     [key: string]: any
   }
+  path: string
 }
 
-const FolderCard = ({ folder }: FolderProps) => {
+const FolderCard = ({ folder, path }: FolderProps) => {
   return (
     <Card
       className={cn(
@@ -21,8 +22,8 @@ const FolderCard = ({ folder }: FolderProps) => {
       )}
     >
       <CardContent className="p-4">
-        <Link 
-          href={`/my-file/${folder.id}`} 
+        <Link
+          href={`${path}/${folder.id}`}
           className="w-full text-left space-y-2 block"
         >
           <div className="flex items-center gap-3">

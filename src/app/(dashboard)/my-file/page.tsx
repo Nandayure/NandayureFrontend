@@ -23,7 +23,7 @@ export default function Page() {
 
   return (
     <div className="container mx-auto py-10">
-      <FolderGrid folders={myFolders} />
+      <FolderGrid folders={myFolders} path="/my-file" />
     </div>
   )
 }

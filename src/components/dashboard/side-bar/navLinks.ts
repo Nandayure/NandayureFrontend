@@ -1,12 +1,13 @@
 import {
   Clock,
+  FileText,
   Folder,
   Home,
-  LucideIcon,
-  PanelTopOpen,
-  SquarePen,
-  UserCheck,
+  ListTodo,
+  Mail,
+  ScrollText,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 export interface SubLink {
   href: string;
@@ -31,19 +32,19 @@ export const baseNavLinks: Record<string, NavLink> = {
   },
   gestionDocumentos: {
     href: '/document-management/digital-files',
-    icon: Folder,
+    icon: FileText,
     label: 'Documentos digitales',
     dataCy: 'sidebar-dashboard-digital-documents',
   },
   gestionSolicitudes: {
     href: '/request-management',
-    icon: UserCheck,
+    icon: ListTodo,
     label: 'Gestión de Solicitudes',
     dataCy: 'sidebar-dashboard-request-management',
   },
   Solicitudes: {
     href: '/request',
-    icon: SquarePen,
+    icon: ScrollText,
     label: 'Tipos de Solicitudes',
     dataCy: 'sidebar-dashboard-requests',
     subLinks: {
@@ -66,7 +67,7 @@ export const baseNavLinks: Record<string, NavLink> = {
   },
   miSolicitudes: {
     href: '/request-management/my-requests',
-    icon: PanelTopOpen,
+    icon: Mail,
     label: 'Mis solicitudes',
     dataCy: 'sidebar-dashboard-my-requests',
   },

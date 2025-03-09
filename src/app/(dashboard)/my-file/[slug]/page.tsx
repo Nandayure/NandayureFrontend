@@ -18,7 +18,7 @@ export default function Page() {
         <h1 className="text-3xl font-semibold text-gray-800">Mis archivos</h1>
       </div>
       <Suspense fallback={<div>Cargando archivos...</div>}>
-        <PdfFileGrid files={files} isLoading={isLoading} isError={isError} error={error} />
+        <PdfFileGrid files={files} isLoading={isLoading} isError={isError} error={error} hideDeleteButton />
       </Suspense>
     </>
   )

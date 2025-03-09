@@ -1,5 +1,5 @@
 import httpClient from '@/helpers/httpClient';
-import { EmployeeFile, PdfFile } from '@/types';
+import { PdfFile } from '@/types';
 
 export async function getUserFiles(id: string): Promise<PdfFile[]> {
   return httpClient<PdfFile[]>({
@@ -15,23 +15,30 @@ export async function getEmployeeFiles(id: string): Promise<PdfFile[]> {
   });
 }
 
-export function getFileViewUrl(fileId: string): string {
-  return `${process.env.NEXT_PUBLIC_BACKEND_URL}/google-drive-files/getFile/${fileId}`;
+export async function getFileViewUrl(fileId: string): Promise<Blob> {
+  return httpClient<Blob>({
+    method: 'GET',
+    endpoint: `/google-drive-files/getFile/${fileId}`,
+    headers: {
+      Accept: 'application/pdf,application/octet-stream,*/*',
+    },
+  });
 }
 
+// Interfaz actualizada
 interface UploadDocumentProps {
-  EmployeeId: string;
+  FolderId: string; // Cambiado de EmployeeId a FolderId
   FileName: string;
   file: File;
 }
 
 export async function uploadDocument({
-  EmployeeId,
+  FolderId, 
   FileName,
   file,
 }: UploadDocumentProps) {
   const formData = new FormData();
-  formData.append('EmployeeId', EmployeeId);
+  formData.append('FolderId', FolderId); 
   formData.append('FileName', FileName);
   formData.append('file', file);
 
@@ -42,4 +49,11 @@ export async function uploadDocument({
   });
 
   return response;
+}
+
+export async function deleteFile(fileId: string): Promise<void> {
+  return httpClient<void>({
+    method: 'DELETE',
+    endpoint: `/google-drive-files/deleteFile/${fileId}`,
+  });
 }

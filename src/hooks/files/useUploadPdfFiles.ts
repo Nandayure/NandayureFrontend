@@ -7,11 +7,12 @@ import { uploadDocument } from '@/services';
 import { notify } from '@/utils/notification';
 
 interface UsePdfUploadProps {
-  employeeId: string;
+  folderId: string;
 }
 
-export function usePdfUpload({ employeeId }: UsePdfUploadProps) {
+export function usePdfUpload({ folderId }: UsePdfUploadProps) {
   const [file, setFile] = useState<File | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorModalProgress, setErrorModalProgress] = useState(100);
   const queryClient = useQueryClient();
@@ -20,15 +21,16 @@ export function usePdfUpload({ employeeId }: UsePdfUploadProps) {
     mutationFn: async (fileToUpload: File) => {
       const fileName = generateFileName(fileToUpload.name);
       return await uploadDocument({
-        EmployeeId: employeeId,
+        FolderId: folderId,
         FileName: fileName,
         file: fileToUpload,
       });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['employee-files', employeeId],
+        queryKey: ['employee-files', folderId],
       });
+      setIsOpen(false);
       setFile(null);
     },
   });
@@ -102,6 +104,8 @@ export function usePdfUpload({ employeeId }: UsePdfUploadProps) {
     onDrop,
     removeFile,
     handleUpload,
+    isOpen,
+    setIsOpen,
     startErrorModalTimer,
   };
 }

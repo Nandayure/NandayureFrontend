@@ -6,13 +6,14 @@ import FileCard from '../FileCard';
 import { PdfFile } from '@/types';
 
 type PdfFileGridProps = {
-  files: PdfFile[] | undefined; 
+  files: PdfFile[] | undefined;
   isLoading: boolean;
   isError: boolean;
-  error?: Error | null; 
+  error?: Error | null;
+  hideDeleteButton?: boolean;
 };
 
-const PdfFileGrid = ({ files, isError, isLoading, error }: PdfFileGridProps) => {
+const PdfFileGrid = ({ files, isError, isLoading, error, hideDeleteButton = false }: PdfFileGridProps) => {
 
   if (isLoading) {
     return <SkeletonLoader />;
@@ -27,7 +28,7 @@ const PdfFileGrid = ({ files, isError, isLoading, error }: PdfFileGridProps) => 
       {files && files.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {files.map((file) => (
-            <FileCard key={file.id} file={file} />
+            <FileCard key={file.id} file={file} hideDelete={hideDeleteButton} />
           ))}
         </div>
       ) : (

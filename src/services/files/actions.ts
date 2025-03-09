@@ -8,12 +8,10 @@ export async function getUserFiles(id: string): Promise<PdfFile[]> {
   });
 }
 
-export async function getEmployeeFiles(
-  employeeId: string,
-): Promise<EmployeeFile[]> {
-  return httpClient<EmployeeFile[]>({
+export async function getEmployeeFiles(id: string): Promise<PdfFile[]> {
+  return httpClient<PdfFile[]>({
     method: 'GET',
-    endpoint: `/google-drive-files/FilesByEmployee/${employeeId}`,
+    endpoint: `/google-drive-files/FilesByFolder/${id}`,
   });
 }
 

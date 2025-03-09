@@ -3,17 +3,23 @@
 import React from 'react';
 import SkeletonLoader from '../SkeletonLoader';
 import FileCard from '../FileCard';
-import { useUserFiles } from '@/hooks';
+import { PdfFile } from '@/types';
 
-const PdfFileGrid = ({ id }: { id: string }) => {
-  const { files, isLoading, isError, error } = useUserFiles(id);
+type PdfFileGridProps = {
+  files: PdfFile[] | undefined; 
+  isLoading: boolean;
+  isError: boolean;
+  error?: Error | null; 
+};
+
+const PdfFileGrid = ({ files, isError, isLoading, error }: PdfFileGridProps) => {
 
   if (isLoading) {
     return <SkeletonLoader />;
   }
 
   if (isError) {
-    return <div className="text-red-500 text-center">{error?.message}</div>;
+    return <div className="text-red-500 text-center">{error?.message || 'An error occurred'}</div>;
   }
 
   return (

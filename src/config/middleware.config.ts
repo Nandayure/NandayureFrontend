@@ -13,6 +13,7 @@ export const PUBLIC_ROUTES: string[] = [
 export const commonRoutes: string[] = [
   '/',
   '/my-file',
+  '/my-file/*',
   '/request/vacation-request',
   '/request/pay-slip',
   '/request/salary-certificate',

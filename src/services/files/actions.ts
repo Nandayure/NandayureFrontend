@@ -1,10 +1,10 @@
 import httpClient from '@/helpers/httpClient';
 import { EmployeeFile, PdfFile } from '@/types';
 
-export async function getUserFiles(): Promise<PdfFile[]> {
+export async function getUserFiles(id: string): Promise<PdfFile[]> {
   return httpClient<PdfFile[]>({
     method: 'GET',
-    endpoint: '/google-drive-files/MyFiles',
+    endpoint: `/google-drive-files/MyFilesByFolder/${id}`,
   });
 }
 

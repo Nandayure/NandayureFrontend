@@ -95,3 +95,5 @@ export { default as useGetAnnuity } from './system-configuration/annuities/queri
 export { default as useGetEmployees } from './system-configuration/annuities/queries/useGetEmployees';
 
 export { default as useUserFiles } from './files/useUserFiles';
+export { default as useGetMyFolders } from './folder/queries/useGetMyFolders';
+export { default as useGetFoldersByEmployee } from './folder/queries/useGetFoldersByEmployee';

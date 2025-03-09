@@ -4,22 +4,23 @@ import React, { useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Upload, File as FileIcon, X, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 import { usePdfUpload } from '@/hooks/files/useUploadPdfFiles';
 
 interface Props {
-  EmployeeId: string;
+  folderId: string;
+  children: React.ReactNode;
 }
 
-export default function PDFUploader({ EmployeeId }: Props) {
+export default function PDFUploader({ folderId, children }: Props) {
   const {
     file,
     showErrorModal,
@@ -30,7 +31,9 @@ export default function PDFUploader({ EmployeeId }: Props) {
     removeFile,
     handleUpload,
     startErrorModalTimer,
-  } = usePdfUpload({ employeeId: EmployeeId });
+    isOpen,
+    setIsOpen
+  } = usePdfUpload({ folderId: folderId });
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -48,16 +51,18 @@ export default function PDFUploader({ EmployeeId }: Props) {
 
   return (
     <>
-      <Card className="w-full max-w-md mx-auto">
-        <CardContent className="p-6">
+      <Dialog open={isOpen} onOpenChange={setIsOpen} >
+        <DialogTrigger asChild>
+          {children}
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[550px]" hideCloseButton>
           {/* Dropzone */}
           <div
             {...getRootProps()}
-            className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
-              isDragActive
-                ? 'border-primary bg-primary/10'
-                : 'border-muted-foreground/50 hover:border-muted-foreground'
-            }`}
+            className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${isDragActive
+              ? 'border-primary bg-primary/10'
+              : 'border-muted-foreground/50 hover:border-muted-foreground'
+              }`}
           >
             <input {...getInputProps()} />
             <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
@@ -111,8 +116,9 @@ export default function PDFUploader({ EmployeeId }: Props) {
               'Subir archivo'
             )}
           </Button>
-        </CardContent>
-      </Card>
+        </DialogContent>
+      </Dialog>
+
 
       {/* Modal de error */}
       <Dialog open={showErrorModal} onOpenChange={setShowErrorModal}>

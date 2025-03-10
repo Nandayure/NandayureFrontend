@@ -23,7 +23,10 @@ const FolderCard = ({ folder, path }: FolderProps) => {
     >
       <CardContent className="p-4">
         <Link
-          href={`${path}/${folder.id}`}
+          href={{
+            pathname: `${path}/${folder.id}`,
+            query: { folderName: encodeURIComponent(folder.name) }
+          }}
           className="w-full text-left space-y-2 block"
         >
           <div className="flex items-center gap-3">

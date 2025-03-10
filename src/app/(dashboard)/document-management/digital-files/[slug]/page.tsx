@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useGetByIdEmployee, useGetToken } from '@/hooks';
 import SkeletonLoader from '@/components/ui/skeleton-loader';
 import EmployeeFilesList from '@/components/document-management/digital-files/EmployeeFilesList';
+import { PageHeader } from '@/components/ui/section-title';
 
 export default function EmployeeDocumentsPage() {
   const { slug } = useParams();
@@ -17,9 +18,10 @@ export default function EmployeeDocumentsPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="flex text-3xl font-bold mb-6 justify-center">
-        Documentos de {employeeById?.Name} {employeeById?.Surname1} {employeeById?.Surname2}
-      </h1>
+      <PageHeader
+        title={`Documentos de ${employeeById?.Name} ${employeeById?.Surname1} ${employeeById?.Surname2}`}
+        description="Acceda y gestione la documentación oficial de los colaboradores."
+      />
       <div className="mt-6">
         <EmployeeFilesList employeeId={employeeId} />
       </div>

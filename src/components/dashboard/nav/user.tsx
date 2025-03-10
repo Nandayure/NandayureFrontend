@@ -10,7 +10,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useGetRoles } from '@/hooks';
 import {
-  Settings,
+  User as UserIcon,
+  UserCog,
+  Database,
   UserPlus,
   HelpCircle,
   LogOut,
@@ -63,8 +65,8 @@ export default function User() {
           data-cy="profile-button"
         >
           <Link href="/profile" className="flex items-center">
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Configuración</span>
+            <UserCog className="mr-2 h-4 w-4" />
+            <span>Configuración de perfil</span>
           </Link>
         </DropdownMenuItem>
         {roles && roles.includes('RH') && (
@@ -74,8 +76,8 @@ export default function User() {
               asChild
             >
               <Link href="/system-configuration" className="flex items-center">
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Configuración del sistema</span>
+                <Database className="mr-2 h-4 w-4" />
+                <span>Administración de Catálogos</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem

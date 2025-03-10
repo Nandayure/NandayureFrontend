@@ -8,6 +8,7 @@ import SearchBar from "./search-bar/search-bar"
 import TypeSelector from "./type-selector/type-selector"
 import type { RequestDetails } from "@/types/request-management/commonTypes"
 import { PaginationController } from "@/components/ui/pagination-controller"
+import ExportButtons from "./export-buttons"
 
 export default function RequestTableManagement() {
   const [selectedRequest, setSelectedRequest] = useState<RequestDetails | null>(null)
@@ -86,6 +87,7 @@ export default function RequestTableManagement() {
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold mb-4">Gestión de solicitudes</h1>
         <div className="flex space-x-4 justify-center items-center">
+          <ExportButtons requests={filteredRequests} isDisabled={isLoading} />
           <TypeSelector types={states} selectedType={selectedState} onChange={setSelectedState} label="Estado" />
           <TypeSelector types={types} selectedType={selectedType} onChange={setSelectedType} label="Tipo" />
           <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

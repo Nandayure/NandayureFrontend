@@ -4,12 +4,19 @@ import { Suspense } from "react"
 import PdfFileGrid from "@/components/document-management/my-files/PdfFileGrid"
 import { BackButton } from "@/components/ui/back-button"
 import { useEmployeeFiles } from "@/hooks/files/useEmployeeFiles";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";  // Añadido useSearchParams
 import PDFUploader from "@/components/common/pdf-uploader";
 import { Button } from "@/components/ui/button";
+import { PageHeader } from "@/components/ui/section-title";
 
 export default function Page() {
-  const params = useParams<{ slug: string; folderId: string }>()
+  const params = useParams<{ slug: string; folderId: string }>();
+  const searchParams = useSearchParams();
+
+  const folderName = searchParams.get('folderName')
+    ? decodeURIComponent(searchParams.get('folderName')!)
+    : 'Archivos';
+
   const { files, isLoading, isError, error } = useEmployeeFiles(params.folderId);
 
   return (
@@ -18,7 +25,10 @@ export default function Page() {
         <div className="mb-4 flex items-center gap-2">
           <BackButton href={`/document-management/digital-files/${params.slug}`} label="Volver a mis carpetas" />
         </div>
-        <h1 className="text-3xl font-semibold text-gray-800 mb-2">Mis archivos</h1>
+        <PageHeader
+          title={`Documentos - ${folderName}`}  
+          description="Acceso a los documentos del empleado."
+        />
         <PDFUploader folderId={params.folderId}>
           <Button>Subir archivo</Button>
         </PDFUploader>

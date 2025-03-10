@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import BirthdayEffect from "@/components/birthday/birthday-effect";
 import { useBirthdayEffect } from "@/hooks/auth/birthday/useBirthdayEffect";
 import { ResetBirthdayButton } from "@/components/birthday/birthday-button";
+import Chatbot from "@/components/dashboard/chat-bot/chat-bot";
 
 
 export default function HomePage() {
@@ -41,6 +42,7 @@ export default function HomePage() {
           través del menú de navegación para gestionar personal, nóminas, asistencias y más.
         </p>
       </div>
+      <Chatbot />
     </div>
   )
 }

@@ -8,6 +8,7 @@ import { RefreshCw } from "lucide-react"
 import { SummaryCards } from "@/components/charts/summary-cards"
 import { RequestTypePieChart } from "@/components/charts/request-type-pie-chart"
 import { RequestStatusBarChart } from "@/components/charts/request-status-bar-chart"
+import DashboardExportButton from "@/components/charts/dashboard-export-button"
 
 export default function Dashboard() {
   const { summaryRequest, isLoading, isError, error, refetch } = useSummaryRequest()
@@ -18,7 +19,7 @@ export default function Dashboard() {
     refetch().finally(() => {
       setTimeout(() => {
         setIsRefreshing(false)
-      }, 600) 
+      }, 600)
     })
   }
 
@@ -69,15 +70,18 @@ export default function Dashboard() {
           <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Dashboard de Solicitudes</h1>
           <p className="text-muted-foreground">Visualización de datos de solicitudes y su estado actual.</p>
         </div>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={handleRefresh}
-          disabled={isLoading || isRefreshing}
-          aria-label="Actualizar datos"
-        >
-          <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin-once" : ""}`} />
-        </Button>
+        <div className="flex items-center gap-4">
+          <DashboardExportButton summaryData={summaryRequest} isDisabled={isLoading || isRefreshing} />
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleRefresh}
+            disabled={isLoading || isRefreshing}
+            aria-label="Actualizar datos"
+          >
+            <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin-once" : ""}`} />
+          </Button>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -95,7 +99,7 @@ export default function Dashboard() {
               <CardTitle>Distribución por Tipo</CardTitle>
               <CardDescription>Distribución de solicitudes por categoría</CardDescription>
             </CardHeader>
-            <CardContent  className="h-80">
+            <CardContent className="h-80">
               <RequestTypePieChart
                 vacationRequests={summaryRequest.vacationRequests}
                 salaryCertificateRequests={summaryRequest.salaryCertificateRequests}
@@ -126,15 +130,6 @@ export default function Dashboard() {
 function LoadingState() {
   return (
     <>
-      {/* Header skeleton */}
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <Skeleton className="h-8 w-64 mb-2" /> {/* Título */}
-          <Skeleton className="h-4 w-96" /> {/* Descripción */}
-        </div>
-        <Skeleton className="h-10 w-10 rounded-md" /> {/* Botón de actualizar */}
-      </div>
-      
       {/* Summary cards skeleton */}
       <div className="grid gap-4 grid-cols-2 md:grid-cols-4 mb-4">
         <Card className="overflow-hidden">
@@ -166,7 +161,7 @@ function LoadingState() {
           </CardContent>
         </Card>
       </div>
-      
+
       {/* Charts skeleton */}
       <div className="grid gap-4 md:grid-cols-2">
         {/* Pie chart card skeleton */}
@@ -181,7 +176,7 @@ function LoadingState() {
             </div>
           </CardContent>
         </Card>
-        
+
         {/* Bar chart card skeleton */}
         <Card>
           <CardHeader>

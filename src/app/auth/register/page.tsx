@@ -1,16 +1,20 @@
-import RegisterForm from "@/components/auth/register/register-form"
-import { titleFont } from "@/lib/fonts"
+import BackgroundDecoration from "@/components/auth/background-decoration";
+import EmployeeRegistrationForm from "@/components/auth/register/employee-registration-form";
 
-export default function RegisterPage() {
+export default function Home() {
   return (
-    <main className="flex items-center justify-center min-h-screen px-4 py-8 bg-gray-50">
-      <div className="w-full max-w-4xl bg-white border shadow-lg rounded-lg p-8">
-        <h1 className={`${titleFont.className} text-center text-2xl font-bold text-gray-900 mb-6`}>
-          Registro de usuario
-        </h1>
-        <RegisterForm />
-      </div>
-    </main>
+    <div className="relative min-h-screen w-full overflow-hidden">
+      {/* Background decoration - full width and height */}
+      <BackgroundDecoration />
+
+      {/* Content container with width constraints */}
+      <main className="container relative z-10 mx-auto py-10">
+        <h1 className="text-3xl font-bold mb-8 text-center">Registro de Empleados</h1>
+        <div className="max-w-3xl mx-auto">
+          <EmployeeRegistrationForm />
+        </div>
+      </main>
+    </div>
   )
 }
 

@@ -3,7 +3,7 @@
 import Image from "next/image"
 import LoginForm from "@/components/auth/login/login-form"
 import { titleFont } from "@/lib/fonts"
-import BackgroundDecoration from "@/components/auth/login/background-decoration"
+import BackgroundDecoration from "@/components/auth/background-decoration"
 
 export default function LoginPage() {
   return (

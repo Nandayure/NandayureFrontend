@@ -1,4 +1,6 @@
 import {
+  BarChart3,
+  ChartPie,
   Clock,
   FileText,
   Folder,
@@ -83,6 +85,29 @@ export const baseNavLinks: Record<string, NavLink> = {
     label: 'Mis Documentos',
     dataCy: 'sidebar-dashboard-my-documents',
   },
+  analiticas: {
+    href: '/hr-analytics',
+    icon: ChartPie,
+    label: 'Analíticas',
+    dataCy: 'sidebar-dashboard-analytics',
+    subLinks: {
+      resumenRRHH: {
+        href: '/hr-analytics/hr-requests-summary',
+        label: 'Resumen RRHH',
+        dataCy: 'sidebar-dashboard-hr-requests-summary',
+      },
+      tiemposAprobacion: {
+        href: '/hr-analytics/approval-times-comparison',
+        label: 'Tiempos Aprobación',
+        dataCy: 'sidebar-dashboard-approval-times',
+      },
+      solicitudesRechazadas: {
+        href: '/hr-analytics/rejected-requests-reports',
+        label: 'Solicitudes Rechazadas',
+        dataCy: 'sidebar-dashboard-rejected-reports',
+      },
+    },
+  },
 };
 
 export const navLinksRH: Record<string, NavLink> = {
@@ -92,6 +117,7 @@ export const navLinksRH: Record<string, NavLink> = {
   gestionSolicitudes: baseNavLinks.gestionSolicitudes,
   Solicitudes: baseNavLinks.Solicitudes,
   miSolicitudes: baseNavLinks.miSolicitudes,
+  analiticas: baseNavLinks.analiticas,
 };
 
 export const navLinksUser: Record<string, NavLink> = {
@@ -99,6 +125,7 @@ export const navLinksUser: Record<string, NavLink> = {
   miExpediente: baseNavLinks.miExpediente,
   Solicitudes: baseNavLinks.Solicitudes,
   miSolicitudes: baseNavLinks.miSolicitudes,
+  analiticas: baseNavLinks.analiticas,
 };
 
 export const navLinksVA: Record<string, NavLink> = {

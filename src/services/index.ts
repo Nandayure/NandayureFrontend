@@ -60,3 +60,4 @@ export * from './faq/commands/actions';
 export * from './faq/queries/actions';
 
 export * from './folder/queries/actions';
+export * from './charts/actions';

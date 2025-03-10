@@ -41,7 +41,7 @@ export function DesktopSidebar({ navLinks }: DesktopSidebarProps) {
         <Image src="/LogoMuni.png" alt="logo" width={100} height={100} priority />
       </Link>
 
-      <nav className={clsx('flex flex-col flex-grow', !isOpen && 'items-center')}>
+      <nav className={clsx('flex flex-col flex-grow mt-3', !isOpen && 'items-center')}>
         <NavLinks isOpen={isOpen} navLinks={navLinks} />
       </nav>
     </aside>

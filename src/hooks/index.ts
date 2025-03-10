@@ -97,3 +97,4 @@ export { default as useGetEmployees } from './system-configuration/annuities/que
 export { default as useUserFiles } from './files/useUserFiles';
 export { default as useGetMyFolders } from './folder/queries/useGetMyFolders';
 export { default as useGetFoldersByEmployee } from './folder/queries/useGetFoldersByEmployee';
+export { default as useSummaryRequest } from './charts/useGetSummaryRequest';

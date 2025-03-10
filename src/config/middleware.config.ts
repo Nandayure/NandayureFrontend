@@ -20,6 +20,9 @@ export const commonRoutes: string[] = [
   '/request-management/my-requests',
   '/profile',
   '/security',
+  '/hr-analytics/hr-requests-summary',
+  '/hr-analytics/approval-times-comparison',
+  '/hr-analytics/rejected-requests-reports',
 ];
 
 export type RoleRoutes = Record<string, string[]>;

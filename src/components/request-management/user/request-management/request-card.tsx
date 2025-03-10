@@ -29,13 +29,13 @@ const getRequestIcon = (typeId: number) => {
 const getStatusColor = (stateId: number) => {
   switch (stateId) {
     case 1:
-      return 'bg-golden-dream-500 text-white'
+      return 'bg-golden-dream-500 text-white hover:bg-golden-dream-700'
     case 2:
-      return 'bg-apple-500 text-white'
+      return 'bg-apple-500 text-white hover:bg-apple-700'
     case 3:
-      return 'bg-red-500 text-white'
+      return 'bg-red-500 text-white hover:bg-red-700'
     default:
-      return 'bg-gray-500 text-white'
+      return 'bg-gray-500 text-white hover:bg-gray-700'
   }
 }
 

@@ -71,13 +71,13 @@ export default function InboxComponent() {
                   {Array.isArray(currentToApprove) && currentToApprove.length > 0 && (
                     <>
                       <Badge
-                        className="absolute -top-2 -right-2 px-2 py-1 bg-dodger-blue-500 text-white rounded-full text-xs animate-ping"
+                        className="absolute -top-2 -right-2 px-2 py-1 bg-dodger-blue-500 hover:bg-dodger-blue-800 text-white rounded-full text-xs animate-ping"
                         aria-label={`${currentToApprove.length} solicitudes pendientes`}
                       >
                         0
                       </Badge>
                       <Badge
-                        className="absolute -top-2 -right-2 px-2 py-1 bg-dodger-blue-500 text-white rounded-full text-xs"
+                        className="absolute -top-2 -right-2 px-2 py-1 bg-dodger-blue-500 hover:bg-dodger-blue-800 text-white rounded-full text-xs"
                         aria-label={`${currentToApprove.length} solicitudes pendientes`}
                       >
                         {currentToApprove.length}

@@ -20,7 +20,6 @@ export function RequestTypePieChart({
   salaryCertificateRequests,
   paymentConfirmationRequests,
 }: RequestTypePieChartProps) {
-  // Estado para manejar el sector activo en el hover
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   // Preparamos los datos para el gráfico
@@ -29,19 +28,19 @@ export function RequestTypePieChart({
       name: vacationRequests.name,
       value: vacationRequests.total,
       percentage: vacationRequests.percentage,
-      color: "#3b82f6", // blue-500
+      color: "#4caf50", 
     },
     {
       name: salaryCertificateRequests.name,
       value: salaryCertificateRequests.total,
       percentage: salaryCertificateRequests.percentage,
-      color: "#10b981", // green-500
+      color: "#34b1fd", 
     },
     {
       name: paymentConfirmationRequests.name,
       value: paymentConfirmationRequests.total,
       percentage: paymentConfirmationRequests.percentage,
-      color: "#8b5cf6", // purple-500
+      color: "#e0ac20", 
     },
   ]
 

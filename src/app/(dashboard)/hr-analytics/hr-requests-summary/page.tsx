@@ -95,7 +95,7 @@ export default function Dashboard() {
               <CardTitle>Distribución por Tipo</CardTitle>
               <CardDescription>Distribución de solicitudes por categoría</CardDescription>
             </CardHeader>
-            <CardContent className="h-80">
+            <CardContent  className="h-80">
               <RequestTypePieChart
                 vacationRequests={summaryRequest.vacationRequests}
                 salaryCertificateRequests={summaryRequest.salaryCertificateRequests}
@@ -126,19 +126,81 @@ export default function Dashboard() {
 function LoadingState() {
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-4">
-        {Array(4)
-          .fill(0)
-          .map((_, i) => (
-            <Skeleton key={i} className="h-32 w-full" />
-          ))}
+      {/* Header skeleton */}
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <Skeleton className="h-8 w-64 mb-2" /> {/* Título */}
+          <Skeleton className="h-4 w-96" /> {/* Descripción */}
+        </div>
+        <Skeleton className="h-10 w-10 rounded-md" /> {/* Botón de actualizar */}
       </div>
+      
+      {/* Summary cards skeleton */}
+      <div className="grid gap-4 grid-cols-2 md:grid-cols-4 mb-4">
+        <Card className="overflow-hidden">
+          <CardContent className="p-6">
+            <Skeleton className="h-5 w-24 mb-2" /> {/* Título de la tarjeta */}
+            <Skeleton className="h-9 w-16 mb-1" /> {/* Número grande */}
+            <Skeleton className="h-4 w-32" /> {/* Texto pequeño */}
+          </CardContent>
+        </Card>
+        <Card className="overflow-hidden">
+          <CardContent className="p-6">
+            <Skeleton className="h-5 w-28 mb-2" />
+            <Skeleton className="h-9 w-16 mb-1" />
+            <Skeleton className="h-4 w-36" />
+          </CardContent>
+        </Card>
+        <Card className="overflow-hidden">
+          <CardContent className="p-6">
+            <Skeleton className="h-5 w-20 mb-2" />
+            <Skeleton className="h-9 w-16 mb-1" />
+            <Skeleton className="h-4 w-32" />
+          </CardContent>
+        </Card>
+        <Card className="overflow-hidden">
+          <CardContent className="p-6">
+            <Skeleton className="h-5 w-24 mb-2" />
+            <Skeleton className="h-9 w-16 mb-1" />
+            <Skeleton className="h-4 w-40" />
+          </CardContent>
+        </Card>
+      </div>
+      
+      {/* Charts skeleton */}
       <div className="grid gap-4 md:grid-cols-2">
-        {Array(2)
-          .fill(0)
-          .map((_, i) => (
-            <Skeleton key={i} className="h-80 w-full" />
-          ))}
+        {/* Pie chart card skeleton */}
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-6 w-48 mb-2" /> {/* Título */}
+            <Skeleton className="h-4 w-72" /> {/* Descripción */}
+          </CardHeader>
+          <CardContent className="h-80 flex items-center justify-center">
+            <div className="relative h-64 w-64">
+              <Skeleton className="h-64 w-64 rounded-full" /> {/* Círculo para el pie chart */}
+            </div>
+          </CardContent>
+        </Card>
+        
+        {/* Bar chart card skeleton */}
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-6 w-48 mb-2" /> {/* Título */}
+            <Skeleton className="h-4 w-72" /> {/* Descripción */}
+          </CardHeader>
+          <CardContent className="h-80 flex flex-col justify-end">
+            <div className="flex items-end justify-between gap-2 h-64 w-full">
+              <Skeleton className="w-1/3 h-[70%]" /> {/* Barra 1 */}
+              <Skeleton className="w-1/3 h-[40%]" /> {/* Barra 2 */}
+              <Skeleton className="w-1/3 h-[90%]" /> {/* Barra 3 */}
+            </div>
+            <div className="flex justify-between mt-4">
+              <Skeleton className="h-4 w-20" /> {/* Etiqueta 1 */}
+              <Skeleton className="h-4 w-20" /> {/* Etiqueta 2 */}
+              <Skeleton className="h-4 w-20" /> {/* Etiqueta 3 */}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </>
   )

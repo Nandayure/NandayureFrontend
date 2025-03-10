@@ -10,7 +10,6 @@ import {
 import { formatDate } from '@/lib/utils'
 import { Calendar, FileText, DollarSign, Clock } from 'lucide-react'
 import { getRequestState, getRequestType } from '../../request-helpers'
-import SkeletonLoader from '@/components/ui/skeleton-loader'
 import { RequestDetails } from '@/types/request-management/commonTypes'
 
 const getRequestIcon = (typeId: number) => {

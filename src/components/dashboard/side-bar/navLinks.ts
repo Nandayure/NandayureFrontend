@@ -112,26 +112,26 @@ export const baseNavLinks: Record<string, NavLink> = {
 
 export const navLinksRH: Record<string, NavLink> = {
   home: baseNavLinks.home,
-  miExpediente: baseNavLinks.miExpediente,
-  gestionDocumentos: baseNavLinks.gestionDocumentos,
-  gestionSolicitudes: baseNavLinks.gestionSolicitudes,
-  Solicitudes: baseNavLinks.Solicitudes,
   miSolicitudes: baseNavLinks.miSolicitudes,
+  Solicitudes: baseNavLinks.Solicitudes,
+  miExpediente: baseNavLinks.miExpediente,
+  gestionSolicitudes: baseNavLinks.gestionSolicitudes,
+  gestionDocumentos: baseNavLinks.gestionDocumentos,
   analiticas: baseNavLinks.analiticas,
 };
 
 export const navLinksUser: Record<string, NavLink> = {
   home: baseNavLinks.home,
-  miExpediente: baseNavLinks.miExpediente,
-  Solicitudes: baseNavLinks.Solicitudes,
   miSolicitudes: baseNavLinks.miSolicitudes,
+  Solicitudes: baseNavLinks.Solicitudes,
+  miExpediente: baseNavLinks.miExpediente,
   analiticas: baseNavLinks.analiticas,
 };
 
 export const navLinksVA: Record<string, NavLink> = {
   home: baseNavLinks.home,
+  miSolicitudes: baseNavLinks.miSolicitudes,
+  Solicitudes: baseNavLinks.Solicitudes,
   miExpediente: baseNavLinks.miExpediente,
   gestionSolicitudes: baseNavLinks.gestionSolicitudes,
-  Solicitudes: baseNavLinks.Solicitudes,
-  miSolicitudes: baseNavLinks.miSolicitudes,
 };

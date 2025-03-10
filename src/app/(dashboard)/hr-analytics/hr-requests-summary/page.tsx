@@ -126,15 +126,6 @@ export default function Dashboard() {
 function LoadingState() {
   return (
     <>
-      {/* Header skeleton */}
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <Skeleton className="h-8 w-64 mb-2" /> {/* Título */}
-          <Skeleton className="h-4 w-96" /> {/* Descripción */}
-        </div>
-        <Skeleton className="h-10 w-10 rounded-md" /> {/* Botón de actualizar */}
-      </div>
-      
       {/* Summary cards skeleton */}
       <div className="grid gap-4 grid-cols-2 md:grid-cols-4 mb-4">
         <Card className="overflow-hidden">

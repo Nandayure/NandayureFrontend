@@ -9,7 +9,6 @@ import { SummaryCards } from "@/components/charts/summary-cards"
 import { RequestTypePieChart } from "@/components/charts/request-type-pie-chart"
 import { RequestStatusBarChart } from "@/components/charts/request-status-bar-chart"
 import DashboardExportButton from "@/components/charts/dashboard-export-button"
-import { EmployeeRequestsHistory } from "@/components/charts/employee-requests-history"
 
 export default function Dashboard() {
   const { summaryRequest, isLoading, isError, error, refetch } = useSummaryRequest()
@@ -123,7 +122,6 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </div>
-        <EmployeeRequestsHistory />
       </div>
     </div>
   )

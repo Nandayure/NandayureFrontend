@@ -19,3 +19,26 @@ export interface RequestDashboardStatistics {
   totalRequests: number;
   lastUpdated: string;
 }
+
+export interface YearWithMonths {
+  year: number;
+  months: number[];
+}
+
+export type DatesWithRequestsResponse = YearWithMonths[];
+
+export interface EmployeesWithMostRequestsQuery {
+  limit: number;
+  month: number;
+  year: number;
+}
+
+export interface EmployeeWithRequests {
+  employeeId: string;
+  name: string;
+  surname1: string;
+  surname2: string;
+  totalRequests: string;
+}
+
+export type EmployeesWithMostRequestsResponse = EmployeeWithRequests[];

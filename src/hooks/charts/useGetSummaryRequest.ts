@@ -1,4 +1,5 @@
-import { fecthSummaryRequest } from '@/services';
+
+import { fetchSummaryRequest } from '@/services';
 import { useQuery } from '@tanstack/react-query';
 
 const useSummaryRequest = () => {
@@ -10,7 +11,7 @@ const useSummaryRequest = () => {
     refetch,
   } = useQuery({
     queryKey: ['summaryRequest'],
-    queryFn: fecthSummaryRequest,
+    queryFn: fetchSummaryRequest,
     retry: 2,
     staleTime: 5 * 60 * 1000, 
     refetchOnWindowFocus: false,

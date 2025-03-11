@@ -14,6 +14,7 @@ import Link from "next/link"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, RefreshCw } from "lucide-react"
+import ManualesSeccion from "@/components/faqs/manuales/manual-seccion"
 
 export default function FAQPage() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -143,6 +144,7 @@ export default function FAQPage() {
             No se encontraron resultados para su búsqueda.
           </motion.div>
         )}
+        <ManualesSeccion/>
       </motion.div>
     </div>
   )

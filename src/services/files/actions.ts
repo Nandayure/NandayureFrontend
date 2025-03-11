@@ -46,6 +46,8 @@ export async function uploadDocument({
     method: 'POST',
     endpoint: '/google-drive-files/upload',
     data: formData,
+    timeout: 60000, 
+    retries: 2,    
   });
 
   return response;

@@ -5,20 +5,25 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { Calendar, FileText, DollarSign } from 'lucide-react';
+import { Calendar, FileText, DollarSign, Upload } from 'lucide-react';
 import { Badge } from '../../../ui/badge';
 import { formatDate } from '@/lib/utils';
 import { getRequestState, getRequestType } from '../../request-helpers';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal, AwaitedReactNode } from 'react';
 
-const requestTypeRoutes: { [key: number]: string } = {
-  1: '/request/vacation-request/',
-  2: '/request/salary-certificate/',
-  3: '/request/pay-slip/',
-};
+interface RequestApproval {
+  id: Key | null | undefined;
+  processNumber: string;
+  approverId?: string;
+  Name?: string;
+  Surname1?: string;
+  Surname2?: string;
+  approved: boolean | null;
+  ApprovedDate?: string;
+  observation?: string;
+}
 
 const RequestModal = ({
   request,
@@ -31,6 +36,16 @@ const RequestModal = ({
 }) => {
   const router = useRouter();
 
+  // Verificar si todas las aprobaciones están completadas (aprobadas)
+  const allApprovalsCompleted = request?.RequestApprovals?.length > 0 &&
+    request.RequestApprovals.every((approval: any) => approval.approved === true);
+
+  // Función para navegar a la página de gestión documental
+  const handleNavigateToDocuments = () => {
+    router.push(`/document-management/digital-files/${request.EmployeeId}`);
+    onClose(); // Cerrar el modal después de navegar
+  };
+
   if (!request) return null;
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -38,7 +53,8 @@ const RequestModal = ({
         <DialogHeader>
           <DialogTitle>Detalles de la solicitud</DialogTitle>
           <DialogDescription>
-            ID de solicitud: {request.id} | Cédula de empleado: {request.EmployeeId}
+            ID de solicitud: {request.id} | Cédula de empleado: {request.EmployeeId} |
+            Nombre: {request.Employee?.Name} {request.Employee?.Surname1}{' '}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4">
@@ -60,8 +76,8 @@ const RequestModal = ({
                 request.RequestStateId === 2
                   ? 'approving'
                   : request.RequestStateId === 3
-                  ? 'rejecting'
-                  : 'pending'
+                    ? 'rejecting'
+                    : 'pending'
               }
               className="w-24 flex items-center justify-center"
             >
@@ -97,14 +113,14 @@ const RequestModal = ({
 
           <div className="space-y-2">
             <h3 className="text-lg font-semibold">Proceso de aprobación</h3>
-            {request.RequestApprovals.map((approval: { id: Key | null | undefined; processNumber: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; approverId: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; Name: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; Surname1: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; Surname2: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; approved: boolean; ApprovedDate: string; observation: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; }) => (
+            {request.RequestApprovals.map((approval: RequestApproval) => (
               <div key={approval.id} className="rounded-md border p-4">
                 <div className="grid grid-cols-2 gap-2">
                   <span className="font-semibold">Número de proceso:</span>
                   <span>{approval.processNumber}</span>
                   {approval.approverId && (
                     <>
-                      <span className="font-semibold">Cédula  del aprobador:</span>
+                      <span className="font-semibold">Cédula del aprobador:</span>
                       <span>{approval.approverId}</span>
                       <span className="font-semibold">
                         Nombre del aprobador:
@@ -120,16 +136,16 @@ const RequestModal = ({
                       approval.approved
                         ? 'approving'
                         : approval.approved === false
-                        ? 'rejecting'
-                        : 'pending'
+                          ? 'rejecting'
+                          : 'pending'
                     }
                     className="w-24 flex items-center justify-center"
                   >
                     {approval.approved
                       ? 'Aprobado'
                       : approval.approved === false
-                      ? 'Rechazado'
-                      : 'Pendiente'}
+                        ? 'Rechazado'
+                        : 'Pendiente'}
                   </Badge>
                   {approval.ApprovedDate && (
                     <>
@@ -149,36 +165,20 @@ const RequestModal = ({
               </div>
             ))}
           </div>
+
+          {/* Botón para subir documentos (visible solo cuando todas las aprobaciones están completadas) */}
+          {allApprovalsCompleted && request.RequestStateId === 2 && (
+            <div className="flex justify-end mt-4">
+              <Button
+                onClick={handleNavigateToDocuments}
+                className="flex items-center gap-2"
+              >
+                <Upload className="h-4 w-4" />
+                Gestionar Documentos
+              </Button>
+            </div>
+          )}
         </div>
-
-        {/* {request.RequestStateId === 2 && request.RequestTypeId === 1 && (
-          <div className="flex justify-end mt-4">
-            <Link
-              href={`/request/vacation-request/${request.RequestVacation?.id}`}
-            >
-              <Button>Visualizar</Button>
-            </Link>
-          </div>
-        )}
-
-        {request.RequestStateId === 2 && request.RequestTypeId === 2 && (
-          <div className="flex justify-end mt-4">
-            <Link
-              href={`/request/salary-certificate/${request.RequestSalaryCertificate?.id}`}
-            >
-              <Button>Visualizar</Button>
-            </Link>
-          </div>
-        )}
-        {request.RequestStateId === 2 && request.RequestTypeId === 3 && (
-          <div className="flex justify-end mt-4">
-            <Link
-              href={`/request/pay-slip/${request.RequestPaymentConfirmation?.id}`}
-            >
-              <Button>Visualizar</Button>
-            </Link>
-          </div>
-        )} */}
       </DialogContent>
     </Dialog>
   );

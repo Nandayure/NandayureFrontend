@@ -1,4 +1,5 @@
 "use client"
+
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useSummaryRequest } from "@/hooks"
@@ -8,11 +9,20 @@ import { RefreshCw } from "lucide-react"
 import { SummaryCards } from "@/components/charts/summary-cards"
 import { RequestTypePieChart } from "@/components/charts/request-type-pie-chart"
 import { RequestStatusBarChart } from "@/components/charts/request-status-bar-chart"
+import { MonthYearPicker } from "@/components/charts/month-year-picker"
+import { TopEmployeesCard } from "@/components/charts/top-employees-card"
 import DashboardExportButton from "@/components/charts/dashboard-export-button"
 
 export default function Dashboard() {
   const { summaryRequest, isLoading, isError, error, refetch } = useSummaryRequest()
   const [isRefreshing, setIsRefreshing] = useState(false)
+
+  // Estado para los filtros de año y mes
+  const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear())
+  const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth() + 1)
+
+  // Valor predeterminado para el límite de empleados a mostrar
+  const [employeeLimit, setEmployeeLimit] = useState<number>(5)
 
   const handleRefresh = () => {
     setIsRefreshing(true)
@@ -93,6 +103,8 @@ export default function Dashboard() {
           totalPending={summaryRequest.totalPending.total}
         />
 
+
+
         <div className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader>
@@ -122,6 +134,22 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </div>
+
+        <MonthYearPicker
+          selectedYear={selectedYear}
+          selectedMonth={selectedMonth}
+          onYearChange={setSelectedYear}
+          onMonthChange={setSelectedMonth}
+        />
+
+        {/* Tarjeta de empleados con más solicitudes */}
+        <TopEmployeesCard
+          query={{
+            limit: employeeLimit,
+            month: selectedMonth,
+            year: selectedYear
+          }}
+        />
       </div>
     </div>
   )
@@ -162,6 +190,19 @@ function LoadingState() {
         </Card>
       </div>
 
+      {/* Añadir skeleton para los filtros */}
+      <div className="mb-4">
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-5 w-16 mb-1" /> {/* Título de filtros */}
+          </CardHeader>
+          <CardContent className="flex gap-4">
+            <Skeleton className="h-10 w-28" /> {/* Dropdown año */}
+            <Skeleton className="h-10 w-28" /> {/* Dropdown mes */}
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Charts skeleton */}
       <div className="grid gap-4 md:grid-cols-2">
         {/* Pie chart card skeleton */}
@@ -197,6 +238,26 @@ function LoadingState() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Top employees skeleton */}
+      <Card className="mt-4">
+        <CardHeader>
+          <Skeleton className="h-6 w-64 mb-2" /> {/* Título */}
+          <Skeleton className="h-4 w-96" /> {/* Descripción */}
+        </CardHeader>
+        <CardContent>
+          {Array(5).fill(0).map((_, i) => (
+            <div key={i} className="mb-4 flex items-center gap-3">
+              <Skeleton className="h-10 w-10 rounded-full" />
+              <div className="flex-1">
+                <Skeleton className="h-5 w-3/4 mb-1" />
+                <Skeleton className="h-4 w-1/4" />
+              </div>
+              <Skeleton className="h-8 w-8 rounded-full" />
+            </div>
+          ))}
+        </CardContent>
+      </Card>
     </>
   )
 }

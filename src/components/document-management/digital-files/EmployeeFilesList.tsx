@@ -3,18 +3,22 @@ import { useGetFoldersByEmployee } from '@/hooks';
 import FolderSkeleton from '../folders/folder-skeleton';
 import FolderError from '../folders/folder-error';
 import FolderGrid from '../folders/folder-grid';
+import FolderList from '../folders/folder-list';
 import FolderEmpty from '../folders/folder-empty';
 
 interface EmployeeFilesListProps {
   employeeId: string;
+  viewMode?: "grid" | "list";
 }
 
-const EmployeeFilesList = ({ employeeId }: EmployeeFilesListProps) => {
-  const { foldersByEmployee,
+const EmployeeFilesList = ({ employeeId, viewMode = "grid" }: EmployeeFilesListProps) => {
+  const {
+    foldersByEmployee,
     isLoading,
     isError,
     error,
-    refetch } = useGetFoldersByEmployee(Number(employeeId));
+    refetch
+  } = useGetFoldersByEmployee(Number(employeeId));
 
   if (isLoading) {
     return <FolderSkeleton />
@@ -28,11 +32,18 @@ const EmployeeFilesList = ({ employeeId }: EmployeeFilesListProps) => {
     return <FolderEmpty onRefresh={refetch} />
   }
 
+  // Set the path for folder navigation
+  const path = `/document-management/digital-files/${employeeId}`;
+
   return (
-    <div className="container mx-auto py-10">
-      <FolderGrid folders={foldersByEmployee} path={`/document-management/digital-files/${employeeId}`} />
-    </div>
-  )
+    <>
+      {viewMode === "grid" ? (
+        <FolderGrid folders={foldersByEmployee} path={path} />
+      ) : (
+        <FolderList folders={foldersByEmployee} path={path} />
+      )}
+    </>
+  );
 }
 
 export default EmployeeFilesList;

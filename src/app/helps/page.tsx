@@ -14,7 +14,8 @@ import Link from "next/link"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, RefreshCw } from "lucide-react"
-import ManualesSeccion from "@/components/faqs/manuales/manual-seccion"
+import ManualesSeccion from "@/components/faqs/manuales/page"
+
 
 export default function FAQPage() {
   const [searchTerm, setSearchTerm] = useState("")

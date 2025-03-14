@@ -14,7 +14,8 @@ interface HttpClientOptions {
   sendToken?: boolean;
   customToken?: string;
   timeout?: number; 
-  retries?: number; 
+  retries?: number;
+  params?: Record<string, any>; 
 }
 
 async function httpClient<T>({
@@ -25,7 +26,8 @@ async function httpClient<T>({
   sendToken = true,
   customToken,
   timeout = 10000, 
-  retries = 1, 
+  retries = 1,
+  params, // Añadido para soportar parámetros de consulta
 }: HttpClientOptions): Promise<T> {
   // Prepare request configuration
   const config = await prepareRequestConfig({
@@ -35,7 +37,7 @@ async function httpClient<T>({
     sendToken,
     customToken,
   });
-  const url = buildUrl(endpoint);
+  const url = buildUrl(endpoint, params); 
 
   // Execute request with retry logic
   return executeRequest<T>(url, config, { timeout, retries });
@@ -47,7 +49,7 @@ async function prepareRequestConfig({
   headers,
   sendToken,
   customToken,
-}: Omit<HttpClientOptions, 'endpoint'>): Promise<RequestInit> {
+}: Omit<HttpClientOptions, 'endpoint' | 'params'>): Promise<RequestInit> {
   // Get authentication token if needed
   let token: string | undefined;
   if (sendToken) {
@@ -76,8 +78,29 @@ async function getAuthToken(customToken?: string): Promise<string | undefined> {
   return session?.user?.access_token;
 }
 
-function buildUrl(endpoint: string): string {
-  return `${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`;
+// Función modificada para soportar parámetros de consulta
+function buildUrl(endpoint: string, params?: Record<string, any>): string {
+  const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`;
+  
+  if (!params || Object.keys(params).length === 0) {
+    return baseUrl;
+  }
+
+  // Construir la cadena de consulta
+  const queryString = Object.entries(params)
+    .filter(([_, value]) => value !== undefined && value !== null) // Filtrar valores undefined/null
+    .map(([key, value]) => {
+      // Manejar arrays y objetos
+      if (Array.isArray(value)) {
+        return value.map(item => `${encodeURIComponent(key)}=${encodeURIComponent(String(item))}`).join('&');
+      } else if (typeof value === 'object') {
+        return `${encodeURIComponent(key)}=${encodeURIComponent(JSON.stringify(value))}`;
+      }
+      return `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`;
+    })
+    .join('&');
+
+  return `${baseUrl}${queryString ? `?${queryString}` : ''}`;
 }
 
 async function executeRequest<T>(

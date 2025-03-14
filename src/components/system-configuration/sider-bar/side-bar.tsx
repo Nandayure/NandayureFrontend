@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { navLinks } from './navLinks'; // Adjust the import path as needed
-import { SideBarSystemConfigurationDesktop } from './desktop-side-bar';
-import { SideBarSystemConfigurationMobile } from './mobile-side-bar';
+import { MobileSidebar } from '@/components/side-bar/mobile-side-bar';
+import { DesktopSidebar } from '@/components/side-bar/desktop-side-bar';
 
 export function SideBarSystemConfiguration() {
   return (
     <>
-      <SideBarSystemConfigurationDesktop navLinks={navLinks} />
-      <SideBarSystemConfigurationMobile navLinks={navLinks} />
+      <MobileSidebar navLinks={navLinks} />
+      <DesktopSidebar navLinks={navLinks} />
     </>
   );
 }

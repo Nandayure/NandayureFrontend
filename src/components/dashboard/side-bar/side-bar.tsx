@@ -3,9 +3,9 @@
 import React, { useMemo } from 'react';
 import { useGetRoles } from '@/hooks';
 import { navLinksRH, navLinksUser, navLinksVA } from './navLinks';
-import { MobileSidebar } from './mobile-side-bar';
-import { DesktopSidebar } from './desktop-side-bar';
-import { SidebarSkeleton } from './skeleton-loader';
+import { MobileSidebar } from '../../side-bar/mobile-side-bar';
+import { DesktopSidebar } from '../../side-bar/desktop-side-bar';
+import { SidebarSkeleton } from '../../side-bar/skeleton-loader';
 import { useSidebarStore } from '@/store/useSidebarStore';
 
 function getSelectedNavLinks(userRoles: string[]) {

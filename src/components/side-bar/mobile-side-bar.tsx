@@ -13,7 +13,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 
-import { NavLink, NavLinks } from '@/components/common/nav-links';
+import { NavLink, NavLinks } from '@/components/side-bar/nav-links';
 
 interface MobileSidebarProps {
   navLinks: Record<string, NavLink>;

@@ -1,21 +1,21 @@
 'use client';
 
 import React from 'react';
-import { MobileSidebarProfile } from './mobile-side-bar';
 import { navLinks } from './navLinks';
-import { DesktopSidebarProfile } from './desktop-side.bar';
+import { MobileSidebar } from '@/components/side-bar/mobile-side-bar';
+import { DesktopSidebar } from '@/components/side-bar/desktop-side-bar';
 
 export function SideBarProfile() {
   return (
     <>
       {/* Mobile Sidebar */}
       <div className="md:hidden">
-        <MobileSidebarProfile navLinks={navLinks} />
+        <MobileSidebar navLinks={navLinks} />
       </div>
 
       {/* Desktop Sidebar */}
       <div className="hidden md:block">
-        <DesktopSidebarProfile navLinks={navLinks} />
+        <DesktopSidebar navLinks={navLinks} />
       </div>
     </>
   );

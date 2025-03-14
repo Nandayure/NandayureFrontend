@@ -1,5 +1,5 @@
 import { Fingerprint, Home, UserRoundPen } from 'lucide-react';
-import { NavLink } from '@/components/common/nav-links';
+import { NavLink } from '@/components/side-bar/nav-links';
 
 export const navLinks: Record<string, NavLink> = {
   home: {

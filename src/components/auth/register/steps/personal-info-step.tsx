@@ -1,12 +1,13 @@
 "use client"
 
-import { useFormContext } from "react-hook-form"
+import { useFormContext, useWatch } from "react-hook-form"
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useGetAllCivilStatus, useGetAllGender } from "@/hooks"
+import { useCheckId } from "@/hooks/validations/useValidations"
 import { useEffect, useState } from "react"
 import { Input } from "@/components/ui/input"
-
+import { CheckCircle, AlertCircle, Loader2 } from "lucide-react"
 
 const BirthdateDropdowns = () => {
   const {
@@ -191,15 +192,45 @@ const BirthdateDropdowns = () => {
   )
 }
 
-
 export function PersonalInfoStep() {
   const { genders } = useGetAllGender()
   const { civilStatus } = useGetAllCivilStatus()
   const {
     control,
-    formState: { errors },
+    setError,
+    clearErrors,
+    formState
   } = useFormContext()
 
+  // Observar cambios en el campo id
+  const idValue = useWatch({
+    control,
+    name: "id",
+    defaultValue: ""
+  })
+
+  // Usar el hook de validación con debounce implícito
+  const {
+    data: idCheck,
+    isLoading: isCheckingId,
+    isFetched: idWasChecked
+  } = useCheckId(idValue?.length >= 9 ? idValue : undefined, {
+    // Solo habilitar la consulta cuando el ID tenga al menos 9 caracteres (longitud completa)
+    enabled: idValue?.length >= 9,
+    retry: 0 // No reintentar en caso de error
+  })
+
+  // Efecto para actualizar errores del formulario basado en la existencia del ID
+  useEffect(() => {
+    if (idWasChecked && idCheck?.exists === true) {
+      setError("id", {
+        type: "manual",
+        message: "Esta cédula ya está registrada"
+      });
+    } else if (idWasChecked && idCheck?.exists === false && formState.errors.id?.type === "manual") {
+      clearErrors("id");
+    }
+  }, [idCheck, idWasChecked, setError, clearErrors, formState.errors.id]);
 
   return (
     <div className="space-y-6">
@@ -215,9 +246,24 @@ export function PersonalInfoStep() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Cédula</FormLabel>
-              <FormControl>
-                <Input placeholder="Ingrese la cédula (9 dígitos)" {...field} maxLength={9} />
-              </FormControl>
+              <div className="relative">
+                <FormControl>
+                  <Input placeholder="Ingrese la cédula (9 dígitos)" {...field} maxLength={9} />
+                </FormControl>
+                {idValue?.length >= 9 && (
+                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                    {isCheckingId && (
+                      <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />
+                    )}
+                    {!isCheckingId && idWasChecked && idCheck?.exists === true && (
+                      <AlertCircle className="h-4 w-4 text-destructive" />
+                    )}
+                    {!isCheckingId && idWasChecked && idCheck?.exists === false && (
+                      <CheckCircle className="h-4 w-4 text-success" />
+                    )}
+                  </div>
+                )}
+              </div>
               <FormMessage />
             </FormItem>
           )}

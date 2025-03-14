@@ -5,10 +5,13 @@ import { Input } from "@/components/ui/input"
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { useCheckEmail } from "@/hooks/validations/useValidations"
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 export function ContactInfoStep() {
   const { control, setError, clearErrors, formState } = useFormContext()
+
+  // Ref para prevenir actualizaciones recursivas
+  const processingEmailValidationRef = useRef(false);
 
   // Observar cambios en el campo Email
   const email = useWatch({
@@ -28,17 +31,37 @@ export function ContactInfoStep() {
     retry: 0 // No reintentar en caso de error
   })
 
-  // Efecto para actualizar errores del formulario basado en la existencia del correo
+  // Efecto mejorado para evitar bucles infinitos
   useEffect(() => {
-    if (emailWasChecked && emailCheck?.exists === true) {
-      setError("Email", {
-        type: "manual",
-        message: "Este correo electrónico ya está registrado"
-      });
-    } else if (emailWasChecked && emailCheck?.exists === false && formState.errors.Email?.type === "manual") {
-      clearErrors("Email");
+    // No hacer nada si aún no hay resultados o si ya estamos procesando
+    if (!emailWasChecked || processingEmailValidationRef.current) return;
+
+    // Marcar que estamos procesando la validación
+    processingEmailValidationRef.current = true;
+
+    try {
+      // Email ya existe
+      if (emailCheck?.exists === true) {
+        // Verificar si ya tenemos este error para evitar actualizaciones innecesarias
+        if (formState.errors.Email?.type !== "manual" ||
+          formState.errors.Email?.message !== "Este correo electrónico ya está registrado") {
+          setError("Email", {
+            type: "manual",
+            message: "Este correo electrónico ya está registrado"
+          });
+        }
+      }
+      // Email no existe, limpiar error manual (si existe)
+      else if (emailCheck?.exists === false) {
+        if (formState.errors.Email?.type === "manual") {
+          clearErrors("Email");
+        }
+      }
+    } finally {
+      // Siempre desmarcar el procesamiento al finalizar
+      processingEmailValidationRef.current = false;
     }
-  }, [emailCheck, emailWasChecked, setError, clearErrors, formState.errors.Email]);
+  }, [emailCheck, emailWasChecked, setError, clearErrors]); // Eliminar formState.errors.Email de dependencias
 
   return (
     <div className="space-y-6">
@@ -67,7 +90,7 @@ export function ContactInfoStep() {
                       <AlertCircle className="h-4 w-4 text-destructive" />
                     )}
                     {!isCheckingEmail && emailWasChecked && emailCheck?.exists === false && (
-                      <CheckCircle className="h-4 w-4 text-success" />
+                      <CheckCircle className="h-4 w-4 text-success text-apple-500" />
                     )}
                   </div>
                 )}

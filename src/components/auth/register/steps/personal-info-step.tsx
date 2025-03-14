@@ -5,7 +5,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useGetAllCivilStatus, useGetAllGender } from "@/hooks"
 import { useCheckId } from "@/hooks/validations/useValidations"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { Input } from "@/components/ui/input"
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react"
 
@@ -202,6 +202,9 @@ export function PersonalInfoStep() {
     formState
   } = useFormContext()
 
+  // Ref para prevenir actualizaciones recursivas
+  const processingValidationRef = useRef(false);
+
   // Observar cambios en el campo id
   const idValue = useWatch({
     control,
@@ -222,15 +225,31 @@ export function PersonalInfoStep() {
 
   // Efecto para actualizar errores del formulario basado en la existencia del ID
   useEffect(() => {
-    if (idWasChecked && idCheck?.exists === true) {
-      setError("id", {
-        type: "manual",
-        message: "Esta cédula ya está registrada"
-      });
-    } else if (idWasChecked && idCheck?.exists === false && formState.errors.id?.type === "manual") {
-      clearErrors("id");
+    // No hacer nada si aún no hay resultados o si ya estamos procesando
+    if (!idWasChecked || processingValidationRef.current) return;
+
+    // Marcar que estamos procesando la validación
+    processingValidationRef.current = true;
+
+    try {
+      // Cédula ya existe
+      if (idCheck?.exists === true) {
+        setError("id", {
+          type: "manual",
+          message: "Esta cédula ya está registrada"
+        });
+      }
+      // Cédula no existe, limpiar error manual (si existe)
+      else if (idCheck?.exists === false) {
+        if (formState.errors.id?.type === "manual") {
+          clearErrors("id");
+        }
+      }
+    } finally {
+      // Siempre desmarcar el procesamiento al finalizar
+      processingValidationRef.current = false;
     }
-  }, [idCheck, idWasChecked, setError, clearErrors, formState.errors.id]);
+  }, [idCheck, idWasChecked]);  // ← Eliminar formState.errors.id de la dependencia
 
   return (
     <div className="space-y-6">
@@ -259,7 +278,7 @@ export function PersonalInfoStep() {
                       <AlertCircle className="h-4 w-4 text-destructive" />
                     )}
                     {!isCheckingId && idWasChecked && idCheck?.exists === false && (
-                      <CheckCircle className="h-4 w-4 text-success" />
+                      <CheckCircle className="h-4 w-4 text-success text-apple-500" />
                     )}
                   </div>
                 )}

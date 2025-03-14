@@ -53,76 +53,76 @@ export const ManualesSeccion = () => {
     }
   };
 
-  // Datos para los manuales basados en los archivos que tienes
+
   const manuales: Manual[] = [
     {
-      id: 1,
-      title: "Manual de Administración de catálogos",
-      description: "Guía completa para la administración de catálogos del sistema.",
-      fileName: "Manual de Administración de catálogos.pdf",
-      icon: <Settings className="w-10 h-10 text-blue-600" />
-    },
+        id: 1,
+        title: "Manual de Inicio",
+        description: "Primeros pasos para comenzar a utilizar el sistema.",
+        fileName: "Manual-inicio.pdf",
+        icon: <BookOpen className="w-10 h-10 text-blue-600" />
+      },
     {
       id: 2,
       title: "Manual de Configuración",
       description: "Aprende a configurar correctamente todas las opciones del sistema.",
-      fileName: "Manual de Configuración.pdf",
+      fileName: "Manual-configuracion.pdf",
       icon: <FileCog className="w-10 h-10 text-blue-600" />
     },
     {
       id: 3,
       title: "Manual de Documentos digitales",
       description: "Gestión y manejo de documentos digitales en el sistema.",
-      fileName: "Manual de Documentos digitales.pdf",
+      fileName: "Manual-documentos-digitales.pdf",
       icon: <FileDigit className="w-10 h-10 text-blue-600" />
     },
     {
       id: 4,
       title: "Manual de Gestión de Solicitudes",
       description: "Proceso completo para gestionar solicitudes en el sistema.",
-      fileName: "Manual de Gestión de Solicitudes.pdf",
+      fileName: "Manual-gestion-solicitudes.pdf",
       icon: <FileText className="w-10 h-10 text-blue-600" />
     },
     {
       id: 5,
       title: "Manual de Mis Documentos",
       description: "Cómo administrar tus documentos personales en el sistema.",
-      fileName: "Manual de Mis Documentos.pdf",
+      fileName: "Manual-mis-documentos.pdf",
       icon: <FileText className="w-10 h-10 text-blue-600" />
     },
     {
       id: 6,
       title: "Manual de Mis solicitudes",
       description: "Todo sobre la gestión de solicitudes propias en el sistema.",
-      fileName: "Manual de Mis solicitudes.pdf",
+      fileName: "Manual-mis-solicitudes.pdf",
       icon: <FileText className="w-10 h-10 text-blue-600" />
     },
     {
       id: 7,
       title: "Manual de Registro",
       description: "Guía paso a paso para el proceso de registro en el sistema.",
-      fileName: "Manual de Registro.pdf",
+      fileName: "Manual-registro.pdf",
       icon: <Users className="w-10 h-10 text-blue-600" />
     },
     {
       id: 8,
       title: "Manual de Tipos de Solicitudes",
       description: "Información detallada sobre los distintos tipos de solicitudes.",
-      fileName: "Manual de Tipos de Solicitudes.pdf",
+      fileName: "Manual-tipos-solicitudes.pdf",
       icon: <FileSpreadsheet className="w-10 h-10 text-blue-600" />
     },
     {
-      id: 9,
-      title: "Manual de Inicio",
-      description: "Primeros pasos para comenzar a utilizar el sistema.",
-      fileName: "manual-inicio.pdf",
-      icon: <BookOpen className="w-10 h-10 text-blue-600" />
-    },
+        id: 9,
+        title: "Manual de Administración de catálogos",
+        description: "Guía completa para la administración de catálogos del sistema.",
+        fileName: "Manual-admin-catalogos.pdf",
+        icon: <Settings className="w-10 h-10 text-blue-600" />
+      },
     {
       id: 10,
       title: "Manual de la Sección de Ayuda",
       description: "Guía completa sobre el uso de la sección de ayuda.",
-      fileName: "Manual de la Sección de Ayuda.pdf",
+      fileName: "Manual-seccion-ayuda.pdf",
       icon: <HelpCircle className="w-10 h-10 text-blue-600" />
     }
   ];

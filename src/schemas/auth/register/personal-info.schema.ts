@@ -10,7 +10,10 @@ export const PersonalInfoSchema = z.object({
       invalid_type_error: 'La cédula debe ser un texto',
     })
     .min(1, { message: 'La cédula no puede estar vacía' })
-    .refine((cedula) => /^\d{9}$/.test(cedula), {
+    .refine((cedula) => /^\d+$/.test(cedula), {
+      message: 'La cédula solo puede contener dígitos (0-9)',
+    })
+    .refine((cedula) => cedula.length === 9, {
       message: 'La cédula debe contener exactamente 9 dígitos',
     })
     .refine((cedula) => /^[1-7]\d{8}$/.test(cedula), {

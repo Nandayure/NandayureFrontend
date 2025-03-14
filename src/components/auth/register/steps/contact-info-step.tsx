@@ -6,6 +6,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { useCheckEmail } from "@/hooks/validations/useValidations"
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react"
 import { useEffect, useRef } from "react"
+import { Separator } from "@/components/ui/separator"
 
 export function ContactInfoStep() {
   const { control, setError, clearErrors, formState } = useFormContext()
@@ -107,7 +108,19 @@ export function ContactInfoStep() {
             <FormItem>
               <FormLabel>Teléfono Celular</FormLabel>
               <FormControl>
-                <Input placeholder="Ingrese 8 dígitos (ej: 88887777)" {...field} maxLength={8} />
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                    <img src="/CR-flag.svg" alt="Costa Rica" className="h-4 w-6 mr-1" />
+                    <span className="text-sm">+506</span>
+                    <Separator orientation="vertical" className="h-5 mx-2" />
+                  </div>
+                  <Input
+                    className="pl-24"
+                    placeholder="Ingrese 8 dígitos (ej: 88887777)"
+                    {...field}
+                    maxLength={8}
+                  />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

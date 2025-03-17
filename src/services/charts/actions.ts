@@ -1,9 +1,11 @@
-import httpClient from '@/helpers/httpClient';
+import httpClient from '@/helpers/http-client';
+
 import {
   DatesWithRequestsResponse,
   RequestDashboardStatistics,
   EmployeesWithMostRequestsQuery,
   EmployeesWithMostRequestsResponse,
+  PeakRequestTimes,
 } from '@/types';
 
 const BASE_URL = '/analitics';
@@ -11,24 +13,16 @@ const BASE_URL = '/analitics';
 /**
  * Obtiene el resumen de solicitudes para el dashboard
  */
-export const fetchSummaryRequest =
-  async (): Promise<RequestDashboardStatistics> => {
-    return await httpClient<RequestDashboardStatistics>({
-      method: 'GET',
-      endpoint: `${BASE_URL}/requestsSummary`,
-    });
-  };
+export const fetchSummaryRequest = async (): Promise<RequestDashboardStatistics> => {
+  return await httpClient.get<RequestDashboardStatistics>(`${BASE_URL}/requestsSummary`);
+};
 
 /**
  * Obtiene las fechas que tienen solicitudes registradas
  */
-export const fetchDatesWithRequests =
-  async (): Promise<DatesWithRequestsResponse> => {
-    return await httpClient<DatesWithRequestsResponse>({
-      method: 'GET',
-      endpoint: `${BASE_URL}/DatesWithRequests`,
-    });
-  };
+export const fetchDatesWithRequests = async (): Promise<DatesWithRequestsResponse> => {
+  return await httpClient.get<DatesWithRequestsResponse>(`${BASE_URL}/DatesWithRequests`);
+};
 
 /**
  * Obtiene los empleados con más solicitudes según los parámetros proporcionados
@@ -37,9 +31,15 @@ export const fetchDatesWithRequests =
 export const fetchEmployeesWithMostRequests = async (
   query: EmployeesWithMostRequestsQuery,
 ): Promise<EmployeesWithMostRequestsResponse> => {
-  return await httpClient<EmployeesWithMostRequestsResponse>({
-    method: 'POST',
-    endpoint: `${BASE_URL}/employeesWithMostRequests`,
-    data: query,
-  });
+  return await httpClient.post<EmployeesWithMostRequestsResponse>(
+    `${BASE_URL}/employeesWithMostRequests`,
+    query
+  );
 };
+
+/**
+ * Obtiene las horas pico de solicitudes
+ */
+export const fetchPeakRequestTimes = async (): Promise<PeakRequestTimes> => {
+  return await httpClient.get<PeakRequestTimes>(`${BASE_URL}/peak-request-times`);
+}

@@ -14,20 +14,17 @@ import {
   Scatter,
   ZAxis,
 } from "recharts"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { RefreshCw } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import usePeakRequestTimes from "@/hooks/charts/usePeakRequestTime"
+import type { PeakRequestTimes } from "@/types"
 
 const dayNames = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
 const shortDayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
 
 // Colores oficiales de la municipalidad
 const MUNICIPAL_COLORS = {
-  GREEN: "#4caf50",  // Verde principal
-  BLUE: "#34b1fd",   // Azul secundario
+  GREEN: "#4caf50", // Verde principal
+  BLUE: "#34b1fd", // Azul secundario
   YELLOW: "#e0ac20", // Amarillo terciario
 }
 
@@ -58,29 +55,32 @@ const colorPalette = {
   heatmapAlt: [
     "#fffde7", // Amarillo muy claro
     "#fff9c4",
-    "#e0ac20", // Amarillo oficial 
+    "#e0ac20", // Amarillo oficial
     "#8bc34a",
     "#4caf50", // Verde oficial
   ],
 }
 
-export function PeakRequestTimesVisualization() {
-  const { peakRequestTimes, isLoading, isError, error, refetch } = usePeakRequestTimes()
-  const [isRefreshing, setIsRefreshing] = useState(false)
-  const [activeBar, setActiveBar] = useState<number | null>(null)
-  const [visualizationType, setVisualizationType] = useState<string>("heatmap")
+interface PeakRequestTimesVisualizationProps {
+  peakRequestTimes: PeakRequestTimes
+  isLoading: boolean
+  isError: boolean
+  error: Error | null
+  visualizationType: string
+}
 
-  const handleRefresh = () => {
-    setIsRefreshing(true)
-    refetch().finally(() => {
-      setTimeout(() => {
-        setIsRefreshing(false)
-      }, 600)
-    })
-  }
+export function PeakRequestTimesVisualization({
+  peakRequestTimes,
+  isLoading,
+  isError,
+  error,
+  visualizationType,
+}: PeakRequestTimesVisualizationProps) {
+  // Manejar el estado de activeBar dentro del componente para evitar problemas de serialización
+  const [activeBar, setActiveBar] = useState<number | null>(null)
 
   // Process data for visualization
-  const processedData = (peakRequestTimes ?? []).map((item) => ({
+  const processedData = peakRequestTimes.map((item) => ({
     ...item,
     totalRequests: Number.parseInt(item.totalRequests),
     dayName: dayNames[item.dayOfWeek - 1],
@@ -195,8 +195,10 @@ export function PeakRequestTimesVisualization() {
   const CustomBarTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="rounded-lg border bg-background p-2 shadow-sm"
-          style={{ borderColor: "#e2e2e2", backgroundColor: "#ffffff" }}>
+        <div
+          className="rounded-lg border bg-background p-2 shadow-sm"
+          style={{ borderColor: "#e2e2e2", backgroundColor: "#ffffff" }}
+        >
           <p className="font-medium">{label}</p>
           <p className="text-sm text-muted-foreground">{payload[0].value} solicitudes</p>
         </div>
@@ -211,8 +213,10 @@ export function PeakRequestTimesVisualization() {
       const data = payload[0].payload
 
       return (
-        <div className="rounded-lg border bg-background p-2 shadow-sm"
-          style={{ borderColor: "#e2e2e2", backgroundColor: "#ffffff" }}>
+        <div
+          className="rounded-lg border bg-background p-2 shadow-sm"
+          style={{ borderColor: "#e2e2e2", backgroundColor: "#ffffff" }}
+        >
           <p className="font-medium">
             {data.dayName}, {data.timeLabel}
           </p>
@@ -259,42 +263,21 @@ export function PeakRequestTimesVisualization() {
 
   // Obtener el color para una barra por índice, rotando entre los tres colores oficiales
   const getBarColor = (index: number, isActive: boolean) => {
-    const baseColors = [
-      MUNICIPAL_COLORS.GREEN,
-      MUNICIPAL_COLORS.BLUE,
-      MUNICIPAL_COLORS.YELLOW
-    ];
+    const baseColors = [MUNICIPAL_COLORS.GREEN, MUNICIPAL_COLORS.BLUE, MUNICIPAL_COLORS.YELLOW]
 
-    const hoverColors = [
-      colorPalette.primaryHover,
-      colorPalette.secondaryHover,
-      colorPalette.tertiaryHover
-    ];
+    const hoverColors = [colorPalette.primaryHover, colorPalette.secondaryHover, colorPalette.tertiaryHover]
 
-    const colorIndex = index % baseColors.length;
-    return isActive ? hoverColors[colorIndex] : baseColors[colorIndex];
+    const colorIndex = index % baseColors.length
+    return isActive ? hoverColors[colorIndex] : baseColors[colorIndex]
   }
 
   if (isError) {
     return (
       <Card>
-        <CardHeader>
-          <CardTitle>Horas Pico de Solicitudes</CardTitle>
-          <CardDescription>Error al cargar los datos</CardDescription>
-        </CardHeader>
         <CardContent>
           <div className="flex flex-col items-center justify-center p-6">
             <p className="text-destructive font-medium">No se pudieron cargar los datos</p>
             {error instanceof Error && <p className="text-sm text-muted-foreground mt-2">{error.message}</p>}
-            <Button
-              variant="outline"
-              size="sm"
-              className="mt-4"
-              onClick={handleRefresh}
-              style={{ borderColor: MUNICIPAL_COLORS.GREEN, color: MUNICIPAL_COLORS.GREEN }}
-            >
-              Reintentar
-            </Button>
           </div>
         </CardContent>
       </Card>
@@ -304,10 +287,6 @@ export function PeakRequestTimesVisualization() {
   if (isLoading) {
     return (
       <Card>
-        <CardHeader>
-          <CardTitle>Horas Pico de Solicitudes</CardTitle>
-          <CardDescription>Cargando datos de solicitudes</CardDescription>
-        </CardHeader>
         <CardContent className="h-96">
           <div className="flex h-full flex-col justify-end">
             <div className="flex items-end justify-between gap-2 h-64 w-full">
@@ -326,189 +305,157 @@ export function PeakRequestTimesVisualization() {
     )
   }
 
+  // Renderizar el contenido según el tipo de visualización seleccionado
+  const renderContent = () => {
+    switch (visualizationType) {
+      case "heatmap":
+        return (
+          <div className="flex flex-col h-full">
+            <div className="flex-1">
+              <ResponsiveContainer width="100%" height="100%">
+                <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis
+                    type="number"
+                    dataKey="x"
+                    name="Hora"
+                    domain={[0, 23]}
+                    tickCount={12}
+                    tickFormatter={(value) => `${value}:00`}
+                    label={{
+                      value: "Hora del día",
+                      position: "insideBottom",
+                      offset: -5, // Ajusta este valor si es necesario
+                    }}
+                  />
+                  <YAxis
+                    type="number"
+                    dataKey="y"
+                    name="Día"
+                    domain={[1, 7]}
+                    tickCount={7}
+                    tickFormatter={(value) => shortDayNames[value - 1]}
+                    label={{ value: "Día de la semana", angle: -90, position: "insideLeft" }}
+                    padding={{ bottom: 20 }} // Añade este padding
+                  />
+                  <ZAxis type="number" dataKey="z" range={[0, 400]} />
+                  <Tooltip content={<CustomHeatmapTooltip />} />
+                  <Scatter data={prepareHeatmapData()} shape={<HeatmapCell />} />
+                </ScatterChart>
+              </ResponsiveContainer>
+            </div>
+
+            <div className="flex justify-between items-center mt-4">
+              <div className="text-xs">Menos solicitudes</div>
+              <div className="flex h-2 w-1/2">
+                {colorPalette.heatmap.map((color, i) => (
+                  <div key={i} className="flex-1 h-full" style={{ backgroundColor: color }} />
+                ))}
+              </div>
+              <div className="text-xs">Más solicitudes</div>
+            </div>
+          </div>
+        )
+
+      case "dayOfWeek":
+        return (
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={prepareDayOfWeekData().sort((a, b) => a.dayOfWeek - b.dayOfWeek)}
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+              <XAxis dataKey="dayName" tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tick={{ fontSize: 12 }}
+                label={{
+                  value: "Solicitudes",
+                  angle: -90,
+                  position: "insideLeft",
+                  style: { textAnchor: "middle", fontSize: 12 },
+                }}
+              />
+              <Tooltip content={<CustomBarTooltip />} />
+              <Bar
+                dataKey="totalRequests"
+                radius={[4, 4, 0, 0]}
+                onMouseEnter={(_, index) => setActiveBar(index)}
+                onMouseLeave={() => setActiveBar(null)}
+              >
+                {prepareDayOfWeekData().map((_, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={getBarColor(index, index === activeBar)}
+                    style={{
+                      cursor: "pointer",
+                      transition: "fill 0.3s ease",
+                    }}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        )
+
+      case "hourOfDay":
+        return (
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={prepareHourOfDayData().sort((a, b) => a.hour - b.hour)}
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+              <XAxis
+                dataKey="timeLabel"
+                tickLine={false}
+                axisLine={false}
+                tick={{ fontSize: 12 }}
+                interval={1} // Show every other hour to avoid crowding
+              />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tick={{ fontSize: 12 }}
+                label={{
+                  value: "Solicitudes",
+                  angle: -90,
+                  position: "insideLeft",
+                  style: { textAnchor: "middle", fontSize: 12 },
+                }}
+              />
+              <Tooltip content={<CustomBarTooltip />} />
+              <Bar
+                dataKey="totalRequests"
+                radius={[4, 4, 0, 0]}
+                onMouseEnter={(_, index) => setActiveBar(index)}
+                onMouseLeave={() => setActiveBar(null)}
+              >
+                {prepareHourOfDayData().map((_, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={getBarColor(index, index === activeBar)}
+                    style={{
+                      cursor: "pointer",
+                      transition: "fill 0.3s ease",
+                    }}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        )
+
+      default:
+        return null
+    }
+  }
+
   return (
     <Card className="bg-white">
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <div>
-          <CardTitle>Horas Pico de Solicitudes</CardTitle>
-          <CardDescription>Análisis de patrones de solicitudes por tiempo</CardDescription>
-        </div>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={handleRefresh}
-          disabled={isLoading || isRefreshing}
-          aria-label="Actualizar datos"
-          style={{ borderColor: MUNICIPAL_COLORS.GREEN, color: MUNICIPAL_COLORS.GREEN }}
-        >
-          <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin-once" : ""}`} />
-        </Button>
-      </CardHeader>
-      <CardContent className="pt-0">
-        <Tabs
-          defaultValue="heatmap"
-          value={visualizationType}
-          onValueChange={setVisualizationType}
-          className="w-full"
-        >
-          <TabsList className="grid w-full grid-cols-3" style={{ backgroundColor: "#f5f5f5" }}>
-            <TabsTrigger
-              value="heatmap"
-            >
-              Mapa de Calor
-            </TabsTrigger>
-            <TabsTrigger
-              value="dayOfWeek"
-            >
-              Por Día
-            </TabsTrigger>
-            <TabsTrigger
-              value="hourOfDay"
-            >
-              Por Hora
-            </TabsTrigger>
-          </TabsList>
-
-          {/* Heatmap Visualization */}
-          <TabsContent value="heatmap" className="h-96">
-            <div className="flex flex-col h-full">
-              <div className="flex-1">
-                <ResponsiveContainer width="100%" height="100%">
-                  <ScatterChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
-                    <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                    <XAxis
-                      type="number"
-                      dataKey="x"
-                      name="Hora"
-                      domain={[0, 23]}
-                      tickCount={12}
-                      tickFormatter={(value) => `${value}:00`}
-                      label={{
-                        value: "Hora del día",
-                        position: "insideBottom",
-                        offset: -5  // Ajusta este valor si es necesario
-                      }}
-                    />
-                    <YAxis
-                      type="number"
-                      dataKey="y"
-                      name="Día"
-                      domain={[1, 7]}
-                      tickCount={7}
-                      tickFormatter={(value) => shortDayNames[value - 1]}
-                      label={{ value: "Día de la semana", angle: -90, position: "insideLeft" }}
-                      padding={{ bottom: 20 }}  // Añade este padding
-                    />
-                    <ZAxis type="number" dataKey="z" range={[0, 400]} />
-                    <Tooltip content={<CustomHeatmapTooltip />} />
-                    <Scatter data={prepareHeatmapData()} shape={<HeatmapCell />} />
-                  </ScatterChart>
-                </ResponsiveContainer>
-              </div>
-
-              <div className="flex justify-between items-center mt-4">
-                <div className="text-xs">Menos solicitudes</div>
-                <div className="flex h-2 w-1/2">
-                  {colorPalette.heatmap.map((color, i) => (
-                    <div key={i} className="flex-1 h-full" style={{ backgroundColor: color }} />
-                  ))}
-                </div>
-                <div className="text-xs">Más solicitudes</div>
-              </div>
-            </div>
-          </TabsContent>
-
-          {/* Day of Week Visualization */}
-          <TabsContent value="dayOfWeek" className="h-96">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={prepareDayOfWeekData().sort((a, b) => a.dayOfWeek - b.dayOfWeek)}
-                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis dataKey="dayName" tickLine={false} axisLine={false} tick={{ fontSize: 12 }} />
-                <YAxis
-                  tickLine={false}
-                  axisLine={false}
-                  tick={{ fontSize: 12 }}
-                  label={{
-                    value: "Solicitudes",
-                    angle: -90,
-                    position: "insideLeft",
-                    style: { textAnchor: "middle", fontSize: 12 },
-                  }}
-                />
-                <Tooltip content={<CustomBarTooltip />} />
-                <Bar
-                  dataKey="totalRequests"
-                  radius={[4, 4, 0, 0]}
-                  onMouseEnter={(_, index) => setActiveBar(index)}
-                  onMouseLeave={() => setActiveBar(null)}
-                >
-                  {prepareDayOfWeekData().map((_, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={getBarColor(index, index === activeBar)}
-                      style={{
-                        cursor: "pointer",
-                        transition: "fill 0.3s ease",
-                      }}
-                    />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </TabsContent>
-
-          {/* Hour of Day Visualization */}
-          <TabsContent value="hourOfDay" className="h-96">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={prepareHourOfDayData().sort((a, b) => a.hour - b.hour)}
-                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis
-                  dataKey="timeLabel"
-                  tickLine={false}
-                  axisLine={false}
-                  tick={{ fontSize: 12 }}
-                  interval={1} // Show every other hour to avoid crowding
-                />
-                <YAxis
-                  tickLine={false}
-                  axisLine={false}
-                  tick={{ fontSize: 12 }}
-                  label={{
-                    value: "Solicitudes",
-                    angle: -90,
-                    position: "insideLeft",
-                    style: { textAnchor: "middle", fontSize: 12 },
-                  }}
-                />
-                <Tooltip content={<CustomBarTooltip />} />
-                <Bar
-                  dataKey="totalRequests"
-                  radius={[4, 4, 0, 0]}
-                  onMouseEnter={(_, index) => setActiveBar(index)}
-                  onMouseLeave={() => setActiveBar(null)}
-                >
-                  {prepareHourOfDayData().map((_, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={getBarColor(index, index === activeBar)}
-                      style={{
-                        cursor: "pointer",
-                        transition: "fill 0.3s ease",
-                      }}
-                    />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </TabsContent>
-        </Tabs>
-      </CardContent>
+      <CardContent className="h-96 pt-6">{renderContent()}</CardContent>
     </Card>
   )
 }
+

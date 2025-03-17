@@ -97,8 +97,8 @@ export const baseNavLinks: Record<string, NavLink> = {
         dataCy: 'sidebar-dashboard-hr-requests-summary',
       },
       tiemposAprobacion: {
-        href: '/hr-analytics/approval-times-comparison',
-        label: 'Tiempos Aprobación',
+        href: '/hr-analytics/peak-request-times',
+        label: 'Horas Pico',
         dataCy: 'sidebar-dashboard-approval-times',
       },
       solicitudesRechazadas: {

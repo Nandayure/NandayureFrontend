@@ -42,3 +42,12 @@ export interface EmployeeWithRequests {
 }
 
 export type EmployeesWithMostRequestsResponse = EmployeeWithRequests[];
+
+
+export interface PeakRequestTime {
+  hour: number;         
+  dayOfWeek: number;    
+  totalRequests: string;
+}
+
+export type PeakRequestTimes = PeakRequestTime[];

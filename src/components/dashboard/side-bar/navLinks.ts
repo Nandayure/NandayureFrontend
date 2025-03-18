@@ -101,11 +101,6 @@ export const baseNavLinks: Record<string, NavLink> = {
         label: 'Horas Pico',
         dataCy: 'sidebar-dashboard-approval-times',
       },
-      solicitudesRechazadas: {
-        href: '/hr-analytics/rejected-requests-reports',
-        label: 'Solicitudes Rechazadas',
-        dataCy: 'sidebar-dashboard-rejected-reports',
-      },
     },
   },
 };

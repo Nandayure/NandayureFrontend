@@ -196,7 +196,7 @@ export function PeakRequestTimesVisualization({
     if (active && payload && payload.length) {
       return (
         <div
-          className="rounded-lg border bg-background p-2 shadow-sm"
+          className="rounded-lg border bg-background p-2 shadow-xs"
           style={{ borderColor: "#e2e2e2", backgroundColor: "#ffffff" }}
         >
           <p className="font-medium">{label}</p>
@@ -214,7 +214,7 @@ export function PeakRequestTimesVisualization({
 
       return (
         <div
-          className="rounded-lg border bg-background p-2 shadow-sm"
+          className="rounded-lg border bg-background p-2 shadow-xs"
           style={{ borderColor: "#e2e2e2", backgroundColor: "#ffffff" }}
         >
           <p className="font-medium">

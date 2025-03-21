@@ -1,37 +1,40 @@
-import { StudiesCategory,PatchStudiesCategory } from "@/types";
-import httpClient from "@/helpers/httpClient";
+import { StudiesCategory, PatchStudiesCategory } from '@/types';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 
-export async function postStudiesCategory(data: StudiesCategory) {
-  const studiesCategory = await httpClient<StudiesCategory>({
-    method: "POST",
-    endpoint: "/studies-category",
-    data,
-  });
-  return studiesCategory;
-}
+/**
+ * Crea una nueva categoría de estudios 
+ * 
+ * @param {StudiesCategory} studiesCategory - Datos de la categoría de estudios a crear
+ * @returns {Promise<StudiesCategory>} Promesa que resuelve con la categoría de estudios creada
+ */
+export const postStudiesCategory = async (studiesCategory: StudiesCategory): Promise<StudiesCategory> => {
+  return await httpClient.post<StudiesCategory>(ROUTES.STUDIES_CATEGORY.BASE, studiesCategory);
+};
 
-interface PatchStudiesCategoryProps {
-  studiesCategoryId: string;
-  studiesCategory: PatchStudiesCategory;
-}
+/**
+ * Actualiza una categoría de estudios existente
+ * 
+ * @param {string} studiesCategoryId - ID de la categoría de estudios a actualizar
+ * @param {PatchStudiesCategory} studiesCategory - Datos para actualizar la categoría de estudios
+ * @returns {Promise<StudiesCategory>} Promesa que resuelve con la categoría de estudios actualizada
+ */
+export const patchStudiesCategory = async (
+  studiesCategoryId: string,
+  studiesCategory: PatchStudiesCategory
+): Promise<StudiesCategory> => {
+  return await httpClient.patch<StudiesCategory>(
+    ROUTES.STUDIES_CATEGORY.BY_ID(studiesCategoryId),
+    studiesCategory
+  );
+};
 
-export async function patchStudiesCategory({
-  studiesCategoryId,
-  studiesCategory,
-}: PatchStudiesCategoryProps) {
-  const updatedStudiesCategory = await httpClient<StudiesCategory>({
-    method: "PATCH",
-    endpoint: `/studies-category/${studiesCategoryId}`,
-    data: studiesCategory,
-  });
-  return updatedStudiesCategory;
-}
-
-export async function deleteStudiesCategory(studiesCategoryId: string) {
-  const response = await httpClient<void>({
-    method: "DELETE",
-    endpoint: `/studies-category/${studiesCategoryId}`,
-  });
-  return response;
-}
-
+/**
+ * Elimina una categoría de estudios
+ * 
+ * @param {string} studiesCategoryId - ID de la categoría de estudios a eliminar
+ * @returns {Promise<void>} Promesa que se resuelve cuando se completa la eliminación
+ */
+export const deleteStudiesCategory = async (studiesCategoryId: string): Promise<void> => {
+  await httpClient.delete(ROUTES.STUDIES_CATEGORY.BY_ID(studiesCategoryId));
+};

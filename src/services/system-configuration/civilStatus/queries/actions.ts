@@ -1,19 +1,22 @@
-import httpClient from "@/helpers/httpClient";
-import { CivilStatus } from "@/types";
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
+import { CivilStatus } from '@/types';
 
+/**
+ * Obtiene todos los estados civiles
+ * 
+ * @returns {Promise<CivilStatus[]>} Promesa que resuelve con la lista de estados civiles
+ */
+export const getAllCivilStatus = async (): Promise<CivilStatus[]> => {
+  return await httpClient.get<CivilStatus[]>(ROUTES.CIVIL_STATUS.BASE);
+};
 
-export async function getAllCivilStatus() {
-    const civilStatus = await httpClient<CivilStatus[]>({
-      method: "GET",
-      endpoint: "/marital-status",
-    });
-    return civilStatus;
-  }
-  
-  export async function getCivilStatusById(civilStatusId: number) {
-    const civilStatus = await httpClient<CivilStatus>({
-      method: 'GET',
-      endpoint: `/marital-status/${civilStatusId}`,
-    });
-    return civilStatus;
-  }
+/**
+ * Obtiene un estado civil por su ID
+ * 
+ * @param {number} civilStatusId - ID del estado civil
+ * @returns {Promise<CivilStatus>} Promesa que resuelve con el estado civil solicitado
+ */
+export const getCivilStatusById = async (civilStatusId: number): Promise<CivilStatus> => {
+  return await httpClient.get<CivilStatus>(ROUTES.CIVIL_STATUS.BY_ID(civilStatusId));
+};

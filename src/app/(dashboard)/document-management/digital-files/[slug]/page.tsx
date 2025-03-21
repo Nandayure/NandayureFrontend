@@ -151,7 +151,7 @@ export default function EmployeeDocumentsPage() {
             transition={{ duration: 0.3 }}
           >
             <div className="mt-6">
-              <EmployeeFilesList employeeId={employeeId} viewMode={viewMode} />
+              {employeeId && <EmployeeFilesList employeeId={employeeId} viewMode={viewMode} />}
             </div>
           </motion.div>
         </AnimatePresence>

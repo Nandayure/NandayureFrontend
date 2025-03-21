@@ -1,28 +1,34 @@
-import httpClient from '@/helpers/httpClient';
 import { PatchStudy, Study } from '@/types';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 
-export async function postStudy(study: Study) {
-  const response = await httpClient<Study>({
-    method: 'POST',
-    endpoint: '/studies',
-    data: study,
-  });
-  return response;
-}
+/**
+ * Crea un nuevo estudio
+ * 
+ * @param {Study} study - Datos del estudio a crear
+ * @returns {Promise<Study>} Promesa que resuelve con el estudio creado
+ */
+export const postStudy = async (study: Study): Promise<Study> => {
+  return await httpClient.post<Study>(ROUTES.STUDIES.BASE, study);
+};
 
-export async function patchStudy(studyId: number, study: PatchStudy) {
-  const response = await httpClient<PatchStudy>({
-    method: 'PATCH',
-    endpoint: `/studies/${studyId}`,
-    data: study,
-  });
-  return response;
-}
+/**
+ * Actualiza un estudio existente
+ * 
+ * @param {number} studyId - ID del estudio a actualizar
+ * @param {PatchStudy} study - Datos para actualizar el estudio
+ * @returns {Promise<Study>} Promesa que resuelve con el estudio actualizado
+ */
+export const patchStudy = async (studyId: number, study: PatchStudy): Promise<Study> => {
+  return await httpClient.patch<Study>(ROUTES.STUDIES.BY_ID(studyId), study);
+};
 
-export async function deleteStudy(studyId: number) {
-  const response = await httpClient<Study>({
-    method: 'DELETE',
-    endpoint: `/studies/${studyId}`,
-  });
-  return response;
-}
+/**
+ * Elimina un estudio
+ * 
+ * @param {number} studyId - ID del estudio a eliminar
+ * @returns {Promise<void>} Promesa que se resuelve cuando se completa la eliminación
+ */
+export const deleteStudy = async (studyId: number): Promise<void> => {
+  await httpClient.delete(ROUTES.STUDIES.BY_ID(studyId));
+};

@@ -148,7 +148,7 @@ export const ManualesSeccion = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 * index }}
-            className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full"
+            className="bg-white rounded-lg p-6 border border-gray-200 shadow-xs hover:shadow-md transition-shadow flex flex-col h-full"
           >
             <div className="flex justify-center mb-6">
               <div className="w-16 h-16 flex items-center justify-center">
@@ -156,7 +156,7 @@ export const ManualesSeccion = () => {
               </div>
             </div>
             <h3 className="text-xl font-medium text-center mb-3">{manual.title}</h3>
-            <p className="text-gray-500 text-center text-sm flex-grow mb-4">
+            <p className="text-gray-500 text-center text-sm grow mb-4">
               {manual.description}
             </p>
             <div className="mt-auto">

@@ -1,6 +1,5 @@
-import httpClient from "@/helpers/httpClient";
-
-const BASE_PATH = "/auth"
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 
 interface CheckResponse {
   exists: boolean;
@@ -8,26 +7,24 @@ interface CheckResponse {
 
 /**
  * Verifica si un email existe en el sistema
- * GET /api/v1/auth/check-email?email=ejemplo@correo.com
+ * 
+ * @param {string} email - Email a verificar
+ * @returns {Promise<CheckResponse>} Promesa que resuelve con la respuesta de verificación
  */
 export const checkEmail = async (email: string): Promise<CheckResponse> => {
-  return await httpClient<CheckResponse>({
-    method: 'GET',
-    endpoint: `${BASE_PATH}/check-email`,
-    params: { email },
+  return await httpClient.get<CheckResponse>(ROUTES.AUTH.CHECK_EMAIL, {
+    params: { email }
   });
 };
 
 /**
  * Verifica si un id existe en el sistema
- * GET /api/v1/auth/check-id?id=123456
+ * 
+ * @param {string} id - ID a verificar
+ * @returns {Promise<CheckResponse>} Promesa que resuelve con la respuesta de verificación
  */
-
 export const checkId = async (id: string): Promise<CheckResponse> => {
-  return await httpClient<CheckResponse>({
-    method: 'GET',
-    endpoint: `${BASE_PATH}/check-id`,
-    params: { id },
+  return await httpClient.get<CheckResponse>(ROUTES.AUTH.CHECK_ID, {
+    params: { id }
   });
-}
-
+};

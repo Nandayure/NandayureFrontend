@@ -61,7 +61,7 @@ export function NavLinks({ isOpen, navLinks, onLinkClick }: Props) {
                 <div className="flex items-center min-w-0">
                   <link.icon
                     className={clsx(
-                      "h-[18px] w-[18px] flex-shrink-0 transition-colors duration-200",
+                      "h-[18px] w-[18px] shrink-0 transition-colors duration-200",
                       isActive || isSubLinkActive ? "text-blue-600" : "text-gray-700",
                     )}
                   />
@@ -80,7 +80,7 @@ export function NavLinks({ isOpen, navLinks, onLinkClick }: Props) {
                   <motion.div
                     animate={{ rotate: isSubMenuOpen ? 90 : 0 }}
                     transition={{ duration: 0.2 }}
-                    className="ml-2 flex-shrink-0"
+                    className="ml-2 shrink-0"
                   >
                     <ChevronRight className="h-4 w-4 text-gray-500" />
                   </motion.div>
@@ -154,7 +154,7 @@ export function NavLinks({ isOpen, navLinks, onLinkClick }: Props) {
               <Link href={link.href} className="flex items-center min-w-0">
                 <link.icon
                   className={clsx(
-                    "h-[18px] w-[18px] flex-shrink-0 transition-colors duration-200",
+                    "h-[18px] w-[18px] shrink-0 transition-colors duration-200",
                     isActive ? "text-blue-600" : "text-gray-700",
                   )}
                 />

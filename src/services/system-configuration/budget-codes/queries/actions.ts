@@ -1,18 +1,22 @@
 import { BudgetCode } from '@/types';
-import httpClient from '@/helpers/httpClient';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 
-export async function getAllBudgetCodes() {
-  const budgetCodes = await httpClient<BudgetCode[]>({
-    method: 'GET',
-    endpoint: '/budget-codes',
-  });
-  return budgetCodes;
-}
+/**
+ * Obtiene todos los códigos de presupuesto
+ * 
+ * @returns {Promise<BudgetCode[]>} Promesa que resuelve con la lista de códigos de presupuesto
+ */
+export const getAllBudgetCodes = async (): Promise<BudgetCode[]> => {
+  return await httpClient.get<BudgetCode[]>(ROUTES.BUDGET_CODES.BASE);
+};
 
-export async function getBudgetCodesById(budgetCodeId: number) {
-  const budgetCode = await httpClient<BudgetCode>({
-    method: 'GET',
-    endpoint: `/budget-codes/${budgetCodeId}`,
-  });
-  return budgetCode;
-}
+/**
+ * Obtiene un código de presupuesto por su ID
+ * 
+ * @param {number} budgetCodeId - ID del código de presupuesto
+ * @returns {Promise<BudgetCode>} Promesa que resuelve con el código de presupuesto solicitado
+ */
+export const getBudgetCodesById = async (budgetCodeId: number): Promise<BudgetCode> => {
+  return await httpClient.get<BudgetCode>(ROUTES.BUDGET_CODES.BY_ID(budgetCodeId));
+};

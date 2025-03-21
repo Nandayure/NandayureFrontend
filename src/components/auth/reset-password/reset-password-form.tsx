@@ -25,7 +25,7 @@ const ResetPasswordForm = ({ token }: Props) => {
           placeholder="Escribe tu contraseña aquí"
           id="password"
           {...register('Password')}
-          className="block w-full px-3 py-2 sm:py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
+          className="block w-full px-3 py-2 sm:py-3 border border-gray-300 rounded-md shadow-xs focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
         />
         {errors?.Password && (
           <div className="text-red-500 text-sm">{errors.Password.message}</div>
@@ -43,7 +43,7 @@ const ResetPasswordForm = ({ token }: Props) => {
           placeholder="Confirma tu contraseña aquí"
           id="confirmPassword"
           {...register('ConfirmPassword')}
-          className="block w-full px-3 py-2 sm:py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
+          className="block w-full px-3 py-2 sm:py-3 border border-gray-300 rounded-md shadow-xs focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
         />
         {errors?.ConfirmPassword && (
           <div className="text-red-500 text-sm">
@@ -55,7 +55,7 @@ const ResetPasswordForm = ({ token }: Props) => {
         <label className="inline-flex items-center">
           <input
             type="checkbox"
-            className=" h-4 w-4 rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className=" h-4 w-4 rounded border-gray-300 text-indigo-600 shadow-xs focus:border-indigo-300 focus:ring-3 focus:ring-indigo-200 focus:ring-opacity-50"
             checked={showPassword}
             onChange={(e) => setShowPassword(e.target.checked)}
           />
@@ -65,7 +65,7 @@ const ResetPasswordForm = ({ token }: Props) => {
       <button
         type="submit"
         disabled={mutation.isPending}
-        className="block w-full px-3 py-2 sm:py-3 mt-4 text-white bg-dodger-blue-600 rounded-md shadow-sm hover:bg-dodger-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
+        className="block w-full px-3 py-2 sm:py-3 mt-4 text-white bg-dodger-blue-600 rounded-md shadow-xs hover:bg-dodger-blue-600 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
       >
         {mutation.isPending ? (
           <div className="flex justify-center">

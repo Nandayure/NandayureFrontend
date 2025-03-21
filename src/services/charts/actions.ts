@@ -1,5 +1,4 @@
 import httpClient from '@/helpers/http-client';
-
 import {
   DatesWithRequestsResponse,
   RequestDashboardStatistics,
@@ -7,39 +6,46 @@ import {
   EmployeesWithMostRequestsResponse,
   PeakRequestTimes,
 } from '@/types';
-
-const BASE_URL = '/analitics';
+import { ROUTES } from '../routes';
 
 /**
  * Obtiene el resumen de solicitudes para el dashboard
+ * 
+ * @returns {Promise<RequestDashboardStatistics>} Estadísticas de solicitudes del dashboard
  */
 export const fetchSummaryRequest = async (): Promise<RequestDashboardStatistics> => {
-  return await httpClient.get<RequestDashboardStatistics>(`${BASE_URL}/requestsSummary`);
+  return await httpClient.get<RequestDashboardStatistics>(ROUTES.ANALYTICS.REQUESTS_SUMMARY);
 };
 
 /**
  * Obtiene las fechas que tienen solicitudes registradas
+ * 
+ * @returns {Promise<DatesWithRequestsResponse>} Fechas con solicitudes
  */
 export const fetchDatesWithRequests = async (): Promise<DatesWithRequestsResponse> => {
-  return await httpClient.get<DatesWithRequestsResponse>(`${BASE_URL}/DatesWithRequests`);
+  return await httpClient.get<DatesWithRequestsResponse>(ROUTES.ANALYTICS.DATES_WITH_REQUESTS);
 };
 
 /**
  * Obtiene los empleados con más solicitudes según los parámetros proporcionados
- * @param query Parámetros de consulta (limit, month, year)
+ * 
+ * @param {EmployeesWithMostRequestsQuery} query - Parámetros de consulta (limit, month, year)
+ * @returns {Promise<EmployeesWithMostRequestsResponse>} Lista de empleados con más solicitudes
  */
 export const fetchEmployeesWithMostRequests = async (
   query: EmployeesWithMostRequestsQuery,
 ): Promise<EmployeesWithMostRequestsResponse> => {
   return await httpClient.post<EmployeesWithMostRequestsResponse>(
-    `${BASE_URL}/employeesWithMostRequests`,
+    ROUTES.ANALYTICS.EMPLOYEES_WITH_MOST_REQUESTS,
     query
   );
 };
 
 /**
  * Obtiene las horas pico de solicitudes
+ * 
+ * @returns {Promise<PeakRequestTimes>} Horas pico de las solicitudes
  */
 export const fetchPeakRequestTimes = async (): Promise<PeakRequestTimes> => {
-  return await httpClient.get<PeakRequestTimes>(`${BASE_URL}/peak-request-times`);
-}
+  return await httpClient.get<PeakRequestTimes>(ROUTES.ANALYTICS.PEAK_REQUEST_TIMES);
+};

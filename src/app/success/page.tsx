@@ -5,8 +5,8 @@ import Link from 'next/link';
 export default function SuccessPage() {
   return (
     <section className="flex bg-white min-h-screen justify-center items-center">
-      <div className="py-5 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-        <div className="mx-auto max-w-screen-sm text-center">
+      <div className="py-5 px-4 mx-auto max-w-(--breakpoint-xl) lg:py-16 lg:px-6">
+        <div className="mx-auto max-w-(--breakpoint-sm) text-center">
           <Image
             src={'/Success.svg'}
             alt="Developer"

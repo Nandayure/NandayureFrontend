@@ -21,7 +21,7 @@ export function DesktopSidebar({ navLinks }: DesktopSidebarProps) {
   return (
     <aside
       className={clsx(
-        "hidden md:flex flex-col h-screen transition-all duration-300 ease-in-out bg-white border-r border-gray-200 shadow-sm",
+        "hidden md:flex flex-col h-screen transition-all duration-300 ease-in-out bg-white border-r border-gray-200 shadow-xs",
         isOpen ? "w-64" : "w-20 items-center",
       )}
     >
@@ -55,7 +55,7 @@ export function DesktopSidebar({ navLinks }: DesktopSidebarProps) {
 
       <nav
         className={clsx(
-          "flex flex-col flex-grow mt-2 px-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent",
+          "flex flex-col grow mt-2 px-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent",
           !isOpen && "items-center",
         )}
       >

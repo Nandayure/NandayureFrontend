@@ -1,44 +1,49 @@
+import { TypeFinancialInstitutions, PatchTypeFinancialInstitutions } from '@/types';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 
-import httpClient from '@/helpers/httpClient';
-import {
-  TypeFinancialInstitutions,
-  PatchTypeFinancialInstitutions,
-} from '@/types';
+/**
+ * Crea un nuevo tipo de institución financiera
+ * 
+ * @param {TypeFinancialInstitutions} typeFinancialInstitutions - Datos del tipo de institución financiera a crear
+ * @returns {Promise<TypeFinancialInstitutions>} Promesa que resuelve con el tipo de institución financiera creado
+ */
+export const postTypeFinancialInstitutions = async (
+  typeFinancialInstitutions: TypeFinancialInstitutions
+): Promise<TypeFinancialInstitutions> => {
+  return await httpClient.post<TypeFinancialInstitutions>(
+    ROUTES.TYPE_FINANCIAL_INSTITUTIONS.BASE,
+    typeFinancialInstitutions
+  );
+};
 
-export async function postTypeFinancialInstitutions(
-  typeFinancialInstitutions: TypeFinancialInstitutions,
-) {
-  const response = await httpClient<TypeFinancialInstitutions>({
-    method: 'POST',
-    endpoint: '/type-financial-institutions',
-    data: typeFinancialInstitutions,
-  });
-  return response;
-}
-
-interface PatchTypeFinancialInstitutionsProps {
-  typeFinancialInstitutionsId: number;
-  typeFinancialInstitutions: PatchTypeFinancialInstitutions;
-}
-
-export async function patchTypeFinancialInstitutions({
-  typeFinancialInstitutionsId,
-  typeFinancialInstitutions,
-}: PatchTypeFinancialInstitutionsProps) {
-  const response = await httpClient<TypeFinancialInstitutions>({
-    method: 'PATCH',
-    endpoint: `/type-financial-institutions/${typeFinancialInstitutionsId}`,
-    data: typeFinancialInstitutions,
-  });
-  return response;
-}
-
-export async function deleteTypeFinancialInstitutions(
+/**
+ * Actualiza un tipo de institución financiera existente
+ * 
+ * @param {number} typeFinancialInstitutionsId - ID del tipo de institución financiera a actualizar
+ * @param {PatchTypeFinancialInstitutions} typeFinancialInstitutions - Datos para actualizar el tipo de institución financiera
+ * @returns {Promise<TypeFinancialInstitutions>} Promesa que resuelve con el tipo de institución financiera actualizado
+ */
+export const patchTypeFinancialInstitutions = async (
   typeFinancialInstitutionsId: number,
-) {
-  const response = await httpClient<void>({
-    method: 'DELETE',
-    endpoint: `/type-financial-institutions/${typeFinancialInstitutionsId}`,
-  });
-  return response;
-}
+  typeFinancialInstitutions: PatchTypeFinancialInstitutions
+): Promise<TypeFinancialInstitutions> => {
+  return await httpClient.patch<TypeFinancialInstitutions>(
+    ROUTES.TYPE_FINANCIAL_INSTITUTIONS.BY_ID(typeFinancialInstitutionsId),
+    typeFinancialInstitutions
+  );
+};
+
+/**
+ * Elimina un tipo de institución financiera
+ * 
+ * @param {number} typeFinancialInstitutionsId - ID del tipo de institución financiera a eliminar
+ * @returns {Promise<void>} Promesa que se resuelve cuando se completa la eliminación
+ */
+export const deleteTypeFinancialInstitutions = async (
+  typeFinancialInstitutionsId: number
+): Promise<void> => {
+  await httpClient.delete(
+    ROUTES.TYPE_FINANCIAL_INSTITUTIONS.BY_ID(typeFinancialInstitutionsId)
+  );
+};

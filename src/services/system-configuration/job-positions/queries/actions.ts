@@ -1,19 +1,22 @@
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
+import { JobPosition } from '@/types';
 
-import httpClient from "@/helpers/httpClient";
-import { JobPosition } from "@/types";
+/**
+ * Obtiene todos los puestos de trabajo
+ * 
+ * @returns {Promise<JobPosition[]>} Promesa que resuelve con la lista de puestos de trabajo
+ */
+export const getAllJobPositions = async (): Promise<JobPosition[]> => {
+  return await httpClient.get<JobPosition[]>(ROUTES.JOB_POSITIONS.BASE);
+};
 
-export async function getAllJobPositions() {
-  const JobPositions = await httpClient<JobPosition[]>({
-    method: "GET",
-    endpoint: "/job-positions",
-  });
-  return JobPositions;
-}
-
-export async function getJobPositionsById(jobPositionId: number) {
-  const JobPosition = await httpClient<JobPosition>({
-    method: "GET",
-    endpoint: `/job-positions/${jobPositionId}`,
-  });
-  return JobPosition;
-}
+/**
+ * Obtiene un puesto de trabajo por su ID
+ * 
+ * @param {number} jobPositionId - ID del puesto de trabajo
+ * @returns {Promise<JobPosition>} Promesa que resuelve con el puesto de trabajo solicitado
+ */
+export const getJobPositionsById = async (jobPositionId: number): Promise<JobPosition> => {
+  return await httpClient.get<JobPosition>(ROUTES.JOB_POSITIONS.BY_ID(jobPositionId));
+};

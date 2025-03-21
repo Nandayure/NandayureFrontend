@@ -21,7 +21,7 @@ export function SidebarSkeleton({ isOpen }: { isOpen: boolean }) {
       </div>
 
       {/* Navigation */}
-      <nav className={clsx('flex flex-col flex-grow mt-3 space-y-2 px-2', !isOpen && 'items-center')}>
+      <nav className={clsx('flex flex-col grow mt-3 space-y-2 px-2', !isOpen && 'items-center')}>
         {/* Regular navigation items */}
         {[...Array(3)].map((_, index) => (
           <Skeleton

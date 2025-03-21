@@ -60,10 +60,10 @@ const PdfFileList = ({ files, isError, isLoading, error, hideDeleteButton = fals
             return (
               <div
                 key={file.id}
-                className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-200"
+                className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-xs hover:shadow-md transition-all duration-200"
               >
                 <div className="flex flex-col sm:flex-row">
-                  <div className="relative w-full sm:w-24 h-24 sm:h-auto flex-shrink-0">
+                  <div className="relative w-full sm:w-24 h-24 sm:h-auto shrink-0">
                     {file.thumbnailLink ? (
                       <div className="w-full h-24 sm:h-full bg-gray-100 dark:bg-gray-700 overflow-hidden relative">
                         <Image
@@ -83,8 +83,8 @@ const PdfFileList = ({ files, isError, isLoading, error, hideDeleteButton = fals
                     )}
                   </div>
 
-                  <div className="p-4 flex flex-col sm:flex-row flex-grow justify-between">
-                    <div className="flex-grow">
+                  <div className="p-4 flex flex-col sm:flex-row grow justify-between">
+                    <div className="grow">
                       <h3 className="font-medium text-gray-900 dark:text-gray-100 text-sm sm:text-base">
                         {file.name.replace(/\.pdf-\d{4}-\d{2}-\d{2}\.pdf$/, ".pdf")}
                       </h3>

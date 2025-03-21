@@ -1,9 +1,5 @@
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
-
-// Carga dinámica de SalaryCertificatesForm y MaintenancePage con Suspense
-const SalaryCertificatesForm = dynamic(() => import('@/components/request/salary-certificates/salary-certificates-form'), { suspense: true });
-const MaintenancePage = dynamic(() => import('@/components/ui/maintenance-page'), { suspense: true });
+import SalaryCertificatesForm from "@/components/request/salary-certificates/salary-certificates-form";
+import { Suspense } from "react";
 
 const SalaryCertificate = () => {
   return (

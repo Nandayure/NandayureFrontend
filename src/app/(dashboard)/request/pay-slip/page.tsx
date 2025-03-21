@@ -1,8 +1,6 @@
-import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
+import PaySlipForm from "@/components/request/pay-slip/pay-slip-form";
+import { Suspense } from "react";
 
-// Carga dinámica de PaySlipForm con Suspense para mostrar un fallback mientras se carga
-const PaySlipForm = dynamic(() => import('@/components/request/pay-slip/pay-slip-form'), { suspense: true });
 
 const PaySlip = () => {
   return (

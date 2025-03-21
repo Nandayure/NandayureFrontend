@@ -1,27 +1,23 @@
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 import { ResetPassword } from '@/types';
-// TODO: CHANGE TO HTTP CLIENT
-export async function postResetPassword(
-  resetPassword: ResetPassword,
-  token: string,
-) {
-  const { Password } = resetPassword;
-  const options = {
-    method: 'PUT',
-    headers: {
-      accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ newPassword: Password }),
-  };
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/reset-password`,
-    options,
+/**
+ * Restablece la contraseña de un usuario utilizando un token de autorización.
+ * 
+ * @param {ResetPassword} resetPassword - Objeto con la nueva contraseña
+ * @param {string} token - Token de autorización para restablecer la contraseña
+ * @returns {Promise<any>} Promesa que resuelve con la respuesta del servidor después de restablecer la contraseña
+ * @throws {Error} Si la solicitud no se puede completar o el servidor devuelve un error
+ */
+export const postResetPassword = async (
+  resetPassword: ResetPassword,
+  token: string
+): Promise<any> => {
+  return await httpClient.put(`${ROUTES.AUTH.RESET_PASSWORD}`,
+    { newPassword: resetPassword.Password },
+    {
+      customToken: token,
+    }
   );
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message);
-  }
-  return data;
-}
+};

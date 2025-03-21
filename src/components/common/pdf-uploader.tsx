@@ -80,7 +80,7 @@ export default function PDFUploader({ folderId, children }: Props) {
           {file && (
             <div className="mt-4 flex items-center justify-between bg-muted p-3 rounded">
               <div className="flex items-center space-x-2 overflow-hidden">
-                <FileIcon className="h-5 w-5 flex-shrink-0 text-primary" />
+                <FileIcon className="h-5 w-5 shrink-0 text-primary" />
                 <span className="text-sm truncate max-w-[200px]">{file.name}</span>
                 <span className="text-xs text-muted-foreground">
                   ({Math.round(file.size / 1024)} KB)
@@ -90,7 +90,7 @@ export default function PDFUploader({ folderId, children }: Props) {
                 variant="ghost"
                 size="icon"
                 onClick={removeFile}
-                className="h-8 w-8 flex-shrink-0"
+                className="h-8 w-8 shrink-0"
                 aria-label="Eliminar archivo"
               >
                 <X className="h-4 w-4" />

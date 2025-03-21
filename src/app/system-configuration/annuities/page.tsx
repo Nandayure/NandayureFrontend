@@ -1,6 +1,5 @@
 'use client';
 
-import AddAnnuityModal from '@/components/system-configuration/annuities/AddAnnuityModal';
 import AnnuitiesTable from '@/components/system-configuration/annuities/AnnuitiesTable';
 
 export default function AnnuitiesPage() {

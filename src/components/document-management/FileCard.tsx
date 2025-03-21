@@ -43,7 +43,7 @@ const FileCard = ({ file, folderId, hideDelete = false }: FileCardProps) => {
   const fileDate = getDateFromFileName()
 
   return (
-    <div className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 flex flex-col">
+    <div className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-200 flex flex-col">
       <div className="relative w-full h-32">
         {file.thumbnailLink ? (
           <div className="w-full h-32 bg-gray-100 dark:bg-gray-700 overflow-hidden relative">
@@ -56,7 +56,7 @@ const FileCard = ({ file, folderId, hideDelete = false }: FileCardProps) => {
               priority
               quality={100}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
           </div>
         ) : (
           <div className="w-full h-32 bg-blue-50 dark:bg-gray-700 flex items-center justify-center relative">
@@ -66,7 +66,7 @@ const FileCard = ({ file, folderId, hideDelete = false }: FileCardProps) => {
       </div>
 
       <div className={`p-4 flex flex-col ${hideDelete ? 'h-[130px]' : 'h-[180px]'}`}>
-        <div className="mb-2 flex-grow">
+        <div className="mb-2 grow">
           <h3 className="font-medium text-gray-900 dark:text-gray-100 line-clamp-2 text-sm sm:text-base">
             {file.name.replace(/\.pdf-\d{4}-\d{2}-\d{2}\.pdf$/, ".pdf")}
           </h3>

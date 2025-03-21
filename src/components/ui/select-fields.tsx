@@ -30,7 +30,7 @@ const SelectField: React.FC<Props> = ({
         id={id}
         aria-label={`Selecciona tu ${label.toLowerCase()}`}
         defaultValue=""
-        className="block w-full px-3 py-2 sm:py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
+        className="block w-full px-3 py-2 sm:py-3 border border-gray-300 rounded-md shadow-xs focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
         {...register(id)}
       >
         <option>Selecciona tu {label.toLowerCase()}</option>

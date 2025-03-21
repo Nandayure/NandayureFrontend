@@ -101,7 +101,7 @@ export function MonthYearPicker({ onYearChange, onMonthChange, selectedYear, sel
         <div className="w-32 relative" ref={yearRef}>
           <button
             type="button"
-            className="w-full flex items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full flex items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             onClick={() => setYearDropdownOpen(!yearDropdownOpen)}
             aria-haspopup="listbox"
             aria-expanded={yearDropdownOpen}
@@ -137,7 +137,7 @@ export function MonthYearPicker({ onYearChange, onMonthChange, selectedYear, sel
         <div className="w-40 relative" ref={monthRef}>
           <button
             type="button"
-            className="w-full flex items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full flex items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             onClick={() => setMonthDropdownOpen(!monthDropdownOpen)}
             disabled={availableMonths.length === 0}
             aria-haspopup="listbox"

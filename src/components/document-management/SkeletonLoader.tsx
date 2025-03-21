@@ -8,7 +8,7 @@ const SkeletonLoader = () => (
   <div className="container mx-auto p-4">
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {[...Array(6)].map((_, i) => (
-        <div key={i} className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 flex flex-col">
+        <div key={i} className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-200 flex flex-col">
           {/* Thumbnail area */}
           <div className="relative w-full h-32">
             <div className="w-full h-32 bg-gray-100 dark:bg-gray-700 flex items-center justify-center relative">
@@ -19,7 +19,7 @@ const SkeletonLoader = () => (
 
           {/* Content area - Matching the h-[180px] from FileCard */}
           <div className="p-4 flex flex-col h-[180px]">
-            <div className="mb-2 flex-grow">
+            <div className="mb-2 grow">
               <Skeleton className="h-5 w-full mb-2" />
               <Skeleton className="h-4 w-4/5 mb-3" />
 

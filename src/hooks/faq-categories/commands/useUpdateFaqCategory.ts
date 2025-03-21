@@ -15,7 +15,7 @@ export const useUpdateFaqCategory = ({ faqCategory }: UseUpdateFaqCategoryProps)
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
 
-  const form = useForm<FaqCategoryUpdate>({
+  const form = useForm<{ name: string }>({
     resolver: zodResolver(UpdateFaqCategorySchema),
     defaultValues: {
       name: faqCategory.name,

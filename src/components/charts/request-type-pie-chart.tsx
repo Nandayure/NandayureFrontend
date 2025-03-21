@@ -48,7 +48,7 @@ export function RequestTypePieChart({
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="rounded-lg border bg-background p-2 shadow-sm">
+        <div className="rounded-lg border bg-background p-2 shadow-xs">
           <p className="font-medium">{payload[0].name}</p>
           <p className="text-sm text-muted-foreground">
             {payload[0].value} solicitudes ({payload[0].payload.percentage.toFixed(1)}%)

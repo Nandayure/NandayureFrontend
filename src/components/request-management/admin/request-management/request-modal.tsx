@@ -11,7 +11,7 @@ import { formatDate } from '@/lib/utils';
 import { getRequestState, getRequestType } from '../../request-helpers';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { Key, ReactElement, JSXElementConstructor, ReactNode, ReactPortal, AwaitedReactNode } from 'react';
+import { Key } from 'react';
 
 interface RequestApproval {
   id: Key | null | undefined;

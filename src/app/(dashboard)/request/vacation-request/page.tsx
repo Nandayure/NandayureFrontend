@@ -1,21 +1,9 @@
 'use client';
-import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetByIdEmployee, useGetEmployeeId } from '@/hooks';
-
-// Ajuste en la importación dinámica para definir el tipo de props esperado por AvailableVacationDays
-const AvailableVacationDays = dynamic<{ days: number }>(
-  () =>
-    import('@/components/request/request-vacation/AvailableVacationDays').then(
-      (mod) => mod.AvailableVacationDays,
-    ),
-  { suspense: true },
-);
-const RequestVacationForm = dynamic(
-  () => import('@/components/request/request-vacation/request-vacation-form'),
-  { suspense: true },
-);
+import { AvailableVacationDays } from '@/components/request/request-vacation/AvailableVacationDays';
+import RequestVacationForm from '@/components/request/request-vacation/request-vacation-form';
 
 const VacationRequestPage = () => {
   const { employeeId } = useGetEmployeeId();

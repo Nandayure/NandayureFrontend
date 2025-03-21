@@ -24,7 +24,7 @@ export default function FaqStatusBadge({ faq }: Props) {
   return (
     <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <AlertDialogTrigger asChild>
-        <button className="focus:outline-none">
+        <button className="focus:outline-hidden">
           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium cursor-pointer hover:opacity-80 ${
             isActive
               ? 'bg-green-100 text-green-800 dark:bg-green-800/30 dark:text-green-400'

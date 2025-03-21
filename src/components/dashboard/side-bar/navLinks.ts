@@ -120,7 +120,6 @@ export const navLinksUser: Record<string, NavLink> = {
   miSolicitudes: baseNavLinks.miSolicitudes,
   Solicitudes: baseNavLinks.Solicitudes,
   miExpediente: baseNavLinks.miExpediente,
-  analiticas: baseNavLinks.analiticas,
 };
 
 export const navLinksVA: Record<string, NavLink> = {
@@ -129,4 +128,5 @@ export const navLinksVA: Record<string, NavLink> = {
   Solicitudes: baseNavLinks.Solicitudes,
   miExpediente: baseNavLinks.miExpediente,
   gestionSolicitudes: baseNavLinks.gestionSolicitudes,
+  analiticas: baseNavLinks.analiticas,
 };

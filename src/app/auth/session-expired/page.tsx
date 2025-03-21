@@ -5,8 +5,8 @@ import Link from "next/link"
 export default function SessionExpired() {
   return (
     <section className="flex bg-white min-h-screen justify-center items-center">
-      <div className="py-5 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-        <div className="mx-auto max-w-screen-sm text-center">
+      <div className="py-5 px-4 mx-auto max-w-(--breakpoint-xl) lg:py-16 lg:px-6">
+        <div className="mx-auto max-w-(--breakpoint-sm) text-center">
           <Image
             src="/session-expired.svg"
             alt="Session Expired"
@@ -23,7 +23,7 @@ export default function SessionExpired() {
           <Link href="/auth/login" className="flex justify-center">
             <Button
               type="submit"
-              className="block w-3/4 justify-center px-3 py-2 sm:py-3 mt-4 text-white bg-apple-500 rounded-md shadow-sm hover:bg-apple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
+              className="block w-3/4 justify-center px-3 py-2 sm:py-3 mt-4 text-white bg-apple-500 rounded-md shadow-xs hover:bg-apple-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
             >
               Iniciar Sesión
             </Button>

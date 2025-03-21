@@ -15,7 +15,7 @@ export default function Home() {
           <BackButton 
             href="/" 
             label="Volver" 
-            className="bg-white/80 hover:bg-white shadow-sm backdrop-blur-sm" 
+            className="bg-white/80 hover:bg-white shadow-xs backdrop-blur-xs" 
           />
         </div>
         

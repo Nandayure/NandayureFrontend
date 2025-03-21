@@ -38,7 +38,7 @@ const InputField: React.FC<InputFieldProps> = ({
         placeholder={placeholder}
         aria-label={label}
         aria-describedby={`${id}-error`}
-        className="block w-full px-3 py-2 sm:py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
+        className="block w-full px-3 py-2 sm:py-3 border border-gray-300 rounded-md shadow-xs focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base"
         data-cy={dataCy}
         {...register(id)}
       />

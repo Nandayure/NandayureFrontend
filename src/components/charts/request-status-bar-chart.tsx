@@ -37,7 +37,7 @@ export function RequestStatusBarChart({ totalApproved, totalRejected, totalPendi
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="rounded-lg border bg-background p-2 shadow-sm">
+        <div className="rounded-lg border bg-background p-2 shadow-xs">
           <p className="font-medium">{label}</p>
           <p className="text-sm text-muted-foreground">{payload[0].value} solicitudes</p>
         </div>

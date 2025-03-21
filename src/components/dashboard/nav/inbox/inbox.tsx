@@ -64,7 +64,7 @@ export default function InboxComponent() {
             <Popover>
               <PopoverTrigger asChild>
                 <Button
-                  className="relative bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 focus:outline-none transition-colors"
+                  className="relative bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 focus:outline-hidden transition-colors"
                   aria-label="Bandeja de solicitudes pendientes"
                 >
                   <Inbox className="h-5 w-5" />

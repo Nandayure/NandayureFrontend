@@ -4,8 +4,6 @@ import { Suspense } from 'react';
 // Carga dinámica de SalaryCertificatesForm y MaintenancePage con Suspense
 const SalaryCertificatesForm = dynamic(() => import('@/components/request/salary-certificates/salary-certificates-form'),
   { ssr: false, loading: () => <div>Cargando formulario de certificados salariales...</div> });
-const MaintenancePage = dynamic(() => import('@/components/ui/maintenance-page'),
-  { ssr: false, loading: () => <div>Cargando página de mantenimiento...</div> });
 
 const SalaryCertificate = () => {
   return (

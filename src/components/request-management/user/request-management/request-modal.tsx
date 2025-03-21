@@ -14,6 +14,19 @@ import { Clock, CheckCircle2, XCircle, Calendar, FileText, DollarSign } from 'lu
 import { getRequestState, getRequestType } from '../../request-helpers'
 import { RequestDetails } from '@/types/request-management/commonTypes'
 
+interface RequestApproval {
+  id: React.Key;
+  processNumber: number;
+  approved: boolean | null;
+  approverId: string | number;
+  Name: string;
+  Surname1: string;
+  Surname2: string;
+  ApprovedDate: string;
+  observation: string;
+}
+
+
 const getRequestIcon = (typeId: number) => {
   switch (typeId) {
     case 1:
@@ -133,55 +146,56 @@ const RequestModal = ({
             <div>
               <h3 className="text-lg font-semibold mb-4">Proceso de Aprobación</h3>
               <div className="space-y-4">
-                {request.RequestApprovals.sort((a: { processNumber: number }, b: { processNumber: number }) => a.processNumber - b.processNumber).map((approval: { id: React.Key | null | undefined; processNumber: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; approved: boolean | null; approverId: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; Name: any; Surname1: any; Surname2: any; ApprovedDate: string; observation: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined }) => (
-                  <Card key={approval.id}>
-                    <CardContent className="pt-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="font-medium">Proceso {approval.processNumber}</span>
-                        {approval.approved === true && (
-                          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                            <CheckCircle2 className="mr-1 h-3 w-3" /> Aprobado
-                          </Badge>
-                        )}
-                        {approval.approved === false && (
-                          <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
-                            <XCircle className="mr-1 h-3 w-3" /> Rechazado
-                          </Badge>
-                        )}
-                        {approval.approved === null && (
-                          <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
-                            <Clock className="mr-1 h-3 w-3" /> Pendiente
-                          </Badge>
-                        )}
-                      </div>
-                      {approval.approverId && (
-                        <>
-                          <div className="grid grid-cols-2 gap-2 text-sm">
-                            <span className="text-gray-500">ID del Aprobador:</span>
-                            <span>{approval.approverId}</span>
-                            <span className="text-gray-500">Nombre:</span>
-                            <span>{`${approval.Name} ${approval.Surname1} ${approval.Surname2}` || 'N/A'}</span>
-                          </div>
-                          <Separator className="my-2" />
-                        </>
-                      )}
-                      <div className="grid grid-cols-2 gap-2 text-sm">
-                        {approval.ApprovedDate && (
+                {request.RequestApprovals.sort((a: { processNumber: number }, b: { processNumber: number }) => a.processNumber - b.processNumber)
+                  .map((approval: RequestApproval) => (
+                    <Card key={approval.id}>
+                      <CardContent className="pt-6">
+                        <div className="flex items-center justify-between mb-4">
+                          <span className="font-medium">Proceso {approval.processNumber}</span>
+                          {approval.approved === true && (
+                            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                              <CheckCircle2 className="mr-1 h-3 w-3" /> Aprobado
+                            </Badge>
+                          )}
+                          {approval.approved === false && (
+                            <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
+                              <XCircle className="mr-1 h-3 w-3" /> Rechazado
+                            </Badge>
+                          )}
+                          {approval.approved === null && (
+                            <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+                              <Clock className="mr-1 h-3 w-3" /> Pendiente
+                            </Badge>
+                          )}
+                        </div>
+                        {approval.approverId && (
                           <>
-                            <span className="text-gray-500">Fecha de Aprobación:</span>
-                            <span>{formatDate(approval.ApprovedDate)}</span>
+                            <div className="grid grid-cols-2 gap-2 text-sm">
+                              <span className="text-gray-500">ID del Aprobador:</span>
+                              <span>{approval.approverId}</span>
+                              <span className="text-gray-500">Nombre:</span>
+                              <span>{`${approval.Name} ${approval.Surname1} ${approval.Surname2}` || 'N/A'}</span>
+                            </div>
+                            <Separator className="my-2" />
                           </>
                         )}
-                        {approval.observation && (
-                          <>
-                            <span className="text-gray-500">Observación:</span>
-                            <span>{approval.observation}</span>
-                          </>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                        <div className="grid grid-cols-2 gap-2 text-sm">
+                          {approval.ApprovedDate && (
+                            <>
+                              <span className="text-gray-500">Fecha de Aprobación:</span>
+                              <span>{formatDate(approval.ApprovedDate)}</span>
+                            </>
+                          )}
+                          {approval.observation && (
+                            <>
+                              <span className="text-gray-500">Observación:</span>
+                              <span>{approval.observation}</span>
+                            </>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
               </div>
             </div>
           </div>

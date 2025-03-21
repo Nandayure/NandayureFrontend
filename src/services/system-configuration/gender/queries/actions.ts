@@ -1,18 +1,22 @@
-import httpClient from '@/helpers/httpClient';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 import { Gender } from '@/types';
 
-export async function getAllGenders() {
-  const genders = await httpClient<Gender[]>({
-    method: 'GET',
-    endpoint: '/genders',
-  });
-  return genders;
-}
+/**
+ * Obtiene todos los géneros
+ * 
+ * @returns {Promise<Gender[]>} Promesa que resuelve con la lista de géneros
+ */
+export const getAllGenders = async (): Promise<Gender[]> => {
+  return await httpClient.get<Gender[]>(ROUTES.GENDERS.BASE);
+};
 
-export async function getGenderById(genderId: number) {
-  const gender = await httpClient<Gender>({
-    method: 'GET',
-    endpoint: `/genders/${genderId}`,
-  });
-  return gender;
-}
+/**
+ * Obtiene un género por su ID
+ * 
+ * @param {number} genderId - ID del género
+ * @returns {Promise<Gender>} Promesa que resuelve con el género solicitado
+ */
+export const getGenderById = async (genderId: number): Promise<Gender> => {
+  return await httpClient.get<Gender>(ROUTES.GENDERS.BY_ID(genderId));
+};

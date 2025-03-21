@@ -1,17 +1,22 @@
-import httpClient from '@/helpers/httpClient';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 import { RequestVacation } from '@/types';
 
-export async function postVacation(vacation: RequestVacation) {
-  return httpClient({
-    method: 'POST',
-    endpoint: '/request-vacation',
-    data: vacation,
-  });
-}
+/**
+ * Crea una nueva solicitud de vacaciones
+ * 
+ * @param {RequestVacation} vacation - Datos de la solicitud de vacaciones
+ * @returns {Promise<any>} Promesa que resuelve con la respuesta del servidor
+ */
+export const postVacation = async (vacation: RequestVacation): Promise<any> => {
+  return await httpClient.post(ROUTES.VACATION.BASE, vacation);
+};
 
-export async function getVacation() {
-  return httpClient({
-    method: 'GET',
-    endpoint: '/request-vacation',
-  });
-}
+/**
+ * Obtiene las solicitudes de vacaciones
+ * 
+ * @returns {Promise<any>} Promesa que resuelve con la lista de solicitudes de vacaciones
+ */
+export const getVacation = async (): Promise<any> => {
+  return await httpClient.get(ROUTES.VACATION.BASE);
+};

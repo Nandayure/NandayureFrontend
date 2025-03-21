@@ -1,11 +1,13 @@
-
-import httpClient from '@/helpers/httpClient';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 import { Employee } from '@/types';
 
-export async function postEmployee(employee: Employee) {
-  return httpClient({
-    method: 'POST',
-    endpoint: '/employees',
-    data: employee,
-  });
-}
+/**
+ * Crea un nuevo empleado en el sistema.
+ * 
+ * @param {Employee} employee - Objeto con la información del empleado a crear
+ * @returns {Promise<Employee>} Promesa que resuelve con el empleado recién creado
+ */
+export const postEmployee = async (employee: Employee): Promise<Employee> => {
+  return await httpClient.post<Employee>(`${ROUTES.EMPLOYEES}`, employee);
+};

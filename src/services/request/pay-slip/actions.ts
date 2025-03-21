@@ -1,17 +1,22 @@
-import httpClient from '@/helpers/httpClient';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 import { RequestPaySlip } from '@/types';
 
-export async function getPaySlip() {
-  return httpClient({
-    method: 'GET',
-    endpoint: '/request-payment-confirmations',
-  });
-}
+/**
+ * Obtiene los comprobantes de pago
+ * 
+ * @returns {Promise<any>} Promesa que resuelve a la lista de comprobantes de pago
+ */
+export const getPaySlip = async (): Promise<any> => {
+  return await httpClient.get(ROUTES.PAY_SLIP.BASE);
+};
 
-export async function postPaySlip(paySlip: RequestPaySlip) {
-  return httpClient({
-    method: 'POST',
-    endpoint: '/request-payment-confirmations',
-    data: paySlip,
-  });
-}
+/**
+ * Crea un nuevo comprobante de pago
+ * 
+ * @param {RequestPaySlip} paySlip - Datos del comprobante de pago
+ * @returns {Promise<any>} Promesa que resuelve con la respuesta del servidor
+ */
+export const postPaySlip = async (paySlip: RequestPaySlip): Promise<any> => {
+  return await httpClient.post(ROUTES.PAY_SLIP.BASE, paySlip);
+};

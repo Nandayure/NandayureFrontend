@@ -1,61 +1,88 @@
-import httpClient from '@/helpers/httpClient';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 import { PdfFile } from '@/types';
 
-export async function getUserFiles(id: string): Promise<PdfFile[]> {
-  return httpClient<PdfFile[]>({
-    method: 'GET',
-    endpoint: `/google-drive-files/MyFilesByFolder/${id}`,
-  });
+/**
+ * Interfaz para las propiedades de carga de un documento
+ */
+interface UploadDocumentProps {
+  /**
+   * ID de la carpeta de destino
+   */
+  FolderId: string;
+
+  /**
+   * Nombre del archivo
+   */
+  FileName: string;
+
+  /**
+   * Archivo a subir
+   */
+  file: File;
 }
 
-export async function getEmployeeFiles(id: string): Promise<PdfFile[]> {
-  return httpClient<PdfFile[]>({
-    method: 'GET',
-    endpoint: `/google-drive-files/FilesByFolder/${id}`,
-  });
-}
+/**
+ * Obtiene los archivos del usuario en una carpeta específica
+ * 
+ * @param {string} id - ID de la carpeta
+ * @returns {Promise<PdfFile[]>} Promesa que resuelve a la lista de archivos PDF del usuario
+ */
+export const getUserFiles = async (id: string): Promise<PdfFile[]> => {
+  return await httpClient.get<PdfFile[]>(ROUTES.GOOGLE_DRIVE.USER_FILES(id));
+};
 
-export async function getFileViewUrl(fileId: string): Promise<Blob> {
-  return httpClient<Blob>({
-    method: 'GET',
-    endpoint: `/google-drive-files/getFile/${fileId}`,
+/**
+ * Obtiene los archivos de un empleado en una carpeta específica
+ * 
+ * @param {string} id - ID de la carpeta
+ * @returns {Promise<PdfFile[]>} Promesa que resuelve a la lista de archivos PDF del empleado
+ */
+export const getEmployeeFiles = async (id: string): Promise<PdfFile[]> => {
+  return await httpClient.get<PdfFile[]>(ROUTES.GOOGLE_DRIVE.EMPLOYEE_FILES(id));
+};
+
+/**
+ * Obtiene la URL de visualización de un archivo
+ * 
+ * @param {string} fileId - ID del archivo
+ * @returns {Promise<Blob>} Promesa que resuelve al contenido del archivo como Blob
+ */
+export const getFileViewUrl = async (fileId: string): Promise<Blob> => {
+  return await httpClient.get<Blob>(ROUTES.GOOGLE_DRIVE.FILE_VIEW(fileId), {
     headers: {
       Accept: 'application/pdf,application/octet-stream,*/*',
     },
   });
-}
+};
 
-// Interfaz actualizada
-interface UploadDocumentProps {
-  FolderId: string; // Cambiado de EmployeeId a FolderId
-  FileName: string;
-  file: File;
-}
-
-export async function uploadDocument({
-  FolderId, 
+/**
+ * Sube un documento a una carpeta específica
+ * 
+ * @param {UploadDocumentProps} props - Propiedades del documento a subir
+ * @returns {Promise<any>} Promesa que resuelve con la respuesta del servidor
+ */
+export const uploadDocument = async ({
+  FolderId,
   FileName,
   file,
-}: UploadDocumentProps) {
+}: UploadDocumentProps): Promise<any> => {
   const formData = new FormData();
-  formData.append('FolderId', FolderId); 
+  formData.append('FolderId', FolderId);
   formData.append('FileName', FileName);
   formData.append('file', file);
 
-  const response = await httpClient<any>({
-    method: 'POST',
-    endpoint: '/google-drive-files/upload',
-    data: formData,
-    timeout: 60000, 
-    retries: 2,    
+  return await httpClient.post<any>(ROUTES.GOOGLE_DRIVE.UPLOAD, formData, {
+    timeout: 60000,
   });
+};
 
-  return response;
-}
-
-export async function deleteFile(fileId: string): Promise<void> {
-  return httpClient<void>({
-    method: 'DELETE',
-    endpoint: `/google-drive-files/deleteFile/${fileId}`,
-  });
-}
+/**
+ * Elimina un archivo específico
+ * 
+ * @param {string} fileId - ID del archivo a eliminar
+ * @returns {Promise<void>} Promesa que se resuelve cuando se completa la eliminación
+ */
+export const deleteFile = async (fileId: string): Promise<void> => {
+  await httpClient.delete(ROUTES.GOOGLE_DRIVE.DELETE(fileId));
+};

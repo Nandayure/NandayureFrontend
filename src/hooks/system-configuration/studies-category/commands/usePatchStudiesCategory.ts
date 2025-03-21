@@ -27,10 +27,7 @@ const usePatchStudiesCategory = ({ setIsOpen, studiesCategoryId }: Props) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (data: PatchStudiesCategory) =>
-      await patchStudiesCategory({
-        studiesCategoryId: studiesCategoryId,
-        studiesCategory: data,
-      }),
+      await patchStudiesCategory(studiesCategoryId, data),
     mutationKey: ['patchStudiesCategory'],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getAllStudiesCategory'] });

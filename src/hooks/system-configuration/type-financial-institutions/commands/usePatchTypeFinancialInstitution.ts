@@ -31,10 +31,7 @@ const usePatchTypeFinancialInstitution = ({
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (data: PatchTypeFinancialInstitutions) =>
-      await patchTypeFinancialInstitutions({
-        typeFinancialInstitutionsId: typeFinancialInstitutionId,
-        typeFinancialInstitutions: data,
-      }),
+      await patchTypeFinancialInstitutions(typeFinancialInstitutionId, data),
     mutationKey: ['patchTypeFinancialInstitutions'],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getAllTypeFinancialInstitutions'] });

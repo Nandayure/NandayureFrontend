@@ -1,20 +1,24 @@
-import httpClient from '@/helpers/httpClient';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 import { FinancialInstitutions } from '@/types';
 
-export async function getAllFinancialInstitutions() {
-  const FinancialInstitutions = await httpClient<FinancialInstitutions[]>({
-    method: 'GET',
-    endpoint: '/financial-institutions',
-  });
-  return FinancialInstitutions;
-}
+/**
+ * Obtiene todas las instituciones financieras
+ * 
+ * @returns {Promise<FinancialInstitutions[]>} Promesa que resuelve con la lista de instituciones financieras
+ */
+export const getAllFinancialInstitutions = async (): Promise<FinancialInstitutions[]> => {
+  return await httpClient.get<FinancialInstitutions[]>(ROUTES.FINANCIAL_INSTITUTIONS.BASE);
+};
 
-export async function getFinancialInstitutionById(
+/**
+ * Obtiene una institución financiera por su ID
+ * 
+ * @param {number} financialInstitutionId - ID de la institución financiera
+ * @returns {Promise<FinancialInstitutions>} Promesa que resuelve con la institución financiera solicitada
+ */
+export const getFinancialInstitutionById = async (
   financialInstitutionId: number,
-) {
-  const FinancialInstitution = await httpClient<FinancialInstitutions>({
-    method: 'GET',
-    endpoint: `/financial-institutions/${financialInstitutionId}`,
-  });
-  return FinancialInstitution;
-}
+): Promise<FinancialInstitutions> => {
+  return await httpClient.get<FinancialInstitutions>(ROUTES.FINANCIAL_INSTITUTIONS.BY_ID(financialInstitutionId));
+};

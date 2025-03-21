@@ -1,37 +1,54 @@
-
-import httpClient from '@/helpers/httpClient';
 import { Gender, PatchGender } from '@/types';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 
-export async function postGender(data: Gender) {
-  const gender = await httpClient<Gender>({
-    method: 'POST',
-    endpoint: '/genders',
-    data,
-  });
-  return gender;
-}
-
+/**
+ * Propiedades para actualizar un género
+ */
 interface PatchGenderProps {
+  /**
+   * ID del género a actualizar
+   */
   genderId: number;
+
+  /**
+   * Datos para actualizar el género
+   */
   gender: PatchGender;
 }
 
-export async function patchGender({
+/**
+ * Crea un nuevo género
+ * 
+ * @param {Gender} data - Datos del género a crear
+ * @returns {Promise<Gender>} Promesa que resuelve con el género creado
+ */
+export const postGender = async (data: Gender): Promise<Gender> => {
+  return await httpClient.post<Gender>(ROUTES.GENDERS.BASE, data);
+};
+
+/**
+ * Actualiza un género existente
+ * 
+ * @param {PatchGenderProps} props - Propiedades para actualizar el género
+ * @returns {Promise<Gender>} Promesa que resuelve con el género actualizado
+ */
+export const patchGender = async ({
   genderId,
   gender,
-}: PatchGenderProps) {
-  const updatedGender = await httpClient<Gender>({
-    method: 'PATCH',
-    endpoint: `/genders/${genderId}`,
-    data: gender,
-  });
-  return updatedGender;
-}
+}: PatchGenderProps): Promise<Gender> => {
+  return await httpClient.patch<Gender>(
+    ROUTES.GENDERS.BY_ID(genderId),
+    gender
+  );
+};
 
-export async function deleteGender(genderId: number) {
-  const response = await httpClient<void>({
-    method: 'DELETE',
-    endpoint: `/genders/${genderId}`,
-  });
-  return response;
-}
+/**
+ * Elimina un género
+ * 
+ * @param {number} genderId - ID del género a eliminar
+ * @returns {Promise<void>} Promesa que se resuelve cuando se completa la eliminación
+ */
+export const deleteGender = async (genderId: number): Promise<void> => {
+  await httpClient.delete(ROUTES.GENDERS.BY_ID(genderId));
+};

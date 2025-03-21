@@ -1,18 +1,23 @@
-import httpClient from '@/helpers/httpClient';
 import { StudiesCategory } from '@/types';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 
-export async function getAllStudiesCategories() {
-  const studiesCategories = await httpClient<StudiesCategory[]>({
-    method: 'GET',
-    endpoint: '/studies-category',
-  });
-  return studiesCategories;
-}
+/**
+ * Obtiene todas las categorías de estudios
+ * 
+ * @returns {Promise<StudiesCategory[]>} Promesa que resuelve con todas las categorías de estudios
+ */
+export const getAllStudiesCategories = async (): Promise<StudiesCategory[]> => {
+  return await httpClient.get<StudiesCategory[]>(ROUTES.STUDIES_CATEGORY.BASE);
+};
 
-export async function getStudiesCategoryById(studiesCategoryId: string) {
-  const studiesCategory = await httpClient<StudiesCategory>({
-    method: 'GET',
-    endpoint: `/studies-category/${studiesCategoryId}`,
-  });
-  return studiesCategory;
-}
+/**
+ * Obtiene una categoría de estudios específica por su ID
+ * 
+ * @param {string} studiesCategoryId - ID de la categoría de estudios a obtener
+ * @returns {Promise<StudiesCategory>} Promesa que resuelve con la categoría de estudios solicitada
+ */
+export const getStudiesCategoryById = async (studiesCategoryId: string): Promise<StudiesCategory> => {
+  return await httpClient.get<StudiesCategory>(ROUTES.STUDIES_CATEGORY.BY_ID(studiesCategoryId));
+};
+

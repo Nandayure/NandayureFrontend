@@ -1,40 +1,61 @@
-import httpClient from '@/helpers/httpClient';
 import { FinancialInstitutions, PatchFinancialInstitutions } from '@/types';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 
-export async function postFinancialInstitutions(
-  financialInstitutions: FinancialInstitutions,
-) {
-  const response = await httpClient<FinancialInstitutions>({
-    method: 'POST',
-    endpoint: '/financial-institutions',
-    data: financialInstitutions,
-  });
-  return response;
-}
-
+/**
+ * Propiedades para actualizar una institución financiera
+ */
 interface PatchFinancialInstitutionsProps {
+  /**
+   * ID de la institución financiera a actualizar
+   */
   financialInstitutionsId: number;
+
+  /**
+   * Datos para actualizar la institución financiera
+   */
   financialInstitutions: PatchFinancialInstitutions;
 }
 
-export async function patchFinancialInstitutions({
+/**
+ * Crea una nueva institución financiera
+ * 
+ * @param {FinancialInstitutions} financialInstitutions - Datos de la institución financiera a crear
+ * @returns {Promise<FinancialInstitutions>} Promesa que resuelve con la institución financiera creada
+ */
+export const postFinancialInstitutions = async (
+  financialInstitutions: FinancialInstitutions,
+): Promise<FinancialInstitutions> => {
+  return await httpClient.post<FinancialInstitutions>(
+    ROUTES.FINANCIAL_INSTITUTIONS.BASE,
+    financialInstitutions
+  );
+};
+
+/**
+ * Actualiza una institución financiera existente
+ * 
+ * @param {PatchFinancialInstitutionsProps} props - Propiedades para actualizar la institución financiera
+ * @returns {Promise<FinancialInstitutions>} Promesa que resuelve con la institución financiera actualizada
+ */
+export const patchFinancialInstitutions = async ({
   financialInstitutionsId,
   financialInstitutions,
-}: PatchFinancialInstitutionsProps) {
-  const response = await httpClient<FinancialInstitutions>({
-    method: 'PATCH',
-    endpoint: `/financial-institutions/${financialInstitutionsId}`,
-    data: financialInstitutions,
-  });
-  return response;
-}
+}: PatchFinancialInstitutionsProps): Promise<FinancialInstitutions> => {
+  return await httpClient.patch<FinancialInstitutions>(
+    ROUTES.FINANCIAL_INSTITUTIONS.BY_ID(financialInstitutionsId),
+    financialInstitutions
+  );
+};
 
-export async function deleteFinancialInstitutions(
+/**
+ * Elimina una institución financiera
+ * 
+ * @param {number} financialInstitutionsId - ID de la institución financiera a eliminar
+ * @returns {Promise<void>} Promesa que se resuelve cuando se completa la eliminación
+ */
+export const deleteFinancialInstitutions = async (
   financialInstitutionsId: number,
-) {
-  const response = await httpClient<void>({
-    method: 'DELETE',
-    endpoint: `/financial-institutions/${financialInstitutionsId}`,
-  });
-  return response;
-}
+): Promise<void> => {
+  await httpClient.delete(ROUTES.FINANCIAL_INSTITUTIONS.BY_ID(financialInstitutionsId));
+};

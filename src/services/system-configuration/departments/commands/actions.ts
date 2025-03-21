@@ -1,36 +1,54 @@
 import { Department, PatchDepartment } from '@/types';
-import httpClient from '@/helpers/httpClient';
+import httpClient from '@/helpers/http-client';
+import { ROUTES } from '@/services/routes';
 
-export async function postDepartment(data: Department) {
-  const department = await httpClient<Department>({
-    method: 'POST',
-    endpoint: '/departments',
-    data,
-  });
-  return department;
-}
-
+/**
+ * Propiedades para actualizar un departamento
+ */
 interface PatchDepartmentProps {
+  /**
+   * ID del departamento a actualizar
+   */
   departmentId: number;
+
+  /**
+   * Datos para actualizar el departamento
+   */
   department: PatchDepartment;
 }
 
-export async function patchDepartment({
+/**
+ * Crea un nuevo departamento
+ * 
+ * @param {Department} data - Datos del departamento a crear
+ * @returns {Promise<Department>} Promesa que resuelve con el departamento creado
+ */
+export const postDepartment = async (data: Department): Promise<Department> => {
+  return await httpClient.post<Department>(ROUTES.DEPARTMENTS.BASE, data);
+};
+
+/**
+ * Actualiza un departamento existente
+ * 
+ * @param {PatchDepartmentProps} props - Propiedades para actualizar el departamento
+ * @returns {Promise<Department>} Promesa que resuelve con el departamento actualizado
+ */
+export const patchDepartment = async ({
   departmentId,
   department,
-}: PatchDepartmentProps) {
-  const updatedDepartment = await httpClient<Department>({
-    method: 'PATCH',
-    endpoint: `/departments/${departmentId}`,
-    data: department,
-  });
-  return updatedDepartment;
-}
+}: PatchDepartmentProps): Promise<Department> => {
+  return await httpClient.patch<Department>(
+    ROUTES.DEPARTMENTS.BY_ID(departmentId),
+    department
+  );
+};
 
-export async function deleteDepartment(departmentId: number) {
-  const response = await httpClient<void>({
-    method: 'DELETE',
-    endpoint: `/departments/${departmentId}`,
-  });
-  return response;
-}
+/**
+ * Elimina un departamento
+ * 
+ * @param {number} departmentId - ID del departamento a eliminar
+ * @returns {Promise<void>} Promesa que se resuelve cuando se completa la eliminación
+ */
+export const deleteDepartment = async (departmentId: number): Promise<void> => {
+  await httpClient.delete(ROUTES.DEPARTMENTS.BY_ID(departmentId));
+};

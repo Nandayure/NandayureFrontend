@@ -9,12 +9,19 @@ const AvailableVacationDays = dynamic<{ days: number }>(
   () =>
     import('@/components/request/request-vacation/AvailableVacationDays').then(
       (mod) => mod.AvailableVacationDays,
-    ),
-  { suspense: true },
+    )
+  ,
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[100px]" />,
+  },
 );
 const RequestVacationForm = dynamic(
   () => import('@/components/request/request-vacation/request-vacation-form'),
-  { suspense: true },
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[300px]" />,
+  },
 );
 
 const VacationRequestPage = () => {

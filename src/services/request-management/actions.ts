@@ -1,5 +1,5 @@
 import httpClient from '@/helpers/http-client';
-import { ROUTES } from '@/services/routes';
+import { ROUTES } from '@/constants/api-routes/routes';
 import { CurrentToApprove } from '@/types';
 import { RequestDetails } from '@/types/request-management/commonTypes';
 

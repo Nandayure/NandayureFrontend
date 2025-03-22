@@ -53,7 +53,6 @@ export const ROUTES = {
   ANNUITIES: {
     BASE: '/annuities',
     BY_ID: (annuityId: number) => `/annuities/${annuityId}`,
-    EMPLOYEES: '/employees',
   },
   BUDGET_CODES: {
     BASE: '/budget-codes',

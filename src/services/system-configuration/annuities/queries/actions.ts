@@ -1,6 +1,6 @@
 import { Annuity, AnnuityEmployee } from '@/types';
 import httpClient from '@/helpers/http-client';
-import { ROUTES } from '@/services/routes';
+import { ROUTES } from '@/constants/api-routes/routes';
 
 /**
  * Obtiene todas las anualidades
@@ -19,13 +19,4 @@ export const getAllAnnuities = async (): Promise<Annuity[]> => {
  */
 export const getAnnuityById = async (annuityId: number): Promise<Annuity> => {
   return await httpClient.get<Annuity>(ROUTES.ANNUITIES.BY_ID(annuityId));
-};
-
-/**
- * Obtiene la lista de empleados
- * 
- * @returns {Promise<AnnuityEmployee[]>} Promesa que resuelve con la lista de empleados
- */
-export const getEmployees = async (): Promise<AnnuityEmployee[]> => {
-  return await httpClient.get<AnnuityEmployee[]>(ROUTES.ANNUITIES.EMPLOYEES);
 };

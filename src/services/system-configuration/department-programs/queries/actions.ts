@@ -1,6 +1,6 @@
 import { DepartmentProgram } from '@/types';
 import httpClient from '@/helpers/http-client';
-import { ROUTES } from '@/services/routes';
+import { ROUTES } from '@/constants/api-routes/routes';
 
 /**
  * Obtiene todos los programas de departamento

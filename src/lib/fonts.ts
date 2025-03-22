@@ -1,23 +1,16 @@
-import { Inter, Poppins, Roboto } from 'next/font/google';
+import { Inter, Poppins } from 'next/font/google';
 
-export const inter = Inter({ subsets: ['latin'] });
-
-export const titleFont = Roboto({
-  weight: ['400', '500', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-roboto',
-});
-
-export const roboto = Roboto({
-  weight: ['400', '500', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-roboto',
-});
-
-export const poppins = Poppins({
+// Fuente principal - Inter para contenido general
+export const inter = Inter({
   weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+
+export const titleFont = Poppins({
+  weight: ['500', '600', '700'],
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-poppins',

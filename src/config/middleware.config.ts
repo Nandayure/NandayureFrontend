@@ -1,4 +1,4 @@
-import { Roles } from '@/lib/constants';
+import { Roles } from "@/constants/roles/roles";
 
 // Rutas públicas
 export const PUBLIC_ROUTES: string[] = [

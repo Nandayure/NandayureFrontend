@@ -1,8 +1,8 @@
 import './globals.css';
-import SessionAuthProvider from '../context/SessionAuthProvider';
-import ReactQueryProvider from '@/lib/query-provider';
 import { Toaster } from 'react-hot-toast';
-import { poppins, roboto } from '@/lib/fonts';
+import QueryProvider from '@/providers/query-provider';
+import SessionProvider from '@/providers/session-provider';
+import { inter, titleFont } from '@/lib/fonts';
 
 export default function RootLayout({
   children,
@@ -10,17 +10,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${roboto.variable} ${poppins.className}`}>
+    <html lang="es" className={`${inter.className} ${titleFont.variable}`} suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no" />
       </head>
       <body>
-        <SessionAuthProvider>
-          <ReactQueryProvider>
+        <SessionProvider>
+          <QueryProvider>
             <Toaster reverseOrder={false} />
             {children}
-          </ReactQueryProvider>
-        </SessionAuthProvider>
+          </QueryProvider>
+        </SessionProvider>
       </body>
     </html>
   );

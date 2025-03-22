@@ -2,12 +2,12 @@ import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
 import { jwtDecode } from 'jwt-decode';
 import { Payload } from './types/auth/authResponseTypes';
-import { Roles } from './lib/constants';
 import {
   ROLE_ROUTES,
   isPublicRoute,
   routeMatches,
 } from './config/middleware.config';
+import { Roles } from './constants/roles/roles';
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;

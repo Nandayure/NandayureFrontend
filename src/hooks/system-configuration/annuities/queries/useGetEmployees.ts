@@ -1,8 +1,6 @@
-// src/hooks/useGetEmployees.ts
-
-import { getEmployees } from '@/services';
 import { useQuery } from '@tanstack/react-query';
 import { AnnuityEmployee } from '@/types';
+import { getAllEmployees } from '@/services';
 
 const useGetEmployees = () => {
   const {
@@ -10,7 +8,7 @@ const useGetEmployees = () => {
     isLoading,
     isError,
   } = useQuery<AnnuityEmployee[]>({
-    queryFn: getEmployees,
+    queryFn: getAllEmployees,
     queryKey: ['getEmployees'],
   });
   return {

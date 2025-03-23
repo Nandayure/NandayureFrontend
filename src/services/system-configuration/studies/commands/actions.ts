@@ -1,6 +1,6 @@
 import { PatchStudy, Study } from '@/types';
 import httpClient from '@/helpers/http-client';
-import { ROUTES } from '@/services/routes';
+import { ROUTES } from '@/constants/api-routes/routes';
 
 /**
  * Crea un nuevo estudio

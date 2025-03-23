@@ -10,7 +10,6 @@ interface BirthdayEffectProps {
 export default function BirthdayEffect({ name, onComplete }: BirthdayEffectProps) {
   useEffect(() => {
     setTimeout(() => {
-      console.log("Ejecutando confetti...");
       const duration = 3 * 1000;
       const end = Date.now() + duration;
       const runConfetti = () => {

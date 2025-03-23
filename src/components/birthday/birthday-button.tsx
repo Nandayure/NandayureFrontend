@@ -9,7 +9,6 @@ export function ResetBirthdayButton() {
     if (!userId) return;
     
     resetBirthdayCounter(userId);
-    console.log("Efecto de cumpleaños reiniciado. Se mostrará en la próxima carga de página si hoy es el cumpleaños.");
   };
   
   return (

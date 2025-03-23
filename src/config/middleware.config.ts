@@ -1,6 +1,8 @@
-import { Roles } from '@/lib/constants';
+import { Roles } from "@/constants/roles/roles";
 
-// Rutas públicas
+/**
+ * Rutas públicas que no requieren autenticación
+ */
 export const PUBLIC_ROUTES: string[] = [
   '/auth/login',
   '/auth/forgot-password',
@@ -9,7 +11,9 @@ export const PUBLIC_ROUTES: string[] = [
   '/auth/session-expired',
 ];
 
-// Rutas comunes (intersección entre todos los roles)
+/**
+ * Rutas comunes que todos los roles pueden acceder
+ */
 export const commonRoutes: string[] = [
   '/',
   '/my-file',
@@ -20,13 +24,17 @@ export const commonRoutes: string[] = [
   '/request-management/my-requests',
   '/profile',
   '/security',
-  '/hr-analytics/hr-requests-summary',
-  '/hr-analytics/approval-times-comparison',
-  '/hr-analytics/rejected-requests-reports',
+  '/helps',
 ];
 
+/**
+ * Tipo para las rutas basadas en roles
+ */
 export type RoleRoutes = Record<string, string[]>;
 
+/**
+ * Configuración de rutas permitidas por rol
+ */
 export const ROLE_ROUTES: RoleRoutes = {
   [Roles.user]: [...commonRoutes],
   [Roles.rh]: [
@@ -41,21 +49,42 @@ export const ROLE_ROUTES: RoleRoutes = {
     '/system-configuration/*',
     '/system-configuration',
     '/auth/register',
+    '/hr-analytics/*',  
+    '/helps/faqs-management',
   ],
   // VA para Alcalde
-  VA: [...commonRoutes, '/request-management'],
+  [Roles.va]: [...commonRoutes,
+    '/request-management',
+    '/request-management/*',  
+    '/hr-analytics/*',       
+  ],
 };
 
 /**
  * Determina si la ruta solicitada es pública.
+ * @param path Ruta a verificar
  */
 export function isPublicRoute(path: string): boolean {
-  return PUBLIC_ROUTES.includes(path);
+  // Verificación exacta primero
+  if (PUBLIC_ROUTES.includes(path)) {
+    return true;
+  }
+
+  // Verificación con comodines
+  return PUBLIC_ROUTES.some(route => {
+    if (route.includes('*')) {
+      const prefix = route.split('*')[0];
+      return path.startsWith(prefix);
+    }
+    return false;
+  });
 }
 
 /**
  * Chequea si una ruta (path) concuerda con el patrón dado.
  * Soporta comodín '*' al final.
+ * @param path Ruta a verificar
+ * @param pattern Patrón a comparar
  */
 export function routeMatches(path: string, pattern: string): boolean {
   if (pattern.includes('*')) {

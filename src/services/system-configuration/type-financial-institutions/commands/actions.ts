@@ -1,6 +1,6 @@
 import { TypeFinancialInstitutions, PatchTypeFinancialInstitutions } from '@/types';
 import httpClient from '@/helpers/http-client';
-import { ROUTES } from '@/services/routes';
+import { ROUTES } from '@/constants/api-routes/routes';
 
 /**
  * Crea un nuevo tipo de institución financiera

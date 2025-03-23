@@ -45,5 +45,4 @@ export function getBirthdayKey(userId: number): string {
     if (!userId) return;
     const birthdayKey = getBirthdayKey(userId);
     localStorage.removeItem(birthdayKey);
-    console.log("Contador de cumpleaños reiniciado para el usuario:", userId);
   }

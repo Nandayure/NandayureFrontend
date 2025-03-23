@@ -6,7 +6,7 @@ import {
   EmployeesWithMostRequestsResponse,
   PeakRequestTimes,
 } from '@/types';
-import { ROUTES } from '../routes';
+import { ROUTES } from '../../constants/api-routes/routes';
 
 /**
  * Obtiene el resumen de solicitudes para el dashboard

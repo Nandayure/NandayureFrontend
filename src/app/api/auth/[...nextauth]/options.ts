@@ -27,7 +27,6 @@ export const options: NextAuthOptions = {
         );
         const user = await res.json();
         
-        console.log("Respuesta del servidor:", user);
         
         if (res.ok && user) {
         
@@ -51,7 +50,6 @@ export const options: NextAuthOptions = {
     },
     
     async jwt({ token, user }) {
-      console.log("Usuario en jwt callback:", user);
       if (user) {
       
         return { 
@@ -64,7 +62,6 @@ export const options: NextAuthOptions = {
     },
     
     async session({ session, token }) {
-      console.log("Token en session callback:", token);
       session.user = {
         ...(token as any),
         

@@ -1,6 +1,6 @@
 import { StudiesCategory } from '@/types';
 import httpClient from '@/helpers/http-client';
-import { ROUTES } from '@/services/routes';
+import { ROUTES } from '@/constants/api-routes/routes';
 
 /**
  * Obtiene todas las categorías de estudios

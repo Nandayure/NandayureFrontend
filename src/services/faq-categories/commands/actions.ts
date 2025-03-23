@@ -1,5 +1,5 @@
 import httpClient from '@/helpers/http-client';
-import { ROUTES } from '@/services/routes';
+import { ROUTES } from '@/constants/api-routes/routes';
 import { FaqCategoryAPI } from '@/types';
 
 /**
@@ -26,7 +26,7 @@ export const updateFaqCategory = async (
   data: FaqCategoryAPI.Requests.Update,
 ): Promise<FaqCategoryAPI.Responses.Single> => {
   return await httpClient.patch<FaqCategoryAPI.Responses.Single>(
-    ROUTES.FAQ_CATEGORIES.BY_ID(params.id), 
+    ROUTES.FAQ_CATEGORIES.BY_ID(params.id),
     data
   );
 };

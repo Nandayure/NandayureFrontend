@@ -14,7 +14,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 
 export default function InboxComponent() {
   const { currentToApprove, isLoading } = useGetCurrentToApprove()
-  const { register, handleSubmit, isModalOpen, setIsModalOpen, selectedRequest, onSubmit, handleRequestClick } =
+  const { register, handleSubmit, isModalOpen, setIsModalOpen, selectedRequest, onSubmit, handleRequestClick, errors } =
     usePatchRequestApproval()
 
   // Función para obtener iniciales del nombre
@@ -246,6 +246,9 @@ export default function InboxComponent() {
                       rows={3}
                       {...register("reason")}
                     />
+                    {errors.reason && (
+                      <p className="text-red-500 text-sm mt-1">{errors.reason.message}</p>
+                    )}
                   </div>
                 </div>
               </div>

@@ -2,10 +2,21 @@ import { patchRequestApproval } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import useGetToken from '../common/useGetToken';
 import toast from 'react-hot-toast';
 import { z } from 'zod';
 import { CurrentToApprove } from '@/types';
+
+// Zod schema for request approval
+const requestApprovalSchema = z.object({
+  reason: z.string()
+    .min(10, { message: "La razón debe tener al menos 10 caracteres" })
+    .max(500, { message: "La razón no puede exceder 500 caracteres" })
+    .trim()
+});
+
+type RequestApprovalFormData = z.infer<typeof requestApprovalSchema>;
 
 const usePatchRequestApproval = () => {
   const {
@@ -13,11 +24,16 @@ const usePatchRequestApproval = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<RequestApprovalFormData>({
+    resolver: zodResolver(requestApprovalSchema)
+  });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] =
     useState<CurrentToApprove | null>(null);
+
   const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationFn: async (data: { approved: boolean; observation: string }) => {
       await patchRequestApproval(selectedRequest!.id, data);
@@ -38,7 +54,7 @@ const usePatchRequestApproval = () => {
   };
 
   const onSubmit = async (
-    data: { reason: any },
+    data: RequestApprovalFormData,
     action: 'approve' | 'reject',
   ) => {
     if (selectedRequest) {
@@ -85,6 +101,7 @@ const usePatchRequestApproval = () => {
     setIsModalOpen,
     selectedRequest,
     handleRequestClick,
+    errors, // Expose errors for form validation
   };
 };
 

@@ -1,5 +1,5 @@
-import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
 import { jwtDecode } from 'jwt-decode';
 import { Payload } from './types/auth/authResponseTypes';
 import {
@@ -9,20 +9,24 @@ import {
 } from './config/middleware.config';
 import { Roles } from './constants/roles/roles';
 
+/**
+ * Middleware principal para Next.js 15
+ * Gestiona la autenticación y autorización de rutas basadas en roles
+ */
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Permitir archivos estáticos
+  // 1. Permitir recursos estáticos
   if (pathname.startsWith('/_next') || pathname.startsWith('/static')) {
     return NextResponse.next();
   }
 
-  // Permitir rutas públicas
+  // 2. Permitir rutas públicas
   if (isPublicRoute(pathname)) {
     return NextResponse.next();
   }
 
-  // Obtiene la sesión (token)
+  // 3. Verificar autenticación
   const session = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET,
@@ -32,59 +36,80 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/auth/login', req.url));
   }
 
-  // Decodifica el token para obtener roles
-  const tokenDecoded: Payload | null = jwtDecode(
-    session.access_token as string,
-  );
-  if (!tokenDecoded || !tokenDecoded.roles) {
-    console.error('Token inválido o sin roles');
+  // 4. Obtener y verificar roles del usuario
+  try {
+    const tokenDecoded: Payload | null = jwtDecode(
+      session.access_token as string,
+    );
+
+    if (!tokenDecoded?.roles?.length) {
+      console.error('Token inválido o sin roles');
+      return NextResponse.redirect(new URL('/auth/login', req.url));
+    }
+
+    // 5. Administradores tienen acceso total
+    if (tokenDecoded.roles.includes(Roles.admin)) {
+      return NextResponse.next();
+    }
+
+    // 6. Verificar permisos según rol
+    if (hasRoutePermission(pathname, tokenDecoded.roles)) {
+      return NextResponse.next();
+    }
+
+    // 7. Sin permiso, redirigir a página no autorizada
+    return NextResponse.redirect(new URL('/unauthorized', req.url));
+
+  } catch (error) {
+    console.error('Error al procesar el token:', error);
     return NextResponse.redirect(new URL('/auth/login', req.url));
   }
+}
 
-  // Los administradores tienen acceso total
-  if (tokenDecoded.roles.includes(Roles.admin)) {
-    return NextResponse.next();
-  }
-
-  // Valida acceso según lo definido en ROLE_ROUTES
-  let hasPermission = false;
-  for (const role of tokenDecoded.roles) {
+/**
+ * Verifica si el usuario tiene permiso para acceder a la ruta solicitada
+ * basado en sus roles
+ */
+function hasRoutePermission(pathname: string, userRoles: string[]): boolean {
+  for (const role of userRoles) {
     const allowedRoutes = ROLE_ROUTES[role];
-    if (allowedRoutes) {
-      for (const route of allowedRoutes) {
-        if (routeMatches(pathname, route)) {
-          hasPermission = true;
-          break;
-        }
+    if (!allowedRoutes) continue;
+
+    for (const route of allowedRoutes) {
+      if (routeMatches(pathname, route)) {
+        return true;
       }
-      if (hasPermission) break;
     }
   }
 
-  if (!hasPermission) {
-    return NextResponse.redirect(new URL('/unauthorized', req.url));
-  }
-
-  return NextResponse.next();
+  return false;
 }
 
-// Define matcher para las rutas privadas y otras que requieren pasar por el middleware
+// Configuración de matcher para las rutas que deben pasar por el middleware
 export const config = {
   matcher: [
+    // Rutas básicas
     '/',
-    '/auth/:path*',
     '/_next/:path*',
     '/static/:path*',
-    '/admin/:path*',
-    '/profile/:path*',
-    '/security/:path*',
-    '/dashboard/:path*',
+
+    // Rutas de autenticación
+    '/auth/:path*',
+
+    // Rutas comunes
     '/my-file/:path*',
-    '/system-configuration/:path*',
-    '/document-management/:path*',
-    '/payroll-creation/:path*',
+    '/profile',
+    '/security',
+    '/helps/:path*',
+
+    // Rutas de solicitudes
     '/request/:path*',
     '/request-management/:path*',
+
+    // Rutas de RH
+    '/document-management/:path*',
     '/time-tracking/:path*',
+    '/system-configuration/:path*',
+    '/hr-analytics/:path*',
   ],
 };

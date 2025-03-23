@@ -44,8 +44,6 @@ const PdfFileList = ({ files, isError, isLoading, error, hideDeleteButton = fals
   }
 
   const handleViewFile = async (fileId: string) => {
-    // This would normally call your getFileViewUrl service
-    console.log(`Viewing file with ID: ${fileId}`)
     // Mock implementation for demo
     alert(`Viewing file with ID: ${fileId}`)
   }

@@ -58,7 +58,6 @@ export default function EmployeeRegistrationForm() {
 
   const { handleSubmit, trigger, formState, watch } = methods
   const { onSubmit, mutation } = usePostEmployee()
-  console.log("Valor actual de Birthdate:", watch("Birthdate"));
   const validateStep = async (step: string) => {
     let isValid = false
 

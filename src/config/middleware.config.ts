@@ -49,14 +49,14 @@ export const ROLE_ROUTES: RoleRoutes = {
     '/system-configuration/*',
     '/system-configuration',
     '/auth/register',
-    '/hr-analytics/hr-requests-summary',
-    '/hr-analytics/peak-request-times',
+    '/hr-analytics/*',  
     '/helps/faqs-management',
   ],
   // VA para Alcalde
-  VA: [...commonRoutes,
-    '/hr-analytics/hr-requests-summary',
-    '/hr-analytics/peak-request-times',
+  [Roles.va]: [...commonRoutes,
+    '/request-management',
+    '/request-management/*',  
+    '/hr-analytics/*',       
   ],
 };
 

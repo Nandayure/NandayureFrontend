@@ -55,10 +55,10 @@ const LoginForm = () => {
               variant="ghost"
               size="sm"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-500"
+              className="absolute inset-y-0 right-0 flex items-center  text-gray-500 cursor-pointer"
               aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
             >
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </Button>
           </div>
           {errors.Password && (
@@ -82,7 +82,7 @@ const LoginForm = () => {
       </div>
 
       <Button
-        className="w-full bg-[#34b1fd] hover:bg-[#2d9fe6] text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
+        className="w-full bg-[#34b1fd] hover:bg-[#2d9fe6] text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg cursor-pointer"
         type="submit"
         disabled={isLoading}
         data-cy="login-button"

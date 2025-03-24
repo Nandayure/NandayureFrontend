@@ -91,7 +91,7 @@ export default function Chatbot() {
       <section aria-label="Chatbot" className="fixed bottom-4 right-4">
         <Button
           aria-label="Abrir chat"
-          className="relative rounded-full w-12 h-12 shadow-xs"
+          className="relative rounded-full w-12 h-12 shadow-xs cursor-pointer"
           onClick={() => setIsOpen(true)}
         >
           <MessageCircle className="w-6 h-6" />

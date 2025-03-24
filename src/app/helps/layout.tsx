@@ -7,13 +7,10 @@ export default function Layout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es">
-      <body>
-        <main>
-          {children}
-          <Chatbot />
-        </main>
-      </body>
-    </html>
+    <main suppressHydrationWarning>
+      {children}
+      <Chatbot />
+    </main>
+
   )
 }

@@ -14,7 +14,7 @@ import Link from "next/link"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, RefreshCw } from "lucide-react"
-import ManualesSeccion from "@/components/faqs/manuales/page"
+import ManualsGrid from "@/components/faqs/manuals/manuals-grid"
 
 
 export default function FAQPage() {
@@ -145,9 +145,8 @@ export default function FAQPage() {
             No se encontraron resultados para su búsqueda.
           </motion.div>
         )}
-        <ManualesSeccion/>
+        <ManualsGrid />
       </motion.div>
     </div>
   )
 }
-

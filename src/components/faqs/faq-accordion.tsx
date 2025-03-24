@@ -78,7 +78,7 @@ export function FAQAccordion({ items }: FAQAccordionProps) {
         <Accordion type="single" collapsible className="w-full">
           {items.map((item) => (
             <AccordionItem key={item.id} value={item.id.toString()}>
-              <AccordionTrigger className="text-left">{item.question}</AccordionTrigger>
+              <AccordionTrigger className="text-left cursor-pointer">{item.question}</AccordionTrigger>
               <AccordionContent>
                 <div className="space-y-4">
                   <FormattedAnswer answer={item.answer} />

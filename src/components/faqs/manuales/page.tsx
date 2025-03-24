@@ -161,7 +161,7 @@ export const ManualesSeccion = () => {
             </p>
             <div className="mt-auto">
               <Button 
-                className="w-full bg-white hover:bg-gray-50 text-blue-600 border border-gray-200" 
+                className="w-full bg-white hover:bg-gray-50 text-blue-600 border border-gray-200 cursor-pointer" 
                 variant="outline"
                 onClick={() => handleDownload(manual)}
                 disabled={downloadingId === manual.id}

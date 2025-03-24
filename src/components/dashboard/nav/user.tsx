@@ -42,7 +42,7 @@ export default function User() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="relative h-8 w-8 rounded-full p-0 m-0 border"
+          className="relative h-8 w-8 rounded-full p-0 m-0 border cursor-pointer"
           data-cy="user-menu"
         >
           <Avatar >

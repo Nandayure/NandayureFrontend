@@ -9,9 +9,9 @@ import { Employee } from '@/types';
  * @returns {Promise<Employee>} Promesa que resuelve con el empleado recién creado
  */
 export const postEmployee = async (employee: Employee): Promise<Employee> => {
-  return await httpClient.post<Employee>(`${ROUTES.EMPLOYEES.BASE}`, employee
+  return await httpClient.post<Employee>(`${ROUTES.EMPLOYEES.BASE}`, employee,
     {
-      setTimeout: 60000 
+      timeout: 60000,
     }
   );
 };

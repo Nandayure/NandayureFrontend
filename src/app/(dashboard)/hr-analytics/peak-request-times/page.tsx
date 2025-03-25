@@ -26,7 +26,7 @@ export default function PeakRequestTimesPage() {
     <div className="container mx-auto p-4 md:p-6">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Análisis de Solicitudes</h1>
+          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Análisis de solicitudes</h1>
           <p className="text-muted-foreground">Visualización de patrones de solicitudes por tiempo</p>
         </div>
         <div className="flex items-center gap-4">
@@ -45,7 +45,7 @@ export default function PeakRequestTimesPage() {
       <div className="space-y-4">
         <Card className="bg-white">
           <CardHeader>
-            <CardTitle>Horas Pico de Solicitudes</CardTitle>
+            <CardTitle>Horas pico de solicitudes</CardTitle>
             <CardDescription>Análisis de patrones de solicitudes por tiempo</CardDescription>
           </CardHeader>
           <CardContent className="pb-0">
@@ -56,9 +56,9 @@ export default function PeakRequestTimesPage() {
               className="w-full"
             >
               <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="heatmap">Mapa de Calor</TabsTrigger>
-                <TabsTrigger value="dayOfWeek">Por Día</TabsTrigger>
-                <TabsTrigger value="hourOfDay">Por Hora</TabsTrigger>
+                <TabsTrigger value="heatmap">Mapa de calor</TabsTrigger>
+                <TabsTrigger value="dayOfWeek">Por día</TabsTrigger>
+                <TabsTrigger value="hourOfDay">Por hora</TabsTrigger>
               </TabsList>
 
               <TabsContent value="heatmap" className="mt-4">

@@ -3,4 +3,5 @@ export enum Roles {
   admin = 'ADMIN',
   rh = 'RH',
   va = 'VA',
+  departmentHead = 'DEPARTMENT_HEAD',
 }

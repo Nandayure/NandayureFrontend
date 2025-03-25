@@ -4,27 +4,25 @@ import Image from "next/image"
 import { useSession } from "next-auth/react";
 import BirthdayEffect from "@/components/birthday/birthday-effect";
 import { useBirthdayEffect } from "@/hooks/auth/birthday/useBirthdayEffect";
-import { ResetBirthdayButton } from "@/components/birthday/birthday-button";
 import Chatbot from "@/components/dashboard/chat-bot/chat-bot";
 
 
 export default function HomePage() {
   const { data: session } = useSession();
   const { showEffect, setShowEffect } = useBirthdayEffect(2);
-  
-  
+
+
   // Obtener el nombre del usuario de la sesión o usar un predeterminado
   const userName = session?.user?.name || "Usuario";
-  
+
   return (
     <div className="flex flex-col items-center justify-center pt-2 sm:pt-6 md:pt-10">
       {showEffect && (
-        <BirthdayEffect 
-          name={userName} 
-          onComplete={() => setShowEffect(false)} 
+        <BirthdayEffect
+          name={userName}
+          onComplete={() => setShowEffect(false)}
         />
       )}
-      
       <div className="w-full max-w-2xl text-center px-4">
         <Image
           src="/hr.svg"

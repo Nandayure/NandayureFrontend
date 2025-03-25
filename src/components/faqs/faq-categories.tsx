@@ -16,7 +16,7 @@ export function FAQCategories({ categories, selectedCategoryId, onCategoryChange
       <Button
         variant={selectedCategoryId === "all" ? "default" : "outline"}
         onClick={() => onCategoryChange("all")}
-        className="rounded-full"
+        className="rounded-full cursor-pointer"
       >
         Todos
       </Button>
@@ -25,7 +25,7 @@ export function FAQCategories({ categories, selectedCategoryId, onCategoryChange
           <Button
             variant={selectedCategoryId === category.id ? "default" : "outline"}
             onClick={() => onCategoryChange(category.id)}
-            className="rounded-full"
+            className="rounded-full cursor-pointer"
           >
             {category.name}
           </Button>

@@ -52,7 +52,7 @@ export function NavLinks({ isOpen, navLinks, onLinkClick }: Props) {
                 data-cy={link.dataCy}
                 variant="ghost"
                 className={clsx(
-                  "flex items-center justify-between w-full h-10 px-3 rounded-md transition-all duration-200",
+                  "flex items-center justify-between w-full h-10 px-3 rounded-md transition-all duration-200 cursor-pointer",
                   isActive || isSubLinkActive ? "bg-blue-50 text-blue-600" : "hover:bg-gray-100",
                   !isOpen && "justify-center px-2",
                 )}

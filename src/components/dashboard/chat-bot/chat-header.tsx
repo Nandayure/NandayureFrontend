@@ -38,11 +38,11 @@ export default function ChatHeader({ isExpanded, onDownload, onToggleExpand, onC
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" aria-label="Más opciones">
-                <Ellipsis className="h-4 w-4" />
+                <Ellipsis className="h-4 w-4 cursor-pointer" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="rounded-2xl">
-              <DropdownMenuItem onClick={onDownload} >
+              <DropdownMenuItem onClick={onDownload} className="cursor-pointer" >
                 <Download className="h-4 w-4 mr-2" />
                 Descargar conversación
               </DropdownMenuItem>
@@ -54,6 +54,7 @@ export default function ChatHeader({ isExpanded, onDownload, onToggleExpand, onC
               size="icon"
               aria-label={isExpanded ? "Minimizar chat" : "Expandir chat"}
               onClick={onToggleExpand}
+              className="cursor-pointer"
             >
               {isExpanded ? (
                 <Minimize2 className="h-4 w-4" />

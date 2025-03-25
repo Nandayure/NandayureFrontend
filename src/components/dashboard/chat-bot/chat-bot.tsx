@@ -5,9 +5,10 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Card } from "@/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"; // Importar Alert
 import Image from "next/image";
-import { MessageCircle } from "lucide-react";
-import { useChatbot } from "@/hooks/common/useChatbot";
+import { MessageCircle, AlertCircle } from "lucide-react";
+import { useChatbot, RateLimitError } from "@/hooks/common/useChatbot";
 import ChatMessages, { ChatMessage } from "./chat-messages";
 import ChatHeader from "./chat-header";
 import FAQSuggestions from "./faq-suggestions";
@@ -27,14 +28,38 @@ export default function Chatbot() {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Nuevos estados para manejo de rate limit
+  const [rateLimitError, setRateLimitError] = useState<{ message: string; retryAfter: number } | null>(null);
+  const [timeRemaining, setTimeRemaining] = useState<number>(0);
+
   const { mutate: sendMessage, isPending, isError } = useChatbot();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
+  // Actualizar contador de tiempo restante
+  useEffect(() => {
+    if (!rateLimitError) return;
+
+    setTimeRemaining(rateLimitError.retryAfter);
+
+    const intervalId = setInterval(() => {
+      setTimeRemaining(prev => {
+        if (prev <= 1) {
+          clearInterval(intervalId);
+          setRateLimitError(null);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [rateLimitError]);
+
   const handleSend = () => {
-    if (!input.trim()) return;
+    if (!input.trim() || rateLimitError) return;
 
     const userMessage: ChatMessage = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
@@ -46,16 +71,25 @@ export default function Chatbot() {
         setIsTyping(false);
         setMessages((prev) => [...prev, botMessage]);
       },
-      onError: (error) => {
+      onError: (error: any) => {
         setIsTyping(false);
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: "bot",
-            content:
-              "Ocurrió un error al procesar tu solicitud. Por favor, inténtalo de nuevo.",
-          },
-        ]);
+
+        // Manejo especial para errores de rate limit
+        if (error.isRateLimit) {
+          setRateLimitError({
+            message: error.message,
+            retryAfter: error.retryAfter
+          });
+        } else {
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: "bot",
+              content:
+                "Ocurrió un error al procesar tu solicitud. Por favor, inténtalo de nuevo.",
+            },
+          ]);
+        }
         console.error("Error del chat:", error);
       },
     });
@@ -91,7 +125,7 @@ export default function Chatbot() {
       <section aria-label="Chatbot" className="fixed bottom-4 right-4">
         <Button
           aria-label="Abrir chat"
-          className="relative rounded-full w-12 h-12 shadow-xs"
+          className="relative rounded-full w-12 h-12 shadow-xs cursor-pointer"
           onClick={() => setIsOpen(true)}
         >
           <MessageCircle className="w-6 h-6" />
@@ -164,9 +198,25 @@ export default function Chatbot() {
             <div ref={messagesEndRef} />
           </Card>
 
-          <ChatInput input={input} onChange={setInput} onSend={handleSend} disabled={isPending} />
+          {/* Alerta de Rate Limit */}
+          {rateLimitError && (
+            <Alert variant="destructive" className="mt-2 mb-2">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Límite de solicitudes excedido</AlertTitle>
+              <AlertDescription>
+                {rateLimitError.message} Tiempo restante: {timeRemaining} segundos.
+              </AlertDescription>
+            </Alert>
+          )}
 
-          {isError && (
+          <ChatInput
+            input={input}
+            onChange={setInput}
+            onSend={handleSend}
+            disabled={isPending || rateLimitError !== null} // Bloquear el botón si hay rate limit
+          />
+
+          {isError && !rateLimitError && (
             <p role="alert" className="text-destructive text-sm">
               Ocurrió un error al enviar tu mensaje. Por favor, inténtalo de nuevo.
             </p>

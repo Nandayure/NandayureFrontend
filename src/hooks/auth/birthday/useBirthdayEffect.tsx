@@ -17,7 +17,6 @@ export function useBirthdayEffect(maxDisplaysPerDay = 2) {
     
     // Verificar si debemos mostrar el efecto (basado en la bandera y en el contador)
     if (shouldShowBirthdayEffect(userId, isBirthday, maxDisplaysPerDay)) {
-      console.log(`Mostrando efecto de cumpleaños para el usuario ${userId}`);
       setShowEffect(true);
       
       // Incrementar el contador

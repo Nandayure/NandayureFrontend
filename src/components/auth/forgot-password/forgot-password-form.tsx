@@ -47,7 +47,7 @@ const ForgotPasswordForm = () => {
           )}
           <Button
             type="submit"
-            className="mt-4 w-full"
+            className="mt-4 w-full cursor-pointer"
             disabled={mutation.isPending}
           >
             {mutation.isPending ? <Spinner /> : 'Enviar correo'}
@@ -69,7 +69,7 @@ const ForgotPasswordForm = () => {
       )}
       <section>
         <Link href="/auth/login">
-          <Button className="mt-4 w-full" variant={'link'}>
+          <Button className="mt-4 w-full cursor-pointer" variant={'link'}>
             Regresar al inicio de sesión
           </Button>
         </Link>

@@ -30,7 +30,7 @@ const Nav = () => {
       </div>
       <div className="flex items-center space-x-4">
         <span className="w-32 sm:w-auto truncate">{userInfo}</span>
-        {roles && (roles.includes('RH') || roles.includes('VA')) && (
+        {roles && (roles.includes('RH') || roles.includes('VA') || roles.includes('DEPARTMENT_HEAD')) && (
           <div>
             <InboxComponent />
           </div>

@@ -6,6 +6,7 @@ import {
   Banknote,
   Layers,
   Building,
+  Calendar,
 } from 'lucide-react';
 import { NavLink } from '@/components/side-bar/nav-links';
 
@@ -51,5 +52,11 @@ export const navLinks: Record<string, NavLink> = {
     icon: GraduationCap,
     label: 'Estudios',
     dataCy: 'sidebar-system-configuration-studies',
+  },
+  feriados: {
+    href: '/system-configuration/holidays',
+    icon: Calendar,
+    label: 'Feriados',
+    dataCy: 'sidebar-system-configuration-holidays',
   },
 };

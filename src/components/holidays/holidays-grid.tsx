@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Loader2, Calendar, Clock } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion" // Add this import
 import useGetHolidays from "@/hooks/holiday/queries/useGetHolidays"
 import HolidayCard from "./holiday-card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -127,9 +128,25 @@ export default function HolidaysGrid() {
             </Alert>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredHolidays.map((holiday) => (
-                <HolidayCard key={holiday.id} holiday={holiday} />
-              ))}
+              <AnimatePresence mode="wait">
+                {filteredHolidays.map((holiday, index) => (
+                  <motion.div
+                    key={holiday.id}
+                    layout
+                    initial={{ opacity: 0, x: 40, y: 40, scale: 1.1 }}
+                    animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -40, y: -40, scale: 0.95 }}
+                    transition={{
+                      duration: 0.4,
+                      ease: [0.2, 0, 0.3, 1],
+                      delay: index * 0.05
+                    }}
+                    className="col-span-1"
+                  >
+                    <HolidayCard holiday={holiday} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
           )}
         </TabsContent>
@@ -142,9 +159,25 @@ export default function HolidaysGrid() {
             </Alert>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredHolidays.map((holiday) => (
-                <HolidayCard key={holiday.id} holiday={holiday} />
-              ))}
+              <AnimatePresence mode="wait">
+                {filteredHolidays.map((holiday, index) => (
+                  <motion.div
+                    key={holiday.id}
+                    layout
+                    initial={{ opacity: 0, x: 40, y: 40, scale: 1.1 }}
+                    animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -40, y: -40, scale: 0.95 }}
+                    transition={{
+                      duration: 0.4,
+                      ease: [0.2, 0, 0.3, 1],
+                      delay: index * 0.05
+                    }}
+                    className="col-span-1"
+                  >
+                    <HolidayCard holiday={holiday} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
           )}
         </TabsContent>
@@ -157,9 +190,25 @@ export default function HolidaysGrid() {
             </Alert>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredHolidays.map((holiday) => (
-                <HolidayCard key={holiday.id} holiday={holiday} />
-              ))}
+              <AnimatePresence mode="wait">
+                {filteredHolidays.map((holiday, index) => (
+                  <motion.div
+                    key={holiday.id}
+                    layout
+                    initial={{ opacity: 0, x: 40, y: 40, scale: 1.1 }}
+                    animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -40, y: -40, scale: 0.95 }}
+                    transition={{
+                      duration: 0.4,
+                      ease: [0.2, 0, 0.3, 1],
+                      delay: index * 0.05
+                    }}
+                    className="col-span-1"
+                  >
+                    <HolidayCard holiday={holiday} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
           )}
         </TabsContent>

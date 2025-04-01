@@ -23,89 +23,94 @@ export default function HolidaysGrid() {
   const regularCount = holidays?.filter(h => !h.isRecurringYearly)?.length || 0
   const totalCount = holidays?.length || 0
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <span className="ml-3 text-muted-foreground">Cargando días feriados...</span>
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <Alert variant="destructive" className="mt-6">
+        <AlertTitle>Error al cargar los días feriados</AlertTitle>
+        <AlertDescription>
+          {error?.message || "No se pudieron cargar los días feriados. Por favor, inténtelo de nuevo más tarde."}
+        </AlertDescription>
+      </Alert>
+    )
+  }
+
   return (
-    <div className="space-y-4">
-      {isLoading && (
-        <div className="flex justify-center items-center py-6">
-          <Loader2 className="h-6 w-6 animate-spin text-primary" />
-          <span className="ml-2 text-muted-foreground">Cargando...</span>
+    <div className="space-y-8">
+      <Tabs
+        defaultValue="all"
+        onValueChange={setActiveTab}
+        className="w-full"
+      >
+        <div className="flex justify-center mb-8">
+          <TabsList className="grid w-full max-w-md grid-cols-3">
+            <TabsTrigger value="all">
+              <span className="mr-2">Todos</span>
+              <Badge variant="secondary">
+                {totalCount}
+              </Badge>
+            </TabsTrigger>
+            <TabsTrigger value="recurring">
+              <span className="mr-2">Recurrentes</span>
+              <Badge variant="secondary">
+                {recurringCount}
+              </Badge>
+            </TabsTrigger>
+            <TabsTrigger value="regular">
+              <span className="mr-2">Específicos</span>
+              <Badge variant="secondary">
+                {regularCount}
+              </Badge>
+            </TabsTrigger>
+          </TabsList>
         </div>
-      )}
 
-      {isError && (
-        <Alert variant="destructive">
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>
-            {error?.message || "No se pudieron cargar los días feriados. Por favor, inténtelo de nuevo más tarde."}
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {!isLoading && !isError && holidays?.length === 0 && (
-        <Alert>
-          <AlertTitle>No se encontraron días feriados</AlertTitle>
-          <AlertDescription>Actualmente no hay días feriados registrados en el sistema.</AlertDescription>
-        </Alert>
-      )}
-
-      {!isLoading && holidays && holidays.length > 0 && (
-        <Tabs defaultValue="all" onValueChange={setActiveTab} className="w-full">
-          <div className="flex justify-between items-center mb-4">
-            <TabsList>
-              <TabsTrigger value="all" className="relative">
-                Todos
-                <Badge className="ml-2 bg-primary/20 text-primary">{totalCount}</Badge>
-              </TabsTrigger>
-              <TabsTrigger value="recurring" className="relative">
-                Recurrentes Anuales
-                <Badge className="ml-2 bg-primary/20 text-primary">{recurringCount}</Badge>
-              </TabsTrigger>
-              <TabsTrigger value="regular" className="relative">
-                Días Específicos
-                <Badge className="ml-2 bg-primary/20 text-primary">{regularCount}</Badge>
-              </TabsTrigger>
-            </TabsList>
+        <TabsContent value="all">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredHolidays.map((holiday) => (
+              <HolidayCard key={holiday.id} holiday={holiday} />
+            ))}
           </div>
+        </TabsContent>
 
-          <TabsContent value="all" className="mt-0">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {holidays.map((holiday) => (
+        <TabsContent value="recurring">
+          {recurringCount === 0 ? (
+            <Alert>
+              <AlertTitle>No hay días feriados recurrentes</AlertTitle>
+              <AlertDescription>No se encontraron días feriados recurrentes anuales.</AlertDescription>
+            </Alert>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredHolidays.map((holiday) => (
                 <HolidayCard key={holiday.id} holiday={holiday} />
               ))}
             </div>
-          </TabsContent>
+          )}
+        </TabsContent>
 
-          <TabsContent value="recurring" className="mt-0">
-            {recurringCount === 0 ? (
-              <Alert>
-                <AlertTitle>No hay días feriados recurrentes</AlertTitle>
-                <AlertDescription>No se encontraron días feriados recurrentes anuales.</AlertDescription>
-              </Alert>
-            ) : (
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {filteredHolidays.map((holiday) => (
-                  <HolidayCard key={holiday.id} holiday={holiday} />
-                ))}
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="regular" className="mt-0">
-            {regularCount === 0 ? (
-              <Alert>
-                <AlertTitle>No hay días feriados específicos</AlertTitle>
-                <AlertDescription>No se encontraron días feriados de fecha específica.</AlertDescription>
-              </Alert>
-            ) : (
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {filteredHolidays.map((holiday) => (
-                  <HolidayCard key={holiday.id} holiday={holiday} />
-                ))}
-              </div>
-            )}
-          </TabsContent>
-        </Tabs>
-      )}
+        <TabsContent value="regular">
+          {regularCount === 0 ? (
+            <Alert>
+              <AlertTitle>No hay días feriados específicos</AlertTitle>
+              <AlertDescription>No se encontraron días feriados de fecha específica.</AlertDescription>
+            </Alert>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredHolidays.map((holiday) => (
+                <HolidayCard key={holiday.id} holiday={holiday} />
+              ))}
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }

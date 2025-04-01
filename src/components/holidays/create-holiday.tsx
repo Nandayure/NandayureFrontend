@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
-import { format } from "date-fns"
+import { format, parseISO } from "date-fns"
 import { es } from "date-fns/locale"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useCreateHoliday } from "@/hooks/holiday/commands/useCreateHoliday"
@@ -227,7 +227,7 @@ export function CreateHolidayModal() {
                                 )}
                               >
                                 {field.value ? (
-                                  format(new Date(field.value), "PPP", { locale: es })
+                                  format(parseISO(field.value), "PPP", { locale: es })
                                 ) : (
                                   <span>Seleccionar fecha</span>
                                 )}
@@ -238,11 +238,16 @@ export function CreateHolidayModal() {
                           <PopoverContent className="w-auto p-0" align="start">
                             <Calendar
                               mode="single"
-                              selected={field.value ? new Date(field.value) : undefined}
+                              selected={field.value ? parseISO(field.value) : undefined}
                               onSelect={(date) => {
                                 if (date) {
-                                  const formattedDate = format(date, "yyyy-MM-dd")
-                                  field.onChange(formattedDate)
+                                  // Asegurarse de usar UTC para evitar problemas de zona horaria
+                                  const year = date.getFullYear();
+                                  const month = String(date.getMonth() + 1).padStart(2, '0');
+                                  const day = String(date.getDate()).padStart(2, '0');
+                                  // Formato YYYY-MM-DD sin conversiones adicionales que puedan afectar la zona horaria
+                                  const formattedDate = `${year}-${month}-${day}`;
+                                  field.onChange(formattedDate);
                                 }
                               }}
                               initialFocus
@@ -328,4 +333,3 @@ export function CreateHolidayModal() {
     </div>
   )
 }
-

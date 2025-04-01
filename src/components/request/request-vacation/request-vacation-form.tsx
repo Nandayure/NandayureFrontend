@@ -1,46 +1,67 @@
-'use client';
+"use client"
 
-import { useState } from 'react';
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
-import { Calendar as CalendarIcon } from 'lucide-react';
-import { DateRange } from 'react-day-picker';
+import type React from "react"
 
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import Flag from '@/components/common/Flag';
-import Spinner from '@/components/ui/spinner';
-import { titleFont } from '@/lib/fonts';
-import { usePostVacation } from '@/hooks';
+import { useState } from "react"
+import { format } from "date-fns"
+import { es } from "date-fns/locale"
+import { CalendarIcon } from "lucide-react"
+import type { DateRange } from "react-day-picker"
+
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import Flag from "@/components/common/Flag"
+import Spinner from "@/components/ui/spinner"
+import { titleFont } from "@/lib/fonts"
+import { usePostVacation } from "@/hooks"
 
 export default function RequestVacationForm() {
-  const [date, setDate] = useState<DateRange | undefined>(undefined);
+  const [date, setDate] = useState<DateRange | undefined>(undefined)
 
-  const { onSubmit: submitVacationRequest, setValue, mutation, errors } = usePostVacation();
+  // Function to calculate business days (excluding weekends)
+  const calculateBusinessDays = (startDate: Date, endDate: Date): number => {
+    let count = 0
+    const currentDate = new Date(startDate)
+
+    while (currentDate <= endDate) {
+      const dayOfWeek = currentDate.getDay()
+      // Skip weekends (0 = Sunday, 6 = Saturday)
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        count++
+      }
+      // Move to the next day
+      currentDate.setDate(currentDate.getDate() + 1)
+    }
+
+    return count
+  }
+
+  // Calculate total business days when date range changes
+  const totalDays = date?.from && date?.to ? calculateBusinessDays(date.from, date.to) : 0
+
+  const { onSubmit: submitVacationRequest, setValue, mutation, errors } = usePostVacation()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     if (date?.from && date?.to) {
-      const daysRequested = Math.ceil((date.to.getTime() - date.from.getTime()) / (1000 * 3600 * 24)) + 1;
-      setValue('daysRequested', daysRequested);
-      setValue('departureDate', date.from);
-      setValue('entryDate', date.to);
+      setValue("departureDate", date.from)
+      setValue("entryDate", date.to)
 
-      submitVacationRequest();
+      submitVacationRequest()
     }
-  };
+  }
+
+  // Function to check if a date is a weekend (Saturday or Sunday)
+  const isWeekend = (date: Date) => {
+    const day = date.getDay()
+    return day === 0 || day === 6 // 0 is Sunday, 6 is Saturday
+  }
 
   return (
     <form onSubmit={handleSubmit}>
-      <h5
-        className={`${titleFont.className} mb-3 text-base font-semibold text-gray-900 md:text-xl`}
-      >
+      <h5 className={`${titleFont.className} mb-3 text-base font-semibold text-gray-900 md:text-xl`}>
         Solicitud de vacaciones
       </h5>
       <p className="mb-4 text-sm font-normal text-gray-500 dark:text-gray-400">
@@ -54,17 +75,13 @@ export default function RequestVacationForm() {
             <Button
               id="date"
               variant={"outline"}
-              className={cn(
-                "w-full justify-start text-left font-normal",
-                !date && "text-muted-foreground"
-              )}
+              className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
               {date?.from ? (
                 date.to ? (
                   <>
-                    {format(date.from, "LLL dd, y", { locale: es })} -{" "}
-                    {format(date.to, "LLL dd, y", { locale: es })}
+                    {format(date.from, "LLL dd, y", { locale: es })} - {format(date.to, "LLL dd, y", { locale: es })}
                   </>
                 ) : (
                   format(date.from, "LLL dd, y", { locale: es })
@@ -82,25 +99,29 @@ export default function RequestVacationForm() {
               onSelect={setDate}
               numberOfMonths={2}
               locale={es}
-              disabled={{ before: new Date() }} // Deshabilitar fechas pasadas
+              disabled={{
+                before: new Date(), // Deshabilitar fechas pasadas
+                dayOfWeek: [0, 6], // Deshabilitar fines de semana
+              }}
             />
           </PopoverContent>
         </Popover>
       </div>
 
-      {errors.root && (
-        <div className="mt-2 text-sm text-red-500">{errors.root.message}</div>
+      {date?.from && date?.to && (
+        <div className="mt-2 text-sm font-medium text-gray-700">
+          Total días laborables seleccionados: <span className="font-semibold text-primary">{totalDays}</span>
+        </div>
       )}
 
-      <div className='mt-4 flex w-full justify-end'>
-        <Button
-          type="submit"
-          className='w-full sm:w-auto'
-          disabled={mutation.isPending || !date?.from || !date?.to}
-        >
-          {mutation.isPending ? <Spinner /> : 'Enviar solicitud'}
+      {errors.root && <div className="mt-2 text-sm text-red-500">{errors.root.message}</div>}
+
+      <div className="mt-4 flex w-full justify-end">
+        <Button type="submit" className="w-full sm:w-auto" disabled={mutation.isPending || !date?.from || !date?.to}>
+          {mutation.isPending ? <Spinner /> : "Enviar solicitud"}
         </Button>
       </div>
     </form>
-  );
+  )
 }
+

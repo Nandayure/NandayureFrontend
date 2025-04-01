@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { RequestVacation } from '@/types';
 import { postVacation } from '@/services';
-import useGetToken from '@/hooks/common/useGetToken';
 import { useRouter } from 'next/navigation';
 
 const usePostVacation = () => {
@@ -23,11 +22,8 @@ const usePostVacation = () => {
       queryClient.invalidateQueries({
         queryKey: ['getCurrentToApprove'],
       });
-      toast.success('Solicitud enviada');
     },
     onError: (error: any) => {
-      console.error('Error al enviar la solicitud', error);
-      toast.error('Error al enviar la solicitud');
       setError('root', {
         type: 'manual',
         message: error.message,

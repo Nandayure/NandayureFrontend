@@ -14,9 +14,9 @@ import { Holiday } from "@/types"
 export default function HolidayCard({ holiday }: {
   holiday: Holiday
 }) {
-  const formattedDate = format(new Date(holiday.date), "d 'de' MMMM 'de' yyyy", { locale: es })
-  const isPast = new Date(holiday.date) < new Date()
-  const isUpcoming = !isPast && new Date(holiday.date) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+  const formattedDate = format(new Date(holiday.specificDate ?? Date.now()), "d 'de' MMMM 'de' yyyy", { locale: es })
+  const isPast = new Date(holiday.specificDate ?? Date.now()) < new Date()
+  const isUpcoming = !isPast && new Date(holiday.specificDate ?? Date.now()) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
 
   return (
     <Card

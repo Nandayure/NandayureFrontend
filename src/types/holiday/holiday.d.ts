@@ -8,7 +8,9 @@
 export interface Holiday {
   id: number;
   name: string;
-  date: string;
+  specificDate?: string;
+  recurringMonth?: number;
+  recurringDay?: number;
   isActive: boolean;
   isRecurringYearly: boolean;
   createdAt?: string;

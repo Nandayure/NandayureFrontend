@@ -1,3 +1,4 @@
+import { CreateHolidayModal } from "@/components/holidays/create-holiday"
 import HolidaysGrid from "@/components/holidays/holidays-grid"
 
 export const metadata = {
@@ -15,6 +16,8 @@ export default async function Page() {
           laborables para efectos de cálculos de asistencia y nómina.
         </p>
       </div>
+
+      <CreateHolidayModal />
 
       <HolidaysGrid />
     </div>

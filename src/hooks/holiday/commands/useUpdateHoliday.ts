@@ -15,29 +15,60 @@ export const useUpdateHoliday = ({ holiday }: UseUpdateHolidayProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
 
+  // Asegurarse que los valores iniciales son correctos y del tipo esperado
   const form = useForm<UpdateHolidayFormData>({
     resolver: zodResolver(UpdateHolidaySchema),
     defaultValues: {
-      name: holiday.name,
-      date: holiday.date,
-      isActive: holiday.isActive,
-      isRecurringYearly: holiday.isRecurringYearly,
+      name: holiday.name || "",
+      date: holiday.specificDate || "",
+      recurringDay: holiday.recurringDay || undefined,
+      recurringMonth: holiday.recurringMonth || undefined,
+      isActive: holiday.isActive !== undefined ? holiday.isActive : true,
+      isRecurringYearly: holiday.isRecurringYearly !== undefined ? holiday.isRecurringYearly : false,
     },
   });
 
   const { mutate, isPending, isError, error } = useMutation({
-    mutationFn: (data: HolidayAPI.Requests.Update) => updateHoliday(holiday.id, data),
+    mutationFn: (data: UpdateHolidayFormData) => {
+      // Crear un objeto con los campos básicos
+      const baseData: HolidayAPI.Requests.Update = {
+        name: data.name,
+        isActive: data.isActive,
+        isRecurringYearly: data.isRecurringYearly
+      };
+
+      // Agregar campos según el tipo de feriado
+      if (data.isRecurringYearly) {
+        // Para feriados recurrentes
+        return updateHoliday(holiday.id, {
+          ...baseData,
+          recurringMonth: data.recurringMonth,
+          recurringDay: data.recurringDay,
+          specificDate: undefined 
+        });
+      } else {
+        // Para feriados específicos
+        return updateHoliday(holiday.id, {
+          ...baseData,
+          specificDate: data.date, // Mapear date a specificDate
+          recurringMonth: undefined, // Limpiar campos recurrentes
+          recurringDay: undefined
+        });
+      }
+    },
     onSuccess: () => {
-      toast.success('Holiday actualizado exitosamente');
+      toast.success('Día feriado actualizado exitosamente');
       queryClient.invalidateQueries({ queryKey: ['holidays'] });
       setIsOpen(false);
     },
-    onError: () => {
-      toast.error('Ha ocurrido un error al actualizar el Holiday');
+    onError: (err) => {
+      console.error("Error al actualizar:", err);
+      toast.error('Ha ocurrido un error al actualizar el día feriado');
     },
   });
 
   const onSubmit = (values: UpdateHolidayFormData) => {
+    console.log("Valores del formulario:", values);
     mutate(values);
   };
 

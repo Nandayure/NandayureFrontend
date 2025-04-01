@@ -31,32 +31,19 @@ export type HolidayFormData = z.infer<typeof CreateHolidaySchema>;
 
 export const UpdateHolidaySchema = z.object({
   name: z.string().min(1, { message: "El nombre es requerido" }).optional(),
-  date: z.string().refine(
+  specificDate: z.string().refine(
     (date) => {
-      // Validate date format (YYYY-MM-DD)
+      if (!date) return true;
       const regex = /^\d{4}-\d{2}-\d{2}$/;
       return regex.test(date);
     },
     { message: "Formato de fecha inválido. Use YYYY-MM-DD" }
   ).optional(),
+  date: z.string().optional(), // Para el formulario
   isActive: z.boolean().optional(),
   isRecurringYearly: z.boolean().optional(),
   recurringMonth: z.number().min(1).max(12).optional(),
   recurringDay: z.number().min(1).max(31).optional(),
-}).refine((data) => {
-  // Solo validamos si isRecurringYearly está presente y es true
-  if (data.isRecurringYearly === true) {
-    return data.recurringMonth !== undefined && data.recurringDay !== undefined;
-  }
-  // Solo validamos si isRecurringYearly está presente y es false
-  if (data.isRecurringYearly === false) {
-    return data.date !== undefined;
-  }
-  // Si no se está actualizando isRecurringYearly, no hacemos validación adicional
-  return true;
-}, {
-  message: "Si es recurrente anual, se requiere mes y día. Si no es recurrente, se requiere fecha específica.",
-  path: ["date"],
 });
 
 // Tipo para los datos del formulario de actualización

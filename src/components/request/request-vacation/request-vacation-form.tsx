@@ -46,7 +46,6 @@ export default function RequestVacationForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (date?.from && date?.to) {
-      setValue("daysRequested", totalDays)
       setValue("departureDate", date.from)
       setValue("entryDate", date.to)
 

@@ -94,4 +94,8 @@ export const ROUTES = {
     BASE: '/type-financial-institutions',
     BY_ID: (id: number) => `/type-financial-institutions/${id}`,
   },
+  HOLIDAYS: {
+    BASE: '/holidays',
+    BY_ID: (id: number) => `/holidays/${id}`,
+  }
 };

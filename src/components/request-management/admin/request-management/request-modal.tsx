@@ -36,6 +36,26 @@ const RequestModal = ({
 }) => {
   const router = useRouter();
 
+  // Formato especial para quincenas
+  const formatBiWeeklyPeriod = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+
+    const months = [
+      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+    ];
+
+    if (day === 15) {
+      return `1 al 15 de ${months[month]} ${year}`;
+    } else {
+      // Es fin de mes
+      return `16 al ${day} de ${months[month]} ${year}`;
+    }
+  };
+
   // Verificar si todas las aprobaciones están completadas (aprobadas)
   const allApprovalsCompleted = request?.RequestApprovals?.length > 0 &&
     request.RequestApprovals.every((approval: any) => approval.approved === true);
@@ -64,6 +84,9 @@ const RequestModal = ({
               {request.RequestTypeId === 2 && <FileText className="h-4 w-4" />}
               {request.RequestTypeId === 3 && (
                 <DollarSign className="h-4 w-4" />
+              )}
+              {request.RequestTypeId === 4 && (
+                <FileText className="h-4 w-4" />
               )}
               <span className="font-semibold">Tipo de solicitud:</span>
             </div>
@@ -100,6 +123,8 @@ const RequestModal = ({
             <div className="grid grid-cols-2 items-center gap-4">
               <span className="font-semibold">Razón:</span>
               <span>{request.RequestSalaryCertificate.reason}</span>
+              <span className="font-semibold">Quincena:</span>
+              <span>{formatBiWeeklyPeriod(request.RequestSalaryCertificate.date)}</span>
             </div>
           )}
 
@@ -108,8 +133,11 @@ const RequestModal = ({
               <div className="grid grid-cols-2 items-center gap-4">
                 <span className="font-semibold">Razón:</span>
                 <span>{request.RequestPaymentConfirmation.reason}</span>
+                <span className="font-semibold">Quincena:</span>
+                <span>{formatBiWeeklyPeriod(request.RequestPaymentConfirmation.date)}</span>
               </div>
             )}
+
 
           <div className="space-y-2">
             <h3 className="text-lg font-semibold">Proceso de aprobación</h3>

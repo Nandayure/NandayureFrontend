@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 const usePostPaySlip = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -54,6 +54,7 @@ const usePostPaySlip = () => {
   return {
     onSubmit,
     register,
+    setValue,
     mutation,
   };
 };

@@ -2,8 +2,8 @@
 
 import type React from "react"
 
-import { useState } from "react"
-import { format } from "date-fns"
+import { useState, useEffect } from "react"
+import { format, isSameDay, parseISO } from "date-fns"
 import { es } from "date-fns/locale"
 import { CalendarIcon } from "lucide-react"
 import type { DateRange } from "react-day-picker"
@@ -16,19 +16,51 @@ import Flag from "@/components/common/Flag"
 import Spinner from "@/components/ui/spinner"
 import { titleFont } from "@/lib/fonts"
 import { usePostVacation } from "@/hooks"
+import useGetHolidays from "@/hooks/holiday/queries/useGetHolidays"
 
 export default function RequestVacationForm() {
   const [date, setDate] = useState<DateRange | undefined>(undefined)
+  const { holidays, isError, isLoading, error } = useGetHolidays()
+  const [disabledDates, setDisabledDates] = useState<Date[]>([])
 
-  // Function to calculate business days (excluding weekends)
+  // Process holidays to determine which dates to disable
+  useEffect(() => {
+    if (holidays && holidays.length > 0) {
+      const currentYear = new Date().getFullYear()
+      const nextYear = currentYear + 1
+      const holidayDates: Date[] = []
+
+      // Process each holiday
+      holidays.forEach((holiday) => {
+        if (holiday.isRecurringYearly && holiday.recurringMonth && holiday.recurringDay) {
+          // For recurring holidays, add for current and next year
+          holidayDates.push(new Date(currentYear, holiday.recurringMonth - 1, holiday.recurringDay))
+          holidayDates.push(new Date(nextYear, holiday.recurringMonth - 1, holiday.recurringDay))
+        } else if (holiday.specificDate) {
+          // For specific date holidays - FIX: Use parseISO to correctly handle timezone issues
+          // Añadir 'T12:00:00' asegura que la fecha se interprete al mediodía, evitando problemas de zona horaria
+          holidayDates.push(parseISO(`${holiday.specificDate}T12:00:00`))
+        }
+      })
+
+      setDisabledDates(holidayDates)
+    }
+  }, [holidays])
+
+  // Function to check if a date is a holiday
+  const isHoliday = (date: Date) => {
+    return disabledDates.some((holidayDate) => isSameDay(date, holidayDate))
+  }
+
+  // Function to calculate business days (excluding weekends and holidays)
   const calculateBusinessDays = (startDate: Date, endDate: Date): number => {
     let count = 0
     const currentDate = new Date(startDate)
 
     while (currentDate <= endDate) {
       const dayOfWeek = currentDate.getDay()
-      // Skip weekends (0 = Sunday, 6 = Saturday)
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+      // Skip weekends and holidays
+      if (dayOfWeek !== 0 && dayOfWeek !== 6 && !isHoliday(currentDate)) {
         count++
       }
       // Move to the next day
@@ -48,15 +80,10 @@ export default function RequestVacationForm() {
     if (date?.from && date?.to) {
       setValue("departureDate", date.from)
       setValue("entryDate", date.to)
+      setValue("daysRequested", totalDays) // Asegurar que se envíen los días laborables correctos
 
       submitVacationRequest()
     }
-  }
-
-  // Function to check if a date is a weekend (Saturday or Sunday)
-  const isWeekend = (date: Date) => {
-    const day = date.getDay()
-    return day === 0 || day === 6 // 0 is Sunday, 6 is Saturday
   }
 
   return (
@@ -99,10 +126,11 @@ export default function RequestVacationForm() {
               onSelect={setDate}
               numberOfMonths={2}
               locale={es}
-              disabled={{
-                before: new Date(), // Deshabilitar fechas pasadas
-                dayOfWeek: [0, 6], // Deshabilitar fines de semana
-              }}
+              disabled={[
+                ...disabledDates, // Deshabilitar días festivos
+                { before: new Date() }, // Deshabilitar fechas pasadas
+                { dayOfWeek: [0, 6] }, // Deshabilitar fines de semana
+              ]}
             />
           </PopoverContent>
         </Popover>
@@ -114,7 +142,9 @@ export default function RequestVacationForm() {
         </div>
       )}
 
-      {errors.root && <div className="mt-2 text-sm text-red-500">{errors.root.message}</div>}
+      {isLoading && <div className="mt-2 text-sm text-blue-500">Cargando días festivos...</div>}
+      {isError && <div className="mt-2 text-sm text-red-500">Error al cargar días festivos</div>}
+      {errors?.root && <div className="mt-2 text-sm text-red-500">{errors.root.message}</div>}
 
       <div className="mt-4 flex w-full justify-end">
         <Button type="submit" className="w-full sm:w-auto" disabled={mutation.isPending || !date?.from || !date?.to}>

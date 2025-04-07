@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 const usePostSalaryCetificates = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -55,6 +55,7 @@ const usePostSalaryCetificates = () => {
   return {
     onSubmit,
     register,
+    setValue,
     mutation,
   };
 };

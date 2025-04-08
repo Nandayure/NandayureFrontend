@@ -1,4 +1,6 @@
 export interface RequestSalaryCertificate {
+  id: number;
   reason: string;
-  date: string;
+  RequestId: number;
+  date?: string;
 }

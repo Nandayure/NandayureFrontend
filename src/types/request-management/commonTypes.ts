@@ -1,14 +1,9 @@
 import { Employee } from '../Employee';
+import { RequestSalaryCertificate } from '../request/RequestSalaryCertificate';
 
 export interface RequestType {
   id: number;
   name: string;
-}
-
-export interface RequestSalaryCertificate {
-  id: number;
-  reason: string;
-  RequestId: number;
 }
 
 export interface RequestPaymentConfirmation {

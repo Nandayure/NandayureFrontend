@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -27,11 +28,16 @@ export default function DeleteStudyModal({ id }: Props) {
 
   return (
     <>
-      <Button variant="outline" size="icon" onClick={() => handleDelete()}>
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={() => handleDelete()}
+        data-cy="btn-delete-study"
+      >
         <Trash2 className="h-4 w-4" />
       </Button>
       <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
-        <DialogContent>
+        <DialogContent data-cy="dialog-delete-study">
           <DialogHeader>
             <DialogTitle>Confirmar Eliminación</DialogTitle>
             <DialogDescription>
@@ -43,10 +49,15 @@ export default function DeleteStudyModal({ id }: Props) {
             <Button
               variant="outline"
               onClick={() => setIsDeleteModalOpen(false)}
+              data-cy="btn-cancel-delete-study"
             >
               Cancelar
             </Button>
-            <Button variant="destructive" onClick={confirmDelete}>
+            <Button
+              variant="destructive"
+              onClick={confirmDelete}
+              data-cy="btn-confirm-delete-study"
+            >
               Eliminar
             </Button>
           </DialogFooter>
@@ -57,6 +68,7 @@ export default function DeleteStudyModal({ id }: Props) {
           isOpen={!!errorMessage}
           onClose={closeErrorModal}
           message={errorMessage}
+          data-cy="modal-error-delete-study"
         />
       )}
     </>

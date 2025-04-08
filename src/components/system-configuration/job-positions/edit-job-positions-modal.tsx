@@ -39,11 +39,12 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
 
   return (
     <>
-      <Button variant="outline" size="icon" className="mr-2">
-        <Pencil onClick={() => setIsEditModalOpen(true)} className="h-4 w-4" />
+      <Button variant="outline" size="icon" onClick={() => setIsEditModalOpen(true)} className="mr-2" 
+      data-cy="btn-edit-job-position" >
+        <Pencil className="h-4 w-4" />
       </Button>
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-        <DialogContent>
+        <DialogContent data-cy="modal-edit-job-position">
           <DialogHeader>
             <DialogTitle>Editar Puesto de trabajo</DialogTitle>
           </DialogHeader>
@@ -56,6 +57,7 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
                   defaultValue={jobPosition.Name}
                   type="text"
                   {...register('Name')}
+                  data-cy="input-edit-name-job-position"
                 />
                 {errors.Name && (
                   <p className="text-red-500 text-xs">{errors.Name.message}</p>
@@ -68,6 +70,7 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
                   defaultValue={jobPosition.Description}
                   type="text"
                   {...register('Description')}
+                    data-cy="input-edit-description-job-position"
                 />
                 {errors.Description && (
                   <p className="text-red-500 text-xs">
@@ -82,6 +85,7 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
                   defaultValue={jobPosition.baseSalary}
                   type="text"
                   {...register('baseSalary')}
+                   data-cy="input-edit-salarioBase-job-position"
                 />
                 {errors.baseSalary && (
                   <p className="text-red-500 text-xs">
@@ -96,6 +100,7 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
                   defaultValue={jobPosition.globalSalary}
                   type="text"
                   {...register('globalSalary')}
+                   data-cy="input-edit-salarioGlobal-job-position"
                 />
                 {errors.globalSalary && (
                   <p className="text-red-500 text-xs">
@@ -110,6 +115,7 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
                   defaultValue={jobPosition.extrafees}
                   type="text"
                   {...register('extrafees')}
+                   data-cy="input-edit-salarioExtra-job-position"
                 />
                 {errors.extrafees && (
                   <p className="text-red-500 text-xs">
@@ -124,7 +130,7 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
                     setValue('DepartmentId', Number(value))
                   }
                 >
-                  <SelectTrigger>
+                  <SelectTrigger  data-cy="select-edit-department-job-position">
                     <SelectValue placeholder="Seleccionar departamento" />
                   </SelectTrigger>
                   <SelectContent>
@@ -147,7 +153,7 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Guardar Cambios</Button>
+              <Button type="submit"  data-cy="btn-edit-submit-job-position">Guardar Cambios</Button>
             </DialogFooter>
           </form>
         </DialogContent>

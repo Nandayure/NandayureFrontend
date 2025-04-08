@@ -35,13 +35,20 @@ export default function EditStudyModal({ study, studyId }: Props) {
       studyId,
     });
   const { studiesCategory } = useGetAllStudiesCategory();
+
   return (
     <>
-      <Button variant="outline" size="icon" className="mr-2">
-        <Pencil onClick={() => setIsEditModalOpen(true)} className="h-4 w-4" />
+      <Button
+        variant="outline"
+        size="icon"
+        className="mr-2"
+        onClick={() => setIsEditModalOpen(true)}
+        data-cy="btn-edit-study"
+      >
+        <Pencil className="h-4 w-4" />
       </Button>
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-        <DialogContent>
+        <DialogContent data-cy="dialog-edit-study">
           <DialogHeader>
             <DialogTitle>Editar Departamento</DialogTitle>
           </DialogHeader>
@@ -54,9 +61,15 @@ export default function EditStudyModal({ study, studyId }: Props) {
                   defaultValue={study.name}
                   type="text"
                   {...register('name')}
+                  data-cy="input-edit-name-study"
                 />
                 {errors.name && (
-                  <p className="text-red-500 text-xs">{errors.name.message}</p>
+                  <p
+                    className="text-red-500 text-xs"
+                    data-cy="error-edit-name-study"
+                  >
+                    {errors.name.message}
+                  </p>
                 )}
               </div>
               <div className="grid gap-2">
@@ -64,10 +77,10 @@ export default function EditStudyModal({ study, studyId }: Props) {
                 <Select
                   onValueChange={(value) => setValue('StudyCategoryId', value)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger data-cy="select-edit-study-category">
                     <SelectValue placeholder="Seleccionar categoría de estudio" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent data-cy="select-edit-content-study-category">
                     {studiesCategory &&
                       studiesCategory.map((category) => (
                         <StudiesCategoryItem
@@ -78,14 +91,19 @@ export default function EditStudyModal({ study, studyId }: Props) {
                   </SelectContent>
                 </Select>
                 {errors.StudyCategoryId && (
-                  <p className="text-red-500 text-xs">
+                  <p
+                    className="text-red-500 text-xs"
+                    data-cy="error-edit-study-category"
+                  >
                     {errors.StudyCategoryId.message}
                   </p>
                 )}
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Guardar Cambios</Button>
+              <Button type="submit" data-cy="btn-submit-edit-study">
+                Guardar Cambios
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>

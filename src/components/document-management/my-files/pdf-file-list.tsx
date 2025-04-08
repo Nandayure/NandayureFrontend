@@ -7,6 +7,7 @@ import Image from "next/image"
 import type { PdfFile } from "@/types"
 import SkeletonLoader from "../SkeletonLoader"
 import DeleteFile from "./delete-file-alert"
+import { format } from "date-fns"
 
 type PdfFileListProps = {
   files: PdfFile[] | undefined
@@ -90,7 +91,7 @@ const PdfFileList = ({ files, isError, isLoading, error, hideDeleteButton = fals
                       {fileDate && (
                         <div className="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400">
                           <Calendar className="w-3 h-3 mr-1" />
-                          <span>{formatDistanceToNow(fileDate, { addSuffix: true, locale: es })}</span>
+                          <span>{format(fileDate, "dd 'de' MMMM yyyy", { locale: es })}</span>
                         </div>
                       )}
                     </div>

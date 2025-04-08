@@ -108,8 +108,9 @@ export default function ActiveUserTab() {
                       <TableCell>{employee.AvailableVacationDays}</TableCell>
                       <TableCell className="text-right">
                         <DeleteUserAlert employee={employee}>
-                          <Button size={'icon'} variant={'outline'}>
+                          <Button size={'sm'} variant={'outline'} className="flex items-center gap-2">
                             <Trash2Icon size={16} />
+                            <span>Eliminar</span>
                           </Button>
                         </DeleteUserAlert>
                       </TableCell>

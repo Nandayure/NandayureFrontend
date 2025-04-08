@@ -1,20 +1,4 @@
-export interface Employee {
-  id: string;
-  Name: string;
-  Surname1: string;
-  Surname2: string;
-  Birthdate: string;
-  HiringDate: string;
-  Email: string;
-  CellPhone: string;
-  NumberChlidren: number;
-  AvailableVacationDays: number;
-  JobPositionId: number;
-  GenderId: number;
-  MaritalStatusId: number;
-  EmbargoId: number | null;
-  deletedAt: string | null;
-}
+import { Employee } from '../Employee';
 
 export interface RequestType {
   id: number;

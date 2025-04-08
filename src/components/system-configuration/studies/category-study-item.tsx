@@ -29,6 +29,7 @@ export function StudiesCategoryItem({ category }: StudiesCategoryItemProps) {
           className="cursor-pointer"
           onMouseEnter={() => setIsOpen(true)}
           onMouseLeave={() => setIsOpen(false)}
+          data-cy={`select-item-${category.id}`}
         >
           {category.id}
         </SelectItem>
@@ -37,30 +38,71 @@ export function StudiesCategoryItem({ category }: StudiesCategoryItemProps) {
         onMouseEnter={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
         className="w-80"
+        data-cy={`popover-content-${category.id}`}
       >
         <div className="grid gap-4">
           <div className="space-y-2">
-            <h4 className="font-medium leading-none">Categoría de Estudios</h4>
-            <p className="text-sm text-muted-foreground">
+            <h4
+              className="font-medium leading-none"
+              data-cy="popover-title"
+            >
+              Categoría de Estudios
+            </h4>
+            <p
+              className="text-sm text-muted-foreground"
+              data-cy="popover-description"
+            >
               Detalles de la categoría de estudios seleccionada.
             </p>
           </div>
           <div className="grid gap-2">
-            <div className="grid grid-cols-3 items-center gap-4">
+            <div
+              className="grid grid-cols-3 items-center gap-4"
+              data-cy="popover-description-row"
+            >
               <span className="text-sm font-medium">Descripción:</span>
-              <span className="col-span-2 text-sm">{category.description}</span>
+              <span
+                className="col-span-2 text-sm"
+                data-cy="popover-description-value"
+              >
+                {category.description}
+              </span>
             </div>
-            <div className="grid grid-cols-3 items-center gap-4">
+            <div
+              className="grid grid-cols-3 items-center gap-4"
+              data-cy="popover-weight-row"
+            >
               <span className="text-sm font-medium">Peso:</span>
-              <span className="col-span-2 text-sm">{category.weight}</span>
+              <span
+                className="col-span-2 text-sm"
+                data-cy="popover-weight-value"
+              >
+                {category.weight}
+              </span>
             </div>
-            <div className="grid grid-cols-3 items-center gap-4">
+            <div
+              className="grid grid-cols-3 items-center gap-4"
+              data-cy="popover-dedication-row"
+            >
               <span className="text-sm font-medium">Dedicación:</span>
-              <span className="col-span-2 text-sm">{category.Dedication}</span>
+              <span
+                className="col-span-2 text-sm"
+                data-cy="popover-dedication-value"
+              >
+                {category.Dedication}
+              </span>
             </div>
-            <div className="grid grid-cols-3 items-center gap-4">
+            <div
+              className="grid grid-cols-3 items-center gap-4"
+              data-cy="popover-restriction-row"
+            >
               <span className="text-sm font-medium">Restricción:</span>
-              <span className="col-span-2 text-sm">{category.Restriction}</span>
+              <span
+                className="col-span-2 text-sm"
+                data-cy="popover-restriction-value"
+              >
+                {category.Restriction}
+              </span>
             </div>
           </div>
         </div>

@@ -22,7 +22,7 @@ export const UpdateEmployeeSchema = z.object({
       const currentYear = new Date().getFullYear();
       return !isNaN(date.getTime()) && date.getFullYear() < currentYear;
     }, {
-      message: 'La fecha de nacimiento no puede ser del año actual',
+      message: 'La fecha de nacimiento no puede ser del año actual o futura',
     })
     .optional(),
 

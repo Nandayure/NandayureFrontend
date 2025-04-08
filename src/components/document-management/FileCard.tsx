@@ -8,6 +8,8 @@ import { es } from "date-fns/locale"
 import Image from "next/image"
 import type { PdfFile } from "@/types"
 import DeleteFile from "./my-files/delete-file-alert"
+import { format } from "date-fns"
+ 
 
 interface FileCardProps {
   file: PdfFile
@@ -40,7 +42,13 @@ const FileCard = ({ file, folderId, hideDelete = false }: FileCardProps) => {
     return null
   }
 
-  const fileDate = getDateFromFileName()
+  const fileDate =
+  'uploadedAt' in file
+    ? (file as any).uploadedAt instanceof Date
+      ? (file as any).uploadedAt
+      : new Date((file as any).uploadedAt)
+    : getDateFromFileName();
+
 
   return (
     <div className="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-200 flex flex-col">
@@ -74,7 +82,7 @@ const FileCard = ({ file, folderId, hideDelete = false }: FileCardProps) => {
           {fileDate && (
             <div className="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400">
               <Calendar className="w-3 h-3 mr-1" />
-              <span>{formatDistanceToNow(fileDate, { addSuffix: true, locale: es })}</span>
+              <span>{format(fileDate, "dd 'de' MMMM yyyy", { locale: es })}</span>
             </div>
           )}
         </div>

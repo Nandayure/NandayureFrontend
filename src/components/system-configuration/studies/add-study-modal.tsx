@@ -35,7 +35,7 @@ export default function AddStudyModal() {
 
   return (
     <>
-      <Button onClick={handleAddNew}>
+      <Button onClick={handleAddNew} data-cy="btn-add-study">
         <Plus className="mr-2 h-4 w-4" /> Agregar estudio
       </Button>
       <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
@@ -51,9 +51,10 @@ export default function AddStudyModal() {
                   id="name"
                   {...register('name')}
                   placeholder="Escribe el nombre del estudio aquí"
+                  data-cy="input-add-name-study"
                 />
                 {errors.name && (
-                  <p className="text-red-500 text-xs">
+                  <p className="text-red-500 text-xs" data-cy="error-name-study">
                     {errors.name.message}
                   </p>
                 )}
@@ -65,10 +66,10 @@ export default function AddStudyModal() {
                     setValue('StudyCategoryId', value)
                   }
                 >
-                  <SelectTrigger>
+                  <SelectTrigger data-cy="select-study-category">
                     <SelectValue placeholder="Seleccionar categoría de estudio" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent data-cy="select-content-study-category">
                     {studiesCategory &&
                       studiesCategory.map((category) => (
                         <StudiesCategoryItem key={category.id} category={category} />
@@ -76,14 +77,16 @@ export default function AddStudyModal() {
                   </SelectContent>
                 </Select>
                 {errors.StudyCategoryId && (
-                  <p className="text-red-500 text-xs">
+                  <p className="text-red-500 text-xs" data-cy="error-study-category">
                     {errors.StudyCategoryId.message}
                   </p>
                 )}
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Agregar estudio</Button>
+              <Button type="submit" data-cy="btn-submit-add-study">
+                Agregar estudio
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>

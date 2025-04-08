@@ -54,9 +54,10 @@ export default function JobPositionsTable() {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-4">
         <AddJobPositionsModal />
-        <SearchBar onSearch={handleSearch} placeholder="Buscar puestos de trabajo..." className="max-w-md" />
+        <SearchBar onSearch={handleSearch} placeholder="Buscar puestos de trabajo..." className="max-w-md" 
+        InputDataCy='search-job-position'/>
       </div>
-      <Table>
+      <Table data-cy="job-position-table">
         <TableHeader>
           <TableRow>
             <TableHead>ID</TableHead>
@@ -72,7 +73,7 @@ export default function JobPositionsTable() {
         <TableBody>
           {isLoading
             ? Array.from({ length: 3 }).map((_, index) => (
-              <TableRow key={index}>
+              <TableRow key={index} data-cy="job-position-loading-row">
                 {Array.from({ length: 7 }).map((_, idx) => (
                   <TableCell key={idx}>
                     <Skeleton className="h-4 w-full" />
@@ -83,14 +84,12 @@ export default function JobPositionsTable() {
             : currentJobPositions.length > 0 ? (
               currentJobPositions.map((jobPosition) => (
                 <TableRow key={jobPosition.id}>
-                  <TableCell>{jobPosition.id}</TableCell>
-                  <TableCell>{jobPosition.Name}</TableCell>
-                  <TableCell>{jobPosition.Description}</TableCell>
-                  <TableCell className="w-32">
-                    ₡ {jobPosition.baseSalary}
-                  </TableCell>
-                  <TableCell className="w-32">₡ {jobPosition.globalSalary}</TableCell>
-                  <TableCell className="w-32">₡ {jobPosition.extrafees}</TableCell>
+                  <TableCell data-cy={`jobPosition-id-${jobPosition.id}`}>{jobPosition.id}</TableCell>
+                  <TableCell data-cy={`jobPosition-name-${jobPosition.Name}`}>{jobPosition.Name}</TableCell>
+                  <TableCell data-cy={`jobPosition-description-${jobPosition.Description}`}>{jobPosition.Description}</TableCell>
+                  <TableCell className="w-32" data-cy={`jobPosition-baseSalary-${jobPosition.baseSalary}`}> ₡ {jobPosition.baseSalary}</TableCell>
+                  <TableCell className="w-32" data-cy={`jobPosition-globalSalary-${jobPosition.globalSalary}`}>₡ {jobPosition.globalSalary}</TableCell>
+                  <TableCell className="w-32" data-cy={`jobPosition-extrafees-${jobPosition.extrafees}`}>₡ {jobPosition.extrafees}</TableCell>
                   <TableCell>{departments.find((department) => department.id === jobPosition.DepartmentId)?.name}</TableCell>
                   <TableCell>
                     <div className="flex">
@@ -101,7 +100,7 @@ export default function JobPositionsTable() {
                 </TableRow>
               ))
             ) : (
-              <TableRow>
+              <TableRow data-cy="job-position-empty-row">
                 <TableCell colSpan={8} className="h-24 text-center">
                   No se encontraron resultados.
                 </TableCell>

@@ -44,9 +44,16 @@ export function usePdfUpload({ folderId }: UsePdfUploadProps) {
   const onDrop = useCallback(
     (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       if (acceptedFiles.length > 0) {
-        setFile(acceptedFiles[0]);
-      }
+        const uploadedFile = acceptedFiles[0];
 
+        const visualFile = Object.assign(uploadedFile, {
+          uploadedAt: new Date()
+
+        });
+  
+        setFile(visualFile); 
+      }
+  
       if (fileRejections.length > 0) {
         setShowErrorModal(true);
         setErrorModalProgress(100);

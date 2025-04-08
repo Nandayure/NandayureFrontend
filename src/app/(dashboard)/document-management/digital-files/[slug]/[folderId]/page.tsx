@@ -57,7 +57,7 @@ export default function Page() {
       // Actualizar la URL sin recargar la página y sin cambiar el scroll
       router.replace(`${window.location.pathname}?${newParams.toString()}`, { scroll: false });
     }
-  }, [viewMode]); // Solo dependemos de viewMode aquí, no de searchParams
+  }, [viewMode, router, searchParams, viewModeFromParams]);
 
   const handleViewModeChange = (value: string) => {
     if (value === "grid" || value === "list") {

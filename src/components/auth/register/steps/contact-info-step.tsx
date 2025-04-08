@@ -7,6 +7,7 @@ import { useCheckEmail } from "@/hooks/validations/useValidations"
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react"
 import { useEffect, useRef } from "react"
 import { Separator } from "@/components/ui/separator"
+import Image from 'next/image'
 
 export function ContactInfoStep() {
   const { control, setError, clearErrors, formState } = useFormContext()
@@ -62,7 +63,7 @@ export function ContactInfoStep() {
       // Siempre desmarcar el procesamiento al finalizar
       processingEmailValidationRef.current = false;
     }
-  }, [emailCheck, emailWasChecked, setError, clearErrors]); // Eliminar formState.errors.Email de dependencias
+  }, [emailCheck, emailWasChecked, setError, clearErrors, formState.errors.Email?.message, formState.errors.Email?.type]);
 
   return (
     <div className="space-y-6">
@@ -110,7 +111,7 @@ export function ContactInfoStep() {
               <FormControl>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                    <img src="/CR-flag.svg" alt="Costa Rica" className="h-4 w-6 mr-1" />
+                    <Image src="/CR-flag.svg" alt="Costa Rica" width={24} height={16} className="mr-1" />
                     <span className="text-sm">+506</span>
                     <Separator orientation="vertical" className="h-5 mx-2" />
                   </div>

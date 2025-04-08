@@ -22,6 +22,11 @@ export interface RequestVacation {
   RequestId: number;
 }
 
+export interface RequestVacationForm {
+  departureDate: string;
+  entryDate: string;
+}
+
 export interface RequestDetails {
   RequestApprovals: any;
   id: number;

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { RequestVacation } from '@/types';
+import type { RequestVacation } from '@/types/request/RequestVacation';
 import { postVacation } from '@/services';
 import { useRouter } from 'next/navigation';
 

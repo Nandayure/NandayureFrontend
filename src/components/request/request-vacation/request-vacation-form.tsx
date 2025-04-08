@@ -78,10 +78,8 @@ export default function RequestVacationForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (date?.from && date?.to) {
-      setValue("departureDate", date.from)
-      setValue("entryDate", date.to)
-      setValue("daysRequested", totalDays) // Asegurar que se envíen los días laborables correctos
-
+      setValue("entryDate", format(date.from, 'yyyy-MM-dd'))
+      setValue("departureDate", format(date.to, 'yyyy-MM-dd'))
       submitVacationRequest()
     }
   }

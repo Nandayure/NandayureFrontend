@@ -35,11 +35,11 @@ export default function AddJobPositionsModal() {
 
   return (
     <>
-      <Button onClick={handleAddNew}>
+      <Button onClick={handleAddNew} data-cy="btn-add-job-position">
         <Plus className="mr-2 h-4 w-4" /> Agregar Puesto de trabajo
       </Button>
       <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
-        <DialogContent>
+        <DialogContent  data-cy="modal-add-job-position">
           <DialogHeader>
             <DialogTitle>Agregar Nuevo Puesto de trabajo</DialogTitle>
           </DialogHeader>
@@ -47,14 +47,14 @@ export default function AddJobPositionsModal() {
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
                 <Label htmlFor="name">Nombre</Label>
-                <Input id="name" {...register('Name')} />
+                <Input id="name" {...register('Name')} data-cy="input-name-add-job-position"/>
                 {errors.Name && (
                   <p className="text-red-500 text-xs">{errors.Name.message}</p>
                 )}
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="description">Descripción</Label>
-                <Input id="description" {...register('Description')} />
+                <Input id="description" {...register('Description')} data-cy="input-add-description-job-position"/>
                 {errors.Description && (
                   <p className="text-red-500 text-xs">
                     {errors.Description.message}
@@ -63,7 +63,8 @@ export default function AddJobPositionsModal() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="baseSalary">Salario base</Label>
-                <Input id="baseSalary" {...register('baseSalary')} />
+                <Input id="baseSalary" {...register('baseSalary')}
+                data-cy="input-add-salarioBase-job-position" />
                 {errors.baseSalary && (
                   <p className="text-red-500 text-xs">
                     {errors.baseSalary.message}
@@ -72,7 +73,7 @@ export default function AddJobPositionsModal() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="globalSalary">Salario global</Label>
-                <Input id="globalSalary" {...register('globalSalary')} />
+                <Input id="globalSalary" {...register('globalSalary')} data-cy="input-add-SalarioGlobal-job-position"/>
                 {errors.globalSalary && (
                   <p className="text-red-500 text-xs">
                     {errors.globalSalary.message}
@@ -81,7 +82,7 @@ export default function AddJobPositionsModal() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="extrafees">Salario extra</Label>
-                <Input id="extrafees" {...register('extrafees')} />
+                <Input id="extrafees" {...register('extrafees')} data-cy="input-add-salarioExtra-job-position"/>
                 {errors.extrafees && (
                   <p className="text-red-500 text-xs">
                     {errors.extrafees.message}
@@ -95,7 +96,7 @@ export default function AddJobPositionsModal() {
                     setValue('DepartmentId', Number(value))
                   }
                 >
-                  <SelectTrigger>
+                  <SelectTrigger data-cy="select-department-job-position">
                     <SelectValue placeholder="Seleccionar departamento" />
                   </SelectTrigger>
                   <SelectContent>
@@ -118,7 +119,7 @@ export default function AddJobPositionsModal() {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Agregar puesto de trabajo</Button>
+              <Button type="submit" data-cy="btn-submit-add-job-position">Agregar puesto de trabajo</Button>
             </DialogFooter>
           </form>
         </DialogContent>

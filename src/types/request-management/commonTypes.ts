@@ -54,3 +54,13 @@ export interface RequestDetails {
   RequestPaymentConfirmation: RequestPaymentConfirmation | null;
   RequestVacation: RequestVacation | null;
 }
+
+export interface PaginatedRequestResponse {
+  data: RequestDetails[];
+  page: number;
+  limit: number;
+  totalItems: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}

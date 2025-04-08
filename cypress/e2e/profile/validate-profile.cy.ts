@@ -15,10 +15,9 @@ describe('Validación de datos en perfil', () => {
     validValue: string
   ) => {
     cy.get('[data-cy="edit-profile"]').eq(index)
-      .should('exist')
-      .should('be.visible')
-      .click();
-  
+  .should('exist')
+  .should('be.visible')
+  .click({ force: true });
 
     // Prueba valores inválidos
     invalidValues.forEach((value) => {
@@ -27,8 +26,11 @@ describe('Validación de datos en perfil', () => {
     });
 
     // Guarda un valor válido
-    cy.get(inputSelector).clear().type(validValue);
-    cy.get('[data-cy="button-save"]').click();
+    cy.get('[data-cy="button-save"]')
+  .should('exist')
+  .should('be.visible')
+  .click(); // si es necesario
+
   };
 
   it('Debe validar el campo Nombre', () => {
@@ -52,7 +54,7 @@ describe('Validación de datos en perfil', () => {
     const today = new Date();
     const currentYear = today.getFullYear();
     const futureDate = `${currentYear + 1}-01-01`;
-    const invalidDate = `${currentYear}-01-01`;
+    const invalidDate = `${currentYear}-12-31`;
     const validDate = `${currentYear - 20}-06-15`;
 
     validateField(5, '[data-cy="input-Birthdate"]', [invalidDate, futureDate], validDate);

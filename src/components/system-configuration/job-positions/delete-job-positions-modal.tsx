@@ -29,11 +29,11 @@ export default function DeleteJobPositionsModal({ id }: Props) {
 
   return (
     <>
-      <Button variant="outline" size="icon" onClick={() => handleDelete()}>
+      <Button data-cy="btn-delete-job-position" variant="outline" size="icon" onClick={() => handleDelete()}>
         <Trash2 className="h-4 w-4" />
       </Button>
       <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
-        <DialogContent>
+        <DialogContent data-cy="modal-delete-job-position">
           <DialogHeader>
             <DialogTitle>Confirmar Eliminación</DialogTitle>
             <DialogDescription>
@@ -45,10 +45,11 @@ export default function DeleteJobPositionsModal({ id }: Props) {
             <Button
               variant="outline"
               onClick={() => setIsDeleteModalOpen(false)}
+              data-cy="btn-delete-outline-job-position"
             >
               Cancelar
             </Button>
-            <Button variant="destructive" onClick={confirmDelete}>
+            <Button data-cy="btn-delete-confirm-job-position" variant="destructive" onClick={confirmDelete}>
               Eliminar
             </Button>
           </DialogFooter>

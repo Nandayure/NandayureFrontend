@@ -1,12 +1,12 @@
 "use client"
-import { useGetAllRequest } from "@/hooks"
+import { useGetAllEmployees, useGetAllRequest } from "@/hooks"
 import { useState, useMemo } from "react"
 import RequestTable from "./request-table"
 import RequestModal from "./request-modal"
 import { useDebounce } from "@/hooks/common/useDebounce"
 import SearchBar from "./search-bar/search-bar"
 import TypeSelector from "./type-selector/type-selector"
-import type { RequestDetails } from "@/types/request-management/commonTypes"
+import type { RequestDetails, Employee } from "@/types/request-management/commonTypes"
 import { PaginationController } from "@/components/ui/pagination-controller"
 import ExportButtons from "./export-buttons"
 
@@ -22,7 +22,15 @@ export default function RequestTableManagement() {
   const debouncedSelectedType = useDebounce<string>(selectedType, 500)
   const debouncedSelectedState = useDebounce<string>(selectedState, 500)
 
-  const { allRequests, isLoading } = useGetAllRequest()
+  const { allRequests, isLoading, pagination } = useGetAllRequest({
+    page: currentPage,
+    limit: itemsPerPage,
+    searchQuery: debouncedSearchQuery,
+    type: debouncedSelectedType,
+    state: debouncedSelectedState,
+  })
+
+  const { employees } = useGetAllEmployees()
 
   const types = {
     1: "Vacaciones",
@@ -50,57 +58,53 @@ export default function RequestTableManagement() {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
-  const filteredRequests = useMemo(() => {
-    let filtered = allRequests || []
-    if (debouncedSearchQuery) {
-      filtered = filtered.filter((request) =>
-        request.EmployeeId.toString().toLowerCase().includes(debouncedSearchQuery.toLowerCase()),
-      )
-    }
-
-    if (debouncedSelectedType !== "all") {
-      filtered = filtered.filter((request) => request.RequestTypeId.toString() === debouncedSelectedType)
-    }
-
-    if (debouncedSelectedState !== "all") {
-      filtered = filtered.filter((request) => request.RequestStateId.toString() === debouncedSelectedState)
-    }
-
-    filtered.sort((a, b) => b.id - a.id)
-
-    return filtered
-  }, [allRequests, debouncedSearchQuery, debouncedSelectedType, debouncedSelectedState])
-
-  // Calcular los elementos a mostrar en la página actual
-  const paginatedRequests = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage
-    return filteredRequests.slice(startIndex, startIndex + itemsPerPage)
-  }, [filteredRequests, currentPage, itemsPerPage])
-
-  // Cuando cambian los filtros, volver a la primera página
-  useMemo(() => {
-    setCurrentPage(1)
-  }, [debouncedSearchQuery, debouncedSelectedType, debouncedSelectedState])
+  // Enriquecer las solicitudes con los datos del empleado
+  const enrichedRequests = useMemo(() => {
+    return allRequests.map(request => {
+      const employee = employees?.find(emp => emp.id === request.EmployeeId)
+      const defaultEmployee: Employee = {
+        id: request.EmployeeId,
+        Name: "No encontrado",
+        Surname1: "",
+        Surname2: "",
+        Birthdate: "",
+        HiringDate: "",
+        Email: "",
+        CellPhone: "",
+        NumberChlidren: 0,
+        AvailableVacationDays: 0,
+        JobPositionId: 0,
+        GenderId: 0,
+        MaritalStatusId: 0,
+        EmbargoId: null,
+        deletedAt: null
+      }
+      return {
+        ...request,
+        Employee: employee || defaultEmployee
+      } as RequestDetails
+    })
+  }, [allRequests, employees])
 
   return (
     <div className="container mx-auto py-10">
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold mb-4">Gestión de solicitudes</h1>
         <div className="flex space-x-4 justify-center items-center">
-          <ExportButtons requests={filteredRequests} isDisabled={isLoading} />
+          <ExportButtons requests={enrichedRequests} isDisabled={isLoading} />
           <TypeSelector types={states} selectedType={selectedState} onChange={setSelectedState} label="Estado" />
           <TypeSelector types={types} selectedType={selectedType} onChange={setSelectedType} label="Tipo" />
           <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         </div>
       </div>
-      <RequestTable requests={paginatedRequests} onRowClick={handleRowClick} isLoading={isLoading} />
+      <RequestTable requests={enrichedRequests} onRowClick={handleRowClick} isLoading={isLoading} />
 
       {/* Componente de paginación */}
       <div className="mt-4">
         <PaginationController
-          totalItems={filteredRequests.length}
-          itemsPerPage={itemsPerPage}
-          currentPage={currentPage}
+          totalItems={pagination.totalItems}
+          itemsPerPage={pagination.limit}
+          currentPage={pagination.page}
           onPageChange={handlePageChange}
           siblingCount={1}
           className="mt-4"

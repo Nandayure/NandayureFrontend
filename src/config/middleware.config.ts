@@ -1,4 +1,4 @@
-import { Roles } from "@/constants/roles/roles";
+import { Roles } from '@/constants/roles/roles';
 
 /**
  * Rutas públicas que no requieren autenticación
@@ -6,7 +6,6 @@ import { Roles } from "@/constants/roles/roles";
 export const PUBLIC_ROUTES: string[] = [
   '/auth/login',
   '/auth/forgot-password',
-  '/auth/*',
   '/auth/reset-password',
   '/auth/session-expired',
 ];
@@ -49,14 +48,15 @@ export const ROLE_ROUTES: RoleRoutes = {
     '/system-configuration/*',
     '/system-configuration',
     '/auth/register',
-    '/hr-analytics/*',  
+    '/hr-analytics/*',
     '/helps/faqs-management',
   ],
   // VA para Alcalde
-  [Roles.va]: [...commonRoutes,
+  [Roles.va]: [
+    ...commonRoutes,
     '/request-management',
-    '/request-management/*',  
-    '/hr-analytics/*',       
+    '/request-management/*',
+    '/hr-analytics/*',
   ],
 };
 
@@ -71,7 +71,7 @@ export function isPublicRoute(path: string): boolean {
   }
 
   // Verificación con comodines
-  return PUBLIC_ROUTES.some(route => {
+  return PUBLIC_ROUTES.some((route) => {
     if (route.includes('*')) {
       const prefix = route.split('*')[0];
       return path.startsWith(prefix);

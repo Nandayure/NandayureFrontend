@@ -37,57 +37,57 @@ const RequestTable = ({
     <TableBody>
       {isLoading
         ? Array.from({ length: 3 }).map((_, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <SkeletonLoader className="h-4 w-full" />
-              </TableCell>
-              <TableCell>
-                <SkeletonLoader className="h-4 w-full" />
-              </TableCell>
-              <TableCell>
-                <SkeletonLoader className="h-4 w-full" />
-              </TableCell>
-              <TableCell>
-                <SkeletonLoader className="h-4 w-full" />
-              </TableCell>
-              <TableCell>
-                <SkeletonLoader className="h-4 w-full" />
-              </TableCell>
-              <TableCell>
-                <SkeletonLoader className="h-4 w-full" />
-              </TableCell>
-              <TableCell>
-                <SkeletonLoader className="h-4 w-full" />
-              </TableCell>
-            </TableRow>
-          ))
+          <TableRow key={index}>
+            <TableCell>
+              <SkeletonLoader className="h-4 w-full" />
+            </TableCell>
+            <TableCell>
+              <SkeletonLoader className="h-4 w-full" />
+            </TableCell>
+            <TableCell>
+              <SkeletonLoader className="h-4 w-full" />
+            </TableCell>
+            <TableCell>
+              <SkeletonLoader className="h-4 w-full" />
+            </TableCell>
+            <TableCell>
+              <SkeletonLoader className="h-4 w-full" />
+            </TableCell>
+            <TableCell>
+              <SkeletonLoader className="h-4 w-full" />
+            </TableCell>
+            <TableCell>
+              <SkeletonLoader className="h-4 w-full" />
+            </TableCell>
+          </TableRow>
+        ))
         : requests.map((request) => (
-            <TableRow
-              key={request.id}
-              onClick={() => onRowClick(request)}
-              className="cursor-pointer hover:bg-muted"
-            >
-              <TableCell>{request.id}</TableCell>
-              <TableCell>{request.EmployeeId}</TableCell>
-              <TableCell>{request.Employee.Name}</TableCell>
-              <TableCell>{`${request.Employee.Surname1} ${request.Employee.Surname2}`}</TableCell>
-              <TableCell>{getRequestType(request.RequestTypeId)}</TableCell>
-              <TableCell>{formatDate(request.date)}</TableCell>
-              <TableCell>
-                <Badge
-                  variant={
-                    request.RequestStateId === 2
-                      ? 'approving'
-                      : request.RequestStateId === 3
+          <TableRow
+            key={request.id}
+            onClick={() => onRowClick(request)}
+            className="cursor-pointer hover:bg-muted"
+          >
+            <TableCell>{request.id}</TableCell>
+            <TableCell>{request.EmployeeId}</TableCell>
+            <TableCell>{request.Employee.Name}</TableCell>
+            <TableCell>{`${request.Employee.Surname1} ${request.Employee.Surname2}`}</TableCell>
+            <TableCell>{getRequestType(request.RequestTypeId)}</TableCell>
+            <TableCell>{formatDate(request.date)}</TableCell>
+            <TableCell>
+              <Badge
+                variant={
+                  request.RequestStateId === 2
+                    ? 'approving'
+                    : request.RequestStateId === 3
                       ? 'rejecting'
                       : 'pending'
-                  }
-                >
-                  {getRequestState(request.RequestStateId)}
-                </Badge>
-              </TableCell>
-            </TableRow>
-          ))}
+                }
+              >
+                {getRequestState(request.RequestStateId)}
+              </Badge>
+            </TableCell>
+          </TableRow>
+        ))}
     </TableBody>
   </Table>
 );

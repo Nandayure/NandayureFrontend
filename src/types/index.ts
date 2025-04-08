@@ -18,6 +18,7 @@ export * from './templates/vacations';
 
 export * from './request-management/currentToApproveTypes';
 export * from './request-management/getAllRequestTypes';
+export * from './request-management/commonTypes';
 
 // system-configuration
 

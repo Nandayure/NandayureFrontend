@@ -9,6 +9,9 @@ export const ROUTES = {
   EMPLOYEES: {
     BASE: '/employees',
     BY_ID: (employeeId: number) => `/employees/${employeeId}`,
+    DELETE: (employeeId: number) => `/employees/${employeeId}`,
+    GET_DELETED: '/employees/deleted',
+    RESTORE: (employeeId: number) => `/employees/restore/${employeeId}`,
   },
   ANALYTICS: {
     BASE: '/analitics',
@@ -26,12 +29,15 @@ export const ROUTES = {
     BY_ID: (id: number) => `/faq-categories/${id}`,
   },
   GOOGLE_DRIVE: {
-    USER_FILES: (folderId: string) => `/google-drive-files/MyFilesByFolder/${folderId}`,
-    EMPLOYEE_FILES: (folderId: string) => `/google-drive-files/FilesByFolder/${folderId}`,
+    USER_FILES: (folderId: string) =>
+      `/google-drive-files/MyFilesByFolder/${folderId}`,
+    EMPLOYEE_FILES: (folderId: string) =>
+      `/google-drive-files/FilesByFolder/${folderId}`,
     FILE_VIEW: (fileId: string) => `/google-drive-files/getFile/${fileId}`,
     UPLOAD: '/google-drive-files/upload',
     DELETE: (fileId: string) => `/google-drive-files/deleteFile/${fileId}`,
-    FILES_BY_EMPLOYEE: (employeeId: number) => `/google-drive-files/FilesByEmployee/${employeeId}`,
+    FILES_BY_EMPLOYEE: (employeeId: number) =>
+      `/google-drive-files/FilesByEmployee/${employeeId}`,
     MY_FOLDERS: '/google-drive-files/MyFolders',
   },
   PAY_SLIP: {
@@ -46,7 +52,7 @@ export const ROUTES = {
   },
   REQUESTS: {
     BASE: '/requests',
-    BY_EMPLOYEE: (employeeId: number) => `/requests/${employeeId}`,
+    BY_EMPLOYEE: `/requests/MyRequests`,
     CURRENT_TO_APPROVE: '/request-approvals/currentToApprove',
     APPROVAL: (id: number) => `/request-approvals/${id}`,
   },
@@ -64,7 +70,8 @@ export const ROUTES = {
   },
   DEPARTMENT_PROGRAMS: {
     BASE: '/department-programs',
-    BY_ID: (departmentProgramId: number) => `/department-programs/${departmentProgramId}`,
+    BY_ID: (departmentProgramId: number) =>
+      `/department-programs/${departmentProgramId}`,
   },
   DEPARTMENTS: {
     BASE: '/departments',
@@ -72,7 +79,8 @@ export const ROUTES = {
   },
   FINANCIAL_INSTITUTIONS: {
     BASE: '/financial-institutions',
-    BY_ID: (financialInstitutionsId: number) => `/financial-institutions/${financialInstitutionsId}`,
+    BY_ID: (financialInstitutionsId: number) =>
+      `/financial-institutions/${financialInstitutionsId}`,
   },
   GENDERS: {
     BASE: '/genders',
@@ -88,7 +96,8 @@ export const ROUTES = {
   },
   STUDIES_CATEGORY: {
     BASE: '/studies-category',
-    BY_ID: (studiesCategoryId: string) => `/studies-category/${studiesCategoryId}`,
+    BY_ID: (studiesCategoryId: string) =>
+      `/studies-category/${studiesCategoryId}`,
   },
   TYPE_FINANCIAL_INSTITUTIONS: {
     BASE: '/type-financial-institutions',
@@ -97,5 +106,5 @@ export const ROUTES = {
   HOLIDAYS: {
     BASE: '/holidays',
     BY_ID: (id: number) => `/holidays/${id}`,
-  }
+  },
 };

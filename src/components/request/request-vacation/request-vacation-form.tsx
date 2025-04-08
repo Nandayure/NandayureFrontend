@@ -78,8 +78,8 @@ export default function RequestVacationForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (date?.from && date?.to) {
-      setValue("departureDate", format(date.from, 'yyyy-MM-dd'))
-      setValue("entryDate", format(date.to, 'yyyy-MM-dd'))
+      setValue("entryDate", format(date.from, 'yyyy-MM-dd'))
+      setValue("departureDate", format(date.to, 'yyyy-MM-dd'))
       submitVacationRequest()
     }
   }

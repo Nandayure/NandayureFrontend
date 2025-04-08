@@ -18,6 +18,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import type { RequestSalaryCertificateForm } from '@/types/request/RequestSalaryCertificate';
+import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 // Define the validation schema
 const formSchema = z.object({
@@ -30,6 +32,7 @@ type FormValues = z.infer<typeof formSchema>;
 const SalaryCertificatesForm = () => {
   const { mutation } = usePostSalaryCetificates();
   const [selectedDate, setSelectedDate] = useState<string>("");
+  const router = useRouter();
 
   // Setup form with zod resolver
   const form = useForm<FormValues>({
@@ -87,7 +90,22 @@ const SalaryCertificatesForm = () => {
 
   // Define submit handler that calls the hook's mutate function
   const onSubmit = async (values: FormValues) => {
-    mutation.mutate(values);
+    try {
+      await toast.promise(
+        mutation.mutateAsync(values),
+        {
+          loading: 'Enviando solicitud...',
+          success: 'Solicitud enviada',
+          error: 'Error al enviar solicitud',
+        },
+        { duration: 4500 },
+      );
+      setTimeout(() => {
+        router.push('/');
+      }, 1000);
+    } catch (error) {
+      console.error('Error durante el envío del formulario', error);
+    }
   };
 
   return (

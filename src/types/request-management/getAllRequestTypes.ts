@@ -1,7 +1,7 @@
+import { Employee } from '../Employee';
+import { RequestSalaryCertificate } from '../request/RequestSalaryCertificate';
 import {
-  Employee,
   RequestType,
-  RequestSalaryCertificate,
   RequestPaymentConfirmation,
   RequestVacation,
   RequestDetails,

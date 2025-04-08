@@ -4,3 +4,8 @@ export interface RequestSalaryCertificate {
   RequestId: number;
   date?: string;
 }
+
+export interface RequestSalaryCertificateForm {
+  reason: string;
+  date: string;
+}

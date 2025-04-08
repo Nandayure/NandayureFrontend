@@ -1,6 +1,6 @@
 import useGetToken from '@/hooks/common/useGetToken';
 import { postSalaryCertificates } from '@/services';
-import { RequestSalaryCertificate } from '@/types';
+import { RequestSalaryCertificateForm } from '@/types/request/RequestSalaryCertificate';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -12,7 +12,7 @@ const usePostSalaryCetificates = () => {
   const router = useRouter();
 
   const mutation = useMutation({
-    mutationFn: async (data: RequestSalaryCertificate) =>
+    mutationFn: async (data: RequestSalaryCertificateForm) =>
       await postSalaryCertificates(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -38,7 +38,7 @@ const usePostSalaryCetificates = () => {
             } catch (error) {
               reject('Error al enviar solicitud');
             }
-          }, 500); 
+          }, 500);
         }),
         {
           loading: 'Enviando solicitud...',

@@ -1,10 +1,10 @@
 import httpClient from '@/helpers/http-client';
 import { ROUTES } from '@/constants/api-routes/routes';
-import { RequestSalaryCertificate } from '@/types';
+import { RequestSalaryCertificateForm } from '@/types/request/RequestSalaryCertificate';
 
 /**
  * Obtiene los certificados de salario
- * 
+ *
  * @returns {Promise<any>} Promesa que resuelve con la lista de certificados de salario
  */
 export const getSalaryCertificates = async (): Promise<any> => {
@@ -13,12 +13,15 @@ export const getSalaryCertificates = async (): Promise<any> => {
 
 /**
  * Crea una nueva solicitud de certificado de salario
- * 
- * @param {RequestSalaryCertificate} salaryCertificate - Datos de la solicitud de certificado de salario
+ *
+ * @param {RequestSalaryCertificateForm} salaryCertificate - Datos de la solicitud de certificado de salario
  * @returns {Promise<any>} Promesa que resuelve con la respuesta del servidor
  */
 export const postSalaryCertificates = async (
-  salaryCertificate: RequestSalaryCertificate,
+  salaryCertificate: RequestSalaryCertificateForm,
 ): Promise<any> => {
-  return await httpClient.post(ROUTES.SALARY_CERTIFICATES.POST, salaryCertificate);
+  return await httpClient.post(
+    ROUTES.SALARY_CERTIFICATES.POST,
+    salaryCertificate,
+  );
 };

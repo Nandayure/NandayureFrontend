@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import type { RequestSalaryCertificateForm } from '@/types/request/RequestSalaryCertificate';
 
 // Define the validation schema
 const formSchema = z.object({
@@ -29,7 +30,7 @@ type FormValues = z.infer<typeof formSchema>;
 const SalaryCertificatesForm = () => {
   const { mutation } = usePostSalaryCetificates();
   const [selectedDate, setSelectedDate] = useState<string>("");
-  
+
   // Setup form with zod resolver
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -44,7 +45,7 @@ const SalaryCertificatesForm = () => {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const periods = [];
-    
+
     // Generate 24 bi-weekly periods (2 per month for 12 months)
     for (let month = 0; month < 12; month++) {
       // First bi-weekly period (1-15)
@@ -52,7 +53,7 @@ const SalaryCertificatesForm = () => {
         value: `${currentYear}-${(month + 1).toString().padStart(2, '0')}-15`,
         label: `1-15 ${getMonthName(month)} ${currentYear}`
       });
-      
+
       // Second bi-weekly period (16-end of month)
       const lastDay = new Date(currentYear, month + 1, 0).getDate();
       periods.push({
@@ -60,23 +61,23 @@ const SalaryCertificatesForm = () => {
         label: `16-${lastDay} ${getMonthName(month)} ${currentYear}`
       });
     }
-    
+
     // Return only past and current periods
     return periods.filter(period => {
       return new Date(period.value) <= currentDate;
     }).reverse(); // Most recent first
   };
-  
+
   const getMonthName = (month: number) => {
     const months = [
-      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 
+      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
       'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
     ];
     return months[month];
   };
-  
+
   const periods = getBiWeeklyPeriods();
-  
+
   // Update form value when select changes
   useEffect(() => {
     if (selectedDate) {
@@ -102,7 +103,7 @@ const SalaryCertificatesForm = () => {
         </p>
         <Flag />
         <div className="mt-4" />
-        
+
         <FormField
           control={form.control}
           name="reason"
@@ -120,14 +121,14 @@ const SalaryCertificatesForm = () => {
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
           name="date"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Quincena</FormLabel>
-              <Select 
+              <Select
                 onValueChange={(value) => {
                   setSelectedDate(value);
                   field.onChange(value);
@@ -151,7 +152,7 @@ const SalaryCertificatesForm = () => {
             </FormItem>
           )}
         />
-        
+
         <div className="flex w-full justify-end">
           <Button type="submit" className="mt-4 w-full sm:w-auto" disabled={mutation.isPending}>
             {mutation.isPending ? <Spinner /> : 'Enviar solicitud'}

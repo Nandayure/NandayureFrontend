@@ -6,7 +6,8 @@ import RequestModal from "./request-modal"
 import { useDebounce } from "@/hooks/common/useDebounce"
 import SearchBar from "./search-bar/search-bar"
 import TypeSelector from "./type-selector/type-selector"
-import type { RequestDetails, Employee } from "@/types/request-management/commonTypes"
+import type { RequestDetails } from "@/types/request-management/commonTypes"
+import type { Employee } from "@/types/Employee"
 import { PaginationController } from "@/components/ui/pagination-controller"
 import ExportButtons from "./export-buttons"
 
@@ -75,9 +76,7 @@ export default function RequestTableManagement() {
         AvailableVacationDays: 0,
         JobPositionId: 0,
         GenderId: 0,
-        MaritalStatusId: 0,
-        EmbargoId: null,
-        deletedAt: null
+        MaritalStatusId: 0
       }
       return {
         ...request,

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useGetAllEmployees } from "@/hooks"
 import { Button } from "@/components/ui/button"
-import { Trash2 } from "lucide-react"
+import { Trash2, Trash2Icon } from "lucide-react"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -52,10 +52,6 @@ export default function ActiveUserTab() {
     setShowDeleteAlert(true)
   }
 
-  const handleCloseAlert = () => {
-    setShowDeleteAlert(false)
-    setSelectedEmployee(null)
-  }
 
   if (isError) {
     return (
@@ -111,9 +107,11 @@ export default function ActiveUserTab() {
                       <TableCell>{employee.CellPhone}</TableCell>
                       <TableCell>{employee.AvailableVacationDays}</TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="icon" onClick={() => handleDeleteClick(employee)}>
-                          <Trash2 className="h-4 w-4 text-red-500" />
-                        </Button>
+                        <DeleteUserAlert employee={employee}>
+                          <Button size={'icon'} variant={'outline'}>
+                            <Trash2Icon size={16} />
+                          </Button>
+                        </DeleteUserAlert>
                       </TableCell>
                     </TableRow>
                   ))
@@ -144,12 +142,6 @@ export default function ActiveUserTab() {
       {showDeleteAlert && selectedEmployee && (
         <DeleteUserAlert
           employee={selectedEmployee}
-          onClose={handleCloseAlert}
-          onConfirm={() => {
-            // Aquí iría la lógica para eliminar el usuario
-            console.log(`Usuario ${selectedEmployee.id} eliminado`)
-            handleCloseAlert()
-          }}
         />
       )}
     </div>

@@ -10,28 +10,46 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Employee } from "@/types"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useDeleteEmployee } from "@/hooks/system-configuration/employees/commands/useDeleteEmployee"
 
 interface DeleteUserAlertProps {
+  children?: React.ReactNode
   employee: Employee
-  onClose: () => void
-  onConfirm: () => void
 }
 
-export default function DeleteUserAlert({ employee, onClose, onConfirm }: DeleteUserAlertProps) {
+export default function DeleteUserAlert({ employee, children }: DeleteUserAlertProps) {
   const [idInput, setIdInput] = useState("")
   const [isMatch, setIsMatch] = useState(false)
+  const {
+    isOpen,
+    setIsOpen,
+    onConfirmDelete,
+    isPending,
+    isError,
+    error
+  } = useDeleteEmployee({ employee })
 
-  // Verificar si coincide la cédula ingresada
   useEffect(() => {
     setIsMatch(idInput === employee.id)
   }, [idInput, employee.id])
 
+  const onClose = () => setIsOpen(false)
+  const onConfirm = () => {
+    if (isMatch) {
+      onConfirmDelete()
+    }
+  }
+
   return (
-    <AlertDialog open={true} onOpenChange={onClose}>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+      <AlertDialogTrigger asChild>
+        {children}
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>

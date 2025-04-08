@@ -249,7 +249,7 @@ export function PersonalInfoStep() {
       // Siempre desmarcar el procesamiento al finalizar
       processingValidationRef.current = false;
     }
-  }, [idCheck, idWasChecked]);  // ← Eliminar formState.errors.id de la dependencia
+  }, [idCheck, idWasChecked, clearErrors, formState.errors.id?.type, setError]);
 
   return (
     <div className="space-y-6">

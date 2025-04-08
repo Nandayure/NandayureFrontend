@@ -40,7 +40,7 @@ export default function EmployeeDocumentsPage() {
       const newUrl = `${window.location.pathname}?${params.toString()}`;
       router.replace(newUrl, { scroll: false });
     }
-  }, [slug, viewMode, router]);
+  }, [viewMode, router, searchParams, viewModeFromParams]);
 
   const handleViewModeChange = (value: string) => {
     if (value === "grid" || "list") {

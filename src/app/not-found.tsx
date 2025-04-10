@@ -8,7 +8,7 @@ export default function NotFound() {
       <div className="py-5 px-4 mx-auto max-w-(--breakpoint-xl) lg:py-16 lg:px-6">
         <div className="mx-auto max-w-(--breakpoint-sm) text-center">
           <Image
-            src="https://nandayure-frontend.vercel.app/not-found.svg"
+            src="/not-found.svg"
             alt="Developer"
             width={350}
             height={350}

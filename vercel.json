@@ -1,4 +1,10 @@
 {
+  "build": {
+    "env": {
+      "PNPM_HOME": ".pnpm",
+      "PNPM_VERSION": "9.x"
+    }
+  },
   "routes": [
     {
       "src": "/api/chat",
@@ -7,10 +13,5 @@
       ],
       "dest": "/api/chat"
     }
-  ],
-  "build": {
-    "env": {
-      "PNPM_HOME": ".pnpm"
-    }
-  }
+  ]
 }

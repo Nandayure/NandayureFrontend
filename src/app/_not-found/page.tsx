@@ -7,8 +7,8 @@ export default function NotFoundPage() {
       <div className="py-2 px-4 mx-auto max-w-(--breakpoint-xl) lg:py-8 lg:px-6">
         <div className="mx-auto max-w-(--breakpoint-sm) text-center">
           <Image
-            src={'/not-found-secondary.svg'}
-            alt="Developer"
+            src="/not-found-secondary.svg"
+            alt="404 Not Found"
             width={350}
             height={350}
             className="mx-auto"
@@ -20,19 +20,18 @@ export default function NotFoundPage() {
             Ups, Lo sentimos!!
           </p>
           <p className="mb-4 text-lg font-light text-gray-500">
-            No podemos encontrar ese numero de solicitud. Encontrarás muchas
-            cosas para explorar en la página principal.
+            La página que estás buscando no existe.
           </p>
-          <Link href={'/request-management'} className="flex justify-center">
+          <Link href="/" className="flex justify-center">
             <button
               type="submit"
               className="block w-3/4 justify-center px-3 py-2 sm:py-3 mt-4 text-white bg-apple-500 rounded-md shadow-xs hover:bg-apple-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
             >
-              Regresar
+              Regresar al inicio
             </button>
           </Link>
         </div>
       </div>
     </section>
   );
-}
+} 

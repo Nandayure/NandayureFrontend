@@ -7,7 +7,7 @@ export default function NotFoundPage() {
       <div className="py-2 px-4 mx-auto max-w-(--breakpoint-xl) lg:py-8 lg:px-6">
         <div className="mx-auto max-w-(--breakpoint-sm) text-center">
           <Image
-            src={'/not-found-secondary.svg'}
+            src="/not-found-secondary.svg"
             alt="404 Not Found"
             width={350}
             height={350}
@@ -22,7 +22,7 @@ export default function NotFoundPage() {
           <p className="mb-4 text-lg font-light text-gray-500">
             La página que estás buscando no existe.
           </p>
-          <Link href={'/'} className="flex justify-center">
+          <Link href="/" className="flex justify-center">
             <button
               type="submit"
               className="block w-3/4 justify-center px-3 py-2 sm:py-3 mt-4 text-white bg-apple-500 rounded-md shadow-xs hover:bg-apple-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"

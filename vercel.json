@@ -7,5 +7,10 @@
       ],
       "dest": "/api/chat"
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "PNPM_HOME": ".pnpm"
+    }
+  }
 }

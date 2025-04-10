@@ -1,0 +1,4 @@
+ignoredBuiltDependencies:
+  - cypress
+  - esbuild
+  - sharp

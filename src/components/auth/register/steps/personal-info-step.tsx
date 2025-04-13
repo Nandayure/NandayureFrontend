@@ -3,11 +3,12 @@
 import { useFormContext, useWatch } from "react-hook-form"
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useGetAllCivilStatus, useGetAllGender } from "@/hooks"
+import { useGetAllCivilStatus, useGetAllGender, useIdentification } from "@/hooks"
 import { useCheckId } from "@/hooks/validations/useValidations"
 import { useEffect, useState, useRef } from "react"
 import { Input } from "@/components/ui/input"
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 const BirthdateDropdowns = () => {
   const {
@@ -199,57 +200,89 @@ export function PersonalInfoStep() {
     control,
     setError,
     clearErrors,
-    formState
+    formState,
+    setValue,
+    getValues
   } = useFormContext()
 
-  // Ref para prevenir actualizaciones recursivas
-  const processingValidationRef = useRef(false);
+  // Refs and states
+  const processingValidationRef = useRef(false)
+  const [fieldsDisabled, setFieldsDisabled] = useState(false)
+  const [debouncedIdForIdentification, setDebouncedIdForIdentification] = useState("")
 
-  // Observar cambios en el campo id
+  // Watch for ID changes
   const idValue = useWatch({
     control,
     name: "id",
     defaultValue: ""
   })
 
-  // Usar el hook de validación con debounce implícito
+  // ID validation hook with 500ms debounce
   const {
     data: idCheck,
     isLoading: isCheckingId,
     isFetched: idWasChecked
   } = useCheckId(idValue?.length >= 9 ? idValue : undefined, {
-    // Solo habilitar la consulta cuando el ID tenga al menos 9 caracteres (longitud completa)
     enabled: idValue?.length >= 9,
-    retry: 0 // No reintentar en caso de error
+    retry: 0,
+    debounceMs: 500
   })
 
-  // Efecto para actualizar errores del formulario basado en la existencia del ID
-  useEffect(() => {
-    // No hacer nada si aún no hay resultados o si ya estamos procesando
-    if (!idWasChecked || processingValidationRef.current) return;
+  // Identification service hook
+  const { identificationData, isLoading: isLoadingId, fetchData } = useIdentification()
 
-    // Marcar que estamos procesando la validación
+  // Debounce identification lookup separately
+  useEffect(() => {
+    if (idValue.length !== 9) return;
+
+    const handler = setTimeout(() => {
+      setDebouncedIdForIdentification(idValue);
+    }, 800); // Slightly longer debounce for identification lookup
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [idValue]);
+
+  // Handle ID validation and fetching
+  useEffect(() => {
+    if (!idWasChecked || processingValidationRef.current || debouncedIdForIdentification.length !== 9) return;
+
     processingValidationRef.current = true;
 
     try {
-      // Cédula ya existe
       if (idCheck?.exists === true) {
         setError("id", {
           type: "manual",
           message: "Esta cédula ya está registrada"
         });
-      }
-      // Cédula no existe, limpiar error manual (si existe)
-      else if (idCheck?.exists === false) {
+        setFieldsDisabled(false);
+      } else if (idCheck?.exists === false) {
         if (formState.errors.id?.type === "manual") {
           clearErrors("id");
         }
+        // Only fetch identification data if ID is not registered
+        fetchData(debouncedIdForIdentification);
       }
     } finally {
-      // Siempre desmarcar el procesamiento al finalizar
       processingValidationRef.current = false;
     }
-  }, [idCheck, idWasChecked, clearErrors, formState.errors.id?.type, setError]);
+  }, [idCheck, idWasChecked, debouncedIdForIdentification, setError, clearErrors, formState.errors.id?.type, fetchData]);
+
+  // Handle identification data response
+  useEffect(() => {
+    if (!identificationData) return;
+
+    if (identificationData.results && identificationData.results.length > 0) {
+      const person = identificationData.results[0];
+      setValue("Name", person.firstname1);
+      setValue("Surname1", person.lastname1);
+      setValue("Surname2", person.lastname2);
+      setFieldsDisabled(true);
+    } else {
+      setFieldsDisabled(false);
+    }
+  }, [identificationData, setValue]);
 
   return (
     <div className="space-y-6">
@@ -267,19 +300,15 @@ export function PersonalInfoStep() {
               <FormLabel>Cédula</FormLabel>
               <div className="relative">
                 <FormControl>
-                  <Input placeholder="Ingrese la cédula (9 dígitos)" {...field} maxLength={9} />
+                  <Input
+                    placeholder="Ingrese la cédula (9 dígitos)"
+                    {...field}
+                    maxLength={9}
+                  />
                 </FormControl>
-                {idValue?.length >= 9 && (
+                {idValue?.length >= 9 && (isCheckingId || isLoadingId) && (
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                    {isCheckingId && (
-                      <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />
-                    )}
-                    {!isCheckingId && idWasChecked && idCheck?.exists === true && (
-                      <AlertCircle className="h-4 w-4 text-destructive" />
-                    )}
-                    {!isCheckingId && idWasChecked && idCheck?.exists === false && (
-                      <CheckCircle className="h-4 w-4 text-success text-apple-500" />
-                    )}
+                    <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />
                   </div>
                 )}
               </div>
@@ -295,7 +324,11 @@ export function PersonalInfoStep() {
             <FormItem>
               <FormLabel>Nombre</FormLabel>
               <FormControl>
-                <Input placeholder="Ingrese el nombre" {...field} />
+                <Input
+                  placeholder="Ingrese el nombre"
+                  {...field}
+                  disabled={fieldsDisabled}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -310,7 +343,11 @@ export function PersonalInfoStep() {
               <FormItem>
                 <FormLabel>Primer Apellido</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ingrese el primer apellido" {...field} />
+                  <Input
+                    placeholder="Ingrese el primer apellido"
+                    {...field}
+                    disabled={fieldsDisabled}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -324,7 +361,11 @@ export function PersonalInfoStep() {
               <FormItem>
                 <FormLabel>Segundo Apellido</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ingrese el segundo apellido" {...field} />
+                  <Input
+                    placeholder="Ingrese el segundo apellido"
+                    {...field}
+                    disabled={fieldsDisabled}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

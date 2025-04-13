@@ -60,3 +60,4 @@ export * from './charts/actions';
 
 export * from './holiday/commands/actions';
 export * from './holiday/queries/actions';
+export * from './identification/actions';

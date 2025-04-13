@@ -41,3 +41,4 @@ export * from './faq/faq';
 export * from './folder/folder';
 export * from './charts/chart';
 export * from './holiday/holiday';
+export * from './identification/identification';

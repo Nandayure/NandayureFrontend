@@ -96,3 +96,4 @@ export { default as useGetFoldersByEmployee } from './folder/queries/useGetFolde
 export { default as useSummaryRequest } from './charts/useGetSummaryRequest';
 export { default as useDatesWithRequests } from './charts/useDatesWithRequests';
 export { default as useEmployeesWithMostRequests } from './charts/useEmployeesWithMostRequests';
+export { useIdentification } from './identification/useIdentification';

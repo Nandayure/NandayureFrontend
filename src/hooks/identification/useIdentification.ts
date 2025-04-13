@@ -2,7 +2,6 @@ import { CrIdentificationResponse } from '@/types';
 import { fetchIdentification } from '@/services';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { notify } from '@/utils/notification';
 
 interface UseIdentificationResult {
   identificationData: CrIdentificationResponse | undefined;
@@ -33,11 +32,7 @@ export const useIdentification = (): UseIdentificationResult => {
   const fetchData = async (newIdentification: string) => {
     try {
       setIdentification(newIdentification);
-      await notify(refetch(), {
-        loading: 'Consultando cédula...',
-        success: 'Información obtenida exitosamente',
-        error: 'Error al consultar la cédula',
-      });
+      await refetch()
     } catch (error: any) {
       console.error('Error fetching identification:', error);
     }

@@ -44,9 +44,6 @@ export * from './system-configuration/civilStatus/Commands/actions';
 export * from './system-configuration/gender/queries/actions';
 export * from './system-configuration/gender/commands/actions';
 
-export * from './system-configuration/annuities/commands/actions';
-export * from './system-configuration/annuities/queries/actions';
-
 export * from './files/actions';
 
 export * from './faq-categories/commands/actions';

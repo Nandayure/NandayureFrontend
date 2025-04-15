@@ -62,34 +62,6 @@ export default function AddJobPositionsModal() {
                 )}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="baseSalary">Salario base</Label>
-                <Input id="baseSalary" {...register('baseSalary')}
-                data-cy="input-add-salarioBase-job-position" />
-                {errors.baseSalary && (
-                  <p className="text-red-500 text-xs">
-                    {errors.baseSalary.message}
-                  </p>
-                )}
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="globalSalary">Salario global</Label>
-                <Input id="globalSalary" {...register('globalSalary')} data-cy="input-add-SalarioGlobal-job-position"/>
-                {errors.globalSalary && (
-                  <p className="text-red-500 text-xs">
-                    {errors.globalSalary.message}
-                  </p>
-                )}
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="extrafees">Salario extra</Label>
-                <Input id="extrafees" {...register('extrafees')} data-cy="input-add-salarioExtra-job-position"/>
-                {errors.extrafees && (
-                  <p className="text-red-500 text-xs">
-                    {errors.extrafees.message}
-                  </p>
-                )}
-              </div>
-              <div className="grid gap-2">
                 <Label htmlFor="DepartmentId">Departamento</Label>
                 <Select
                   onValueChange={(value) =>

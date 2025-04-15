@@ -66,9 +66,6 @@ export const convertJobPositionTypes = (jobPosition: any): JobPosition => {
     id: jobPosition.id,
     Name: jobPosition.Name,
     Description: jobPosition.Description,
-    baseSalary: parseFloat(jobPosition.baseSalary),
-    globalSalary: parseFloat(jobPosition.globalSalary),
-    extrafees: parseFloat(jobPosition.extrafees),
     DepartmentId: jobPosition.DepartmentId,
   };
 };

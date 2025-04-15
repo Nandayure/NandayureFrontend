@@ -39,8 +39,8 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
 
   return (
     <>
-      <Button variant="outline" size="icon" onClick={() => setIsEditModalOpen(true)} className="mr-2" 
-      data-cy="btn-edit-job-position" >
+      <Button variant="outline" size="icon" onClick={() => setIsEditModalOpen(true)} className="mr-2"
+        data-cy="btn-edit-job-position" >
         <Pencil className="h-4 w-4" />
       </Button>
       <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
@@ -70,56 +70,11 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
                   defaultValue={jobPosition.Description}
                   type="text"
                   {...register('Description')}
-                    data-cy="input-edit-description-job-position"
+                  data-cy="input-edit-description-job-position"
                 />
                 {errors.Description && (
                   <p className="text-red-500 text-xs">
                     {errors.Description.message}
-                  </p>
-                )}
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="baseSalary">Salario base</Label>
-                <Input
-                  id="baseSalary"
-                  defaultValue={jobPosition.baseSalary}
-                  type="text"
-                  {...register('baseSalary')}
-                   data-cy="input-edit-salarioBase-job-position"
-                />
-                {errors.baseSalary && (
-                  <p className="text-red-500 text-xs">
-                    {errors.baseSalary.message}
-                  </p>
-                )}
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="globalSalary">Salario global</Label>
-                <Input
-                  id="globalSalary"
-                  defaultValue={jobPosition.globalSalary}
-                  type="text"
-                  {...register('globalSalary')}
-                   data-cy="input-edit-salarioGlobal-job-position"
-                />
-                {errors.globalSalary && (
-                  <p className="text-red-500 text-xs">
-                    {errors.globalSalary.message}
-                  </p>
-                )}
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="extrafees">Salario extra</Label>
-                <Input
-                  id="extrafees"
-                  defaultValue={jobPosition.extrafees}
-                  type="text"
-                  {...register('extrafees')}
-                   data-cy="input-edit-salarioExtra-job-position"
-                />
-                {errors.extrafees && (
-                  <p className="text-red-500 text-xs">
-                    {errors.extrafees.message}
                   </p>
                 )}
               </div>
@@ -130,7 +85,7 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
                     setValue('DepartmentId', Number(value))
                   }
                 >
-                  <SelectTrigger  data-cy="select-edit-department-job-position">
+                  <SelectTrigger data-cy="select-edit-department-job-position">
                     <SelectValue placeholder="Seleccionar departamento" />
                   </SelectTrigger>
                   <SelectContent>
@@ -153,7 +108,7 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit"  data-cy="btn-edit-submit-job-position">Guardar Cambios</Button>
+              <Button type="submit" data-cy="btn-edit-submit-job-position">Guardar Cambios</Button>
             </DialogFooter>
           </form>
         </DialogContent>

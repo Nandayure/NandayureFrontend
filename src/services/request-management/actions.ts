@@ -1,6 +1,6 @@
 import httpClient from '@/helpers/http-client';
 import { ROUTES } from '@/constants/api-routes/routes';
-import { CurrentToApprove } from '@/types';
+import { CurrentToApprove, RequestCancelled } from '@/types';
 import { RequestDetails } from '@/types/request-management/commonTypes';
 
 interface GetRequestsParams {
@@ -89,4 +89,15 @@ export const patchRequestApproval = async (
   data: { approved: boolean; observation: string },
 ) => {
   return await httpClient.patch(ROUTES.REQUESTS.APPROVAL(id), data);
+};
+
+/**
+ * Cancela una solicitud
+ *
+ * @param {number} id - ID de la solicitud
+ * @param {string} reason - Razón de la cancelación
+ * @returns {Promise<void>} Promesa que resuelve con la respuesta del servidor
+ */
+export const cancelRequest = async (id: number, CancelledReason: string): Promise<void> => {
+  return await httpClient.patch(ROUTES.REQUESTS.CANCELLED(id), { CancelledReason });
 };

@@ -20,32 +20,20 @@ export * from './system-configuration/department-programs/commands/actions';
 
 export * from './system-configuration/employees/queries/actions';
 
-export * from './system-configuration/budget-codes/queries/actions';
-export * from './system-configuration/budget-codes/commands/actions';
-
 export * from './system-configuration/studies-category/queries/actions';
 export * from './system-configuration/studies-category/commands/actions';
 
 export * from './system-configuration/studies/queries/actions';
 export * from './system-configuration/studies/commands/actions';
 
-export * from './system-configuration/type-financial-institutions/queries/actions';
-export * from './system-configuration/type-financial-institutions/commands/actions';
-
 export * from './system-configuration/job-positions/queries/actions';
 export * from './system-configuration/job-positions/commands/actions';
-
-export * from './system-configuration/financial-institutions/queries/actions';
-export * from './system-configuration/financial-institutions/commands/actions';
 
 export * from './system-configuration/civilStatus/queries/actions';
 export * from './system-configuration/civilStatus/Commands/actions';
 
 export * from './system-configuration/gender/queries/actions';
 export * from './system-configuration/gender/commands/actions';
-
-export * from './system-configuration/annuities/commands/actions';
-export * from './system-configuration/annuities/queries/actions';
 
 export * from './files/actions';
 

@@ -35,18 +35,6 @@ export const navLinks: Record<string, NavLink> = {
     label: 'Puestos de trabajo',
     dataCy: 'sidebar-system-configuration-positions',
   },
-  anualidades: {
-    href: '/system-configuration/annuities',
-    icon: Banknote,
-    label: 'Anualidades',
-    dataCy: 'sidebar-system-configuration-annuities',
-  },
-  institucionesFinacieras: {
-    href: '/system-configuration/financial-institutions',
-    icon: Layers,
-    label: 'Instituciones Financieras',
-    dataCy: 'sidebar-system-configuration-financial-institutions',
-  },
   estudios: {
     href: '/system-configuration/studies',
     icon: GraduationCap,

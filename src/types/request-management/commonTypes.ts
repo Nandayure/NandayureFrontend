@@ -27,18 +27,55 @@ export interface RequestVacationForm {
   entryDate: string;
 }
 
+export interface RequestApprover {
+  id: string;
+  Name: string;
+  Surname1: string;
+  Surname2: string;
+  Birthdate: string;
+  HiringDate: string;
+  Email: string;
+  CellPhone: string;
+  NumberChlidren: number;
+  AvailableVacationDays: number;
+  JobPositionId: number;
+  GenderId: number;
+  MaritalStatusId: number;
+  deletedAt: string | null;
+}
+
+export interface RequestApproval {
+  id: number;
+  approverId: string;
+  requesterId: string;
+  processNumber: number;
+  RequestId: number;
+  observation: string | null;
+  approved: boolean | null;
+  current: boolean;
+  ApprovedDate: string | null;
+  approver: RequestApprover;
+}
+
+export interface RequestStatus {
+  id: number;
+  Name: string;
+}
+
 export interface RequestDetails {
-  RequestApprovals: any;
   id: number;
   date: string;
   RequestStateId: number;
   RequestTypeId: number;
+  CancelledReason: string | null;
   EmployeeId: string;
+  RequestApprovals: RequestApproval[];
   RequestType: RequestType;
-  Employee: Employee;
+  RequestStatus: RequestStatus;
+  RequestVacation: RequestVacation | null;
   RequestSalaryCertificate: RequestSalaryCertificate | null;
   RequestPaymentConfirmation: RequestPaymentConfirmation | null;
-  RequestVacation: RequestVacation | null;
+  Employee: Employee;
 }
 
 export interface PaginatedRequestResponse {

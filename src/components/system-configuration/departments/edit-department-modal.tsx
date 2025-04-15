@@ -16,7 +16,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {
-  useGetAllBudgetCodes,
   useGetAllDepartmentPrograms,
   useGetAllEmployees,
   usePatchDepartament,
@@ -43,7 +42,6 @@ export default function EditDepartmentModal({
     });
   const { employees } = useGetAllEmployees();
   const { departmentPrograms } = useGetAllDepartmentPrograms();
-  const { budgetCodes } = useGetAllBudgetCodes();
 
   return (
     <>
@@ -109,61 +107,6 @@ export default function EditDepartmentModal({
                   </p>
                 )}
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="budgetCodeId">Código de presupuesto</Label>
-                <Select
-                  onValueChange={(value) =>
-                    setValue('budgetCodeId', Number(value))
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar código de presupuesto" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {budgetCodes &&
-                      budgetCodes.map((code) => (
-                        <BudgetCodeItem key={code.id} code={code} />
-                      ))}
-                  </SelectContent>
-                </Select>
-                {errors.budgetCodeId && (
-                  <p className="text-red-500 text-xs">
-                    {errors.budgetCodeId.message}
-                  </p>
-                )}
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="departmentHeadId">Jefe de departamento</Label>
-                <Select
-                  onValueChange={(value) => setValue('departmentHeadId', value)}
-                  defaultValue={department.departmentHeadId}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar jefe de departamento" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {employees &&
-                      employees.map((employee) => (
-                        <SelectItem
-                          key={employee.id}
-                          value={employee.id.toString()}
-                        >
-                          {`${employee.Name} ${employee.Surname1} ${employee.Surname2}`}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-                {errors.departmentHeadId && (
-                  <p className="text-red-500 text-xs">
-                    {errors.departmentHeadId.message}
-                  </p>
-                )}
-              </div>
-              {errors.root && (
-                <p className="text-red-500 text-xs mt-2">
-                  {errors.root.message}
-                </p>
-              )}
             </div>
             <DialogFooter>
               <Button type="submit">Guardar Cambios</Button>

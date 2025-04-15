@@ -7,7 +7,7 @@ import {
   RequestDetails,
 } from './commonTypes';
 
-export interface RequestApproval {
+export interface DetailedRequestApproval {
   id: number;
   approverId: string;
   Name: string;

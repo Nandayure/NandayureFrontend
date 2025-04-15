@@ -64,7 +64,6 @@ export const convertDepartmentTypes = (departament: any): PatchDepartment => {
     name: departament.name,
     description: departament.description,
     departmentHeadId: departament.departmentHeadId,
-    budgetCodeId: parseInt(departament.budgetCodeId, 10),
     departmentProgramId: parseInt(departament.departmentProgramId, 10),
   };
 };

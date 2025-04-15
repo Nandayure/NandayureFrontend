@@ -3,7 +3,6 @@ export interface Department {
   name: string;
   description: string;
   departmentProgramId: number;
-  budgetCodeId: number;
   departmentHeadId: string;
 }
 

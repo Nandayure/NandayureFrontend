@@ -16,7 +16,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {
-  useGetAllBudgetCodes,
   useGetAllDepartmentPrograms,
   useGetAllEmployees,
   usePatchDepartament,
@@ -43,7 +42,6 @@ export default function EditDepartmentModal({
     });
   const { employees } = useGetAllEmployees();
   const { departmentPrograms } = useGetAllDepartmentPrograms();
-  const { budgetCodes } = useGetAllBudgetCodes();
 
   return (
     <>
@@ -106,29 +104,6 @@ export default function EditDepartmentModal({
                 {errors.departmentProgramId && (
                   <p className="text-red-500 text-xs">
                     {errors.departmentProgramId.message}
-                  </p>
-                )}
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="budgetCodeId">Código de presupuesto</Label>
-                <Select
-                  onValueChange={(value) =>
-                    setValue('budgetCodeId', Number(value))
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar código de presupuesto" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {budgetCodes &&
-                      budgetCodes.map((code) => (
-                        <BudgetCodeItem key={code.id} code={code} />
-                      ))}
-                  </SelectContent>
-                </Select>
-                {errors.budgetCodeId && (
-                  <p className="text-red-500 text-xs">
-                    {errors.budgetCodeId.message}
                   </p>
                 )}
               </div>

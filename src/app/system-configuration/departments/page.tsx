@@ -13,7 +13,7 @@ export default function DepartmentsPage() {
     <div className="container mx-auto py-10">
       <h1 className="text-3xl font-bold mb-6">Configuración del Sistema</h1>
       <Tabs defaultValue="departments">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="departments">Departamentos</TabsTrigger>
           <TabsTrigger value="programs">Programas Departamentales</TabsTrigger>
         </TabsList>

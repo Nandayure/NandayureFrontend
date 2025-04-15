@@ -20,7 +20,7 @@ export default function DepartmentsTable() {
   // Usar el hook de búsqueda
   const { filteredData: filteredDepartments, setSearchValue } = useSearchFilter({
     data: departments,
-    searchFields: ["id", "name", "description", "departmentProgramId", "budgetCodeId", "departmentHeadId"],
+    searchFields: ["id", "name", "description", "departmentProgramId", "departmentHeadId"],
   })
 
   // Resetear la página cuando cambia la búsqueda
@@ -56,7 +56,6 @@ export default function DepartmentsTable() {
             <TableHead>Nombre</TableHead>
             <TableHead>Descripción</TableHead>
             <TableHead>Programa</TableHead>
-            <TableHead>Código Presupuesto</TableHead>
             <TableHead>Jefe</TableHead>
             <TableHead>Acciones</TableHead>
           </TableRow>
@@ -79,7 +78,6 @@ export default function DepartmentsTable() {
                 <TableCell>{department.name}</TableCell>
                 <TableCell>{department.description}</TableCell>
                 <TableCell>{departmentPrograms.find((program) => program.id === department.departmentProgramId)?.name || "N/A"}</TableCell>
-                <TableCell>{department.budgetCodeId}</TableCell>
                 <TableCell>{employees.find((employee) => employee.id === department.departmentHeadId)?.Name} {employees.find((employee) => employee.id === department.departmentHeadId)?.Surname1 || "N/A"}</TableCell>
                 <TableCell>
                   <div className="flex">

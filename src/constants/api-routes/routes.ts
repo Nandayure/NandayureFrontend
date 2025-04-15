@@ -55,6 +55,7 @@ export const ROUTES = {
     BY_EMPLOYEE: `/requests/MyRequests`,
     CURRENT_TO_APPROVE: '/request-approvals/currentToApprove',
     APPROVAL: (id: number) => `/request-approvals/${id}`,
+    CANCELLED: (id: number) => `/request-approvals/cancel/${id}`,
   },
   ANNUITIES: {
     BASE: '/annuities',

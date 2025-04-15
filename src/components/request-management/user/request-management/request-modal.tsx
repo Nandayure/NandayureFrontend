@@ -6,26 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { formatDate } from "@/lib/utils"
 import { Clock, CheckCircle2, XCircle, Calendar, FileText, DollarSign, User, CalendarDays } from "lucide-react"
 import { getRequestState, getRequestType } from "../../request-helpers"
-import type { RequestDetails } from "@/types/request-management/commonTypes"
-
-interface RequestApproval {
-  id: React.Key
-  processNumber: number
-  approved: boolean | null
-  approverId: string
-  requesterId: string
-  observation: string | null
-  current: boolean
-  ApprovedDate: string | null
-  approver: {
-    id: string
-    Name: string
-    Surname1: string
-    Surname2: string
-    Email: string
-    JobPositionId: number
-  }
-}
+import type { RequestDetails, RequestApproval } from "@/types/request-management/commonTypes"
 
 const getRequestIcon = (typeId: number) => {
   switch (typeId) {
@@ -51,11 +32,6 @@ const getStatusColor = (stateId: number) => {
     default:
       return "bg-gray-500 text-white"
   }
-}
-
-interface RequestApproval {
-  processNumber: number
-  // Add other properties of RequestApproval here
 }
 
 interface Request {

@@ -17,7 +17,7 @@ export * from './templates/salary-certificate';
 export * from './templates/vacations';
 
 export * from './request-management/currentToApproveTypes';
-export * from './request-management/getAllRequestTypes';
+export type { DetailedRequestApproval } from './request-management/getAllRequestTypes';
 export * from './request-management/commonTypes';
 
 // system-configuration
@@ -38,3 +38,5 @@ export * from './folder/folder';
 export * from './charts/chart';
 export * from './holiday/holiday';
 export * from './identification/identification';
+
+export * from './request/request.cancelled'

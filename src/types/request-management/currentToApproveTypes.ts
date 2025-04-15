@@ -5,14 +5,12 @@ import {
   RequestPaymentConfirmation,
   RequestVacation,
   RequestDetails,
+  RequestApprover,
 } from './commonTypes';
 
 export interface CurrentToApprove {
   id: number;
   approverId: string;
-  Name: string;
-  Surname1: string;
-  Surname2: string;
   requesterId: string;
   processNumber: number;
   RequestId: number;
@@ -20,6 +18,7 @@ export interface CurrentToApprove {
   approved: boolean | null;
   current: boolean;
   ApprovedDate: string | null;
+  approver: RequestApprover;
   Request: RequestDetails;
 }
 

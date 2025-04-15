@@ -174,9 +174,14 @@ const RequestModal = ({
                                 <XCircle className="mr-1 h-3 w-3" /> Rechazado
                               </Badge>
                             )}
-                            {approval.approved === null && (
+                            {approval.approved === null && request.RequestStateId !== 4 && (
                               <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
                                 <Clock className="mr-1 h-3 w-3" /> Pendiente
+                              </Badge>
+                            )}
+                            {request.RequestStateId === 4 && (
+                              <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">
+                                <Ban className="mr-1 h-3 w-3" /> Cancelada
                               </Badge>
                             )}
                           </div>

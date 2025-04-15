@@ -66,12 +66,15 @@ const RequestTable = ({
             <TableCell>
               <Badge
                 variant={
-                  request.RequestStatus.id === 2
-                    ? 'approving'
-                    : request.RequestStatus.id === 3
-                      ? 'rejecting'
-                      : 'pending'
+                  request.RequestStateId === 4
+                    ? 'outline'
+                    : request.RequestStatus.id === 2
+                      ? 'approving'
+                      : request.RequestStatus.id === 3
+                        ? 'rejecting'
+                        : 'pending'
                 }
+                className={request.RequestStateId === 4 ? 'bg-gray-50 text-gray-700 border-gray-200' : ''}
               >
                 {request.RequestStatus.Name}
               </Badge>

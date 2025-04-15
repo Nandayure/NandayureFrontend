@@ -34,7 +34,7 @@ export const getStatusColor = (stateId: number) => {
     case 3:
       return 'bg-red-500 text-white hover:bg-red-700';
     case 4:
-      return 'bg-gray-500 text-white hover:bg-gray-700 line-through';
+      return 'bg-gray-500 text-white hover:bg-gray-700';
     default:
       return 'bg-gray-500 text-white hover:bg-gray-700';
   }

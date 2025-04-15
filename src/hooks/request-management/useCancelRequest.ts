@@ -16,7 +16,9 @@ export const useCancelRequest = ({ onSuccess }: UseCancelRequestProps = {}) => {
       return await cancelRequest(id, reason);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getAllRequestById'] });
+      queryClient.invalidateQueries({ queryKey: ['getAllRequests'] });
+      queryClient.invalidateQueries({ queryKey: ['getCurrentToApprove'] });
+      queryClient.invalidateQueries({ queryKey: ['AllRequestsById'] });
       toast.success('Solicitud cancelada exitosamente');
       onSuccess?.();
       setIsDialogOpen(false);

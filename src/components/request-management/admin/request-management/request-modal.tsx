@@ -18,15 +18,20 @@ export default function RequestModal({
 }) {
   if (!request) return null
 
-  // Helper function to get status variant
-  const getStatusVariant = (statusId: number) => {
-    switch (statusId) {
+
+  // Helper function to get status color
+  const getStatusColor = (stateId: number) => {
+    switch (stateId) {
+      case 1:
+        return "bg-golden-dream-500 text-white"
       case 2:
-        return "approving"
+        return "bg-apple-500 text-white"
       case 3:
-        return "rejecting"
+        return "bg-red-500 text-white"
+      case 4:
+        return "bg-gray-500 text-white line-through"
       default:
-        return "pending"
+        return "bg-gray-500 text-white"
     }
   }
 
@@ -42,7 +47,7 @@ export default function RequestModal({
         <DialogHeader className="mb-4">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-xl font-semibold">Solicitud #{request.id}</DialogTitle>
-            <Badge variant={getStatusVariant(request.RequestStatus.id)} className="text-sm px-3 py-1">
+            <Badge className={`${getStatusColor(request.RequestStateId)} px-3 py-1`}>
               {request.RequestStatus.Name}
             </Badge>
           </div>
@@ -142,20 +147,23 @@ export default function RequestModal({
                       <span className="text-gray-500 text-sm">Estado</span>
                       <div>
                         <Badge
-                          variant={
-                            approval.approved === true
-                              ? "approving"
-                              : approval.approved === false
-                                ? "rejecting"
-                                : "pending"
-                          }
-                          className="mt-1"
+                          variant="outline"
+                          className={`mt-1 ${request.RequestStateId === 4
+                              ? "bg-gray-50 text-gray-700 border-gray-200"
+                              : approval.approved === true
+                                ? "bg-green-50 text-green-700 border-green-200"
+                                : approval.approved === false
+                                  ? "bg-red-50 text-red-700 border-red-200"
+                                  : "bg-yellow-50 text-yellow-700 border-yellow-200"
+                            }`}
                         >
-                          {approval.approved === true
-                            ? "Aprobado"
-                            : approval.approved === false
-                              ? "Rechazado"
-                              : "Pendiente"}
+                          {request.RequestStateId === 4
+                            ? "Cancelada"
+                            : approval.approved === true
+                              ? "Aprobado"
+                              : approval.approved === false
+                                ? "Rechazado"
+                                : "Pendiente"}
                         </Badge>
                         {approval.current && (
                           <Badge variant="outline" className="ml-2 bg-blue-50">

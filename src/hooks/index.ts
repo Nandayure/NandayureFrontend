@@ -19,7 +19,7 @@ export { default as usePostSalaryCetificates } from './request/salary-certificat
 export { default as useTimeTracking } from './time-tracking/useTimeTracking';
 
 export { default as useGetAllRequest } from './request-management/useGetAllRequest';
-export { default as useGetAllRequestById } from './request-management/useGetAllRequesById';
+export { default as useGetAllRequestById } from './request-management/useGetAllRequestById';
 export { default as useGetCurrentToApprove } from './request-management/useGetCurrentToApprove';
 
 export { default as useGetAllDepartments } from './system-configuration/departments/queries/useGetAllDepartments';

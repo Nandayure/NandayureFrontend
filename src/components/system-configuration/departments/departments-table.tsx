@@ -9,7 +9,6 @@ import { PaginationController } from "@/components/ui/pagination-controller"
 import { SearchBar } from "@/components/ui/search-bar"
 import { useSearchFilter } from "@/hooks/use-search-filter"
 import AddDepartmentModal from "./add-department-modal"
-import { UpdateDepartmentHeadDialog } from "@/components/system-configuration/departments/update-department-head-dialog"
 import { Button } from "@/components/ui/button"
 
 export default function DepartmentsTable() {
@@ -82,14 +81,6 @@ export default function DepartmentsTable() {
                 <TableCell>{departmentPrograms.find((program) => program.id === department.departmentProgramId)?.name || "N/A"}</TableCell>
                 <TableCell>
                   {employees.find((employee) => employee.id === department.departmentHeadId)?.Name} {employees.find((employee) => employee.id === department.departmentHeadId)?.Surname1 || "N/A"}
-                  <UpdateDepartmentHeadDialog
-                    departmentId={department.id.toString()}
-                    trigger={
-                      <Button variant="outline" size="sm" className="ml-2">
-                        Cambiar Jefe
-                      </Button>
-                    }
-                  />
                 </TableCell>
                 <TableCell>
                   <div className="flex">

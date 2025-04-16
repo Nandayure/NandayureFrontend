@@ -55,7 +55,7 @@ export default function Dashboard() {
       <div className="container mx-auto p-4 md:p-6">
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Dashboard de Solicitudes</h1>
+            <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Dashboard de solicitudes</h1>
             <p className="text-muted-foreground">Visualización de datos de solicitudes y su estado actual.</p>
           </div>
           <Button
@@ -77,7 +77,7 @@ export default function Dashboard() {
     <div className="container mx-auto p-4 md:p-6">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Dashboard de Solicitudes</h1>
+          <h1 className="text-2xl font-bold tracking-tight md:text-3xl">Dashboard de solicitudes</h1>
           <p className="text-muted-foreground">Visualización de datos de solicitudes y su estado actual.</p>
         </div>
         <div className="flex items-center gap-4">
@@ -108,7 +108,7 @@ export default function Dashboard() {
         <div className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader>
-              <CardTitle>Distribución por Tipo</CardTitle>
+              <CardTitle>Distribución por tipo</CardTitle>
               <CardDescription>Distribución de solicitudes por categoría</CardDescription>
             </CardHeader>
             <CardContent className="h-80">
@@ -122,7 +122,7 @@ export default function Dashboard() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Estado de Solicitudes</CardTitle>
+              <CardTitle>Estado de solicitudes</CardTitle>
               <CardDescription>Cantidad de solicitudes por estado</CardDescription>
             </CardHeader>
             <CardContent className="h-80">

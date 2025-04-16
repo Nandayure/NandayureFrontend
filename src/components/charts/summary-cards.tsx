@@ -31,7 +31,7 @@ export function SummaryCards({
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total de Solicitudes</CardTitle>
+          <CardTitle className="text-sm font-medium">Total de solicitudes</CardTitle>
           <FileTextIcon className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
@@ -42,7 +42,7 @@ export function SummaryCards({
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Solicitudes Aprobadas</CardTitle>
+          <CardTitle className="text-sm font-medium">Solicitudes aprobadas</CardTitle>
           <CheckCircleIcon className="h-4 w-4 text-green-500" />
         </CardHeader>
         <CardContent>
@@ -55,7 +55,7 @@ export function SummaryCards({
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Solicitudes Rechazadas</CardTitle>
+          <CardTitle className="text-sm font-medium">Solicitudes rechazadas</CardTitle>
           <XCircleIcon className="h-4 w-4 text-red-500" />
         </CardHeader>
         <CardContent>
@@ -68,7 +68,7 @@ export function SummaryCards({
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Solicitudes Pendientes</CardTitle>
+          <CardTitle className="text-sm font-medium">Solicitudes pendientes</CardTitle>
           <ClockIcon className="h-4 w-4 text-amber-500" />
         </CardHeader>
         <CardContent>

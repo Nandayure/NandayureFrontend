@@ -36,12 +36,6 @@ export { default as useDeleteDepartmentProgram } from './system-configuration/de
 
 export { default as useGetAllEmployees } from './system-configuration/employees/queries/useGetAllEmployees';
 
-export { default as useGetAllBudgetCodes } from './system-configuration/budget-codes/queries/useGetAllBudgetCodes';
-export { default as useGetBudgetCodeById } from './system-configuration/budget-codes/queries/useGetBudgetCodeById';
-export { default as usePostBudgetCode } from './system-configuration/budget-codes/commands/usePostBudgetCode';
-export { default as usePatchBudgetCode } from './system-configuration/budget-codes/commands/usePatchBudgetCode';
-export { default as useDeleteBudgetCode } from './system-configuration/budget-codes/commands/useDeleteBudgetCode';
-
 export { default as useGetAllStudiesCategory } from './system-configuration/studies-category/queries/useGetAllStudiesCategory';
 export { default as useGetStudiesCategoryById } from './system-configuration/studies-category/queries/useGetStudiesCategoryById';
 export { default as usePostStudiesCategory } from './system-configuration/studies-category/commands/usePostStudiesCategory';
@@ -54,23 +48,12 @@ export { default as usePostStudy } from './system-configuration/studies/commands
 export { default as usePatchStudy } from './system-configuration/studies/commands/usePatchStudy';
 export { default as useDeleteStudy } from './system-configuration/studies/commands/useDeleteStudy';
 
-export { default as useGetAllTypeFinancialInstitutions } from './system-configuration/type-financial-institutions/queries/useGetAllTypeFinancialInstitutions';
-export { default as useGetTypeFinancialInstitutionById } from './system-configuration/type-financial-institutions/queries/useGetTypeFinancialInstitutionById';
-export { default as usePostTypeFinancialInstitution } from './system-configuration/type-financial-institutions/commands/usePostTypeFinancialInstitution';
-export { default as usePatchTypeFinancialInstitution } from './system-configuration/type-financial-institutions/commands/usePatchTypeFinancialInstitution';
-export { default as useDeleteTypeFinancialInstitution } from './system-configuration/type-financial-institutions/commands/useDeleteTypeFinancialInstitution';
-
 export { default as useGetAllJobPositions } from './system-configuration/job-positions/queries/useGetAllJobPositions';
 export { default as useGetJobPositionById } from './system-configuration/job-positions/queries/useGetJobPositionById';
 export { default as usePostJobPosition } from './system-configuration/job-positions/commands/usePostJobPosition';
 export { default as usePatchJobPosition } from './system-configuration/job-positions/commands/usePatchJobPosition';
 export { default as useDeleteJobPosition } from './system-configuration/job-positions/commands/useDeleteJobPosition';
 
-export { default as useGetAllFinancialInstitutions } from './system-configuration/financial-institutions/queries/useGetAllFinancialInstitutions';
-export { default as useGetFinancialInstitutionById } from './system-configuration/financial-institutions/queries/useGetFinancialInstitutionById';
-export { default as usePostFinancialInstitution } from './system-configuration/financial-institutions/commands/usePostFinancialInstitution';
-export { default as usePatchFinancialInstitution } from './system-configuration/financial-institutions/commands/usePatchFinancialInstitution';
-export { default as useDeleteFinancialInstitution } from './system-configuration/financial-institutions/commands/useDeleteFinancialInstitution';
 
 export { default as useGetAllCivilStatus } from './system-configuration/civilStatus/queries/useGetAllCivilState';
 export { default as useGetCivilStatusById } from './system-configuration/civilStatus/queries/useGetByIdCivilState';
@@ -83,16 +66,10 @@ export { default as usePostGender } from './system-configuration/gender/commads/
 export { default as usePatchGender } from './system-configuration/gender/commads/usePatchGender';
 export { default as useDeleteGender } from './system-configuration/gender/commads/useDeleteGender';
 
-export { default as useDeleteAnnuity } from './system-configuration/annuities/commands/useDeleteAnnuity';
-export { default as usePatchAnnuity } from './system-configuration/annuities/commands/usePatchAnnuity';
-export { default as usePostAnnuity } from './system-configuration/annuities/commands/usePostAnnuity';
-export { default as useGetAllAnnuities } from './system-configuration/annuities/queries/useGetAllAnnuities';
-export { default as useGetAnnuity } from './system-configuration/annuities/queries/useGetAnnuityById';
-export { default as useGetEmployees } from './system-configuration/annuities/queries/useGetEmployees';
-
 export { default as useUserFiles } from './files/useUserFiles';
 export { default as useGetMyFolders } from './folder/queries/useGetMyFolders';
 export { default as useGetFoldersByEmployee } from './folder/queries/useGetFoldersByEmployee';
 export { default as useSummaryRequest } from './charts/useGetSummaryRequest';
 export { default as useDatesWithRequests } from './charts/useDatesWithRequests';
 export { default as useEmployeesWithMostRequests } from './charts/useEmployeesWithMostRequests';
+export { useIdentification } from './identification/useIdentification';

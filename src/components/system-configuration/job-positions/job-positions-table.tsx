@@ -63,9 +63,6 @@ export default function JobPositionsTable() {
             <TableHead>ID</TableHead>
             <TableHead>Nombre</TableHead>
             <TableHead>Descripción</TableHead>
-            <TableHead>Salario base</TableHead>
-            <TableHead>Salario global</TableHead>
-            <TableHead>Salario extra</TableHead>
             <TableHead>Departamento</TableHead>
             <TableHead>Acciones</TableHead>
           </TableRow>
@@ -87,9 +84,6 @@ export default function JobPositionsTable() {
                   <TableCell data-cy={`jobPosition-id-${jobPosition.id}`}>{jobPosition.id}</TableCell>
                   <TableCell data-cy={`jobPosition-name-${jobPosition.Name}`}>{jobPosition.Name}</TableCell>
                   <TableCell data-cy={`jobPosition-description-${jobPosition.Description}`}>{jobPosition.Description}</TableCell>
-                  <TableCell className="w-32" data-cy={`jobPosition-baseSalary-${jobPosition.baseSalary}`}> ₡ {jobPosition.baseSalary}</TableCell>
-                  <TableCell className="w-32" data-cy={`jobPosition-globalSalary-${jobPosition.globalSalary}`}>₡ {jobPosition.globalSalary}</TableCell>
-                  <TableCell className="w-32" data-cy={`jobPosition-extrafees-${jobPosition.extrafees}`}>₡ {jobPosition.extrafees}</TableCell>
                   <TableCell>{departments.find((department) => department.id === jobPosition.DepartmentId)?.name}</TableCell>
                   <TableCell>
                     <div className="flex">

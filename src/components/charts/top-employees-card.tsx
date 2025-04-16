@@ -17,7 +17,7 @@ export function TopEmployeesCard({ query }: TopEmployeesCardProps) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Empleados con Más Solicitudes</CardTitle>
+          <CardTitle>Empleados con más solicitudes</CardTitle>
           <CardDescription>Los empleados con más solicitudes en el período seleccionado</CardDescription>
         </CardHeader>
         <CardContent>
@@ -40,7 +40,7 @@ export function TopEmployeesCard({ query }: TopEmployeesCardProps) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Empleados con Más Solicitudes</CardTitle>
+          <CardTitle>Empleados con más solicitudes</CardTitle>
           <CardDescription>Los empleados con más solicitudes en el período seleccionado</CardDescription>
         </CardHeader>
         <CardContent>
@@ -55,7 +55,7 @@ export function TopEmployeesCard({ query }: TopEmployeesCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Empleados con Más Solicitudes</CardTitle>
+        <CardTitle>Empleados con más solicitudes</CardTitle>
         <CardDescription>Los empleados con más solicitudes en el período seleccionado</CardDescription>
       </CardHeader>
       <CardContent>

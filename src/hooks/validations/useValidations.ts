@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
+import useDebounce from "../common/useDebounce";
 import { checkEmail, checkId } from "@/services/validations/actions";
-import { useState, useEffect } from "react";
 
-type ValidationOptions = {
+interface ValidationOptions {
   enabled?: boolean;
-  retry?: boolean | number;
+  retry?: number;
   refetchOnWindowFocus?: boolean;
   debounceMs?: number;
-};
+}
 
 /**
  * Hook para verificar si un email existe en el sistema con soporte para debounce
@@ -19,18 +19,7 @@ export const useCheckEmail = (
   email: string | undefined,
   options?: ValidationOptions
 ) => {
-  const debounceMs = options?.debounceMs ?? 500;
-  const [debouncedEmail, setDebouncedEmail] = useState(email);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedEmail(email);
-    }, debounceMs);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [email, debounceMs]);
+  const debouncedEmail = useDebounce(email, options?.debounceMs);
 
   return useQuery({
     queryKey: ["check-email", debouncedEmail],
@@ -52,18 +41,7 @@ export const useCheckId = (
   id: string | undefined,
   options?: ValidationOptions
 ) => {
-  const debounceMs = options?.debounceMs ?? 500;
-  const [debouncedId, setDebouncedId] = useState(id);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedId(id);
-    }, debounceMs);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [id, debounceMs]);
+  const debouncedId = useDebounce(id, options?.debounceMs);
 
   return useQuery({
     queryKey: ["check-id", debouncedId],

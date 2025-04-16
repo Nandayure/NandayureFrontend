@@ -1,4 +1,4 @@
-import { Department, PatchDepartment } from '@/types';
+import { Department, PatchDepartment, UpdateDepartmentHead } from '@/types';
 import httpClient from '@/helpers/http-client';
 import { ROUTES } from '@/constants/api-routes/routes';
 
@@ -52,3 +52,20 @@ export const patchDepartment = async ({
 export const deleteDepartment = async (departmentId: number): Promise<void> => {
   await httpClient.delete(ROUTES.DEPARTMENTS.BY_ID(departmentId));
 };
+
+
+/**
+ * Actualiza el jefe de un departamento
+ *
+ * @param {number} departmentId - ID del departamento
+ */
+
+export const updateDepartmentHead = async (
+  departmentId: number,
+  departmentHeadId: string
+): Promise<UpdateDepartmentHead> => {
+  return await httpClient.patch<UpdateDepartmentHead>(
+    ROUTES.DEPARTMENTS.UPDATE_HEAD(departmentId),
+    { departmentHeadId }
+  );
+}

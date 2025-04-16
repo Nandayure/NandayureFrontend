@@ -1,4 +1,4 @@
-import { Department } from '@/types';
+import { Department, DepartmentEmployees } from '@/types';
 import httpClient from '@/helpers/http-client';
 import { ROUTES } from '@/constants/api-routes/routes';
 
@@ -20,3 +20,15 @@ export const getAllDepartments = async (): Promise<Department[]> => {
 export const getDepartmentById = async (departmentId: number): Promise<Department> => {
   return await httpClient.get<Department>(ROUTES.DEPARTMENTS.BY_ID(departmentId));
 };
+
+
+/**
+ * Obtiene todos los empleados de un departamento por su ID
+ *  
+ * @param {number} departmentId - ID del departamento
+ * 
+ * */
+
+export const getAllEmployeesByDepartmentId = async (departmentId: number): Promise<DepartmentEmployees[]> => {
+  return await httpClient.get<DepartmentEmployees[]>(ROUTES.DEPARTMENTS.EMPLOYEES(departmentId));
+}

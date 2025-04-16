@@ -9,6 +9,8 @@ import { PaginationController } from "@/components/ui/pagination-controller"
 import { SearchBar } from "@/components/ui/search-bar"
 import { useSearchFilter } from "@/hooks/use-search-filter"
 import AddDepartmentModal from "./add-department-modal"
+import { Button } from "@/components/ui/button"
+import { DepartmentEmployeesModal } from "./department-employees-modal"
 
 export default function DepartmentsTable() {
   const { departments, isLoading } = useGetAllDepartments()
@@ -20,7 +22,7 @@ export default function DepartmentsTable() {
   // Usar el hook de búsqueda
   const { filteredData: filteredDepartments, setSearchValue } = useSearchFilter({
     data: departments,
-    searchFields: ["id", "name", "description", "departmentProgramId", "budgetCodeId", "departmentHeadId"],
+    searchFields: ["id", "name", "description", "departmentProgramId", "departmentHeadId"],
   })
 
   // Resetear la página cuando cambia la búsqueda
@@ -56,7 +58,6 @@ export default function DepartmentsTable() {
             <TableHead>Nombre</TableHead>
             <TableHead>Descripción</TableHead>
             <TableHead>Programa</TableHead>
-            <TableHead>Código Presupuesto</TableHead>
             <TableHead>Jefe</TableHead>
             <TableHead>Acciones</TableHead>
           </TableRow>
@@ -79,11 +80,16 @@ export default function DepartmentsTable() {
                 <TableCell>{department.name}</TableCell>
                 <TableCell>{department.description}</TableCell>
                 <TableCell>{departmentPrograms.find((program) => program.id === department.departmentProgramId)?.name || "N/A"}</TableCell>
-                <TableCell>{department.budgetCodeId}</TableCell>
-                <TableCell>{employees.find((employee) => employee.id === department.departmentHeadId)?.Name} {employees.find((employee) => employee.id === department.departmentHeadId)?.Surname1 || "N/A"}</TableCell>
                 <TableCell>
-                  <div className="flex">
+                  {employees.find((employee) => employee.id === department.departmentHeadId)?.Name} {employees.find((employee) => employee.id === department.departmentHeadId)?.Surname1 || "N/A"}
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
                     <EditDepartmentModal department={department} departmentId={department.id} />
+                    <DepartmentEmployeesModal
+                      departmentId={department.id}
+                      currentHeadId={department.departmentHeadId}
+                    />
                     <DeleteDepartmentModal id={department.id} />
                   </div>
                 </TableCell>

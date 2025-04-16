@@ -66,7 +66,6 @@ export const convertDepartmentTypes = (departament: any): Department => {
     name: departament.name,
     description: departament.description,
     departmentHeadId: departament.departmentHeadId,
-    budgetCodeId: departament.budgetCodeId,
     departmentProgramId: departament.departmentProgramId
   };
 };

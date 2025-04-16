@@ -55,6 +55,7 @@ export const ROUTES = {
     BY_EMPLOYEE: `/requests/MyRequests`,
     CURRENT_TO_APPROVE: '/request-approvals/currentToApprove',
     APPROVAL: (id: number) => `/request-approvals/${id}`,
+    CANCELLED: (id: number) => `/requests/CancelRequest/${id}`,
   },
   ANNUITIES: {
     BASE: '/annuities',
@@ -76,6 +77,9 @@ export const ROUTES = {
   DEPARTMENTS: {
     BASE: '/departments',
     BY_ID: (departmentId: number) => `/departments/${departmentId}`,
+    UPDATE_HEAD: (head: number) => `/departments/updateDepartmentHead/${head}`,
+    EMPLOYEES: (departmentId: number) =>
+      `/employees/allByDepartment/1`,
   },
   FINANCIAL_INSTITUTIONS: {
     BASE: '/financial-institutions',

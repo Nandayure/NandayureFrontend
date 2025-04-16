@@ -59,10 +59,29 @@ export const getAllRequests = async (
  * @returns {Promise<RequestDetails[]>} Promesa que resuelve con la lista de solicitudes del empleado
  */
 export const getAllRequestsById = async (
-  employeeId: number,
-): Promise<RequestDetails[]> => {
-  return await httpClient.get<RequestDetails[]>(ROUTES.REQUESTS.BY_EMPLOYEE);
+  params?: GetRequestsParams,
+): Promise<PaginatedResponse> => {
+  const queryParams = new URLSearchParams();
+
+  if (params) {
+    if (params.RequestStateId)
+      queryParams.append('RequestStateId', params.RequestStateId.toString());
+    if (params.RequestTypeId)
+      queryParams.append('RequestTypeId', params.RequestTypeId.toString());
+    if (params.startDate) queryParams.append('startDate', params.startDate);
+    if (params.endDate) queryParams.append('endDate', params.endDate);
+    if (params.limit) queryParams.append('limit', params.limit.toString());
+    if (params.page) queryParams.append('page', params.page.toString());
+  }
+
+  const queryString = queryParams.toString();
+  const url = queryString
+    ? `${ROUTES.REQUESTS.BY_EMPLOYEE}?${queryString}`
+    : ROUTES.REQUESTS.BY_EMPLOYEE;
+
+  return await httpClient.get<PaginatedResponse>(url);
 };
+
 
 /**
  * Obtiene las solicitudes pendientes de aprobación

@@ -10,6 +10,7 @@ import { SearchBar } from "@/components/ui/search-bar"
 import { useSearchFilter } from "@/hooks/use-search-filter"
 import AddDepartmentModal from "./add-department-modal"
 import { Button } from "@/components/ui/button"
+import { DepartmentEmployeesModal } from "./department-employees-modal"
 
 export default function DepartmentsTable() {
   const { departments, isLoading } = useGetAllDepartments()
@@ -83,8 +84,12 @@ export default function DepartmentsTable() {
                   {employees.find((employee) => employee.id === department.departmentHeadId)?.Name} {employees.find((employee) => employee.id === department.departmentHeadId)?.Surname1 || "N/A"}
                 </TableCell>
                 <TableCell>
-                  <div className="flex">
+                  <div className="flex items-center gap-2">
                     <EditDepartmentModal department={department} departmentId={department.id} />
+                    <DepartmentEmployeesModal
+                      departmentId={department.id}
+                      currentHeadId={department.departmentHeadId}
+                    />
                     <DeleteDepartmentModal id={department.id} />
                   </div>
                 </TableCell>

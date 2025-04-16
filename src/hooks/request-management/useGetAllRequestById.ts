@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getAllRequests } from '@/services';
+import { getAllRequestsById } from '@/services';
 import { RequestDetails } from '@/types/request-management/commonTypes';
 
 export interface UseGetAllRequestParams {
@@ -23,7 +23,7 @@ interface PaginatedResponse {
 
 const useGetAllRequestById = (params?: UseGetAllRequestParams) => {
   const query = useQuery<PaginatedResponse>({
-    queryFn: () => getAllRequests(params),
+    queryFn: () => getAllRequestsById(params),
     queryKey: ['AllRequestsById', params],
   });
 

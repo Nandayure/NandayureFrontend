@@ -54,7 +54,6 @@ export { default as usePostJobPosition } from './system-configuration/job-positi
 export { default as usePatchJobPosition } from './system-configuration/job-positions/commands/usePatchJobPosition';
 export { default as useDeleteJobPosition } from './system-configuration/job-positions/commands/useDeleteJobPosition';
 
-
 export { default as useGetAllCivilStatus } from './system-configuration/civilStatus/queries/useGetAllCivilState';
 export { default as useGetCivilStatusById } from './system-configuration/civilStatus/queries/useGetByIdCivilState';
 export { default as useDeleteCivilStatus } from './system-configuration/civilStatus/commands/useDeleteCivilState';
@@ -73,3 +72,7 @@ export { default as useSummaryRequest } from './charts/useGetSummaryRequest';
 export { default as useDatesWithRequests } from './charts/useDatesWithRequests';
 export { default as useEmployeesWithMostRequests } from './charts/useEmployeesWithMostRequests';
 export { useIdentification } from './identification/useIdentification';
+
+export { default as useGetAvailableUsers } from './user/queries/useGetAvailableUsers';
+export { default as useGetUnavailableUsers } from './user/queries/useGetUnavailableUsers';
+export { default as useUpdateUserStatus } from './user/commands/useUpdateUserStatus';

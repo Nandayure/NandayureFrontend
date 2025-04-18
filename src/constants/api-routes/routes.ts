@@ -111,4 +111,9 @@ export const ROUTES = {
     BASE: '/holidays',
     BY_ID: (id: number) => `/holidays/${id}`,
   },
+  USERS: {
+    AVAILABLE_USERS: '/auth/getAvaibleUsers',
+    UNAVAILABLE_USERS: '/auth/getUnavaibleUsers',
+    CHANGE_USER_STATUS: '/auth/changeUserStatus'
+  },
 };

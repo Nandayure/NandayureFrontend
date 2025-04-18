@@ -1,66 +1,63 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import useGetDeletedEmployees from "@/hooks/system-configuration/employees/queries/useGetDeletedEmployees"
+import useGetUnavailableUsers from "@/hooks/user/queries/useGetUnavailableUsers"
 import { Button } from "@/components/ui/button"
-import { RotateCcw } from "lucide-react"
+import { UserPlus } from "lucide-react"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
-import RestoreUserAlert from "./restore-user-alert"
-import { Employee } from "@/types"
 import { PaginationController } from "@/components/ui/pagination-controller"
 import { SearchBar } from "@/components/ui/search-bar"
 import { useSearchFilter } from "@/hooks/use-search-filter"
+import ActivateUserAlert from "./activate-user-alert"
 
-export default function DeleteUserTab() {
-  const { deletedEmployees, isError, isLoading } = useGetDeletedEmployees()
-  const [showRestoreAlert, setShowRestoreAlert] = useState(false)
-  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null)
+interface InactiveUser {
+  userId: string
+  enabled: number
+  name: string
+  surname1: string
+  surname2: string
+  email: string
+  cellPhone: string
+}
+
+export default function InactiveUserTab() {
+  const { unavailableUsers, isError, isLoading } = useGetUnavailableUsers()
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10 // Número de usuarios por página
+  const itemsPerPage = 10
 
-  // Usar el hook de búsqueda
-  const { filteredData: filteredEmployees, setSearchValue } = useSearchFilter({
-    data: deletedEmployees || [],
-    searchFields: ["id", "Name", "Surname1", "Surname2", "Email", "CellPhone"],
+  const { filteredData: filteredUnavailableUsers, setSearchValue } = useSearchFilter<InactiveUser>({
+    data: unavailableUsers || [],
+    searchFields: ["userId", "name", "surname1", "surname2", "email", "cellPhone"],
   })
 
-  // Resetear la página cuando cambia la búsqueda
   useEffect(() => {
     setCurrentPage(1)
-  }, [filteredEmployees.length])
+  }, [filteredUnavailableUsers.length])
 
-  // Calcular los usuarios a mostrar en la página actual
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentEmployees = filteredEmployees.slice(indexOfFirstItem, indexOfLastItem)
+  const currentUnavailableUsers = filteredUnavailableUsers.slice(indexOfFirstItem, indexOfLastItem)
 
-  // Función para cambiar de página
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber)
   }
 
-  // Función para manejar la búsqueda
   const handleSearch = (value: string) => {
     setSearchValue(value)
-  }
-
-  const handleRestoreClick = (employee: Employee) => {
-    setSelectedEmployee(employee)
-    setShowRestoreAlert(true)
   }
 
   if (isError) {
     return (
       <div className="space-y-4">
-        <h2 className="text-lg font-bold">Usuarios Eliminados</h2>
+        <h2 className="text-lg font-bold">Usuarios Inactivos</h2>
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
-            Ha ocurrido un error al cargar los usuarios eliminados. Por favor, intente nuevamente más tarde.
+            Ha ocurrido un error al cargar los usuarios. Por favor, intente nuevamente más tarde.
           </AlertDescription>
         </Alert>
       </div>
@@ -71,9 +68,9 @@ export default function DeleteUserTab() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-bold">Usuarios Eliminados</h2>
+          <h2 className="text-lg font-bold">Usuarios Inactivos</h2>
           <p className="text-muted-foreground">
-            Aquí puedes gestionar los usuarios eliminados de tu aplicación.
+            Aquí puedes gestionar los usuarios inactivos de tu aplicación.
           </p>
         </div>
         <SearchBar onSearch={handleSearch} placeholder="Buscar usuarios..." className="max-w-md" />
@@ -85,33 +82,33 @@ export default function DeleteUserTab() {
         <>
           <div>
             <Table>
-              <TableCaption>Lista de empleados eliminados</TableCaption>
+              <TableCaption>Lista de usuarios inactivos</TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead>Cédula</TableHead>
-                  <TableHead>Nombre Completo</TableHead>
+                  <TableHead>Nombre</TableHead>
+                  <TableHead>Apellidos</TableHead>
                   <TableHead>Email</TableHead>
                   <TableHead>Teléfono</TableHead>
-                  <TableHead>Días Vacaciones</TableHead>
                   <TableHead className="text-right">Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {currentEmployees.length > 0 ? (
-                  currentEmployees.map((employee) => (
-                    <TableRow key={employee.id}>
-                      <TableCell className="font-medium">{employee.id}</TableCell>
-                      <TableCell>{`${employee.Name} ${employee.Surname1} ${employee.Surname2}`}</TableCell>
-                      <TableCell>{employee.Email}</TableCell>
-                      <TableCell>{employee.CellPhone}</TableCell>
-                      <TableCell>{employee.AvailableVacationDays}</TableCell>
+                {currentUnavailableUsers.length > 0 ? (
+                  currentUnavailableUsers.map((user) => (
+                    <TableRow key={user.userId}>
+                      <TableCell>{user.userId}</TableCell>
+                      <TableCell>{user.name}</TableCell>
+                      <TableCell>{`${user.surname1} ${user.surname2}`}</TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>{user.cellPhone}</TableCell>
                       <TableCell className="text-right">
-                        <RestoreUserAlert employee={employee}>
+                        <ActivateUserAlert data={user}>
                           <Button size={'sm'} variant={'outline'} className="flex items-center gap-2">
-                            <RotateCcw size={16} />
-                            <span>Restaurar</span>
+                            <UserPlus className="h-4 w-4" />
+                            Activar
                           </Button>
-                        </RestoreUserAlert>
+                        </ActivateUserAlert>
                       </TableCell>
                     </TableRow>
                   ))
@@ -126,9 +123,9 @@ export default function DeleteUserTab() {
             </Table>
           </div>
 
-          {filteredEmployees.length > itemsPerPage && (
+          {filteredUnavailableUsers.length > itemsPerPage && (
             <PaginationController
-              totalItems={filteredEmployees.length}
+              totalItems={filteredUnavailableUsers.length}
               itemsPerPage={itemsPerPage}
               currentPage={currentPage}
               onPageChange={handlePageChange}
@@ -137,12 +134,6 @@ export default function DeleteUserTab() {
             />
           )}
         </>
-      )}
-
-      {showRestoreAlert && selectedEmployee && (
-        <RestoreUserAlert
-          employee={selectedEmployee}
-        />
       )}
     </div>
   )
@@ -155,10 +146,10 @@ function SkeletonTable() {
         <TableHeader>
           <TableRow>
             <TableHead>Cédula</TableHead>
-            <TableHead>Nombre Completo</TableHead>
+            <TableHead>Nombre</TableHead>
+            <TableHead>Apellidos</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Teléfono</TableHead>
-            <TableHead>Días Vacaciones</TableHead>
             <TableHead className="text-right">Acciones</TableHead>
           </TableRow>
         </TableHeader>
@@ -177,10 +168,10 @@ function SkeletonTable() {
                   <Skeleton className="h-4 w-48" />
                 </TableCell>
                 <TableCell>
-                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-4 w-48" />
                 </TableCell>
                 <TableCell>
-                  <Skeleton className="h-4 w-10" />
+                  <Skeleton className="h-4 w-20" />
                 </TableCell>
                 <TableCell className="text-right">
                   <Skeleton className="h-8 w-8 rounded-full ml-auto" />

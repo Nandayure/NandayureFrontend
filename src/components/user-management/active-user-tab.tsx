@@ -1,41 +1,51 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useGetAllEmployees } from "@/hooks"
+import { useGetAllEmployees, useGetAvailableUsers } from "@/hooks"
 import { Button } from "@/components/ui/button"
 import { Trash2, Trash2Icon } from "lucide-react"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
-import DeleteUserAlert from "./delete-user-alert"
 import { Employee } from "@/types"
 import { PaginationController } from "@/components/ui/pagination-controller"
 import { SearchBar } from "@/components/ui/search-bar"
 import { useSearchFilter } from "@/hooks/use-search-filter"
+import DisableUserAlert from "./disable-user-alert"
+
+interface User {
+  userId: string
+  enabled: number
+  name: string
+  surname1: string
+  surname2: string
+  email: string
+  cellPhone: string
+}
 
 export default function ActiveUserTab() {
-  const { employees, isError, isLoading } = useGetAllEmployees()
+  const { availableUsers, isError, isLoading } = useGetAvailableUsers()
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
-  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null)
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10 // Número de usuarios por página
 
   // Usar el hook de búsqueda
-  const { filteredData: filteredEmployees, setSearchValue } = useSearchFilter({
-    data: employees || [],
-    searchFields: ["id", "Name", "Surname1", "Surname2", "Email", "CellPhone"],
+  const { filteredData: filteredAvailableUsers, setSearchValue } = useSearchFilter<User>({
+    data: availableUsers || [],
+    searchFields: ["userId", "name", "surname1", "surname2", "email", "cellPhone"],
   })
 
   // Resetear la página cuando cambia la búsqueda
   useEffect(() => {
     setCurrentPage(1)
-  }, [filteredEmployees.length])
+  }, [filteredAvailableUsers.length])
 
   // Calcular los usuarios a mostrar en la página actual
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentEmployees = filteredEmployees.slice(indexOfFirstItem, indexOfLastItem)
+  const currentAvailableUsers = filteredAvailableUsers.slice(indexOfFirstItem, indexOfLastItem)
 
   // Función para cambiar de página
   const handlePageChange = (pageNumber: number) => {
@@ -47,11 +57,10 @@ export default function ActiveUserTab() {
     setSearchValue(value)
   }
 
-  const handleDeleteClick = (employee: Employee) => {
-    setSelectedEmployee(employee)
+  const handleDeleteClick = (user: User) => {
+    setSelectedUser(user)
     setShowDeleteAlert(true)
   }
-
 
   if (isError) {
     return (
@@ -86,33 +95,33 @@ export default function ActiveUserTab() {
         <>
           <div>
             <Table>
-              <TableCaption>Lista de empleados activos</TableCaption>
+              <TableCaption>Lista de usuarios activos</TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead>Cédula</TableHead>
-                  <TableHead>Nombre Completo</TableHead>
+                  <TableHead>Nombre</TableHead>
+                  <TableHead>Apellidos</TableHead>
                   <TableHead>Email</TableHead>
                   <TableHead>Teléfono</TableHead>
-                  <TableHead>Días Vacaciones</TableHead>
                   <TableHead className="text-right">Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {currentEmployees.length > 0 ? (
-                  currentEmployees.map((employee) => (
-                    <TableRow key={employee.id}>
-                      <TableCell className="font-medium">{employee.id}</TableCell>
-                      <TableCell>{`${employee.Name} ${employee.Surname1} ${employee.Surname2}`}</TableCell>
-                      <TableCell>{employee.Email}</TableCell>
-                      <TableCell>{employee.CellPhone}</TableCell>
-                      <TableCell>{employee.AvailableVacationDays}</TableCell>
+                {currentAvailableUsers.length > 0 ? (
+                  currentAvailableUsers.map((user) => (
+                    <TableRow key={user.userId}>
+                      <TableCell>{user.userId}</TableCell>
+                      <TableCell>{user.name}</TableCell>
+                      <TableCell>{`${user.surname1} ${user.surname2}`}</TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>{user.cellPhone}</TableCell>
                       <TableCell className="text-right">
-                        <DeleteUserAlert employee={employee}>
+                        <DisableUserAlert data={user}>
                           <Button size={'sm'} variant={'outline'} className="flex items-center gap-2">
-                            <Trash2Icon size={16} />
-                            <span>Eliminar</span>
+                            <Trash2 className="h-4 w-4" />
+                            Desactivar
                           </Button>
-                        </DeleteUserAlert>
+                        </DisableUserAlert>
                       </TableCell>
                     </TableRow>
                   ))
@@ -127,9 +136,9 @@ export default function ActiveUserTab() {
             </Table>
           </div>
 
-          {filteredEmployees.length > itemsPerPage && (
+          {filteredAvailableUsers.length > itemsPerPage && (
             <PaginationController
-              totalItems={filteredEmployees.length}
+              totalItems={filteredAvailableUsers.length}
               itemsPerPage={itemsPerPage}
               currentPage={currentPage}
               onPageChange={handlePageChange}
@@ -140,9 +149,9 @@ export default function ActiveUserTab() {
         </>
       )}
 
-      {showDeleteAlert && selectedEmployee && (
-        <DeleteUserAlert
-          employee={selectedEmployee}
+      {showDeleteAlert && selectedUser && (
+        <DisableUserAlert
+          data={selectedUser}
         />
       )}
     </div>

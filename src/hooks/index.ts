@@ -75,4 +75,3 @@ export { useIdentification } from './identification/useIdentification';
 
 export { default as useGetAvailableUsers } from './user/queries/useGetAvailableUsers';
 export { default as useGetUnavailableUsers } from './user/queries/useGetUnavailableUsers';
-export { default as useUpdateUserStatus } from './user/commands/useUpdateUserStatus';

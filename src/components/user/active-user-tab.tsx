@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { PaginationController } from "@/components/ui/pagination-controller"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
-import { AlertCircle, RefreshCw, MoreHorizontal } from "lucide-react"
+import { AlertCircle, RefreshCw, UserX, MoreHorizontal } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { useDebounce } from "@/hooks/use-debounce"
@@ -16,6 +16,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import useChangeUserStatus from "@/hooks/user/commands/useChangeUserStatus"
 
 const getRoleBadgeStyle = (role: string) => {
   const styles: { [key: string]: string } = {
@@ -45,6 +56,7 @@ export const ActiveUserTab = () => {
 
   const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1)
   const [searchValue, setSearchValue] = useState(searchParams.get('search') || "")
+  const [userToDisable, setUserToDisable] = useState<{ id: string; name: string } | null>(null)
   const debouncedSearch = useDebounce(searchValue, 500)
   const itemsPerPage = 5
 
@@ -53,6 +65,13 @@ export const ActiveUserTab = () => {
     limit: itemsPerPage,
     name: debouncedSearch || undefined,
     enabled: 1
+  })
+
+  const { mutation, isDialogOpen, setIsDialogOpen } = useChangeUserStatus({
+    onSuccess: () => {
+      setUserToDisable(null)
+      refetch()
+    }
   })
 
   useEffect(() => {
@@ -76,6 +95,17 @@ export const ActiveUserTab = () => {
 
   const handleSearch = (value: string) => {
     setSearchValue(value)
+  }
+
+  const handleDisableUser = (userId: string, userName: string) => {
+    setUserToDisable({ id: userId, name: userName })
+    setIsDialogOpen(true)
+  }
+
+  const handleConfirmDisable = () => {
+    if (userToDisable) {
+      mutation.mutate({ id: userToDisable.id, status: false })
+    }
   }
 
   if (isLoading) {
@@ -169,7 +199,7 @@ export const ActiveUserTab = () => {
                     <Tooltip>
                       <TooltipTrigger>
                         <div className="flex items-center gap-2">
-                          {user.Roles.slice(0, 2).map((role, index) => (
+                          {user.Roles.slice(0, 2).map((role) => (
                             <Badge
                               key={role.id}
                               className={getRoleBadgeStyle(role.RoleName)}
@@ -195,9 +225,23 @@ export const ActiveUserTab = () => {
                   </TooltipProvider>
                 </TableCell>
                 <TableCell>
-                  <Button variant="ghost" size="icon">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleDisableUser(user.id, `${user.Employee.Name} ${user.Employee.Surname1}`)}
+                          className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-100"
+                        >
+                          <UserX className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Inhabilitar usuario</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </TableCell>
               </TableRow>
             ))
@@ -221,6 +265,35 @@ export const ActiveUserTab = () => {
           className="mt-4"
         />
       )}
+
+      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmar inhabilitación de usuario</AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="space-y-2">
+                <div>¿Estás seguro que deseas inhabilitar al usuario <strong>{userToDisable?.name}</strong>?</div>
+                <div className="text-muted-foreground">Esta acción:</div>
+                <ul className="list-disc list-inside text-muted-foreground">
+                  <li>Inhabilitará el acceso del usuario al sistema</li>
+                  <li>Mantendrá todos sus datos y registros históricos</li>
+                  <li>Puede ser revertida posteriormente por un administrador</li>
+                </ul>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmDisable}
+              className="bg-red-600 text-white hover:bg-red-700"
+            >
+              <UserX className="h-4 w-4 mr-2" />
+              Inhabilitar usuario
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

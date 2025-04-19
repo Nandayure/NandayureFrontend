@@ -1,5 +1,6 @@
 import { SectionHeader } from "@/components/ui/section-header";
 import { Separator } from "@/components/ui/separator";
+import { UserDashboard } from "@/components/user/user-dashboard";
 
 export default async function Page() {
   return (
@@ -12,7 +13,8 @@ export default async function Page() {
 
       <Separator className="my-6" />
 
-      
+      <UserDashboard />
+
     </div>
   )
 }

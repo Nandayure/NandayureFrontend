@@ -1,6 +1,6 @@
 import { ROUTES } from "@/constants/api-routes/routes";
 import httpClient from "@/helpers/http-client";
-import { ChangeUserStatus } from "@/types/user/user";
+import { ChangeUserStatus } from "@/types/user/user.response";
 
 /**
   * Cambia el estado de un usuario (activo/inactivo).

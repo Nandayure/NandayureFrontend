@@ -105,7 +105,7 @@ export default function User() {
             data-cy="user-management-button"
             asChild
           >
-            <Link href="/user-management" className="flex items-center">
+            <Link href="/access-control" className="flex items-center">
               <UserIcon className="mr-2 h-4 w-4" />
               <span>Gestión de usuarios</span>
             </Link>

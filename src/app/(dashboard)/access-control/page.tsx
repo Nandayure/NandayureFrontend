@@ -1,4 +1,5 @@
 'use client'
+
 import { SectionHeader } from "@/components/ui/section-header";
 import { Separator } from "@/components/ui/separator";
 import { UserDashboard } from "@/components/user/user-dashboard";

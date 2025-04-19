@@ -111,6 +111,6 @@ export const config = {
     '/time-tracking/:path*',
     '/system-configuration/:path*',
     '/hr-analytics/:path*',
-    '/user-management/:path*',
+    '/access-control/:path*',
   ],
 };

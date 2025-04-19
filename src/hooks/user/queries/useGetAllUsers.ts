@@ -7,6 +7,8 @@ const useGetAllUsers = (params?: GetUsersQueryParams) => {
     data: allUsers,
     isLoading,
     isError,
+    error,
+    refetch
   } = useQuery<AvailableUserResponse>({
     queryKey: ['allUsers', params],
     queryFn: () => fetchAllUsers(params),
@@ -16,6 +18,8 @@ const useGetAllUsers = (params?: GetUsersQueryParams) => {
     allUsers,
     isLoading,
     isError,
+    error,
+    refetch
   };
 };
 

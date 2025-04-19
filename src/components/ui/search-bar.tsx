@@ -7,45 +7,19 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
 export interface SearchBarProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  /**
-   * Función que se ejecuta cuando cambia el valor de búsqueda
-   */
   onSearch: (value: string) => void
-  /**
-   * Tiempo de espera antes de ejecutar la búsqueda (en ms)
-   * @default 300
-   */
+  value?: string
   debounceTime?: number
-  /**
-   * Placeholder del campo de búsqueda
-   * @default "Buscar..."
-   */
   placeholder?: string
-  /**
-   * Clase CSS adicional
-   */
   className?: string
-  /**
-   * Clase CSS adicional para el contenedor
-   */
   containerClassName?: string
-  /**
-   * Mostrar botón para limpiar la búsqueda
-   * @default true
-   */
   showClearButton?: boolean
-  /**
-   * Atributo data-cy para el input
-   */
   InputDataCy?: string
-  /**
-   * Atributo data-cy para el botón
-   */
-  ButtonDataCy?: string
 }
 
-export function SearchBar({
+export const SearchBar = React.memo(function SearchBar({
   onSearch,
+  value = "",
   debounceTime = 300,
   placeholder = "Buscar...",
   className,
@@ -54,21 +28,23 @@ export function SearchBar({
   InputDataCy,
   ...props
 }: SearchBarProps) {
-  const [value, setValue] = React.useState<string>(props.defaultValue?.toString() || "")
+  const [localValue, setLocalValue] = React.useState(value)
   const debounceTimeout = React.useRef<NodeJS.Timeout | null>(null)
 
-  // Manejar cambios en el input con debounce
+  // Sincronizar el valor local con el prop value cuando cambia externamente
+  React.useEffect(() => {
+    setLocalValue(value)
+  }, [value])
+
   const handleChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value
-      setValue(newValue)
+      setLocalValue(newValue)
 
-      // Limpiar timeout anterior si existe
       if (debounceTimeout.current) {
         clearTimeout(debounceTimeout.current)
       }
 
-      // Crear nuevo timeout
       debounceTimeout.current = setTimeout(() => {
         onSearch(newValue)
       }, debounceTime)
@@ -76,7 +52,6 @@ export function SearchBar({
     [onSearch, debounceTime]
   )
 
-  // Limpiar el timeout al desmontar el componente
   React.useEffect(() => {
     return () => {
       if (debounceTimeout.current) {
@@ -85,25 +60,27 @@ export function SearchBar({
     }
   }, [])
 
-  // Función para limpiar la búsqueda
-  const handleClear = () => {
-    setValue("")
+  const handleClear = React.useCallback(() => {
+    setLocalValue("")
     onSearch("")
-  }
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current)
+    }
+  }, [onSearch])
 
   return (
     <div className={cn("relative", containerClassName)}>
       <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
       <Input
-        type="search"
+        type="text"
         placeholder={placeholder}
         className={cn("pl-8 pr-10", className)}
-        value={value}
+        value={localValue}
         onChange={handleChange}
         data-cy={InputDataCy}
         {...props}
       />
-      {showClearButton && value && (
+      {showClearButton && localValue && (
         <Button
           type="button"
           variant="ghost"
@@ -117,4 +94,4 @@ export function SearchBar({
       )}
     </div>
   )
-}
+})

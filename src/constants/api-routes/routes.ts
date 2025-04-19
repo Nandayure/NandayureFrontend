@@ -112,8 +112,7 @@ export const ROUTES = {
     BY_ID: (id: number) => `/holidays/${id}`,
   },
   USERS: {
-    AVAILABLE_USERS: '/auth/getAvaibleUsers',
-    UNAVAILABLE_USERS: '/auth/getUnavaibleUsers',
-    CHANGE_USER_STATUS: '/auth/changeUserStatus'
+    CHANGE_USER_STATUS: '/auth/changeUserStatus',
+    ALL_USERS: '/auth/getAllUsersWithFilters',
   },
 };

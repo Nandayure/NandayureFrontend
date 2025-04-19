@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { changeUserStatus } from '@/services/user/commands/actions';
 import { toast } from 'react-hot-toast';
-import { ChangeUserStatus } from '@/types/user/user';
+import { ChangeUserStatus } from '@/types/user/user.response';
 
 interface UseChangeUserStatusProps {
   onSuccess?: () => void;

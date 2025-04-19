@@ -73,5 +73,3 @@ export { default as useDatesWithRequests } from './charts/useDatesWithRequests';
 export { default as useEmployeesWithMostRequests } from './charts/useEmployeesWithMostRequests';
 export { useIdentification } from './identification/useIdentification';
 
-export { default as useGetAvailableUsers } from './user/queries/useGetAvailableUsers';
-export { default as useGetUnavailableUsers } from './user/queries/useGetUnavailableUsers';

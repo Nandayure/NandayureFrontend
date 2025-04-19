@@ -40,5 +40,3 @@ export * from './holiday/holiday';
 export * from './identification/identification';
 
 export * from './request/request.cancelled'
-
-export type { ActiveUser, InactiveUser } from './user/user'

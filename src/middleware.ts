@@ -48,7 +48,7 @@ export async function middleware(req: NextRequest) {
     }
 
     // 5. Administradores tienen acceso total
-    if (tokenDecoded.roles.includes(Roles.admin)) {
+    if (tokenDecoded.roles.includes(Roles.ti)) {
       return NextResponse.next();
     }
 
@@ -111,5 +111,6 @@ export const config = {
     '/time-tracking/:path*',
     '/system-configuration/:path*',
     '/hr-analytics/:path*',
+    '/user-management/:path*',
   ],
 };

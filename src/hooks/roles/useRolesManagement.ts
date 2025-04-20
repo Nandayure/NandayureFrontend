@@ -17,25 +17,29 @@ export const useRolesManagement = () => {
 
   // Add role to user
   const addRoleMutation = useMutation({
-    mutationFn: async ({ userId, roleId }: { userId: number; roleId: number }) => {
+    mutationFn: async ({ userId, roleId }: { userId: string; roleId: number }) => {
       return await httpClient.post(ROUTES.ROLES_MANAGEMENT.ADD_ROLE_TO_USER, { userId, roleId });
     },
     onSuccess: () => {
+      // Invalidar tanto los roles como la lista de usuarios
       queryClient.invalidateQueries({ queryKey: ['roles'] });
+      queryClient.invalidateQueries({ queryKey: ['getAllUsers'] });
     },
   });
 
   // Remove role from user
   const removeRoleMutation = useMutation({
-    mutationFn: async ({ userId, roleId }: { userId: number; roleId: number }) => {
+    mutationFn: async ({ userId, roleId }: { userId: string; roleId: number }) => {
       return await httpClient.post(ROUTES.ROLES_MANAGEMENT.REMOVE_ROLE_FROM_USER, { userId, roleId });
     },
     onSuccess: () => {
+      // Invalidar tanto los roles como la lista de usuarios
       queryClient.invalidateQueries({ queryKey: ['roles'] });
+      queryClient.invalidateQueries({ queryKey: ['getAllUsers'] });
     },
   });
 
-  const addRoleToUser = async (userId: number, roleId: number) => {
+  const addRoleToUser = async (userId: string, roleId: number) => {
     try {
       await notify(addRoleMutation.mutateAsync({ userId, roleId }), {
         loading: 'Agregando rol...',
@@ -47,7 +51,7 @@ export const useRolesManagement = () => {
     }
   };
 
-  const removeRoleFromUser = async (userId: number, roleId: number) => {
+  const removeRoleFromUser = async (userId: string, roleId: number) => {
     try {
       await notify(removeRoleMutation.mutateAsync({ userId, roleId }), {
         loading: 'Removiendo rol...',

@@ -11,12 +11,17 @@ export interface DepartmentHead {
   CellPhone: string;
 }
 
+export interface DepartmentProgram {
+  id: number;
+  name: string;
+}
+
 export interface Department {
   id: number;
   name: string;
   description: string;
   departmentHead: DepartmentHead;
-  departmentProgramId: number;
+  departmentProgram: DepartmentProgram;
   departmentHeadId: string;
 }
 

@@ -31,8 +31,6 @@ export default function DepartmentsTable() {
     name: debouncedSearch || undefined
   })
 
-  const { departmentPrograms = [] } = useGetAllDepartmentPrograms()
-
 
   // Update URL when search or page changes
   useEffect(() => {
@@ -124,13 +122,19 @@ export default function DepartmentsTable() {
                 <TableCell>{department.id}</TableCell>
                 <TableCell>{department.name}</TableCell>
                 <TableCell>{department.description}</TableCell>
-                <TableCell>{departmentPrograms.find((program) => program.id === department.departmentProgramId)?.name || "N/A"}</TableCell>
+                <TableCell>{department.departmentProgram.name || "N/A"}</TableCell>
                 <TableCell>
                   {department.departmentHead.Name || "N/A"} {department.departmentHead.Surname1 || "N/A"} {department.departmentHead.Surname2 || ""}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <EditDepartmentModal department={department} departmentId={department.id} />
+                    <EditDepartmentModal 
+                      department={{
+                        ...department,
+                        departmentProgramId: department.departmentProgram.id
+                      }} 
+                      departmentId={department.id}
+                    />
                     <DepartmentEmployeesModal
                       departmentId={department.id}
                       currentHeadId={department.departmentHeadId}

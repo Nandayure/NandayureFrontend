@@ -115,4 +115,9 @@ export const ROUTES = {
     CHANGE_USER_STATUS: '/auth/changeUserStatus',
     ALL_USERS: '/auth/getAllUsersWithFilters',
   },
+  ROLES_MANAGEMENT: {
+    BASE: '/roles',
+    ADD_ROLE_TO_USER: '/auth/addRoleToUser',
+    REMOVE_ROLE_FROM_USER: '/auth/removeRoleToUser',
+  },
 };

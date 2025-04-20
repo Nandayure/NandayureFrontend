@@ -22,47 +22,46 @@ export default function Page() {
 
   // Usar un ref para evitar actualizaciones de URL durante las renderizaciones iniciales
   const initialRenderRef = useRef(true)
+  const hasViewModeChanged = useRef(false)
 
   // Obtener el modo de vista de los query params, localStorage o usar "grid" como valor predeterminado
-  const viewModeFromParams = searchParams.get('viewMode') as "grid" | "list";
-  const viewModeFromStorage = typeof window !== 'undefined' ? localStorage.getItem('viewMode') as "grid" | "list" : null;
-  const initialViewMode = viewModeFromParams || viewModeFromStorage || "grid";
+  const viewModeFromParams = searchParams.get('viewMode') as "grid" | "list"
+  const viewModeFromStorage = typeof window !== 'undefined' ? localStorage.getItem('viewMode') as "grid" | "list" : null
+  const initialViewMode = viewModeFromParams || viewModeFromStorage || "grid"
 
   const [viewMode, setViewMode] = useState<"grid" | "list">(initialViewMode)
   const [previousViewMode, setPreviousViewMode] = useState<"grid" | "list">(initialViewMode)
 
   const folderName = searchParams.get("folderName") ? decodeURIComponent(searchParams.get("folderName")!) : "Archivos"
-
   const { files, isLoading, isError, error } = useEmployeeFiles(params.folderId)
 
   // Guardar el viewMode en localStorage cuando cambie
   useEffect(() => {
-    localStorage.setItem('viewMode', viewMode);
-  }, [viewMode]);
+    localStorage.setItem('viewMode', viewMode)
+    hasViewModeChanged.current = true
+  }, [viewMode])
 
   // Effect modificado para evitar el bucle infinito
   useEffect(() => {
-    // Omitir la primera renderización
+    // Omitir la primera renderización y actualizaciones sin cambios reales
     if (initialRenderRef.current) {
-      initialRenderRef.current = false;
-      return;
+      initialRenderRef.current = false
+      return
     }
 
-    // Sólo actualizar la URL si el modo de vista actual es diferente del que está en la URL
-    if (viewModeFromParams !== viewMode) {
-      // Crear un objeto URLSearchParams a partir de la URL actual
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set('viewMode', viewMode);
-
-      // Actualizar la URL sin recargar la página y sin cambiar el scroll
-      router.replace(`${window.location.pathname}?${newParams.toString()}`, { scroll: false });
+    // Solo actualizar si el viewMode ha cambiado y es diferente del que está en la URL
+    if (hasViewModeChanged.current && viewModeFromParams !== viewMode) {
+      const newParams = new URLSearchParams(searchParams.toString())
+      newParams.set('viewMode', viewMode)
+      router.replace(`${window.location.pathname}?${newParams.toString()}`, { scroll: false })
+      hasViewModeChanged.current = false
     }
-  }, [viewMode, router, searchParams, viewModeFromParams]);
+  }, [viewMode, router, searchParams, viewModeFromParams])
 
   const handleViewModeChange = (value: string) => {
     if (value === "grid" || value === "list") {
-      setPreviousViewMode(viewMode);
-      setViewMode(value as "grid" | "list");
+      setPreviousViewMode(viewMode)
+      setViewMode(value as "grid" | "list")
     }
   }
 

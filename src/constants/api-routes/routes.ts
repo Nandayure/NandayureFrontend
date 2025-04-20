@@ -37,7 +37,7 @@ export const ROUTES = {
     UPLOAD: '/google-drive-files/upload',
     DELETE: (fileId: string) => `/google-drive-files/deleteFile/${fileId}`,
     FILES_BY_EMPLOYEE: (employeeId: number) =>
-      `/google-drive-files/FilesByEmployee/${employeeId}`,
+      `/google-drive-files/EmployeeFolders/${employeeId}`,
     MY_FOLDERS: '/google-drive-files/MyFolders',
   },
   PAY_SLIP: {

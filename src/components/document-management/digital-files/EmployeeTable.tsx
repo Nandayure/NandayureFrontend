@@ -14,29 +14,45 @@ import { useGetAllEmployees, useGetAllJobPositions } from '@/hooks';
 import Link from 'next/link';
 import { PaginationController } from "@/components/ui/pagination-controller";
 import { SearchBar } from "@/components/ui/search-bar";
-import { useSearchFilter } from "@/hooks/use-search-filter";
 import SkeletonLoader from "@/components/ui/skeleton-loader";
 import { Badge } from '@/components/ui/badge';
 import { FileText } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useDebounce } from '@/hooks/use-debounce';
 
 export default function EmployeeTable() {
-  const { employees, isLoading } = useGetAllEmployees();
-  const { jobPositions } = useGetAllJobPositions();
-  const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const itemsPerPage = 5;
 
-  const { filteredData: filteredEmployees, setSearchValue } = useSearchFilter({
-    data: employees,
-    searchFields: ["id", "Name", "Surname1", "Surname2", "Email", "JobPositionId"],
+  const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1);
+  const [searchValue, setSearchValue] = useState(searchParams.get('search') || "");
+  const debouncedSearch = useDebounce(searchValue, 500);
+
+  const { employees, pagination, isLoading } = useGetAllEmployees({
+    page: String(currentPage),
+    limit: String(itemsPerPage),
+    name: debouncedSearch || undefined
   });
 
+  const { jobPositions } = useGetAllJobPositions();
+
+  // Update URL when search or page changes
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    if (debouncedSearch) {
+      params.set('search', debouncedSearch);
+    } else {
+      params.delete('search');
+    }
+    params.set('page', currentPage.toString());
+    router.push('?' + params.toString());
+  }, [debouncedSearch, currentPage]);
+
+  // Reset page when search changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [filteredEmployees.length]);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentEmployees = filteredEmployees?.slice(indexOfFirstItem, indexOfLastItem) || [];
+  }, [debouncedSearch]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -51,6 +67,7 @@ export default function EmployeeTable() {
       <div className="flex items-center justify-end gap-4">
         <SearchBar
           onSearch={handleSearch}
+          value={searchValue}
           placeholder="Buscar empleados..."
           className="max-w-md"
         />
@@ -63,14 +80,13 @@ export default function EmployeeTable() {
             <TableHead>Nombre</TableHead>
             <TableHead>Apellidos</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead>Posición</TableHead>
             <TableHead>Acción</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {isLoading ? (
             // Estado de carga
-            Array.from({ length: 5 }).map((_, index) => (
+            Array.from({ length: itemsPerPage }).map((_, index) => (
               <TableRow key={index}>
                 {Array.from({ length: 6 }).map((_, idx) => (
                   <TableCell key={idx}>
@@ -79,9 +95,9 @@ export default function EmployeeTable() {
                 ))}
               </TableRow>
             ))
-          ) : currentEmployees.length > 0 ? (
+          ) : employees.length > 0 ? (
             // Datos filtrados
-            currentEmployees.map((employee) => {
+            employees.map((employee) => {
               // Encuentra el puesto de trabajo correspondiente
               const jobPosition = jobPositions?.find(
                 (position) => position.id === employee.JobPositionId,
@@ -93,17 +109,6 @@ export default function EmployeeTable() {
                   <TableCell>{employee.Name}</TableCell>
                   <TableCell>{`${employee.Surname1} ${employee.Surname2 || ''}`}</TableCell>
                   <TableCell>{employee.Email}</TableCell>
-                  <TableCell>
-                    {jobPosition?.Name ? (
-                      <Badge variant="outline" className="font-normal">
-                        {jobPosition.Name}
-                      </Badge>
-                    ) : (
-                      <Badge variant="outline" className="text-muted-foreground font-normal">
-                        N/A
-                      </Badge>
-                    )}
-                  </TableCell>
                   <TableCell>
                     <Button
                       variant="outline"
@@ -135,10 +140,10 @@ export default function EmployeeTable() {
         </TableBody>
       </Table>
 
-      {!isLoading && filteredEmployees && filteredEmployees.length > 0 && (
+      {!isLoading && pagination.totalPages > 1 && (
         <PaginationController
-          totalItems={filteredEmployees.length}
-          itemsPerPage={itemsPerPage}
+          totalItems={pagination.totalItems}
+          itemsPerPage={Number(pagination.limit)}
           currentPage={currentPage}
           onPageChange={handlePageChange}
           siblingCount={1}

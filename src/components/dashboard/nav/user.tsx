@@ -89,6 +89,15 @@ export default function User() {
                 <span>Registrar usuario</span>
               </Link>
             </DropdownMenuItem>
+            <DropdownMenuItem
+              data-cy="roles-management-button"
+              asChild
+            >
+              <Link href="/roles-management" className="flex items-center">
+                <UserIcon className="mr-2 h-4 w-4" />
+                <span>Gestión de roles</span>
+              </Link>
+            </DropdownMenuItem>
           </>
         )}
         {roles && roles.includes('TI') && (

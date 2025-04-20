@@ -92,32 +92,6 @@ export default function AddDepartmentModal() {
                   </p>
                 )}
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="departmentHeadId">Jefe de departamento</Label>
-                <Select
-                  onValueChange={(value) => setValue('departmentHeadId', value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Seleccionar jefe de departamento" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {employees &&
-                      employees.map((employee) => (
-                        <SelectItem
-                          key={employee.id}
-                          value={employee.id.toString()}
-                        >
-                          {`${employee.Name} ${employee.Surname1} ${employee.Surname2}`}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-                {errors.departmentHeadId && (
-                  <p className="text-red-500 text-xs">
-                    {errors.departmentHeadId.message}
-                  </p>
-                )}
-              </div>
               {errors.root && (
                 <p className="text-red-500 text-xs mt-2">
                   {errors.root.message}

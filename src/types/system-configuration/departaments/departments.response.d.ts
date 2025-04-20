@@ -1,8 +1,9 @@
-import { BaseFilterParams } from "@/types/common/base-filter";
+import { BaseFilterParams } from '@/types/common/base-filter';
 
-export type GetDepartmentsQueryParams = BaseFilterParams
+export interface GetDepartmentsQueryParams extends BaseFilterParams { }
 
 export interface DepartmentHead {
+  Name: string;
   id: string;
   Surname1: string;
   Surname2: string;
@@ -15,6 +16,8 @@ export interface Department {
   name: string;
   description: string;
   departmentHead: DepartmentHead;
+  departmentProgramId: number;
+  departmentHeadId: string;
 }
 
 export interface DepartmentsResponse {

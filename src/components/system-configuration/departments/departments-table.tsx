@@ -86,11 +86,6 @@ export default function DepartmentsTable() {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">Departamentos</h1>
-        <p className="text-gray-500">Gestión de departamentos del sistema.</p>
-      </div>
-
       <div className="flex items-center justify-between gap-4">
         <AddDepartmentModal />
         <SearchBar

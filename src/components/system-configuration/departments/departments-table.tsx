@@ -124,15 +124,17 @@ export default function DepartmentsTable() {
                 <TableCell>{department.description}</TableCell>
                 <TableCell>{department.departmentProgram.name || "N/A"}</TableCell>
                 <TableCell>
-                  {department.departmentHead.Name || "N/A"} {department.departmentHead.Surname1 || "N/A"} {department.departmentHead.Surname2 || ""}
+                  {department.departmentHead
+                    ? `${department.departmentHead.Name || "N/A"} ${department.departmentHead.Surname1 || "N/A"} ${department.departmentHead.Surname2 || ""}`
+                    : "No hay jefe asignado"}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <EditDepartmentModal 
+                    <EditDepartmentModal
                       department={{
                         ...department,
                         departmentProgramId: department.departmentProgram.id
-                      }} 
+                      }}
                       departmentId={department.id}
                     />
                     <DepartmentEmployeesModal

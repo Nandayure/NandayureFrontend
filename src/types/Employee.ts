@@ -12,10 +12,12 @@ export interface JobPosition {
 }
 
 export interface Gender {
+  id: number;
   Name: string;
 }
 
 export interface MaritalStatus {
+  id: number;
   Name: string;
 }
 

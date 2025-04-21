@@ -21,9 +21,10 @@ const useGetUserFiles = (folderId: string, filters?: GetFilesQueryParams) => {
     files: data?.data || [],
     pagination: {
       limit: data?.limit || filters?.limit || 10,
-      totalItems: data?.totalItems || 0,
       nextPageToken: data?.nextPageToken || null,
-      hasNextPage: !!data?.nextPageToken,
+      previusPageToken: data?.previusPageToken || null,
+      hasNextPage: data?.hasNextPage ?? !!data?.nextPageToken,
+      hasPreviusPage: data?.hasPreviusPage ?? !!data?.previusPageToken,
     },
     isLoading: isLoading || isFetching,
     isError,

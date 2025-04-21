@@ -1,15 +1,21 @@
 "use client"
-
-import React from "react"
 import SkeletonLoader from "../SkeletonLoader"
 import FileCard from "../FileCard"
-import { PaginationController } from "@/components/ui/pagination-controller"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { FileItem, GetFilesQueryParams } from "@/types"
+import type { FileItem, GetFilesQueryParams } from "@/types"
 
-type OrderByType = NonNullable<GetFilesQueryParams['orderBy']>
-type OrderDirectionType = NonNullable<GetFilesQueryParams['orderDirection']>
+type OrderByType = NonNullable<GetFilesQueryParams["orderBy"]>
+type OrderDirectionType = NonNullable<GetFilesQueryParams["orderDirection"]>
+
+type PaginationType = {
+  nextPageToken: string | null
+  previusPageToken: string | null
+  hasNextPage: boolean
+  hasPreviusPage: boolean
+}
 
 type PdfFileGridProps = {
   files: FileItem[] | undefined
@@ -20,9 +26,8 @@ type PdfFileGridProps = {
   total?: number
   filters?: GetFilesQueryParams
   updateFilters?: (filters: Partial<GetFilesQueryParams>) => void
-  loadNextPage?: () => void
-  hasNextPage?: boolean
-  isFetchingNextPage?: boolean
+  onPageChange?: (token: string | null) => void
+  pagination?: PaginationType
 }
 
 const PdfFileGrid = ({
@@ -34,9 +39,8 @@ const PdfFileGrid = ({
   total = 0,
   filters,
   updateFilters,
-  loadNextPage,
-  hasNextPage,
-  isFetchingNextPage
+  onPageChange,
+  pagination,
 }: PdfFileGridProps) => {
   if (isLoading) return <SkeletonLoader />
   if (isError) return <div className="text-red-500 text-center">{error?.message || "Error al cargar archivos"}</div>
@@ -47,12 +51,12 @@ const PdfFileGrid = ({
         <div className="flex flex-wrap gap-4">
           <Input
             placeholder="Buscar por nombre..."
-            value={filters?.name || ''}
+            value={filters?.name || ""}
             onChange={(e) => updateFilters({ name: e.target.value })}
             className="w-full md:w-64"
           />
           <Select
-            value={filters?.orderBy || 'modifiedTime'}
+            value={filters?.orderBy || "modifiedTime"}
             onValueChange={(value: OrderByType) => updateFilters({ orderBy: value })}
           >
             <SelectTrigger className="w-full md:w-48">
@@ -65,7 +69,7 @@ const PdfFileGrid = ({
             </SelectContent>
           </Select>
           <Select
-            value={filters?.orderDirection || 'desc'}
+            value={filters?.orderDirection || "desc"}
             onValueChange={(value: OrderDirectionType) => updateFilters({ orderDirection: value })}
           >
             <SelectTrigger className="w-full md:w-48">
@@ -89,23 +93,33 @@ const PdfFileGrid = ({
         <div className="text-center text-gray-500">No se encontraron archivos.</div>
       )}
 
-      {hasNextPage && loadNextPage && (
-        <div className="mt-8 flex justify-center">
-          <button
-            onClick={loadNextPage}
-            disabled={isFetchingNextPage}
-            className="px-4 py-2 border rounded bg-white hover:bg-gray-100 disabled:opacity-50"
+      {pagination && onPageChange && (
+        <div className="mt-8 flex justify-center items-center gap-4">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => onPageChange(pagination.previusPageToken)}
+            disabled={!pagination.hasPreviusPage}
+            aria-label="Página anterior"
           >
-            {isFetchingNextPage ? 'Cargando...' : 'Cargar más'}
-          </button>
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+
+          <span className="text-sm text-muted-foreground">Página actual</span>
+
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => onPageChange(pagination.nextPageToken)}
+            disabled={!pagination.hasNextPage}
+            aria-label="Página siguiente"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
       )}
 
-      {total > 0 && (
-        <div className="text-center text-sm text-muted-foreground">
-          Total: {total} archivos
-        </div>
-      )}
+      {total > 0 && <div className="text-center text-sm text-muted-foreground mt-2">Total: {total} archivos</div>}
     </div>
   )
 }

@@ -23,10 +23,10 @@ export default function Page() {
     ? decodeURIComponent(searchParams.get('folderName')!)
     : 'Archivos'
 
-  const currentPage = Number(searchParams.get('page')) || 1
   const searchValue = searchParams.get('search') || ""
   const orderBy = searchParams.get('orderBy') as any || 'modifiedTime'
   const orderDirection = searchParams.get('orderDirection') as 'asc' | 'desc' || 'desc'
+  const pageToken = searchParams.get('pageToken') || undefined
   const itemsPerPage = 12
 
   const [filters, setFilters] = useState({
@@ -44,12 +44,11 @@ export default function Page() {
     isError,
     error,
   } = useEmployeeFiles(params.folderId, {
-    page: String(currentPage),
+    pageToken,
     limit: itemsPerPage,
     ...debouncedFilters
   })
 
-  // Actualizar URL cuando cambian los filtros o la página
   const updateURL = (updates: Record<string, string>) => {
     const params = new URLSearchParams(searchParams)
     Object.entries(updates).forEach(([key, value]) => {
@@ -62,8 +61,8 @@ export default function Page() {
     router.push('?' + params.toString())
   }
 
-  const handlePageChange = (page: number) => {
-    updateURL({ page: String(page) })
+  const handlePageChange = (token: string | null) => {
+    updateURL({ pageToken: token || "" })
   }
 
   const handleFiltersChange = (newFilters: Partial<typeof filters>) => {
@@ -71,7 +70,7 @@ export default function Page() {
     setFilters(updatedFilters)
     updateURL({
       ...updatedFilters,
-      page: '1', // Reset page when filters change
+      pageToken: '', // Reset al cambiar filtros
     })
   }
 
@@ -86,11 +85,14 @@ export default function Page() {
     isLoading,
     isError,
     error,
-    hideDeleteButton: true,
+    hideDeleteButton: false,
     pagination: {
-      totalItems: pagination.totalItems,
       limit: itemsPerPage,
-      currentPage,
+      currentPage: 1,
+      nextPageToken: pagination?.nextPageToken,
+      previusPageToken: pagination?.previusPageToken,
+      hasNextPage: !!pagination?.nextPageToken,
+      hasPreviusPage: !!pagination?.previusPageToken,
     },
     onPageChange: handlePageChange,
     filters,

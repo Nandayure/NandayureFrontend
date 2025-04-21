@@ -73,7 +73,7 @@ export default function RequestTableManagement() {
           <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         </div>
       </div>
-      <RequestTable requests={enrichedRequests} onRowClick={handleRowClick} isLoading={isLoading} employees={employees ?? []} />
+      <RequestTable requests={enrichedRequests} onRowClick={handleRowClick} isLoading={isLoading} />
 
       <div className="mt-4">
         <PaginationController
@@ -86,7 +86,7 @@ export default function RequestTableManagement() {
         />
       </div>
 
-      <RequestModal request={selectedRequest} isOpen={!!selectedRequest} onClose={handleCloseModal} employees={employees ?? []} />
+      <RequestModal request={selectedRequest} isOpen={!!selectedRequest} onClose={handleCloseModal}/>
     </div>
   )
 }

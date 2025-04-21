@@ -30,8 +30,7 @@ export * from './system-configuration/studies/studies';
 export * from './system-configuration/job-positions/job-positions';
 export * from './system-configuration/civilStatus/civilState';
 export * from './system-configuration/gender/gender';
-export * from './files/file';
-export * from './files/hr-files';
+export * from './files/file'
 export * from './faq-categories/faq-categories';
 export * from './faq/faq';
 export * from './folder/folder';
@@ -40,3 +39,5 @@ export * from './holiday/holiday';
 export * from './identification/identification';
 
 export * from './request/request.cancelled'
+
+export * from './roles/roles';

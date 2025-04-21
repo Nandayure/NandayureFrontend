@@ -1,20 +1,35 @@
 import { getAllEmployees } from '@/services';
 import { useQuery } from '@tanstack/react-query';
 
-const useGetAllEmployees = () => {
+interface GetEmployeesQueryParams {
+  page?: string;
+  limit?: string;
+  name?: string;
+}
+
+const useGetAllEmployees = (params?: GetEmployeesQueryParams) => {
   const {
-    data: employees,
+    data,
     isLoading,
     isError,
   } = useQuery({
-    queryFn: async () => await getAllEmployees(),
-    queryKey: ['getAllEmployees'],
+    queryFn: async () => await getAllEmployees(params),
+    queryKey: ['getAllEmployees', params],
   });
 
   return {
-    employees,
+    employees: data?.data || [],
+    pagination: {
+      page: data?.page || 1,
+      limit: data?.limit || 10,
+      totalItems: data?.totalItems || 0,
+      totalPages: data?.totalPages || 1,
+      hasNextPage: data?.hasNextPage || false,
+      hasPreviousPage: data?.hasPreviousPage || false,
+    },
     isLoading,
     isError,
   };
 };
+
 export default useGetAllEmployees;

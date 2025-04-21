@@ -9,9 +9,6 @@ export const DepartmentSchema = z.object({
         'El ID del programa departamental debe ser un número.',
     })
     .min(1, { message: 'El ID del programa departamental es requerido' }),
-  departmentHeadId: z
-    .string()
-    .min(1, { message: 'El ID del jefe del departamento es requerido' }),
 });
 
 export const UpdateDepartmentSchema = z.object({
@@ -23,7 +20,4 @@ export const UpdateDepartmentSchema = z.object({
         'El ID del programa departamental debe ser un número.',
     })
     .min(1, 'El ID del programa departamental es requerido'),
-  departmentHeadId: z
-    .string()
-    .min(1, 'El ID del jefe del departamento es requerido'),
 });

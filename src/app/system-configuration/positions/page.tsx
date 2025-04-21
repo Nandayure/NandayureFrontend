@@ -1,5 +1,5 @@
-import AddJobPositionsModal from '@/components/system-configuration/job-positions/add-job-positions-modal';
 import JobPositionsTable from '@/components/system-configuration/job-positions/job-positions-table';
+import { Suspense } from 'react';
 
 export default function PositionsPage() {
   return (
@@ -10,7 +10,9 @@ export default function PositionsPage() {
             Configuración de puestos de trabajo
           </h1>
         </div>
-        <JobPositionsTable />
+        <Suspense fallback={<div>Cargando...</div>}>
+          <JobPositionsTable />
+        </Suspense>
       </div>
     </div>
   );

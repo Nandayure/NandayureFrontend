@@ -1,14 +1,15 @@
+import { JobPosition, JobPositionsResponse, GetJobPositionsQueryParams } from '@/types/system-configuration/job-positions/job-positions.response';
 import httpClient from '@/helpers/http-client';
 import { ROUTES } from '@/constants/api-routes/routes';
-import { JobPosition } from '@/types';
 
 /**
- * Obtiene todos los puestos de trabajo
+ * Obtiene todos los puestos de trabajo con paginación y filtros
  * 
- * @returns {Promise<JobPosition[]>} Promesa que resuelve con la lista de puestos de trabajo
+ * @param {GetJobPositionsQueryParams} params - Parámetros de consulta
+ * @returns {Promise<JobPositionsResponse>} Promesa que resuelve con la lista paginada de puestos
  */
-export const getAllJobPositions = async (): Promise<JobPosition[]> => {
-  return await httpClient.get<JobPosition[]>(ROUTES.JOB_POSITIONS.BASE);
+export const getAllJobPositions = async (params?: GetJobPositionsQueryParams): Promise<JobPositionsResponse> => {
+  return await httpClient.get<JobPositionsResponse>(ROUTES.JOB_POSITIONS.BASE, { params });
 };
 
 /**

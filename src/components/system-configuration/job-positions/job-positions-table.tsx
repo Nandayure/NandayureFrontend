@@ -1,112 +1,176 @@
-'use client';
+"use client"
 
-import { useGetAllDepartments, useGetAllJobPositions } from '@/hooks';
-import { Skeleton } from '@/components/ui/skeleton';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import DeleteJobPositionsModal from './delete-job-positions-modal';
-import EditJobPositionsModal from './edit-job-positions-modal';
-import { useEffect, useState } from "react";
-import { PaginationController } from "@/components/ui/pagination-controller";
-import { SearchBar } from "@/components/ui/search-bar";
-import { useSearchFilter } from "@/hooks/use-search-filter";
-import AddJobPositionsModal from './add-job-positions-modal';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useGetAllDepartments, useGetAllJobPositions } from "@/hooks"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useEffect, useState } from "react"
+import { PaginationController } from "@/components/ui/pagination-controller"
+import { SearchBar } from "@/components/ui/search-bar"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useDebounce } from "@/hooks/use-debounce"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { AlertCircle, RefreshCw, Pencil, Trash, Plus } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import AddJobPositionsModal from "./add-job-positions-modal"
+import EditJobPositionsModal from "./edit-job-positions-modal"
+import DeleteJobPositionsModal from "./delete-job-positions-modal"
 
 export default function JobPositionsTable() {
-  const { jobPositions, isLoading } = useGetAllJobPositions();
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const itemsPerPage = 5
+
+  const [currentPage, setCurrentPage] = useState(Number(searchParams.get('page')) || 1)
+  const [searchValue, setSearchValue] = useState(searchParams.get('search') || "")
+  const debouncedSearch = useDebounce(searchValue, 500)
+
+  const { jobPositions, pagination, isLoading, isError, error, refetch } = useGetAllJobPositions({
+    page: String(currentPage),
+    limit: String(itemsPerPage),
+    name: debouncedSearch || undefined
+  })
   const { departments = [] } = useGetAllDepartments()
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
 
-  // Usar el hook de búsqueda
-  const { filteredData: filteredJobPositions, setSearchValue } = useSearchFilter({
-    data: jobPositions || [],
-    searchFields: ["id", "Name", "Description", "DepartmentId"],
-  });
-
-  // Resetear la página cuando cambia la búsqueda
+  // Update URL when search or page changes
   useEffect(() => {
-    setCurrentPage(1);
-  }, []);
+    const params = new URLSearchParams(searchParams)
+    if (debouncedSearch) {
+      params.set('search', debouncedSearch)
+    } else {
+      params.delete('search')
+    }
+    params.set('page', currentPage.toString())
+    router.push('?' + params.toString())
+  }, [debouncedSearch, currentPage])
 
-  // Calcular los puestos a mostrar en la página actual
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentJobPositions = filteredJobPositions.slice(indexOfFirstItem, indexOfLastItem);
+  // Reset page when search changes
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [debouncedSearch])
 
-  // Función para cambiar de página
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
+    setCurrentPage(pageNumber)
+  }
 
-  // Función para manejar la búsqueda
   const handleSearch = (value: string) => {
-    setSearchValue(value);
-  };
+    setSearchValue(value)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between gap-4">
+          <Skeleton className="h-10 w-36" />
+          <Skeleton className="h-10 w-48" />
+        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead><Skeleton className="h-6 w-24" /></TableHead>
+              <TableHead><Skeleton className="h-6 w-24" /></TableHead>
+              <TableHead><Skeleton className="h-6 w-24" /></TableHead>
+              <TableHead><Skeleton className="h-6 w-24" /></TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: itemsPerPage }).map((_, index) => (
+              <TableRow key={index}>
+                <TableCell><Skeleton className="h-6 w-full" /></TableCell>
+                <TableCell><Skeleton className="h-6 w-full" /></TableCell>
+                <TableCell><Skeleton className="h-6 w-full" /></TableCell>
+                <TableCell><Skeleton className="h-6 w-full" /></TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <Alert variant="destructive" className="mb-6">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Error al cargar puestos de trabajo</AlertTitle>
+        <AlertDescription>
+          <div className="flex flex-col space-y-2">
+            <p>{error instanceof Error ? error.message : 'Ha ocurrido un error al cargar los puestos de trabajo'}</p>
+            <div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => refetch()}
+                className="mt-2"
+              >
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Reintentar
+              </Button>
+            </div>
+          </div>
+        </AlertDescription>
+      </Alert>
+    )
+  }
 
   return (
     <div className="space-y-4">
+      <div className="flex flex-col gap-4">
+        <h1 className="text-2xl font-bold">Puestos de Trabajo</h1>
+        <p className="text-gray-500">Gestión de puestos de trabajo del sistema.</p>
+      </div>
+
       <div className="flex items-center justify-between gap-4">
         <AddJobPositionsModal />
-        <SearchBar onSearch={handleSearch} placeholder="Buscar puestos de trabajo..." className="max-w-md" 
-        InputDataCy='search-job-position'/>
+        <SearchBar
+          onSearch={handleSearch}
+          value={searchValue}
+          placeholder="Buscar puestos..."
+          className="max-w-md"
+        />
       </div>
-      <Table data-cy="job-position-table">
+
+      <Table>
         <TableHeader>
           <TableRow>
             <TableHead>ID</TableHead>
             <TableHead>Nombre</TableHead>
             <TableHead>Descripción</TableHead>
             <TableHead>Departamento</TableHead>
-            <TableHead>Acciones</TableHead>
+            <TableHead className="w-[100px]">Acciones</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {isLoading
-            ? Array.from({ length: 3 }).map((_, index) => (
-              <TableRow key={index} data-cy="job-position-loading-row">
-                {Array.from({ length: 7 }).map((_, idx) => (
-                  <TableCell key={idx}>
-                    <Skeleton className="h-4 w-full" />
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-            : currentJobPositions.length > 0 ? (
-              currentJobPositions.map((jobPosition) => (
-                <TableRow key={jobPosition.id}>
-                  <TableCell data-cy={`jobPosition-id-${jobPosition.id}`}>{jobPosition.id}</TableCell>
-                  <TableCell data-cy={`jobPosition-name-${jobPosition.Name}`}>{jobPosition.Name}</TableCell>
-                  <TableCell data-cy={`jobPosition-description-${jobPosition.Description}`}>{jobPosition.Description}</TableCell>
-                  <TableCell>{departments.find((department) => department.id === jobPosition.DepartmentId)?.name}</TableCell>
-                  <TableCell>
-                    <div className="flex">
-                      <EditJobPositionsModal jobPosition={jobPosition} />
-                      <DeleteJobPositionsModal id={jobPosition.id} />
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow data-cy="job-position-empty-row">
-                <TableCell colSpan={8} className="h-24 text-center">
-                  No se encontraron resultados.
+          {jobPositions.length > 0 ? (
+            jobPositions.map((position) => (
+              <TableRow key={position.id}>
+                <TableCell>{position.id}</TableCell>
+                <TableCell>{position.Name}</TableCell>
+                <TableCell>{position.Description}</TableCell>
+                <TableCell>
+                  {departments.find((department) => department.id === position.DepartmentId)?.name || 'N/A'}
+                </TableCell>
+                <TableCell>
+                  <div className="flex">
+                    <EditJobPositionsModal jobPosition={position} />
+                    <DeleteJobPositionsModal id={position.id} />
+                  </div>
                 </TableCell>
               </TableRow>
-            )}
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5} className="h-24 text-center">
+                No se encontraron puestos de trabajo.
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
 
-      {!isLoading && filteredJobPositions.length > 0 && (
+      {!isLoading && pagination.totalPages > 1 && (
         <PaginationController
-          totalItems={filteredJobPositions.length}
-          itemsPerPage={itemsPerPage}
+          totalItems={pagination.totalItems}
+          itemsPerPage={Number(pagination.limit)}
           currentPage={currentPage}
           onPageChange={handlePageChange}
           siblingCount={1}
@@ -114,5 +178,5 @@ export default function JobPositionsTable() {
         />
       )}
     </div>
-  );
+  )
 }

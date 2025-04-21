@@ -9,9 +9,7 @@ export default function RequestModal({
   request,
   isOpen,
   onClose,
-  employees,
 }: {
-  employees: Employee[]
   request: RequestDetails | null
   isOpen: boolean
   onClose: () => void
@@ -33,12 +31,6 @@ export default function RequestModal({
       default:
         return "bg-gray-500 text-white"
     }
-  }
-
-  // Helper function to get employee name
-  const getEmployeeName = (employeeId: string) => {
-    const employee = employees.find((e) => e.id === employeeId)
-    return employee ? `${employee.Name} ${employee.Surname1}` : ""
   }
 
   return (
@@ -93,7 +85,11 @@ export default function RequestModal({
               </div>
               <div className="flex items-center">
                 <span className="text-gray-500 w-32">Nombre:</span>
-                <span className="font-medium">{getEmployeeName(request.EmployeeId)}</span>
+                <span className="font-medium">{request.Employee.Name}</span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-gray-500 w-32">Apellidos:</span>
+                <span className="font-medium">{`${request.Employee.Surname1} ${request.Employee.Surname2}`}</span>
               </div>
             </div>
           </section>
@@ -149,12 +145,12 @@ export default function RequestModal({
                         <Badge
                           variant="outline"
                           className={`mt-1 ${request.RequestStateId === 4
-                              ? "bg-gray-50 text-gray-700 border-gray-200"
-                              : approval.approved === true
-                                ? "bg-green-50 text-green-700 border-green-200"
-                                : approval.approved === false
-                                  ? "bg-red-50 text-red-700 border-red-200"
-                                  : "bg-yellow-50 text-yellow-700 border-yellow-200"
+                            ? "bg-gray-50 text-gray-700 border-gray-200"
+                            : approval.approved === true
+                              ? "bg-green-50 text-green-700 border-green-200"
+                              : approval.approved === false
+                                ? "bg-red-50 text-red-700 border-red-200"
+                                : "bg-yellow-50 text-yellow-700 border-yellow-200"
                             }`}
                         >
                           {request.RequestStateId === 4

@@ -37,7 +37,7 @@ export const ROUTES = {
     UPLOAD: '/google-drive-files/upload',
     DELETE: (fileId: string) => `/google-drive-files/deleteFile/${fileId}`,
     FILES_BY_EMPLOYEE: (employeeId: number) =>
-      `/google-drive-files/FilesByEmployee/${employeeId}`,
+      `/google-drive-files/EmployeeFolders/${employeeId}`,
     MY_FOLDERS: '/google-drive-files/MyFolders',
   },
   PAY_SLIP: {
@@ -110,5 +110,14 @@ export const ROUTES = {
   HOLIDAYS: {
     BASE: '/holidays',
     BY_ID: (id: number) => `/holidays/${id}`,
+  },
+  USERS: {
+    CHANGE_USER_STATUS: '/auth/changeUserStatus',
+    ALL_USERS: '/auth/getAllUsersWithFilters',
+  },
+  ROLES_MANAGEMENT: {
+    BASE: '/roles',
+    ADD_ROLE_TO_USER: '/auth/addRoleToUser',
+    REMOVE_ROLE_FROM_USER: '/auth/removeRoleToUser',
   },
 };

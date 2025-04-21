@@ -1,7 +1,7 @@
 import httpClient from '@/helpers/http-client';
 import { ROUTES } from '@/constants/api-routes/routes';
-import { PdfFile, PaginatedFilesResponse } from '@/types/files/file';
 import { GetFilesFilterDto } from '@/types/files/filterTypes.d';
+import { GetFilesQueryParams, GetFilesResponse } from '@/types';
 
 /**
  * Interfaz para las propiedades de carga de un documento
@@ -26,32 +26,44 @@ interface UploadDocumentProps {
 /**
  * Obtiene los archivos del usuario en una carpeta específica
  * 
- * @param {string} id - ID de la carpeta
- * @param {GetFilesFilterDto} filters - Filtros para la búsqueda de archivos
- * @returns {Promise<PaginatedFilesResponse>} Promesa que resuelve a la lista paginada de archivos PDF del usuario
+ * @param id - ID de la carpeta
+ * @param filters - Filtros para la búsqueda de archivos
+ * @returns Promesa que resuelve a la lista paginada de archivos PDF del usuario
  */
-export const getUserFiles = async (id: string, filters?: GetFilesFilterDto): Promise<PaginatedFilesResponse> => {
-  const response = await httpClient.get<PaginatedFilesResponse>(ROUTES.GOOGLE_DRIVE.USER_FILES(id), { params: filters });
+export const getUserFiles = async (
+  id: string,
+  filters?: GetFilesQueryParams
+): Promise<GetFilesResponse> => {
+  const response = await httpClient.get<GetFilesResponse>(
+    ROUTES.GOOGLE_DRIVE.USER_FILES(id),
+    { params: filters }
+  )
   return {
     ...response,
     data: response.data || []
-  };
-};
+  }
+}
 
 /**
  * Obtiene los archivos de un empleado en una carpeta específica
  * 
- * @param {string} id - ID de la carpeta
- * @param {GetFilesFilterDto} filters - Filtros para la búsqueda de archivos
- * @returns {Promise<PaginatedFilesResponse>} Promesa que resuelve a la lista paginada de archivos PDF del empleado
+ * @param id - ID de la carpeta
+ * @param filters - Filtros para la búsqueda de archivos
+ * @returns Promesa que resuelve a la lista paginada de archivos PDF del empleado
  */
-export const getEmployeeFiles = async (id: string, filters?: GetFilesFilterDto): Promise<PaginatedFilesResponse> => {
-  const response = await httpClient.get<PaginatedFilesResponse>(ROUTES.GOOGLE_DRIVE.EMPLOYEE_FILES(id), { params: filters });
+export const getEmployeeFiles = async (
+  id: string,
+  filters?: GetFilesQueryParams
+): Promise<GetFilesResponse> => {
+  const response = await httpClient.get<GetFilesResponse>(
+    ROUTES.GOOGLE_DRIVE.EMPLOYEE_FILES(id),
+    { params: filters }
+  )
   return {
     ...response,
     data: response.data || []
-  };
-};
+  }
+}
 
 /**
  * Obtiene la URL de visualización de un archivo

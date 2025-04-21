@@ -10,6 +10,7 @@ export interface JobPosition {
   id: number;
   Name: string;
   Department: Department;
+  Description: string;
 }
 
 export interface Gender {

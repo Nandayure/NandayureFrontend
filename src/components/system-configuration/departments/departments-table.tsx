@@ -15,6 +15,12 @@ import { useDebounce } from "@/hooks/use-debounce"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Department } from "@/types"
+
+interface Props {
+  department: Department & { departmentProgramId: number };
+  departmentId: number;
+}
 
 export default function DepartmentsTable() {
   const router = useRouter()
@@ -124,15 +130,17 @@ export default function DepartmentsTable() {
                 <TableCell>{department.description}</TableCell>
                 <TableCell>{department.departmentProgram.name || "N/A"}</TableCell>
                 <TableCell>
-                  {department.departmentHead.Name || "N/A"} {department.departmentHead.Surname1 || "N/A"} {department.departmentHead.Surname2 || ""}
+                  {department.departmentHead
+                    ? `${department.departmentHead.Name || "N/A"} ${department.departmentHead.Surname1 || "N/A"} ${department.departmentHead.Surname2 || ""}`
+                    : "No hay jefe asignado"}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <EditDepartmentModal 
+                    <EditDepartmentModal
                       department={{
                         ...department,
                         departmentProgramId: department.departmentProgram.id
-                      }} 
+                      }}
                       departmentId={department.id}
                     />
                     <DepartmentEmployeesModal

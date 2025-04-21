@@ -8,4 +8,18 @@ export interface Employee extends Person {
   MaritalStatusId: number;
   GenderId: number;
   JobPositionId: number;
+  JobPosition?: {
+    id: number;
+    Name: string;
+    Department: {
+      id: number;
+      name: string;
+    };
+  };
+  Gender?: {
+    Name: string;
+  }
+  MaritalStatus?: {
+    Name: string;
+  };
 }

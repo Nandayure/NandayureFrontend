@@ -1,16 +1,16 @@
 'use client'
 
-import { PdfFile } from "@/types"
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Loader2Icon, Trash2Icon } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useDeleteFile } from "@/hooks/files/useDeleteFile";
+import { FileItem } from "@/types";
 
 interface Props {
   children: React.ReactNode
-  file: PdfFile
+  file: FileItem
   folderId?: string
   onDeleteSuccess?: () => void
 }

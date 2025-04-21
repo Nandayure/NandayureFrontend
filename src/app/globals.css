@@ -81,22 +81,27 @@
     from {
       height: 0;
     }
+
     to {
       height: var(--radix-accordion-content-height);
     }
   }
+
   @keyframes accordion-up {
     from {
       height: var(--radix-accordion-content-height);
     }
+
     to {
       height: 0;
     }
   }
+
   @keyframes spin-once {
     from {
       transform: rotate(0deg);
     }
+
     to {
       transform: rotate(360deg);
     }
@@ -106,10 +111,12 @@
 @utility container {
   margin-inline: auto;
   padding-inline: 2rem;
-  @media (width >= --theme(--breakpoint-sm)) {
+
+  @media (width >=--theme(--breakpoint-sm)) {
     max-width: none;
   }
-  @media (width >= 1400px) {
+
+  @media (width >=1400px) {
     max-width: 1400px;
   }
 }
@@ -123,6 +130,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
   *,
   ::after,
   ::before,
@@ -133,23 +141,21 @@
 }
 
 @layer utilities {
-  /* Fallback para navegadores que no soportan scrollbar-gutter */
+
+  /* Always reserve scrollbar space on html */
   html {
-    overflow-y: scroll;
-    /* Fuerza scrollbar permanente */
+    overflow-y: auto;
+    scrollbar-gutter: stable both-edges;
   }
 
-  /* Navegadores modernos que soportan scrollbar-gutter */
-  @supports (scrollbar-gutter: stable) {
+  /* Fallback for browsers without scrollbar-gutter support */
+  @supports not (scrollbar-gutter: stable both-edges) {
     html {
-      overflow-y: auto;
-      /* Scroll solo cuando es necesario */
-      scrollbar-gutter: stable;
-      /* Reserva espacio sin scroll visible */
+      overflow-y: scroll;
     }
   }
 
-  /* Mejora para Firefox: hacer scrollbar transparente cuando no se usa */
+  /* Firefox transparent scrollbar styling */
   @-moz-document url-prefix() {
     html {
       scrollbar-color: rgba(0, 0, 0, 0) transparent;
@@ -157,7 +163,7 @@
     }
   }
 
-  /* Opcional: Estilizar scrollbar para navegadores WebKit */
+  /* Optional WebKit scrollbar styling */
   @media (hover: hover) and (pointer: fine) {
     ::-webkit-scrollbar {
       width: 12px;
@@ -169,6 +175,10 @@
       border-radius: 20px;
       border: 3px solid hsl(var(--background));
     }
+  }
+
+  html {
+    padding-right: var(--scrollbar-width);
   }
 
   input,
@@ -187,6 +197,13 @@
     /* IE and Edge */
     scrollbar-width: none;
     /* Firefox */
+  }
+
+  html,
+  body {
+    overflow-y: scroll !important;
+    scrollbar-gutter: stable both-edges !important;
+    padding-right: var(--scrollbar-width) !important;
   }
 }
 
@@ -295,4 +312,11 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Ensure scrollbar space reserved on both html and body */
+html,
+body {
+  overflow-y: scroll;
+  scrollbar-gutter: stable both-edges;
 }

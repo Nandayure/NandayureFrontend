@@ -2,18 +2,31 @@
 import { Suspense } from "react"
 import PdfFileGrid from "@/components/document-management/my-files/PdfFileGrid"
 import { BackButton } from "@/components/ui/back-button"
-import { useUserFiles } from "@/hooks";
-import { useParams, useSearchParams } from "next/navigation";
-import { PageHeader } from "@/components/ui/section-title";
+import { useUserFiles } from "@/hooks"
+import { useParams, useSearchParams } from "next/navigation"
+import { PageHeader } from "@/components/ui/section-title"
 
 export default function Page() {
   const params = useParams<{ slug: string }>()
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
 
   const folderName = searchParams.get('folderName')
     ? decodeURIComponent(searchParams.get('folderName')!)
-    : 'Archivos';
-  const { files, isLoading, isError, error } = useUserFiles(params.slug);
+    : 'Archivos'
+
+  // Hook con paginación y filtros
+  const {
+    files,
+    isLoading,
+    isError,
+    error,
+    total,
+    filters,
+    updateFilters,
+    loadNextPage,
+    hasNextPage,
+    isFetchingNextPage
+  } = useUserFiles(params.slug)
 
   return (
     <>
@@ -22,12 +35,24 @@ export default function Page() {
           <BackButton href="/my-file" label="Volver a mis carpetas" />
         </div>
         <PageHeader
-          title={`Documentos - ${folderName}`}  
+          title={`Documentos - ${folderName}`}
           description="Acceso a los documentos del empleado."
         />
       </div>
       <Suspense fallback={<div>Cargando archivos...</div>}>
-        <PdfFileGrid files={files} isLoading={isLoading} isError={isError} error={error} hideDeleteButton />
+        <PdfFileGrid
+          files={files}
+          isLoading={isLoading}
+          isError={isError}
+          error={error}
+          hideDeleteButton
+          total={total}
+          filters={filters}
+          updateFilters={updateFilters}
+          loadNextPage={loadNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+        />
       </Suspense>
     </>
   )

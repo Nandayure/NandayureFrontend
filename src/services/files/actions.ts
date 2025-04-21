@@ -1,6 +1,7 @@
 import httpClient from '@/helpers/http-client';
 import { ROUTES } from '@/constants/api-routes/routes';
-import { PdfFile } from '@/types';
+import { PdfFile, PaginatedFilesResponse } from '@/types/files/file';
+import { GetFilesFilterDto } from '@/types/files/filterTypes.d';
 
 /**
  * Interfaz para las propiedades de carga de un documento
@@ -26,20 +27,30 @@ interface UploadDocumentProps {
  * Obtiene los archivos del usuario en una carpeta específica
  * 
  * @param {string} id - ID de la carpeta
- * @returns {Promise<PdfFile[]>} Promesa que resuelve a la lista de archivos PDF del usuario
+ * @param {GetFilesFilterDto} filters - Filtros para la búsqueda de archivos
+ * @returns {Promise<PaginatedFilesResponse>} Promesa que resuelve a la lista paginada de archivos PDF del usuario
  */
-export const getUserFiles = async (id: string): Promise<PdfFile[]> => {
-  return await httpClient.get<PdfFile[]>(ROUTES.GOOGLE_DRIVE.USER_FILES(id));
+export const getUserFiles = async (id: string, filters?: GetFilesFilterDto): Promise<PaginatedFilesResponse> => {
+  const response = await httpClient.get<PaginatedFilesResponse>(ROUTES.GOOGLE_DRIVE.USER_FILES(id), { params: filters });
+  return {
+    ...response,
+    data: response.data || []
+  };
 };
 
 /**
  * Obtiene los archivos de un empleado en una carpeta específica
  * 
  * @param {string} id - ID de la carpeta
- * @returns {Promise<PdfFile[]>} Promesa que resuelve a la lista de archivos PDF del empleado
+ * @param {GetFilesFilterDto} filters - Filtros para la búsqueda de archivos
+ * @returns {Promise<PaginatedFilesResponse>} Promesa que resuelve a la lista paginada de archivos PDF del empleado
  */
-export const getEmployeeFiles = async (id: string): Promise<PdfFile[]> => {
-  return await httpClient.get<PdfFile[]>(ROUTES.GOOGLE_DRIVE.EMPLOYEE_FILES(id));
+export const getEmployeeFiles = async (id: string, filters?: GetFilesFilterDto): Promise<PaginatedFilesResponse> => {
+  const response = await httpClient.get<PaginatedFilesResponse>(ROUTES.GOOGLE_DRIVE.EMPLOYEE_FILES(id), { params: filters });
+  return {
+    ...response,
+    data: response.data || []
+  };
 };
 
 /**

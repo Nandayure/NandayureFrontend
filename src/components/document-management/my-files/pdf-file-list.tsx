@@ -1,13 +1,19 @@
 "use client"
-import { FileText, Eye, Calendar, Trash2 } from "lucide-react"
+
+import { FileText, Eye, Calendar, Trash2, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { formatDistanceToNow } from "date-fns"
+import { formatDistanceToNow, format } from "date-fns"
 import { es } from "date-fns/locale"
 import Image from "next/image"
-import type { PdfFile } from "@/types"
+import type { PdfFile } from "@/types/files/file"
+import { GetFilesFilterDto } from "@/types/files/filterTypes"
 import SkeletonLoader from "../SkeletonLoader"
 import DeleteFile from "./delete-file-alert"
-import { format } from "date-fns"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
+
+type OrderByType = NonNullable<GetFilesFilterDto['orderBy']>;
+type OrderDirectionType = NonNullable<GetFilesFilterDto['orderDirection']>;
 
 type PdfFileListProps = {
   files: PdfFile[] | undefined
@@ -15,9 +21,27 @@ type PdfFileListProps = {
   isError: boolean
   error?: Error | null
   hideDeleteButton?: boolean
+  total?: number
+  filters?: GetFilesFilterDto
+  updateFilters?: (filters: Partial<GetFilesFilterDto>) => void
+  loadNextPage?: () => void
+  hasNextPage?: boolean
+  isFetchingNextPage?: boolean
 }
 
-const PdfFileList = ({ files, isError, isLoading, error, hideDeleteButton = false }: PdfFileListProps) => {
+const PdfFileList = ({
+  files,
+  isError,
+  isLoading,
+  error,
+  hideDeleteButton = false,
+  total = 0,
+  filters,
+  updateFilters,
+  loadNextPage,
+  hasNextPage,
+  isFetchingNextPage
+}: PdfFileListProps) => {
   if (isLoading) {
     return <SkeletonLoader />
   }
@@ -51,7 +75,44 @@ const PdfFileList = ({ files, isError, isLoading, error, hideDeleteButton = fals
 
   return (
     <div className="container mx-auto p-4">
-      {files && files.length > 0 ? (
+      {/* Filtros */}
+      {updateFilters && (
+        <div className="mb-6 flex flex-wrap gap-4">
+          <Input
+            placeholder="Buscar por nombre..."
+            value={filters?.name || ''}
+            onChange={(e) => updateFilters({ name: e.target.value })}
+            className="w-full md:w-64"
+          />
+          <Select
+            value={filters?.orderBy || 'modifiedTime'}
+            onValueChange={(value: OrderByType) => updateFilters({ orderBy: value })}
+          >
+            <SelectTrigger className="w-full md:w-48">
+              <SelectValue placeholder="Ordenar por" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="modifiedTime">Fecha de modificación</SelectItem>
+              <SelectItem value="name">Nombre</SelectItem>
+              <SelectItem value="createdTime">Fecha de creación</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select
+            value={filters?.orderDirection || 'desc'}
+            onValueChange={(value: OrderDirectionType) => updateFilters({ orderDirection: value })}
+          >
+            <SelectTrigger className="w-full md:w-48">
+              <SelectValue placeholder="Dirección" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="asc">Ascendente</SelectItem>
+              <SelectItem value="desc">Descendente</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
+      {files && Array.isArray(files) && files.length > 0 ? (
         <div className="space-y-4">
           {files.map((file) => {
             const fileDate = getDateFromFileName(file.name)
@@ -125,6 +186,34 @@ const PdfFileList = ({ files, isError, isLoading, error, hideDeleteButton = fals
               </div>
             )
           })}
+
+          {/* Paginación */}
+          {loadNextPage && hasNextPage && (
+            <div className="mt-8 flex justify-center">
+              <Button
+                onClick={loadNextPage}
+                disabled={isFetchingNextPage}
+                variant="outline"
+                className="min-w-[200px]"
+              >
+                {isFetchingNextPage ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Cargando...
+                  </>
+                ) : (
+                  'Cargar más'
+                )}
+              </Button>
+            </div>
+          )}
+
+          {/* Total de archivos */}
+          {total > 0 && (
+            <div className="text-center text-sm text-muted-foreground mt-4">
+              Total: {total} archivos
+            </div>
+          )}
         </div>
       ) : (
         <div className="text-center text-gray-500">No se encontraron archivos.</div>

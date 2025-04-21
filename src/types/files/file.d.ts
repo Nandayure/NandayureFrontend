@@ -6,4 +6,12 @@ export interface PdfFile {
   iconLink?: string;
   webViewLink?: string;
   webContentLink?: string;
+  parents?: string[];
+}
+
+export interface PaginatedFilesResponse {
+  data: PdfFile[];
+  limit: number;
+  nextPageToken: string | null;
+  totalItems: number;
 }

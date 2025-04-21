@@ -1,32 +1,66 @@
 import { useQuery } from '@tanstack/react-query';
 import { getEmployeeFiles } from '@/services';
-import { EmployeeFile, PdfFile } from '@/types';
+import { GetFilesFilterDto } from '@/types/files/filterTypes.d';
+import { PaginatedFilesResponse, PdfFile } from '@/types/files/file.d';
+import { useState } from 'react';
 
-export const useEmployeeFiles = (folderId: string | undefined) => {
-  const {
-    data: files,
-    isLoading,
-    isError,
-    error,
-    refetch,
-  } = useQuery<PdfFile[]>({
-    queryKey: ['employee-files', folderId],
-    queryFn: () => {
-      if (!folderId) {
-        throw new Error('No se proporcionó el ID del empleado');
-      }
-      return getEmployeeFiles(folderId);
-    },
-    enabled: Boolean(folderId),
-    staleTime: 5 * 60 * 1000,
-    retry: false,
+const useEmployeeFiles = (id: string, initialFilters?: GetFilesFilterDto) => {
+  const [filters, setFilters] = useState<GetFilesFilterDto>(initialFilters || {
+    limit: 10,
+    orderBy: 'modifiedTime',
+    orderDirection: 'desc'
   });
 
-  return {
-    files,
+  const {
+    data,
     isLoading,
     isError,
     error,
-    refetch,
+    isFetching,
+    refetch
+  } = useQuery<PaginatedFilesResponse, Error>({
+    queryKey: ['employee-files', id, filters],
+    queryFn: () => getEmployeeFiles(id, filters),
+    staleTime: 0,
+    refetchOnWindowFocus: false
+  });
+
+  // Función para actualizar filtros
+  const updateFilters = (newFilters: Partial<GetFilesFilterDto>) => {
+    setFilters(prev => ({
+      ...prev,
+      ...newFilters,
+      pageToken: undefined // Reset pageToken when filters change
+    }));
+  };
+
+  // Función para cargar la siguiente página
+  const loadNextPage = () => {
+    if (data?.nextPageToken) {
+      setFilters(prev => ({
+        ...prev,
+        pageToken: data.nextPageToken || undefined
+      }));
+    }
+  };
+
+  // Determinar si está en estado de transición
+  const isTransitioning = isLoading || isFetching;
+
+  return {
+    files: data?.data || [],
+    total: data?.totalItems || 0,
+    nextPageToken: data?.nextPageToken,
+    isLoading: isTransitioning,
+    isError,
+    error,
+    filters,
+    updateFilters,
+    loadNextPage,
+    hasNextPage: !!data?.nextPageToken,
+    isFetchingNextPage: isFetching && !!filters.pageToken,
+    refetch
   };
 };
+
+export default useEmployeeFiles;

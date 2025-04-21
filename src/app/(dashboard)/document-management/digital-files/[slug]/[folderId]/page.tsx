@@ -8,12 +8,12 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { Suspense } from "react"
 import PdfFileGrid from "@/components/document-management/my-files/PdfFileGrid"
 import { BackButton } from "@/components/ui/back-button"
-import { useEmployeeFiles } from "@/hooks/files/useEmployeeFiles"
 import PDFUploader from "@/components/common/pdf-uploader"
 import { Button } from "@/components/ui/button"
 import { PageHeader } from "@/components/ui/section-title"
 import SkeletonLoader from "@/components/ui/skeleton-loader"
 import PdfFileList from "@/components/document-management/my-files/pdf-file-list"
+import useEmployeeFiles from "@/hooks/files/useEmployeeFiles"
 
 export default function Page() {
   const params = useParams<{ slug: string; folderId: string }>()
@@ -33,7 +33,20 @@ export default function Page() {
   const [previousViewMode, setPreviousViewMode] = useState<"grid" | "list">(initialViewMode)
 
   const folderName = searchParams.get("folderName") ? decodeURIComponent(searchParams.get("folderName")!) : "Archivos"
-  const { files, isLoading, isError, error } = useEmployeeFiles(params.folderId)
+
+  // Hook con paginación y filtros
+  const {
+    files,
+    total,
+    isLoading,
+    isError,
+    error,
+    filters,
+    updateFilters,
+    loadNextPage,
+    hasNextPage,
+    isFetchingNextPage
+  } = useEmployeeFiles(params.folderId)
 
   // Guardar el viewMode en localStorage cuando cambie
   useEffect(() => {
@@ -156,9 +169,31 @@ export default function Page() {
           >
             <Suspense fallback={<SkeletonLoader />}>
               {viewMode === "grid" ? (
-                <PdfFileGrid files={files} isLoading={isLoading} isError={isError} error={error} />
+                <PdfFileGrid
+                  files={files}
+                  isLoading={isLoading}
+                  isError={isError}
+                  error={error}
+                  total={total}
+                  filters={filters}
+                  updateFilters={updateFilters}
+                  loadNextPage={loadNextPage}
+                  hasNextPage={hasNextPage}
+                  isFetchingNextPage={isFetchingNextPage}
+                />
               ) : (
-                <PdfFileList files={files} isLoading={isLoading} isError={isError} error={error} />
+                <PdfFileList
+                  files={files}
+                  isLoading={isLoading}
+                  isError={isError}
+                  error={error}
+                  total={total}
+                  filters={filters}
+                  updateFilters={updateFilters}
+                  loadNextPage={loadNextPage}
+                  hasNextPage={hasNextPage}
+                  isFetchingNextPage={isFetchingNextPage}
+                />
               )}
             </Suspense>
           </motion.div>

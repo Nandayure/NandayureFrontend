@@ -1,6 +1,5 @@
 import httpClient from '@/helpers/http-client';
 import { ROUTES } from '@/constants/api-routes/routes';
-import { GetFilesFilterDto } from '@/types/files/filterTypes.d';
 import { GetFilesQueryParams, GetFilesResponse } from '@/types';
 
 /**

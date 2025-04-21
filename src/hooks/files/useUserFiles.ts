@@ -1,66 +1,35 @@
-import { useQuery } from '@tanstack/react-query';
-import { getUserFiles } from '@/services';
-import { GetFilesFilterDto } from '@/types/files/filterTypes.d';
-import { PaginatedFilesResponse, PdfFile } from '@/types/files/file.d';
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query'
+import { getUserFiles } from '@/services'
+import { GetFilesQueryParams, GetFilesResponse } from '@/types'
 
-const useUserFiles = (id: string, initialFilters?: GetFilesFilterDto) => {
-  const [filters, setFilters] = useState<GetFilesFilterDto>(initialFilters || {
-    limit: 10,
-    orderBy: 'modifiedTime',
-    orderDirection: 'desc'
-  });
-
+const useGetUserFiles = (folderId: string, filters?: GetFilesQueryParams) => {
   const {
     data,
     isLoading,
     isError,
     error,
     isFetching,
-    refetch
-  } = useQuery<PaginatedFilesResponse, Error>({
-    queryKey: ['user-files', id, filters],
-    queryFn: () => getUserFiles(id, filters),
+    refetch,
+  } = useQuery<GetFilesResponse>({
+    queryKey: ['user-files', folderId, filters],
+    queryFn: () => getUserFiles(folderId, filters),
     staleTime: 0,
-    refetchOnWindowFocus: false
-  });
-
-  // Función para actualizar filtros
-  const updateFilters = (newFilters: Partial<GetFilesFilterDto>) => {
-    setFilters(prev => ({
-      ...prev,
-      ...newFilters,
-      pageToken: undefined // Reset pageToken when filters change
-    }));
-  };
-
-  // Función para cargar la siguiente página
-  const loadNextPage = () => {
-    if (data?.nextPageToken) {
-      setFilters(prev => ({
-        ...prev,
-        pageToken: data.nextPageToken || undefined
-      }));
-    }
-  };
-
-  // Determinar si está en estado de transición
-  const isTransitioning = isLoading || isFetching;
+    refetchOnWindowFocus: false,
+  })
 
   return {
     files: data?.data || [],
-    total: data?.totalItems || 0,
-    nextPageToken: data?.nextPageToken,
-    isLoading: isTransitioning,
+    pagination: {
+      limit: data?.limit || filters?.limit || 10,
+      totalItems: data?.totalItems || 0,
+      nextPageToken: data?.nextPageToken || null,
+      hasNextPage: !!data?.nextPageToken,
+    },
+    isLoading: isLoading || isFetching,
     isError,
     error,
-    filters,
-    updateFilters,
-    loadNextPage,
-    hasNextPage: !!data?.nextPageToken,
-    isFetchingNextPage: isFetching && !!filters.pageToken,
-    refetch
-  };
-};
+    refetch,
+  }
+}
 
-export default useUserFiles;
+export default useGetUserFiles

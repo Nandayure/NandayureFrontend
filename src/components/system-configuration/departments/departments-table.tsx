@@ -139,6 +139,7 @@ export default function DepartmentsTable() {
                     <EditDepartmentModal
                       department={{
                         ...department,
+                        departmentProgramId: department.departmentProgram.id
                       }}
                       departmentId={department.id}
                     />

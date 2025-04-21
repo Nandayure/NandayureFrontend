@@ -123,13 +123,6 @@ export default function EmployeesDashboard() {
     setIsJobPositionEditAlertOpen(true)
   }
 
-  // Mock refetch function
-  const refetchLocal = () => {
-    setIsLoadingLocal(true)
-    setTimeout(() => {
-      setIsLoadingLocal(false)
-    }, 1000)
-  }
 
   // Get initials for avatar
   const getInitials = (name: string, surname1: string) => {

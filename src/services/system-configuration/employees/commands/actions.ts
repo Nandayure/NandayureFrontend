@@ -24,3 +24,15 @@ export const deleteEmployee = async (employeeId: number): Promise<void> => {
 export const restoreEmployee = async (employeeId: number): Promise<void> => {
   return await httpClient.patch(ROUTES.EMPLOYEES.RESTORE(employeeId));
 }
+
+/**
+ * Actualiza la posición laboral de un empleado por su ID
+ * 
+ * @param {number} employeeId - ID del empleado a actualizar
+ * @param {string} jobPosition - Nueva posición laboral del empleado
+ * @returns {Promise<void>} Promesa que resuelve cuando la posición ha sido actualizada
+ * @throws {Error} Si ocurre un error durante la actualización
+ */
+export const updateJobPosition = async (employeeId: number, jobPosition: string): Promise<void> => {
+  return await httpClient.patch(ROUTES.EMPLOYEES.UPDATE_JOB_POSITION(employeeId), { jobPosition });
+}

@@ -9,6 +9,7 @@ export const ROUTES = {
   EMPLOYEES: {
     BASE: '/employees',
     BY_ID: (employeeId: number) => `/employees/${employeeId}`,
+    UPDATE_JOB_POSITION: (employeeId: number) => `/employees/updateEmployeeJobPosition/${employeeId}`,
     DELETE: (employeeId: number) => `/employees/${employeeId}`,
     GET_DELETED: '/employees/deleted',
     RESTORE: (employeeId: number) => `/employees/restore/${employeeId}`,

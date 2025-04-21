@@ -1,6 +1,4 @@
-import { BaseFilterParams } from '@/types/common/base-filter'
-
-export interface GetFilesQueryParams extends BaseFilterParams {
+export interface GetFilesQueryParams {
   pageToken?: string
   limit?: number
   orderDirection?: 'asc' | 'desc'
@@ -23,5 +21,8 @@ export interface GetFilesResponse {
   data: FileItem[]
   limit: number
   nextPageToken?: string
-  totalItems: number
+  previusPageToken?: string
+  hasNextPage: boolean
+  hasPreviusPage: boolean
 }
+

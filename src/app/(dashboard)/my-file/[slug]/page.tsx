@@ -4,12 +4,12 @@ import { Suspense, useState } from "react"
 import PdfFileGrid from "@/components/document-management/my-files/PdfFileGrid"
 import PdfFileList from "@/components/document-management/my-files/PdfFileList"
 import { BackButton } from "@/components/ui/back-button"
-import { useUserFiles } from "@/hooks"
 import { useParams, useSearchParams, useRouter } from "next/navigation"
 import { PageHeader } from "@/components/ui/section-title"
 import { LayoutGrid, List } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useDebounce } from "@/hooks/use-debounce"
+import useGetUserFiles from "@/hooks/files/useUserFiles"
 
 export default function Page() {
   const params = useParams<{ slug: string }>()
@@ -23,10 +23,10 @@ export default function Page() {
     ? decodeURIComponent(searchParams.get('folderName')!)
     : 'Archivos'
 
-  const currentPage = Number(searchParams.get('page')) || 1
   const searchValue = searchParams.get('search') || ""
   const orderBy = searchParams.get('orderBy') as any || 'modifiedTime'
   const orderDirection = searchParams.get('orderDirection') as 'asc' | 'desc' || 'desc'
+  const pageToken = searchParams.get('pageToken') || undefined
   const itemsPerPage = 12
 
   const [filters, setFilters] = useState({
@@ -37,20 +37,18 @@ export default function Page() {
 
   const debouncedFilters = useDebounce(filters, 500)
 
-  // Hook con paginación y filtros
   const {
     files,
     isLoading,
     isError,
     error,
     pagination,
-  } = useUserFiles(params.slug, {
-    page: String(currentPage),
+  } = useGetUserFiles(params.slug, {
+    pageToken,
     limit: itemsPerPage,
     ...debouncedFilters
   })
 
-  // Actualizar URL cuando cambian los filtros o la página
   const updateURL = (updates: Record<string, string>) => {
     const params = new URLSearchParams(searchParams)
     Object.entries(updates).forEach(([key, value]) => {
@@ -63,8 +61,8 @@ export default function Page() {
     router.push('?' + params.toString())
   }
 
-  const handlePageChange = (page: number) => {
-    updateURL({ page: String(page) })
+  const handlePageChange = (token: string | null) => {
+    updateURL({ pageToken: token || "" })
   }
 
   const handleFiltersChange = (newFilters: Partial<typeof filters>) => {
@@ -72,7 +70,7 @@ export default function Page() {
     setFilters(updatedFilters)
     updateURL({
       ...updatedFilters,
-      page: '1', // Reset page when filters change
+      pageToken: '', // reset al cambiar filtros
     })
   }
 
@@ -89,9 +87,12 @@ export default function Page() {
     error,
     hideDeleteButton: true,
     pagination: {
-      totalItems: pagination.totalItems,
       limit: itemsPerPage,
-      currentPage,
+      currentPage: 1,
+      nextPageToken: pagination?.nextPageToken,
+      previusPageToken: pagination?.previusPageToken,
+      hasNextPage: !!pagination?.nextPageToken,
+      hasPreviusPage: !!pagination?.previusPageToken
     },
     onPageChange: handlePageChange,
     filters,

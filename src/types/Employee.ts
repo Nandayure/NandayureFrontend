@@ -1,5 +1,24 @@
 import { Person } from "./Person";
 
+export interface Department {
+  id: number;
+  name: string;
+}
+
+export interface JobPosition {
+  id: number;
+  Name: string;
+  Department: Department;
+}
+
+export interface Gender {
+  Name: string;
+}
+
+export interface MaritalStatus {
+  Name: string;
+}
+
 export interface Employee extends Person {
   id: string;
   HiringDate: string | Date;
@@ -8,4 +27,7 @@ export interface Employee extends Person {
   MaritalStatusId: number;
   GenderId: number;
   JobPositionId: number;
+  JobPosition: JobPosition;
+  Gender: Gender;
+  MaritalStatus: MaritalStatus;
 }

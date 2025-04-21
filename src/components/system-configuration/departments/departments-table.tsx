@@ -15,6 +15,12 @@ import { useDebounce } from "@/hooks/use-debounce"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Department } from "@/types"
+
+interface Props {
+  department: Department & { departmentProgramId: number };
+  departmentId: number;
+}
 
 export default function DepartmentsTable() {
   const router = useRouter()
@@ -133,7 +139,6 @@ export default function DepartmentsTable() {
                     <EditDepartmentModal
                       department={{
                         ...department,
-                        departmentProgramId: department.departmentProgram.id
                       }}
                       departmentId={department.id}
                     />

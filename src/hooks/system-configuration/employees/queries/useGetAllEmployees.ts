@@ -12,6 +12,7 @@ const useGetAllEmployees = (params?: GetEmployeesQueryParams) => {
     data,
     isLoading,
     isError,
+    refetch
   } = useQuery({
     queryFn: async () => await getAllEmployees(params),
     queryKey: ['getAllEmployees', params],
@@ -29,6 +30,8 @@ const useGetAllEmployees = (params?: GetEmployeesQueryParams) => {
     },
     isLoading,
     isError,
+    error: isError ? data : null,
+    refetch,
   };
 };
 

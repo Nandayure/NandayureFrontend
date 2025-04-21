@@ -1,170 +1,131 @@
-"use client"
+'use client'
 
-import { useState, useEffect, useRef } from "react"
-import { useParams, useSearchParams, useRouter } from "next/navigation"
-import { LayoutGrid, List } from "lucide-react"
-import { AnimatePresence, motion, MotionConfig } from "framer-motion"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 import PdfFileGrid from "@/components/document-management/my-files/PdfFileGrid"
+import PdfFileList from "@/components/document-management/my-files/PdfFileList"
 import { BackButton } from "@/components/ui/back-button"
-import { useEmployeeFiles } from "@/hooks/files/useEmployeeFiles"
-import PDFUploader from "@/components/common/pdf-uploader"
-import { Button } from "@/components/ui/button"
+import useEmployeeFiles from "@/hooks/files/useEmployeeFiles"
+import { useParams, useSearchParams, useRouter } from "next/navigation"
 import { PageHeader } from "@/components/ui/section-title"
-import SkeletonLoader from "@/components/ui/skeleton-loader"
-import PdfFileList from "@/components/document-management/my-files/pdf-file-list"
+import { LayoutGrid, List } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { useDebounce } from "@/hooks/use-debounce"
 
 export default function Page() {
-  const params = useParams<{ slug: string; folderId: string }>()
+  const params = useParams<{ slug: string, folderId: string }>()
   const searchParams = useSearchParams()
   const router = useRouter()
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>(
+    (searchParams.get('view') as 'grid' | 'list') || 'grid'
+  )
 
-  // Usar un ref para evitar actualizaciones de URL durante las renderizaciones iniciales
-  const initialRenderRef = useRef(true)
+  const folderName = searchParams.get('folderName')
+    ? decodeURIComponent(searchParams.get('folderName')!)
+    : 'Archivos'
 
-  // Obtener el modo de vista de los query params, localStorage o usar "grid" como valor predeterminado
-  const viewModeFromParams = searchParams.get('viewMode') as "grid" | "list";
-  const viewModeFromStorage = typeof window !== 'undefined' ? localStorage.getItem('viewMode') as "grid" | "list" : null;
-  const initialViewMode = viewModeFromParams || viewModeFromStorage || "grid";
+  const currentPage = Number(searchParams.get('page')) || 1
+  const searchValue = searchParams.get('search') || ""
+  const orderBy = searchParams.get('orderBy') as any || 'modifiedTime'
+  const orderDirection = searchParams.get('orderDirection') as 'asc' | 'desc' || 'desc'
+  const itemsPerPage = 12
 
-  const [viewMode, setViewMode] = useState<"grid" | "list">(initialViewMode)
-  const [previousViewMode, setPreviousViewMode] = useState<"grid" | "list">(initialViewMode)
+  const [filters, setFilters] = useState({
+    name: searchValue,
+    orderBy,
+    orderDirection,
+  })
 
-  const folderName = searchParams.get("folderName") ? decodeURIComponent(searchParams.get("folderName")!) : "Archivos"
+  const debouncedFilters = useDebounce(filters, 500)
 
-  const { files, isLoading, isError, error } = useEmployeeFiles(params.folderId)
+  const {
+    files,
+    pagination,
+    isLoading,
+    isError,
+    error,
+  } = useEmployeeFiles(params.folderId, {
+    page: String(currentPage),
+    limit: itemsPerPage,
+    ...debouncedFilters
+  })
 
-  // Guardar el viewMode en localStorage cuando cambie
-  useEffect(() => {
-    localStorage.setItem('viewMode', viewMode);
-  }, [viewMode]);
+  // Actualizar URL cuando cambian los filtros o la página
+  const updateURL = (updates: Record<string, string>) => {
+    const params = new URLSearchParams(searchParams)
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value) {
+        params.set(key, value)
+      } else {
+        params.delete(key)
+      }
+    })
+    router.push('?' + params.toString())
+  }
 
-  // Effect modificado para evitar el bucle infinito
-  useEffect(() => {
-    // Omitir la primera renderización
-    if (initialRenderRef.current) {
-      initialRenderRef.current = false;
-      return;
-    }
+  const handlePageChange = (page: number) => {
+    updateURL({ page: String(page) })
+  }
 
-    // Sólo actualizar la URL si el modo de vista actual es diferente del que está en la URL
-    if (viewModeFromParams !== viewMode) {
-      // Crear un objeto URLSearchParams a partir de la URL actual
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set('viewMode', viewMode);
+  const handleFiltersChange = (newFilters: Partial<typeof filters>) => {
+    const updatedFilters = { ...filters, ...newFilters }
+    setFilters(updatedFilters)
+    updateURL({
+      ...updatedFilters,
+      page: '1', // Reset page when filters change
+    })
+  }
 
-      // Actualizar la URL sin recargar la página y sin cambiar el scroll
-      router.replace(`${window.location.pathname}?${newParams.toString()}`, { scroll: false });
-    }
-  }, [viewMode, router, searchParams, viewModeFromParams]);
+  const toggleViewMode = () => {
+    const newMode = viewMode === 'grid' ? 'list' : 'grid'
+    setViewMode(newMode)
+    updateURL({ view: newMode })
+  }
 
-  const handleViewModeChange = (value: string) => {
-    if (value === "grid" || value === "list") {
-      setPreviousViewMode(viewMode);
-      setViewMode(value as "grid" | "list");
-    }
+  const commonProps = {
+    files,
+    isLoading,
+    isError,
+    error,
+    hideDeleteButton: true,
+    pagination: {
+      totalItems: pagination.totalItems,
+      limit: itemsPerPage,
+      currentPage,
+    },
+    onPageChange: handlePageChange,
+    filters,
+    updateFilters: handleFiltersChange,
   }
 
   return (
-    <MotionConfig
-      transition={{
-        type: "spring",
-        duration: 0.4,
-        bounce: 0.1,
-      }}
-    >
-      <div className="container mx-auto py-10">
-        <motion.div
-          className="flex w-full justify-start mb-6"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        >
-          <BackButton href={`/document-management/digital-files/${params.slug}`} label="Volver a mis carpetas" />
-        </motion.div>
-
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
-          >
-            <PageHeader title={`Documentos - ${folderName}`} description="Acceso a los documentos del empleado." />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.3 }}
-            className="flex items-center gap-3 self-end sm:self-auto"
-          >
-            <ToggleGroup type="single" value={viewMode} onValueChange={handleViewModeChange}>
-              <ToggleGroupItem value="grid" aria-label="Vista de cuadrícula" className="relative">
-                <LayoutGrid className="h-4 w-4" />
-                {viewMode === "grid" && (
-                  <motion.div
-                    layoutId="filesViewIndicator"
-                    className="absolute inset-0 bg-primary/10 rounded-sm -z-10"
-                    initial={false}
-                    animate={{ opacity: 1 }}
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
-                  />
-                )}
-              </ToggleGroupItem>
-              <ToggleGroupItem value="list" aria-label="Vista de lista" className="relative">
-                <List className="h-4 w-4" />
-                {viewMode === "list" && (
-                  <motion.div
-                    layoutId="filesViewIndicator"
-                    className="absolute inset-0 bg-primary/10 rounded-sm -z-10"
-                    initial={false}
-                    animate={{ opacity: 1 }}
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
-                  />
-                )}
-              </ToggleGroupItem>
-            </ToggleGroup>
-
-            <PDFUploader folderId={params.folderId}>
-              <Button>Subir archivo</Button>
-            </PDFUploader>
-          </motion.div>
+    <>
+      <div className="container mx-auto p-4">
+        <div className="mb-4 flex items-center gap-2">
+          <BackButton href={`/document-management/digital-files/${params.slug}`} label="Volver a carpetas" />
         </div>
-
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={viewMode}
-            initial={{
-              opacity: 0,
-              x: viewMode === "grid" && previousViewMode === "list" ? -20 : 20,
-              filter: "blur(8px)",
-              scale: 0.97,
-            }}
-            animate={{
-              opacity: 1,
-              x: 0,
-              filter: "blur(0px)",
-              scale: 1,
-            }}
-            exit={{
-              opacity: 0,
-              x: viewMode === "grid" ? 20 : -20,
-              filter: "blur(8px)",
-              scale: 0.97,
-            }}
-            transition={{ duration: 0.3 }}
+        <div className="flex justify-between items-center mb-6">
+          <PageHeader
+            title={`Documentos - ${folderName}`}
+            description="Documentos digitales del empleado."
+          />
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleViewMode}
+            className="ml-4"
           >
-            <Suspense fallback={<SkeletonLoader />}>
-              {viewMode === "grid" ? (
-                <PdfFileGrid files={files} isLoading={isLoading} isError={isError} error={error} />
-              ) : (
-                <PdfFileList files={files} isLoading={isLoading} isError={isError} error={error} />
-              )}
-            </Suspense>
-          </motion.div>
-        </AnimatePresence>
+            {viewMode === 'grid' ? <List className="h-4 w-4" /> : <LayoutGrid className="h-4 w-4" />}
+          </Button>
+        </div>
       </div>
-    </MotionConfig>
+
+      <Suspense fallback={<div>Cargando archivos...</div>}>
+        {viewMode === 'grid' ? (
+          <PdfFileGrid {...commonProps} />
+        ) : (
+          <PdfFileList {...commonProps} />
+        )}
+      </Suspense>
+    </>
   )
 }

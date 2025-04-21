@@ -1,10 +1,8 @@
 "use client"
-
-import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Users, UserX } from "lucide-react"
-import ActiveUserTab from "./active-user-tab"
-import DeleteUserTab from "./delete-user-tab"
+import { ActiveUserTab } from "./active-user-tab"
+import { InactiveUserTab } from "./inactive-user-tab"
 
 export function UserDashboard() {
 
@@ -17,9 +15,9 @@ export function UserDashboard() {
             <span>Usuarios Activos</span>
 
           </TabsTrigger>
-          <TabsTrigger value="deleted" className="flex items-center gap-2 data-[state=active]:bg-white">
+          <TabsTrigger value="inactive" className="flex items-center gap-2 data-[state=active]:bg-white">
             <UserX className="h-4 w-4" />
-            <span>Usuarios Eliminados</span>
+            <span>Usuarios Inactivos</span>
 
           </TabsTrigger>
         </TabsList>
@@ -28,8 +26,8 @@ export function UserDashboard() {
           <TabsContent value="active">
             <ActiveUserTab />
           </TabsContent>
-          <TabsContent value="deleted">
-            <DeleteUserTab />
+          <TabsContent value="inactive">
+            <InactiveUserTab />
           </TabsContent>
         </div>
       </Tabs>

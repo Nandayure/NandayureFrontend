@@ -1,31 +1,35 @@
-import { useQuery } from '@tanstack/react-query';
-import { getUserFiles } from '@/services';
-import { PdfFile } from '@/types';
+import { useQuery } from '@tanstack/react-query'
+import { getUserFiles } from '@/services'
+import { GetFilesQueryParams, GetFilesResponse } from '@/types'
 
-const useUserFiles = (id: string) => {
+const useGetUserFiles = (folderId: string, filters?: GetFilesQueryParams) => {
   const {
-    data: files,
+    data,
     isLoading,
     isError,
     error,
     isFetching,
-  } = useQuery<PdfFile[], Error>({
-    queryKey: ['user-files', id],
-    queryFn: () => getUserFiles(id),
+    refetch,
+  } = useQuery<GetFilesResponse>({
+    queryKey: ['user-files', folderId, filters],
+    queryFn: () => getUserFiles(folderId, filters),
     staleTime: 0,
     refetchOnWindowFocus: false,
-    placeholderData: undefined,
-  });
-
-  // Determinar si está en estado de transición
-  const isTransitioning = isLoading || isFetching;
+  })
 
   return {
-    files,
-    isLoading: isTransitioning,
+    files: data?.data || [],
+    pagination: {
+      limit: data?.limit || filters?.limit || 10,
+      totalItems: data?.totalItems || 0,
+      nextPageToken: data?.nextPageToken || null,
+      hasNextPage: !!data?.nextPageToken,
+    },
+    isLoading: isLoading || isFetching,
     isError,
     error,
-  };
-};
+    refetch,
+  }
+}
 
-export default useUserFiles;
+export default useGetUserFiles

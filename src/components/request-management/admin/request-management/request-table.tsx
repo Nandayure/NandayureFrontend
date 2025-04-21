@@ -18,9 +18,7 @@ const RequestTable = ({
   requests,
   isLoading,
   onRowClick,
-  employees,
 }: {
-  employees: Employee[];
   requests: RequestDetails[];
   isLoading: boolean;
   onRowClick: (request: RequestDetails) => void;
@@ -59,8 +57,8 @@ const RequestTable = ({
           >
             <TableCell>{request.id}</TableCell>
             <TableCell>{request.EmployeeId}</TableCell>
-            <TableCell>{request.EmployeeId && employees.find((e) => e.id === request.EmployeeId)?.Name}</TableCell>
-            <TableCell>{`${request.EmployeeId && employees.find((e) => e.id === request.EmployeeId)?.Surname1} ${request.EmployeeId && employees.find((e) => e.id === request.EmployeeId)?.Surname2}`}</TableCell>
+            <TableCell>{request.Employee.Name}</TableCell>
+            <TableCell>{`${request.Employee.Surname1} ${request.Employee.Surname2}`}</TableCell>
             <TableCell>{request.RequestType.name}</TableCell>
             <TableCell>{formatDate(request.date)}</TableCell>
             <TableCell>

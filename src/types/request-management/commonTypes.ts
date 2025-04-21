@@ -1,4 +1,3 @@
-import { Employee } from '../Employee';
 import type { RequestSalaryCertificate } from '../request/RequestSalaryCertificate';
 
 export type { RequestSalaryCertificate };
@@ -62,6 +61,16 @@ export interface RequestStatus {
   Name: string;
 }
 
+interface EmployeeDetails {
+  id: string;
+  Name: string;
+  Surname1: string;
+  Surname2: string;
+  Email: string;
+}
+
+
+
 export interface RequestDetails {
   id: number;
   date: string;
@@ -69,13 +78,13 @@ export interface RequestDetails {
   RequestTypeId: number;
   CancelledReason: string | null;
   EmployeeId: string;
+  Employee: EmployeeDetails;
   RequestApprovals: RequestApproval[];
   RequestType: RequestType;
   RequestStatus: RequestStatus;
   RequestVacation: RequestVacation | null;
   RequestSalaryCertificate: RequestSalaryCertificate | null;
   RequestPaymentConfirmation: RequestPaymentConfirmation | null;
-  Employee: Employee;
 }
 
 export interface PaginatedRequestResponse {

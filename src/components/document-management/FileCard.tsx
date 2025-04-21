@@ -6,13 +6,13 @@ import { getFileViewUrl } from "@/services"
 import { formatDistanceToNow } from "date-fns"
 import { es } from "date-fns/locale"
 import Image from "next/image"
-import type { PdfFile } from "@/types"
 import DeleteFile from "./my-files/delete-file-alert"
 import { format } from "date-fns"
+import { FileItem } from "@/types"
  
 
 interface FileCardProps {
-  file: PdfFile
+  file: FileItem
   folderId?: string
   hideDelete?: boolean
 }

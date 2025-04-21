@@ -210,10 +210,6 @@ export default function InboxComponent() {
                               {formatDateString(selectedRequest.Request.RequestVacation.entryDate)}
                             </p>
                           </div>
-                          <div>
-                            <p className="text-gray-500">Días disponibles</p>
-                            <p className="font-medium">{selectedRequest.Request.Employee.AvailableVacationDays}</p>
-                          </div>
                         </div>
                       )}
 

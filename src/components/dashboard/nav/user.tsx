@@ -90,15 +90,26 @@ export default function User() {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem
-              data-cy="user-management-button"
+              data-cy="roles-management-button"
               asChild
             >
-              <Link href="/user-management" className="flex items-center">
+              <Link href="/roles-management" className="flex items-center">
                 <UserIcon className="mr-2 h-4 w-4" />
-                <span>Gestión de usuarios</span>
+                <span>Gestión de roles</span>
               </Link>
             </DropdownMenuItem>
           </>
+        )}
+        {roles && roles.includes('TI') && (
+          <DropdownMenuItem
+            data-cy="user-management-button"
+            asChild
+          >
+            <Link href="/access-control" className="flex items-center">
+              <UserIcon className="mr-2 h-4 w-4" />
+              <span>Gestión de usuarios</span>
+            </Link>
+          </DropdownMenuItem>
         )}
         <DropdownMenuItem
           data-cy="help-button"

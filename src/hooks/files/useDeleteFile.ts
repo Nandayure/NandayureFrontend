@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import { PdfFile } from '@/types';
 import { deleteFile } from '@/services';
+import { FileItem } from '@/types';
 
 interface UseDeleteFileProps {
-  file: PdfFile;
+  file: FileItem;
   folderId?: string;
   onDeleteSuccess?: () => void;
 }

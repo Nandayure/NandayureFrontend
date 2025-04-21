@@ -58,6 +58,12 @@ export const ROLE_ROUTES: RoleRoutes = {
     '/request-management/*',
     '/hr-analytics/*',
   ],
+  // TI
+  [Roles.ti]: [
+    ...commonRoutes,
+    '/access-control',
+    '/access-control/*',
+  ],
 };
 
 /**

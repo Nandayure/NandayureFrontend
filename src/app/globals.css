@@ -142,43 +142,14 @@
 
 @layer utilities {
 
-  /* Always reserve scrollbar space on html */
+  /* Eliminamos la reserva forzada del espacio del scrollbar */
   html {
     overflow-y: auto;
-    scrollbar-gutter: stable both-edges;
   }
 
-  /* Fallback for browsers without scrollbar-gutter support */
-  @supports not (scrollbar-gutter: stable both-edges) {
-    html {
-      overflow-y: scroll;
-    }
-  }
-
-  /* Firefox transparent scrollbar styling */
-  @-moz-document url-prefix() {
-    html {
-      scrollbar-color: rgba(0, 0, 0, 0) transparent;
-      scrollbar-width: thin;
-    }
-  }
-
-  /* Optional WebKit scrollbar styling */
-  @media (hover: hover) and (pointer: fine) {
-    ::-webkit-scrollbar {
-      width: 12px;
-      background: inherit;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: hsl(var(--border));
-      border-radius: 20px;
-      border: 3px solid hsl(var(--background));
-    }
-  }
-
+  /* Quitamos el padding-right forzado */
   html {
-    padding-right: var(--scrollbar-width);
+    padding-right: 0 !important;
   }
 
   input,
@@ -194,16 +165,14 @@
 
   .hide-scrollbar {
     -ms-overflow-style: none;
-    /* IE and Edge */
     scrollbar-width: none;
-    /* Firefox */
   }
 
+  /* Ajustamos las reglas para html y body */
   html,
   body {
-    overflow-y: scroll !important;
-    scrollbar-gutter: stable both-edges !important;
-    padding-right: var(--scrollbar-width) !important;
+    overflow-y: auto !important;
+    padding-right: 0 !important;
   }
 }
 
@@ -312,11 +281,4 @@
   body {
     @apply bg-background text-foreground;
   }
-}
-
-/* Ensure scrollbar space reserved on both html and body */
-html,
-body {
-  overflow-y: scroll;
-  scrollbar-gutter: stable both-edges;
 }

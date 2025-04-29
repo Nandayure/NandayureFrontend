@@ -283,7 +283,7 @@ export default function EmployeesDashboard() {
 
                   <Separator />
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="w-full">
                     <Card>
                       <CardHeader className="pb-2">
                         <CardTitle className="text-base">Información Personal</CardTitle>
@@ -304,25 +304,6 @@ export default function EmployeesDashboard() {
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">Número de Hijos:</span>
                           <span className="font-medium">{selectedEmployee.NumberChlidren}</span>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <Card>
-                      <CardHeader className="pb-2 flex flex-row items-center justify-between">
-                        <CardTitle className="text-base">Información de Contacto</CardTitle>
-                        <Button variant="ghost" size="sm" onClick={() => openGeneralEditConfirmation(selectedEmployee)}>
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                      </CardHeader>
-                      <CardContent className="space-y-3">
-                        <div className="flex items-center">
-                          <Mail className="h-4 w-4 mr-2 text-muted-foreground" />
-                          <span className="text-sm break-all">{selectedEmployee.Email}</span>
-                        </div>
-                        <div className="flex items-center">
-                          <Phone className="h-4 w-4 mr-2 text-muted-foreground" />
-                          <span className="text-sm">{selectedEmployee.CellPhone}</span>
                         </div>
                       </CardContent>
                     </Card>

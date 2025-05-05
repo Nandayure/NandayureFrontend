@@ -20,8 +20,6 @@ export function ContactInfoTab({ employee, onEditConfirmation }: ContactInfoTabP
   const [formData, setFormData] = useState({
     Email: employee?.Email || "",
     CellPhone: employee?.CellPhone || "",
-    MaritalStatus: employee?.MaritalStatus?.id?.toString() || "",
-    NumberChlidren: employee?.NumberChlidren || 0,
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,34 +68,6 @@ export function ContactInfoTab({ employee, onEditConfirmation }: ContactInfoTabP
                   <Label htmlFor="CellPhone">Teléfono</Label>
                   <Input id="CellPhone" name="CellPhone" value={formData.CellPhone} onChange={handleChange} />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="MaritalStatus">Estado Civil</Label>
-                  <Select
-                    value={formData.MaritalStatus}
-                    onValueChange={(value) => handleSelectChange("MaritalStatus", value)}
-                  >
-                    <SelectTrigger id="MaritalStatus">
-                      <SelectValue placeholder="Seleccionar estado civil" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">Soltero/a</SelectItem>
-                      <SelectItem value="2">Casado/a</SelectItem>
-                      <SelectItem value="3">Divorciado/a</SelectItem>
-                      <SelectItem value="4">Viudo/a</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="NumberChlidren">Número de Hijos</Label>
-                  <Input
-                    id="NumberChlidren"
-                    name="NumberChlidren"
-                    type="number"
-                    min="0"
-                    value={formData.NumberChlidren}
-                    onChange={handleChange}
-                  />
-                </div>
               </div>
               <div className="flex justify-end gap-2">
                 <Button type="button" variant="outline" onClick={() => setIsEditing(false)}>
@@ -122,24 +92,6 @@ export function ContactInfoTab({ employee, onEditConfirmation }: ContactInfoTabP
                   <div className="flex items-center">
                     <Phone className="h-4 w-4 mr-2" />
                     <p>{employee.CellPhone || 'No especificado'}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-sm font-medium text-muted-foreground mb-1">Estado Civil</h4>
-                  <div className="flex items-center">
-                    <Heart className="h-4 w-4 mr-2" />
-                    <p>{employee.MaritalStatus?.Name || 'No especificado'}</p>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-medium text-muted-foreground mb-1">Hijos</h4>
-                  <div className="flex items-center">
-                    <Users className="h-4 w-4 mr-2" />
-                    <p>{employee.NumberChlidren ?? 0}</p>
                   </div>
                 </div>
               </div>

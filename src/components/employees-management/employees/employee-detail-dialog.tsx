@@ -26,6 +26,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { PersonalInfoTab } from "./personal-info-tab"
 import { JobInfoTab } from "./job-info-tab"
 import { ContactInfoTab } from "./contact-info-tab"
+import { EditEmployeeJobPositionDialog } from "./edit-employee-job-position-dialog"
 
 interface EmployeeDetailDialogProps {
   employee: any
@@ -43,11 +44,10 @@ export function EmployeeDetailDialog({ employee, isOpen, onClose }: EmployeeDeta
   }
 
   const handleJobPositionEdit = (employee: any) => {
-    onClose()
-    setTimeout(() => setIsJobPositionEditOpen(true), 100)
+    setIsJobPositionEditOpen(true)
   }
 
-  const handleJobPositionConfirm = (employee: any) => {
+  const handleJobPositionConfirm = () => {
     setIsJobPositionEditOpen(false)
     setIsJobPositionEditAlertOpen(true)
   }
@@ -115,6 +115,13 @@ export function EmployeeDetailDialog({ employee, isOpen, onClose }: EmployeeDeta
         </AlertDialogContent>
       </AlertDialog>
 
+      {/* Job Position Edit Dialog */}
+      <EditEmployeeJobPositionDialog
+        isOpen={isJobPositionEditOpen}
+        onClose={() => setIsJobPositionEditOpen(false)}
+        employee={employee}
+        onConfirm={handleJobPositionConfirm}
+      />
 
       {/* Job Position Edit Confirmation Alert */}
       <AlertDialog open={isJobPositionEditAlertOpen} onOpenChange={setIsJobPositionEditAlertOpen}>

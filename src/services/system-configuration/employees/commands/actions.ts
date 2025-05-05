@@ -33,6 +33,6 @@ export const restoreEmployee = async (employeeId: number): Promise<void> => {
  * @returns {Promise<void>} Promesa que resuelve cuando la posición ha sido actualizada
  * @throws {Error} Si ocurre un error durante la actualización
  */
-export const updateJobPosition = async (employeeId: number, jobPosition: string): Promise<void> => {
-  return await httpClient.patch(ROUTES.EMPLOYEES.UPDATE_JOB_POSITION(employeeId), { jobPosition });
+export const updateJobPosition = async (employeeId: number, JobPositionId: number): Promise<void> => {
+  return await httpClient.patch(ROUTES.EMPLOYEES.UPDATE_JOB_POSITION(employeeId), { JobPositionId });
 }

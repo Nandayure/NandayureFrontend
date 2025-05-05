@@ -29,11 +29,10 @@ export function JobInfoTab({ employee, onEditConfirmation, onJobPositionEdit }: 
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLocalSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Información laboral editada:", formData)
     setIsEditing(false)
-    // Aquí solo simulamos la edición
     onEditConfirmation(employee)
   }
 
@@ -52,7 +51,7 @@ export function JobInfoTab({ employee, onEditConfirmation, onJobPositionEdit }: 
         </CardHeader>
         <CardContent className="space-y-6">
           {isEditing ? (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleLocalSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="HiringDate">Fecha de Contratación</Label>

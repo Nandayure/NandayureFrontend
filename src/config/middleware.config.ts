@@ -50,6 +50,8 @@ export const ROLE_ROUTES: RoleRoutes = {
     '/auth/register',
     '/hr-analytics/*',
     '/helps/faqs-management',
+    '/employees-management',
+   
   ],
   // VA para Alcalde
   [Roles.va]: [
@@ -63,6 +65,7 @@ export const ROLE_ROUTES: RoleRoutes = {
     ...commonRoutes,
     '/access-control',
     '/access-control/*',
+    '/roles-management/*',
   ],
 };
 

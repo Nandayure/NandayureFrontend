@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/ui/back-button';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,6 +8,7 @@ export default function Page() {
   return (
     <section className="flex bg-white min-h-screen justify-center items-center">
       <div className="py-5 px-4 mx-auto max-w-(--breakpoint-xl) lg:py-16 lg:px-6">
+        <BackButton href='/' label='Volver al inicio' className='absolute top-4 left-4' />
         <div className="mx-auto max-w-(--breakpoint-sm) text-center">
           <Image
             src={'/Unauthorized.svg'}
@@ -26,11 +28,6 @@ export default function Page() {
             No tienes permisos para acceder a esta página. Por favor inicia
             sesión en otra cuenta.
           </p>
-          <Link href={'/'} className="flex justify-center">
-            <Button variant="select" size="lg" asChild>
-              Volver al Inicio
-            </Button>
-          </Link>
         </div>
       </div>
     </section>

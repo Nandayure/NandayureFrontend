@@ -106,85 +106,79 @@ const BirthdateDropdowns = () => {
       control={control}
       name="Birthdate"
       render={({ field }) => (
-        <FormItem className="flex flex-col">
+        <FormItem className="flex flex-col w-full">
           <FormLabel>Fecha de Nacimiento</FormLabel>
-          <div className="grid grid-cols-3 gap-2">
-            <div>
-              <Select
-                value={selectedMonth}
-                onValueChange={(value) => {
-                  setSelectedMonth(value)
-                  // Ajustar el día si el nuevo mes tiene menos días
-                  const daysInNewMonth = generateDayOptions().length
-                  if (selectedDay && parseInt(selectedDay, 10) > daysInNewMonth) {
-                    setSelectedDay(daysInNewMonth.toString())
-                  }
-                }}
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Mes" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {months.map(month => (
-                    <SelectItem key={month.value} value={month.value}>
-                      {month.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="grid grid-cols-3 gap-4 w-full">
+            <Select
+              value={selectedMonth}
+              onValueChange={(value) => {
+                setSelectedMonth(value)
+                // Ajustar el día si el nuevo mes tiene menos días
+                const daysInNewMonth = generateDayOptions().length
+                if (selectedDay && parseInt(selectedDay, 10) > daysInNewMonth) {
+                  setSelectedDay(daysInNewMonth.toString())
+                }
+              }}
+            >
+              <FormControl>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Mes" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {months.map(month => (
+                  <SelectItem key={month.value} value={month.value}>
+                    {month.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-            <div>
-              <Select
-                value={selectedDay}
-                onValueChange={setSelectedDay}
-                disabled={!selectedMonth}
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Día" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {generateDayOptions().map(day => (
-                    <SelectItem key={day} value={day.toString()}>
-                      {day}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            <Select
+              value={selectedDay}
+              onValueChange={setSelectedDay}
+              disabled={!selectedMonth}
+            >
+              <FormControl>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Día" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {generateDayOptions().map(day => (
+                  <SelectItem key={day} value={day.toString()}>
+                    {day}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-            <div>
-              <Select
-                value={selectedYear}
-                onValueChange={(value) => {
-                  setSelectedYear(value)
-                  // Verificar días en febrero para años bisiestos
-                  if (selectedMonth === "2" && selectedDay) {
-                    const daysInFeb = generateDayOptions().length
-                    if (parseInt(selectedDay, 10) > daysInFeb) {
-                      setSelectedDay(daysInFeb.toString())
-                    }
+            <Select
+              value={selectedYear}
+              onValueChange={(value) => {
+                setSelectedYear(value)
+                // Verificar días en febrero para años bisiestos
+                if (selectedMonth === "2" && selectedDay) {
+                  const daysInFeb = generateDayOptions().length
+                  if (parseInt(selectedDay, 10) > daysInFeb) {
+                    setSelectedDay(daysInFeb.toString())
                   }
-                }}
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Año" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent className="max-h-60">
-                  {generateYearOptions().map(year => (
-                    <SelectItem key={year} value={year.toString()}>
-                      {year}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+                }
+              }}
+            >
+              <FormControl>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Año" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent className="max-h-60">
+                {generateYearOptions().map(year => (
+                  <SelectItem key={year} value={year.toString()}>
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <FormMessage />
         </FormItem>
@@ -375,19 +369,19 @@ export function PersonalInfoStep() {
 
         <BirthdateDropdowns />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 w-full">
           <FormField
             control={control}
             name="GenderId"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>Género</FormLabel>
                 <Select
                   onValueChange={(value) => field.onChange(Number.parseInt(value, 10))}
                   value={field.value?.toString() || ""}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Seleccione un género" />
                     </SelectTrigger>
                   </FormControl>
@@ -408,14 +402,14 @@ export function PersonalInfoStep() {
             control={control}
             name="MaritalStatusId"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>Estado Civil</FormLabel>
                 <Select
                   onValueChange={(value) => field.onChange(Number.parseInt(value, 10))}
                   value={field.value?.toString() || ""}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Seleccione un estado civil" />
                     </SelectTrigger>
                   </FormControl>

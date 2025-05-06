@@ -101,6 +101,7 @@ export const config = {
     '/profile',
     '/security',
     '/helps/:path*',
+    '/helps/faqs-management/:path*',
 
     // Rutas de solicitudes
     '/request/:path*',
@@ -110,7 +111,14 @@ export const config = {
     '/document-management/:path*',
     '/time-tracking/:path*',
     '/system-configuration/:path*',
+    '/system-configuration/departments/:path*',
+    '/system-configuration/general-settings/:path*',
+    '/system-configuration/positions/:path*',
+    '/system-configuration/studies/:path*',
     '/hr-analytics/:path*',
     '/access-control/:path*',
+    '/payroll-creation/:path*',
+    '/roles-management/:path*',
+    '/employees-management/:path*',
   ],
 };

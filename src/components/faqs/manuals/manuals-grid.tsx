@@ -16,6 +16,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils"
+import { Roles } from "@/constants/roles/roles"
+import { useGetRoles } from "@/hooks"
 
 // Type definitions
 type IconComponent = typeof FileText
@@ -24,12 +26,14 @@ interface Manual {
   title: string
   description: string
   fileName: string
+  allowedRoles?: Roles[]
   icon: IconComponent
 }
 
 export default function ManualsGrid() {
   const [downloadingId, setDownloadingId] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
+  const { roles, status } = useGetRoles()
 
   // Simulate loading
   useEffect(() => {
@@ -86,6 +90,7 @@ export default function ManualsGrid() {
       description: "Primeros pasos para comenzar a utilizar el sistema.",
       fileName: "Manual-inicio.pdf",
       icon: BookOpen,
+      allowedRoles: [Roles.user, Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
     },
     {
       id: 2,
@@ -93,6 +98,7 @@ export default function ManualsGrid() {
       description: "Aprende a configurar correctamente todas las opciones del sistema.",
       fileName: "Manual-configuracion.pdf",
       icon: FileCog,
+      allowedRoles: [Roles.ti, Roles.rh],
     },
     {
       id: 3,
@@ -100,6 +106,7 @@ export default function ManualsGrid() {
       description: "Gestión y manejo de documentos digitales en el sistema.",
       fileName: "Manual-documentos-digitales.pdf",
       icon: FileDigit,
+      allowedRoles: [Roles.ti, Roles.rh],
     },
     {
       id: 4,
@@ -107,6 +114,7 @@ export default function ManualsGrid() {
       description: "Proceso completo para gestionar solicitudes en el sistema.",
       fileName: "Manual-gestion-solicitudes.pdf",
       icon: FileText,
+      allowedRoles: [Roles.rh],
     },
     {
       id: 5,
@@ -114,6 +122,7 @@ export default function ManualsGrid() {
       description: "Cómo administrar tus documentos personales en el sistema.",
       fileName: "Manual-mis-documentos.pdf",
       icon: FileText,
+      allowedRoles: [Roles.user, Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
     },
     {
       id: 6,
@@ -121,6 +130,7 @@ export default function ManualsGrid() {
       description: "Todo sobre la gestión de solicitudes propias en el sistema.",
       fileName: "Manual-mis-solicitudes.pdf",
       icon: FileText,
+      allowedRoles: [Roles.user, Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
     },
     {
       id: 7,
@@ -128,6 +138,7 @@ export default function ManualsGrid() {
       description: "Guía paso a paso para el proceso de registro en el sistema.",
       fileName: "Manual-registro.pdf",
       icon: Users,
+      allowedRoles: [Roles.ti, Roles.rh],
     },
     {
       id: 8,
@@ -135,6 +146,7 @@ export default function ManualsGrid() {
       description: "Información detallada sobre los distintos tipos de solicitudes.",
       fileName: "Manual-tipos-solicitudes.pdf",
       icon: FileSpreadsheet,
+      allowedRoles: [Roles.ti, Roles.rh],
     },
     {
       id: 9,
@@ -142,6 +154,7 @@ export default function ManualsGrid() {
       description: "Guía completa para la administración de catálogos del sistema.",
       fileName: "Manual-admin-catalogos.pdf",
       icon: Settings,
+      allowedRoles: [Roles.rh],
     },
     {
       id: 10,
@@ -149,6 +162,7 @@ export default function ManualsGrid() {
       description: "Guía completa sobre el uso de la sección de ayuda.",
       fileName: "Manual-seccion-ayuda.pdf",
       icon: HelpCircle,
+      allowedRoles: [Roles.user, Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
     },
   ]
 
@@ -190,46 +204,50 @@ export default function ManualsGrid() {
           ? Array(9)
             .fill(0)
             .map((_, index) => <ManualSkeleton key={index} />)
-          : manuals.map((manual) => (
-            <div
-              key={manual.id}
-              className="bg-white rounded-lg p-6 border border-dodger-blue-100 shadow-sm hover:shadow-md transition-all flex flex-col h-full"
-            >
-              <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 flex items-center justify-center rounded-full bg-dodger-blue-50">
-                  <manual.icon className="w-8 h-8 text-dodger-blue-600" />
+          : manuals
+            .filter((manual) =>
+              !manual.allowedRoles || manual.allowedRoles.some((role) => roles?.includes(role))
+            )
+            .map((manual) => (
+              <div
+                key={manual.id}
+                className="bg-white rounded-lg p-6 border border-dodger-blue-100 shadow-sm hover:shadow-md transition-all flex flex-col h-full"
+              >
+                <div className="flex justify-center mb-6">
+                  <div className="w-16 h-16 flex items-center justify-center rounded-full bg-dodger-blue-50">
+                    <manual.icon className="w-8 h-8 text-dodger-blue-600" />
+                  </div>
+                </div>
+
+                <h3 className="text-xl font-medium text-center mb-3">{manual.title}</h3>
+
+                <p className="text-gray-500 text-center text-sm grow mb-4">{manual.description}</p>
+
+                <div className="mt-auto">
+                  <Button
+                    className={cn(
+                      "w-full bg-white hover:bg-dodger-blue-50 text-dodger-blue-600 border border-dodger-blue-200 cursor-pointer",
+                      downloadingId === manual.id && "opacity-80",
+                    )}
+                    variant="outline"
+                    onClick={() => handleDownload(manual)}
+                    disabled={downloadingId === manual.id}
+                  >
+                    {downloadingId === manual.id ? (
+                      <>
+                        <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-dodger-blue-600 border-t-transparent" />
+                        Descargando...
+                      </>
+                    ) : (
+                      <>
+                        <Download className="mr-2 h-4 w-4" />
+                        Descargar PDF
+                      </>
+                    )}
+                  </Button>
                 </div>
               </div>
-
-              <h3 className="text-xl font-medium text-center mb-3">{manual.title}</h3>
-
-              <p className="text-gray-500 text-center text-sm grow mb-4">{manual.description}</p>
-
-              <div className="mt-auto">
-                <Button
-                  className={cn(
-                    "w-full bg-white hover:bg-dodger-blue-50 text-dodger-blue-600 border border-dodger-blue-200 cursor-pointer",
-                    downloadingId === manual.id && "opacity-80",
-                  )}
-                  variant="outline"
-                  onClick={() => handleDownload(manual)}
-                  disabled={downloadingId === manual.id}
-                >
-                  {downloadingId === manual.id ? (
-                    <>
-                      <div className="h-4 w-4 mr-2 animate-spin rounded-full border-2 border-dodger-blue-600 border-t-transparent" />
-                      Descargando...
-                    </>
-                  ) : (
-                    <>
-                      <Download className="mr-2 h-4 w-4" />
-                      Descargar PDF
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
-          ))}
+            ))}
       </div>
     </div>
   )

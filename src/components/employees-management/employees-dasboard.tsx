@@ -68,6 +68,11 @@ export default function EmployeesDashboard() {
     setIsDetailModalOpen(true)
   }
 
+  // Handle employee update
+  const handleEmployeeUpdate = () => {
+    refetch()
+  }
+
   if (isError) {
     return (
       <Alert variant="destructive" className="mb-6">
@@ -117,7 +122,8 @@ export default function EmployeesDashboard() {
         <EmployeeDetailDialog
           employee={selectedEmployee}
           isOpen={isDetailModalOpen}
-          onClose={() => setIsDetailModalOpen(false)}
+          onCloseAction={() => setIsDetailModalOpen(false)}
+          onUpdate={handleEmployeeUpdate}
         />
       )}
     </div>

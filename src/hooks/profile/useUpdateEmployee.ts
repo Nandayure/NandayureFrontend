@@ -36,11 +36,15 @@ const useUpdateEmployee = ({ employeeId, setIsOpen }: Props) => {
 
   const onSubmit: SubmitHandler<FormsFiels> = async (data) => {
     try {
+      const formattedData = {
+        ...data,
+        HiringDate: data.HiringDate instanceof Date ? data.HiringDate.toISOString() : data.HiringDate,
+      };
       await toast.promise(
         new Promise((resolve, reject) => {
           setTimeout(async () => {
             try {
-              await mutation.mutateAsync(data);
+              await mutation.mutateAsync(formattedData);
               resolve('Empleado actualizado');
             } catch (error) {
               reject('Error al actualizar empleado');

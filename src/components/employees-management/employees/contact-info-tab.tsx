@@ -1,48 +1,43 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
-import { Edit, Mail, Phone, Heart, Users } from "lucide-react"
+import { Edit, Mail, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Resolver, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { UpdateEmployeeSchema } from "@/schemas"
+import { UpdateEmployee } from "@/types"
 
 interface ContactInfoTabProps {
   employee: any
-  onEditConfirmation: (employee: any) => void
+  onEditConfirmationAction: (employee: UpdateEmployee) => void
 }
 
-export function ContactInfoTab({ employee, onEditConfirmation }: ContactInfoTabProps) {
+export function ContactInfoTab({ employee, onEditConfirmationAction }: ContactInfoTabProps) {
   const [isEditing, setIsEditing] = useState(false)
-  const [formData, setFormData] = useState({
-    Email: employee?.Email || "",
-    CellPhone: employee?.CellPhone || "",
-    MaritalStatus: employee?.MaritalStatus?.id?.toString() || "",
-    NumberChlidren: employee?.NumberChlidren || 0,
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UpdateEmployee>({
+    resolver: zodResolver(UpdateEmployeeSchema) as Resolver<UpdateEmployee>,
+    defaultValues: {
+      Email: employee?.Email || "",
+      CellPhone: employee?.CellPhone || "",
+    },
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Información de contacto editada:", formData)
-    setIsEditing(false)
-    // Aquí solo simulamos la edición
-    onEditConfirmation(employee)
+  const onSubmit = (data: UpdateEmployee) => {
+    onEditConfirmationAction(data)
   }
 
   if (!employee) {
-    return null;
+    return null
   }
 
   return (
@@ -60,43 +55,17 @@ export function ContactInfoTab({ employee, onEditConfirmation }: ContactInfoTabP
         </CardHeader>
         <CardContent className="space-y-4">
           {isEditing ? (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="Email">Email</Label>
-                  <Input id="Email" name="Email" type="email" value={formData.Email} onChange={handleChange} />
+                  <Input id="Email" {...register("Email")} type="email" />
+                  {errors.Email && <p className="text-sm text-red-500">{errors.Email.message}</p>}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="CellPhone">Teléfono</Label>
-                  <Input id="CellPhone" name="CellPhone" value={formData.CellPhone} onChange={handleChange} />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="MaritalStatus">Estado Civil</Label>
-                  <Select
-                    value={formData.MaritalStatus}
-                    onValueChange={(value) => handleSelectChange("MaritalStatus", value)}
-                  >
-                    <SelectTrigger id="MaritalStatus">
-                      <SelectValue placeholder="Seleccionar estado civil" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">Soltero/a</SelectItem>
-                      <SelectItem value="2">Casado/a</SelectItem>
-                      <SelectItem value="3">Divorciado/a</SelectItem>
-                      <SelectItem value="4">Viudo/a</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="NumberChlidren">Número de Hijos</Label>
-                  <Input
-                    id="NumberChlidren"
-                    name="NumberChlidren"
-                    type="number"
-                    min="0"
-                    value={formData.NumberChlidren}
-                    onChange={handleChange}
-                  />
+                  <Input id="CellPhone" {...register("CellPhone")} />
+                  {errors.CellPhone && <p className="text-sm text-red-500">{errors.CellPhone.message}</p>}
                 </div>
               </div>
               <div className="flex justify-end gap-2">
@@ -122,24 +91,6 @@ export function ContactInfoTab({ employee, onEditConfirmation }: ContactInfoTabP
                   <div className="flex items-center">
                     <Phone className="h-4 w-4 mr-2" />
                     <p>{employee.CellPhone || 'No especificado'}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-sm font-medium text-muted-foreground mb-1">Estado Civil</h4>
-                  <div className="flex items-center">
-                    <Heart className="h-4 w-4 mr-2" />
-                    <p>{employee.MaritalStatus?.Name || 'No especificado'}</p>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-medium text-muted-foreground mb-1">Hijos</h4>
-                  <div className="flex items-center">
-                    <Users className="h-4 w-4 mr-2" />
-                    <p>{employee.NumberChlidren ?? 0}</p>
                   </div>
                 </div>
               </div>

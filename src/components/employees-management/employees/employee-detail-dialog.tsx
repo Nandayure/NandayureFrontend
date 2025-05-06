@@ -26,35 +26,49 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { PersonalInfoTab } from "./personal-info-tab"
 import { JobInfoTab } from "./job-info-tab"
 import { ContactInfoTab } from "./contact-info-tab"
+import { EditEmployeeJobPositionDialog } from "./edit-employee-job-position-dialog"
+import { useUpdateEmployee, useUpdateEmployeeJobPosition } from "@/hooks"
 
 interface EmployeeDetailDialogProps {
   employee: any
   isOpen: boolean
-  onClose: () => void
+  onCloseAction: () => void
+  onUpdate?: () => void
 }
 
-export function EmployeeDetailDialog({ employee, isOpen, onClose }: EmployeeDetailDialogProps) {
+export function EmployeeDetailDialog({ employee, isOpen, onCloseAction, onUpdate }: EmployeeDetailDialogProps) {
   const [isGeneralEditAlertOpen, setIsGeneralEditAlertOpen] = useState(false)
   const [isJobPositionEditOpen, setIsJobPositionEditOpen] = useState(false)
   const [isJobPositionEditAlertOpen, setIsJobPositionEditAlertOpen] = useState(false)
+  const [editData, setEditData] = useState<any>(null)
 
-  const handleGeneralEditConfirmation = (employee: any) => {
+  const { onSubmit: updateEmployee } = useUpdateEmployee({
+    employeeId: parseInt(employee?.id),
+    setIsOpen: setIsGeneralEditAlertOpen,
+  })
+
+  const handleGeneralEditConfirmationAction = (data: any) => {
+    setEditData(data)
     setIsGeneralEditAlertOpen(true)
   }
 
-  const handleJobPositionEdit = (employee: any) => {
-    onClose()
-    setTimeout(() => setIsJobPositionEditOpen(true), 100)
+  const handleJobPositionEditAction = () => {
+    setIsJobPositionEditOpen(true)
   }
 
-  const handleJobPositionConfirm = (employee: any) => {
-    setIsJobPositionEditOpen(false)
-    setIsJobPositionEditAlertOpen(true)
+  const handleConfirmEditAction = async () => {
+    if (editData) {
+      await updateEmployee(editData)
+      setEditData(null)
+      setIsGeneralEditAlertOpen(false)
+      onUpdate?.()
+      onCloseAction()
+    }
   }
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={onClose}>
+      <Dialog open={isOpen} onOpenChange={onCloseAction}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-xl">Información del Empleado</DialogTitle>
@@ -70,25 +84,25 @@ export function EmployeeDetailDialog({ employee, isOpen, onClose }: EmployeeDeta
               </TabsList>
 
               <TabsContent value="personal">
-                <PersonalInfoTab employee={employee} onEditConfirmation={handleGeneralEditConfirmation} />
+                <PersonalInfoTab employee={employee} onEditConfirmationAction={handleGeneralEditConfirmationAction} />
               </TabsContent>
 
               <TabsContent value="job">
                 <JobInfoTab
                   employee={employee}
-                  onEditConfirmation={handleGeneralEditConfirmation}
-                  onJobPositionEdit={handleJobPositionEdit}
+                  onEditConfirmationAction={handleGeneralEditConfirmationAction}
+                  onJobPositionEditAction={handleJobPositionEditAction}
                 />
               </TabsContent>
 
               <TabsContent value="contact">
-                <ContactInfoTab employee={employee} onEditConfirmation={handleGeneralEditConfirmation} />
+                <ContactInfoTab employee={employee} onEditConfirmationAction={handleGeneralEditConfirmationAction} />
               </TabsContent>
             </Tabs>
           </div>
 
           <DialogFooter className="mt-6">
-            <Button variant="outline" onClick={onClose}>
+            <Button variant="outline" onClick={onCloseAction}>
               Cerrar
             </Button>
           </DialogFooter>
@@ -101,20 +115,27 @@ export function EmployeeDetailDialog({ employee, isOpen, onClose }: EmployeeDeta
           <AlertDialogHeader>
             <AlertDialogTitle>¿Está seguro de editar esta información?</AlertDialogTitle>
             <AlertDialogDescription>
-              Está a punto de editar la información general de{" "}
+              Está a punto de editar la información de{" "}
               <span className="font-medium">
                 {employee && `${employee.Name.trim()} ${employee.Surname1.trim()} ${employee.Surname2}`}
               </span>
-              . Esta acción actualizará los datos personales del empleado.
+              . Esta acción actualizará los datos del empleado.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction>Continuar</AlertDialogAction>
+            <AlertDialogCancel onClick={() => setEditData(null)}>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmEditAction}>Continuar</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
 
+      {/* Job Position Edit Dialog */}
+      <EditEmployeeJobPositionDialog
+        isOpen={isJobPositionEditOpen}
+        onCloseAction={() => setIsJobPositionEditOpen(false)}
+        employee={employee}
+        onConfirmAction={() => setIsJobPositionEditAlertOpen(true)}
+      />
 
       {/* Job Position Edit Confirmation Alert */}
       <AlertDialog open={isJobPositionEditAlertOpen} onOpenChange={setIsJobPositionEditAlertOpen}>

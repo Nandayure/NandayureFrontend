@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Edit, UserCog, Briefcase, Building, CalendarDays, Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -10,31 +9,38 @@ import { Separator } from "@/components/ui/separator"
 import { formatDate } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Resolver, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { UpdateEmployeeSchema } from "@/schemas"
+import { UpdateEmployee } from "@/types"
 
 interface JobInfoTabProps {
   employee: any
-  onEditConfirmation: (employee: any) => void
-  onJobPositionEdit: (employee: any) => void
+  onEditConfirmationAction: (employee: UpdateEmployee) => void
+  onJobPositionEditAction: (employee: any) => void
 }
 
-export function JobInfoTab({ employee, onEditConfirmation, onJobPositionEdit }: JobInfoTabProps) {
+export function JobInfoTab({ employee, onEditConfirmationAction, onJobPositionEditAction }: JobInfoTabProps) {
   const [isEditing, setIsEditing] = useState(false)
-  const [formData, setFormData] = useState({
-    HiringDate: employee.HiringDate,
-    AvailableVacationDays: employee.AvailableVacationDays,
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UpdateEmployee>({
+    resolver: zodResolver(UpdateEmployeeSchema) as Resolver<UpdateEmployee>,
+    defaultValues: {
+      HiringDate: employee?.HiringDate ? new Date(employee.HiringDate).toISOString().split("T")[0] : "",
+      AvailableVacationDays: employee?.AvailableVacationDays || 0,
+    },
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+  const onSubmit = (data: UpdateEmployee) => {
+    onEditConfirmationAction(data)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Información laboral editada:", formData)
-    setIsEditing(false)
-    // Aquí solo simulamos la edición
-    onEditConfirmation(employee)
+  if (!employee) {
+    return null
   }
 
   return (
@@ -52,28 +58,24 @@ export function JobInfoTab({ employee, onEditConfirmation, onJobPositionEdit }: 
         </CardHeader>
         <CardContent className="space-y-6">
           {isEditing ? (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="HiringDate">Fecha de Contratación</Label>
-                  <Input
-                    id="HiringDate"
-                    name="HiringDate"
-                    type="date"
-                    value={formData.HiringDate ? new Date(formData.HiringDate).toISOString().split("T")[0] : ""}
-                    onChange={handleChange}
-                  />
+                  <Input id="HiringDate" type="date" {...register("HiringDate")} />
+                  {errors.HiringDate && <p className="text-sm text-red-500">{errors.HiringDate.message}</p>}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="AvailableVacationDays">Días de Vacaciones Disponibles</Label>
                   <Input
                     id="AvailableVacationDays"
-                    name="AvailableVacationDays"
                     type="number"
                     min="0"
-                    value={formData.AvailableVacationDays}
-                    onChange={handleChange}
+                    {...register("AvailableVacationDays", { valueAsNumber: true })}
                   />
+                  {errors.AvailableVacationDays && (
+                    <p className="text-sm text-red-500">{errors.AvailableVacationDays.message}</p>
+                  )}
                 </div>
               </div>
               <div className="flex justify-end gap-2">
@@ -92,10 +94,10 @@ export function JobInfoTab({ employee, onEditConfirmation, onJobPositionEdit }: 
                       <Briefcase className="h-5 w-5 mr-2 text-muted-foreground" />
                       <div>
                         <p className="text-sm text-muted-foreground">Puesto</p>
-                        <p className="font-medium">{employee.JobPosition.Name}</p>
+                        <p className="font-medium">{employee.JobPosition?.Name || "No especificado"}</p>
                       </div>
                     </div>
-                    <Button variant="ghost" size="sm" onClick={() => onJobPositionEdit(employee)}>
+                    <Button variant="ghost" size="sm" onClick={() => onJobPositionEditAction(employee)}>
                       <UserCog className="h-4 w-4" />
                     </Button>
                   </div>
@@ -104,7 +106,7 @@ export function JobInfoTab({ employee, onEditConfirmation, onJobPositionEdit }: 
                     <Building className="h-5 w-5 mr-2 text-muted-foreground" />
                     <div>
                       <p className="text-sm text-muted-foreground">Departamento</p>
-                      <p className="font-medium">{employee.JobPosition.Department.name}</p>
+                      <p className="font-medium">{employee.JobPosition?.Department?.name || "No especificado"}</p>
                     </div>
                   </div>
                 </div>
@@ -114,7 +116,7 @@ export function JobInfoTab({ employee, onEditConfirmation, onJobPositionEdit }: 
                     <CalendarDays className="h-5 w-5 mr-2 text-muted-foreground" />
                     <div>
                       <p className="text-sm text-muted-foreground">Fecha de Contratación</p>
-                      <p className="font-medium">{formatDate(employee.HiringDate)}</p>
+                      <p className="font-medium">{formatDate(employee.HiringDate) || "No especificado"}</p>
                     </div>
                   </div>
 
@@ -122,7 +124,7 @@ export function JobInfoTab({ employee, onEditConfirmation, onJobPositionEdit }: 
                     <Calendar className="h-5 w-5 mr-2 text-muted-foreground" />
                     <div>
                       <p className="text-sm text-muted-foreground">Días de Vacaciones Disponibles</p>
-                      <p className="font-medium">{employee.AvailableVacationDays} días</p>
+                      <p className="font-medium">{employee.AvailableVacationDays || 0} días</p>
                     </div>
                   </div>
                 </div>
@@ -137,7 +139,7 @@ export function JobInfoTab({ employee, onEditConfirmation, onJobPositionEdit }: 
                     Cambiar el puesto del empleado puede afectar a quién se envían las solicitudes de trámites
                   </p>
                 </div>
-                <Button variant="outline" onClick={() => onJobPositionEdit(employee)}>
+                <Button variant="outline" onClick={() => onJobPositionEditAction(employee)}>
                   <UserCog className="mr-2 h-4 w-4" />
                   Editar Puesto
                 </Button>

@@ -90,13 +90,13 @@ export default function ManualsGrid() {
       description: "Primeros pasos para comenzar a utilizar el sistema.",
       fileName: "Manual-inicio.pdf",
       icon: BookOpen,
-      allowedRoles: [Roles.user, Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
+      allowedRoles: [Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
     },
     {
       id: 2,
-      title: "Manual de Configuración",
+      title: "Manual de Configuración de Perfil",
       description: "Aprende a configurar correctamente todas las opciones del sistema.",
-      fileName: "Manual-configuracion.pdf",
+      fileName: "Manual-configuracion-perfil.pdf",
       icon: FileCog,
       allowedRoles: [Roles.ti, Roles.rh],
     },
@@ -122,7 +122,7 @@ export default function ManualsGrid() {
       description: "Cómo administrar tus documentos personales en el sistema.",
       fileName: "Manual-mis-documentos.pdf",
       icon: FileText,
-      allowedRoles: [Roles.user, Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
+      allowedRoles: [Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
     },
     {
       id: 6,
@@ -130,7 +130,7 @@ export default function ManualsGrid() {
       description: "Todo sobre la gestión de solicitudes propias en el sistema.",
       fileName: "Manual-mis-solicitudes.pdf",
       icon: FileText,
-      allowedRoles: [Roles.user, Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
+      allowedRoles: [Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
     },
     {
       id: 7,
@@ -162,7 +162,15 @@ export default function ManualsGrid() {
       description: "Guía completa sobre el uso de la sección de ayuda.",
       fileName: "Manual-seccion-ayuda.pdf",
       icon: HelpCircle,
-      allowedRoles: [Roles.user, Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
+      allowedRoles: [Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
+    },
+    {
+      id: 11,
+      title: "Manual del Sistema",
+      description: "Guía completa sobre el uso del sistema.",
+      fileName: "Manual-usuario.pdf",
+      icon: HelpCircle,
+      allowedRoles: [Roles.user],
     },
   ]
 

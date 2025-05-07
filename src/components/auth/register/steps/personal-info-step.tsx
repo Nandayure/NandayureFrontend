@@ -216,8 +216,8 @@ export function PersonalInfoStep() {
     data: idCheck,
     isLoading: isCheckingId,
     isFetched: idWasChecked
-  } = useCheckId(idValue?.length >= 9 ? idValue : undefined, {
-    enabled: idValue?.length >= 9,
+  } = useCheckId(idValue?.length === 9 ? idValue : undefined, {
+    enabled: idValue?.length === 9 && !processingValidationRef.current,
     retry: 0,
     debounceMs: 500
   })
@@ -227,56 +227,54 @@ export function PersonalInfoStep() {
 
   // Debounce identification lookup separately
   useEffect(() => {
-    if (idValue.length !== 9) return;
+    if (idValue.length !== 9 || processingValidationRef.current) return
 
     const handler = setTimeout(() => {
-      setDebouncedIdForIdentification(idValue);
-    }, 800); // Slightly longer debounce for identification lookup
+      if (!processingValidationRef.current) {
+        setDebouncedIdForIdentification(idValue)
+      }
+    }, 800)
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [idValue]);
+    return () => clearTimeout(handler)
+  }, [idValue])
 
   // Handle ID validation and fetching
   useEffect(() => {
-    if (!idWasChecked || processingValidationRef.current || debouncedIdForIdentification.length !== 9) return;
+    if (!idWasChecked || processingValidationRef.current || debouncedIdForIdentification.length !== 9) return
 
-    processingValidationRef.current = true;
+    processingValidationRef.current = true
 
     try {
       if (idCheck?.exists === true) {
         setError("id", {
           type: "manual",
           message: "Esta cédula ya está registrada"
-        });
-        setFieldsDisabled(false);
-      } else if (idCheck?.exists === false) {
+        })
+        setFieldsDisabled(false)
+      } else {
         if (formState.errors.id?.type === "manual") {
-          clearErrors("id");
+          clearErrors("id")
         }
-        // Only fetch identification data if ID is not registered
-        fetchData(debouncedIdForIdentification);
+        fetchData(debouncedIdForIdentification)
       }
     } finally {
-      processingValidationRef.current = false;
+      // Add a small delay before allowing new validations
+      setTimeout(() => {
+        processingValidationRef.current = false
+      }, 100)
     }
-  }, [idCheck, idWasChecked, debouncedIdForIdentification, setError, clearErrors, formState.errors.id?.type, fetchData]);
+  }, [idCheck, idWasChecked, debouncedIdForIdentification, setError, clearErrors, formState.errors.id?.type, fetchData])
 
   // Handle identification data response
   useEffect(() => {
-    if (!identificationData) return;
+    if (!identificationData?.results?.length || processingValidationRef.current) return
 
-    if (identificationData.results && identificationData.results.length > 0) {
-      const person = identificationData.results[0];
-      setValue("Name", person.firstname1);
-      setValue("Surname1", person.lastname1);
-      setValue("Surname2", person.lastname2);
-      setFieldsDisabled(true);
-    } else {
-      setFieldsDisabled(false);
-    }
-  }, [identificationData, setValue]);
+    const person = identificationData.results[0]
+    setValue("Name", person.firstname1, { shouldValidate: false })
+    setValue("Surname1", person.lastname1, { shouldValidate: false })
+    setValue("Surname2", person.lastname2, { shouldValidate: false })
+    setFieldsDisabled(true)
+  }, [identificationData, setValue])
 
   return (
     <div className="space-y-6">

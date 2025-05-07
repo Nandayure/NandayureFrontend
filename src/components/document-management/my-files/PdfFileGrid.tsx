@@ -47,41 +47,6 @@ const PdfFileGrid = ({
 
   return (
     <div className="container mx-auto p-4 space-y-6">
-      {updateFilters && (
-        <div className="flex flex-wrap gap-4">
-          <Input
-            placeholder="Buscar por nombre..."
-            value={filters?.name || ""}
-            onChange={(e) => updateFilters({ name: e.target.value })}
-            className="w-full md:w-64"
-          />
-          <Select
-            value={filters?.orderBy || "modifiedTime"}
-            onValueChange={(value: OrderByType) => updateFilters({ orderBy: value })}
-          >
-            <SelectTrigger className="w-full md:w-48">
-              <SelectValue placeholder="Ordenar por" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="modifiedTime">Fecha de modificación</SelectItem>
-              <SelectItem value="name">Nombre</SelectItem>
-              <SelectItem value="createdTime">Fecha de creación</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select
-            value={filters?.orderDirection || "desc"}
-            onValueChange={(value: OrderDirectionType) => updateFilters({ orderDirection: value })}
-          >
-            <SelectTrigger className="w-full md:w-48">
-              <SelectValue placeholder="Dirección" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="asc">Ascendente</SelectItem>
-              <SelectItem value="desc">Descendente</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      )}
 
       {files && files.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

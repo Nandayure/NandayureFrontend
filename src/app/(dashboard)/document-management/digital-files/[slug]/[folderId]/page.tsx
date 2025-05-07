@@ -10,6 +10,7 @@ import { PageHeader } from "@/components/ui/section-title"
 import { LayoutGrid, List } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useDebounce } from "@/hooks/use-debounce"
+import PDFUploader from "@/components/common/pdf-uploader"
 
 export default function Page() {
   const params = useParams<{ slug: string, folderId: string }>()
@@ -110,14 +111,20 @@ export default function Page() {
             title={`Documentos - ${folderName}`}
             description="Documentos digitales del empleado."
           />
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={toggleViewMode}
-            className="ml-4"
-          >
-            {viewMode === 'grid' ? <List className="h-4 w-4" /> : <LayoutGrid className="h-4 w-4" />}
-          </Button>
+          <div>
+            <PDFUploader folderId={params.folderId}>
+              <Button>Subir archivo</Button>
+            </PDFUploader>
+
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleViewMode}
+              className="ml-4"
+            >
+              {viewMode === 'grid' ? <List className="h-4 w-4" /> : <LayoutGrid className="h-4 w-4" />}
+            </Button>
+          </div>
         </div>
       </div>
 

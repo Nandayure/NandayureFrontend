@@ -71,14 +71,14 @@ export function JobInfoStep() {
           control={control}
           name="JobPositionId"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormLabel>Puesto de Trabajo</FormLabel>
               <Select
                 onValueChange={(value) => field.onChange(Number.parseInt(value, 10))}
                 value={field.value?.toString() || ""}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Seleccione un puesto" />
                   </SelectTrigger>
                 </FormControl>

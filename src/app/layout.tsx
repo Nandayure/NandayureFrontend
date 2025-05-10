@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import QueryProvider from '@/providers/query-provider';
 import SessionProvider from '@/providers/session-provider';
 import { inter, titleFont } from '@/lib/fonts';
+import SessionValidationWatcher from '@/components/auth/session-validation-watcher';
 
 export default function RootLayout({
   children,
@@ -18,6 +19,8 @@ export default function RootLayout({
         <SessionProvider>
           <QueryProvider>
             <Toaster reverseOrder={false} />
+            {/* Valida la sesión cada 5 segundos en toda la app */}
+            <SessionValidationWatcher />
             {children}
           </QueryProvider>
         </SessionProvider>

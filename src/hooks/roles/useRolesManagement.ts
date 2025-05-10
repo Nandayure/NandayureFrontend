@@ -24,6 +24,7 @@ export const useRolesManagement = () => {
       // Invalidar tanto los roles como la lista de usuarios
       queryClient.invalidateQueries({ queryKey: ['roles'] });
       queryClient.invalidateQueries({ queryKey: ['getAllUsers'] });
+      queryClient.invalidateQueries({ queryKey: ['allUsers'] });
     },
   });
 

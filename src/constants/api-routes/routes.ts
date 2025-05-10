@@ -5,6 +5,7 @@ export const ROUTES = {
     RESET_PASSWORD: '/auth/reset-password',
     CHECK_EMAIL: '/auth/check-email',
     CHECK_ID: '/auth/check-id',
+    SESSION_VALIDATION: '/auth/me',
   },
   EMPLOYEES: {
     BASE: '/employees',

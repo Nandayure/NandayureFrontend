@@ -16,7 +16,6 @@ export default function SessionExpired() {
           />
 
           <h1 className="mb-4 text-5xl tracking-tight font-extrabold lg:text-7xl text-primary-600">Sesión Expirada</h1>
-          <p className="mb-4 text-2xl tracking-tight font-bold text-gray-900 md:text-3xl">¡Tu sesión ha expirado!</p>
           <p className="mb-4 text-lg font-light text-gray-500">
             Por motivos de seguridad, tu sesión ha expirado. Por favor, inicia sesión nuevamente para continuar.
           </p>

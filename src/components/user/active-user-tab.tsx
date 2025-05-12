@@ -83,7 +83,7 @@ export const ActiveUserTab = () => {
     }
     params.set('page', currentPage.toString())
     router.push('?' + params.toString())
-  }, [debouncedSearch, currentPage])
+  }, [debouncedSearch, currentPage, router, searchParams])
 
   useEffect(() => {
     setCurrentPage(1)

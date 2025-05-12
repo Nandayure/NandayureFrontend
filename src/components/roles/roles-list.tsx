@@ -51,7 +51,7 @@ export function RolesList() {
   }
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md">
       <Table>
         <TableHeader>
           <TableRow>

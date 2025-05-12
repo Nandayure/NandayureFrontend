@@ -146,7 +146,7 @@ export function UserRoleManagement() {
         onChange={(e) => setSearch(e.target.value)}
         className="max-w-sm"
       />
-      <div className="rounded-md border">
+      <div className="rounded-md">
         <Table>
           <TableHeader>
             <TableRow>

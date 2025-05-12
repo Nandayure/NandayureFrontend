@@ -2,12 +2,21 @@ import AddGenderModal from '@/components/system-configuration/Gender/add-gender-
 import GendersTable from '@/components/system-configuration/Gender/gender-table';
 import AddCivilStatusModal from '@/components/system-configuration/management-civil/add-civilStatus-modal';
 import CivilStatusTable from '@/components/system-configuration/management-civil/civilStatus-table';
+import { SectionHeader } from '@/components/ui/section-header';
+import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function GeneralSettingsPage() {
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-6">Configuración del Sistema</h1>
+      <SectionHeader
+        title="Configuración de usuarios"
+        description="Aquí puedes configurar los estados civiles y géneros de los usuarios."
+      >
+      </SectionHeader>
+
+      <Separator className="my-6" />
+      
       <Tabs defaultValue="civilStatus">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger
@@ -17,7 +26,7 @@ export default function GeneralSettingsPage() {
             Estado civil
           </TabsTrigger>
           <TabsTrigger value="gender"
-          data-cy="gender-tab"
+            data-cy="gender-tab"
           >
             Genero</TabsTrigger>
         </TabsList>

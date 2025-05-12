@@ -2,12 +2,21 @@ import AddStudiesCategoryModal from '@/components/system-configuration/studies-c
 import StudiesCategoryTable from '@/components/system-configuration/studies-category/studies-category-table';
 import AddStudyModal from '@/components/system-configuration/studies/add-study-modal';
 import StudiesTable from '@/components/system-configuration/studies/studies-table';
+import { SectionHeader } from '@/components/ui/section-header';
+import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function StudiesPage() {
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-6">Configuración del Sistema</h1>
+      <SectionHeader
+        title="Administración de Estudios"
+        description="Aquí puedes gestionar los estudios de tu aplicación. Puedes deshabilitar o habilitar según sea necesario."
+      >
+      </SectionHeader>
+
+      <Separator className="my-6" />
+
       <Tabs defaultValue="studies">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="studies">Estudios</TabsTrigger>

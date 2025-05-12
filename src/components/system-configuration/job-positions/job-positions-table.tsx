@@ -114,11 +114,6 @@ export default function JobPositionsTable() {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">Puestos de Trabajo</h1>
-        <p className="text-gray-500">Gestión de puestos de trabajo del sistema.</p>
-      </div>
-
       <div className="flex items-center justify-between gap-4">
         <AddJobPositionsModal />
         <SearchBar

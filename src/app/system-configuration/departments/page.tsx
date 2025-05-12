@@ -4,6 +4,8 @@ import AddDepartmentProgramModal from "@/components/system-configuration/departm
 import DepartmentProgramsTable from "@/components/system-configuration/departments-programs/department-programs-table"
 import AddDepartmentModal from "@/components/system-configuration/departments/add-department-modal"
 import DepartmentsTable from "@/components/system-configuration/departments/departments-table"
+import { SectionHeader } from "@/components/ui/section-header"
+import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Suspense } from "react"
 
@@ -11,7 +13,13 @@ import { Suspense } from "react"
 export default function DepartmentsPage() {
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-6">Configuración del Sistema</h1>
+      <SectionHeader
+        title="Administración de Usuarios"
+        description="Aquí puedes gestionar los usuarios de tu aplicación. Puedes deshabilitar o habilitar según sea necesario."
+      >
+      </SectionHeader>
+
+      <Separator className="my-6" />
       <Tabs defaultValue="departments">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="departments">Departamentos</TabsTrigger>

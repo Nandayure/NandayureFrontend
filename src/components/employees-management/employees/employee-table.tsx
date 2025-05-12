@@ -1,12 +1,18 @@
 "use client"
 
-import { MoreHorizontal, Eye } from "lucide-react"
+import { MoreHorizontal, Eye } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import SkeletonLoader from "@/components/ui/skeleton-loader"
 import { formatDate } from "@/lib/utils"
 import { PaginationController } from "@/components/ui/pagination-controller"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
 
 interface EmployeeTableProps {
   employees: any[]
@@ -44,7 +50,7 @@ export function EmployeeTable({
 
   return (
     <>
-      <div className="rounded-md border">
+      <div className="rounded-md">
         <Table>
           <TableHeader>
             <TableRow>
@@ -72,7 +78,7 @@ export function EmployeeTable({
               ))
             ) : employees?.length > 0 ? (
               employees?.map((employee) => (
-                <TableRow key={employee.id}>
+                <TableRow key={employee.id} className="group">
                   <TableCell className="font-medium">{employee.id}</TableCell>
                   <TableCell>{`${employee.Name?.trim()} ${employee.Surname1?.trim()} ${employee.Surname2}`}</TableCell>
                   <TableCell>{employee.JobPosition?.Name}</TableCell>
@@ -88,16 +94,24 @@ export function EmployeeTable({
                   <TableCell>{formatDate(employee.HiringDate?.toString())}</TableCell>
                   <TableCell>{employee.AvailableVacationDays}</TableCell>
                   <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleViewEmployee(employee)}
-                      >
-                        <Eye className="mr-2 h-4 w-4" />
-                        Ver detalles
-                      </Button>
-                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8 p-0 opacity-70 group-hover:opacity-100"
+                        >
+                          <MoreHorizontal className="h-4 w-4" />
+                          <span className="sr-only">Abrir menú</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => handleViewEmployee(employee)}>
+                          <Eye className="mr-2 h-4 w-4" />
+                          <span>Ver detalles</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </TableCell>
                 </TableRow>
               ))

@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { Card, CardContent } from "@/components/ui/card"
+import Image from "next/image"
 
 const ProfilePage = () => {
   const { employeeId } = useGetEmployeeId()
@@ -105,10 +106,12 @@ const ProfilePage = () => {
                   label="Teléfono"
                   value={
                     <span className="flex items-center gap-2">
-                      <img
+                      <Image
                         src="/CR-flag.svg"
                         alt="Costa Rica"
-                        className="w-6 h-4 rounded-sm border"
+                        width={24}
+                        height={16}
+                        className="rounded-sm border"
                         style={{ display: "inline-block" }}
                       />
                       <span className="font-medium text-gray-700">+506</span>

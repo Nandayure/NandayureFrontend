@@ -37,7 +37,7 @@ export default function EmployeeDocumentsPage() {
     } else {
       mountedRef.current = true;
     }
-  }, [viewMode]);
+  }, [viewMode, router, searchParams]);
 
   const employeeId = Array.isArray(slug) ? slug[0] : slug;
   const { employeeById } = useGetByIdEmployee({ employeeId: Number(employeeId) });

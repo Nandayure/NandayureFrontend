@@ -2,6 +2,7 @@ import ChangePasswordForm from "@/components/auth/change-password/change-passwor
 import Flag from "@/components/common/Flag"
 import { titleFont } from "@/lib/fonts"
 import { Card, CardContent } from "@/components/ui/card"
+import Image from "next/image"
 
 const SecurityPage = () => {
   return (
@@ -52,8 +53,10 @@ const SecurityPage = () => {
               </div>
               {/* Right: Image */}
               <div className="hidden md:flex w-1/2 items-center justify-center ">
-                <img
+                <Image
                   src="/security.jpg"
+                  width={420}
+                  height={420}
                   alt="Seguridad"
                   className="object-cover w-full h-full max-h-[420px] rounded-none"
                   style={{ maxWidth: "420px" }}

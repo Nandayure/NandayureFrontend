@@ -41,7 +41,7 @@ export default function JobPositionsTable() {
     }
     params.set('page', currentPage.toString())
     router.push('?' + params.toString())
-  }, [debouncedSearch, currentPage])
+  }, [debouncedSearch, currentPage, router, searchParams])
 
   // Reset page when search changes
   useEffect(() => {

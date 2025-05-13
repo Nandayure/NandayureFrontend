@@ -66,9 +66,9 @@ const RequestTable = ({
                 variant={
                   request.RequestStateId === 4
                     ? 'outline'
-                    : request.RequestStatus.id === 2
+                    : request.RequestStateId === 2
                       ? 'approving'
-                      : request.RequestStatus.id === 3
+                      : request.RequestStateId === 3
                         ? 'rejecting'
                         : 'pending'
                 }

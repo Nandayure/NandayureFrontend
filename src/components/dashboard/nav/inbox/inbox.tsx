@@ -11,11 +11,22 @@ import usePatchRequestApproval from "@/hooks/request-management/usePatchRequestA
 import { formatDate } from "@/lib/utils"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { format, endOfMonth } from "date-fns"
+import { es } from "date-fns/locale"
 
 export default function InboxComponent() {
   const { currentToApprove, isLoading } = useGetCurrentToApprove()
   const { register, handleSubmit, isModalOpen, setIsModalOpen, selectedRequest, onSubmit, handleRequestClick, errors } =
     usePatchRequestApproval()
+
+  // Función para formatear la quincena
+  const getQuincenaLabel = (dateStr?: string) => {
+    if (!dateStr) return "No especificada";
+    const date = new Date(dateStr);
+    return date.getDate() <= 15
+      ? `1-15 ${format(date, "MMMM yyyy", { locale: es })}`
+      : `16-${format(endOfMonth(date), "d")} ${format(date, "MMMM yyyy", { locale: es })}`;
+  }
 
   // Función para obtener iniciales del nombre
   const getInitials = (name = "", surname1 = "") => {
@@ -215,17 +226,29 @@ export default function InboxComponent() {
 
                       {selectedRequest.Request.RequestTypeId === 2 &&
                         selectedRequest.Request.RequestSalaryCertificate && (
-                          <div>
-                            <p className="text-gray-500">Razón</p>
-                            <p className="font-medium">{selectedRequest.Request.RequestSalaryCertificate.reason}</p>
+                          <div className="space-y-2">
+                            <div>
+                              <p className="text-gray-500">Quincena Solicitada</p>
+                              <p className="font-medium">{getQuincenaLabel(selectedRequest.Request.RequestSalaryCertificate.date)}</p>
+                            </div>
+                            <div>
+                              <p className="text-gray-500">Razón</p>
+                              <p className="font-medium">{selectedRequest.Request.RequestSalaryCertificate.reason}</p>
+                            </div>
                           </div>
                         )}
 
                       {selectedRequest.Request.RequestTypeId === 3 &&
                         selectedRequest.Request.RequestPaymentConfirmation && (
-                          <div>
-                            <p className="text-gray-500">Razón</p>
-                            <p className="font-medium">{selectedRequest.Request.RequestPaymentConfirmation.reason}</p>
+                          <div className="space-y-2">
+                            <div>
+                              <p className="text-gray-500">Quincena Solicitada</p>
+                              <p className="font-medium">{getQuincenaLabel(selectedRequest.Request.RequestPaymentConfirmation.date)}</p>
+                            </div>
+                            <div>
+                              <p className="text-gray-500">Razón</p>
+                              <p className="font-medium">{selectedRequest.Request.RequestPaymentConfirmation.reason}</p>
+                            </div>
                           </div>
                         )}
                     </CardContent>

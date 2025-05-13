@@ -3,7 +3,17 @@ import { Badge } from "@/components/ui/badge"
 import { formatDate } from "@/lib/utils"
 import type { RequestDetails } from "@/types/request-management/commonTypes"
 import type { Employee } from "@/types"
-import { CalendarIcon, ClipboardIcon, UserIcon, ClockIcon } from "lucide-react"
+import { CalendarIcon, ClipboardIcon, UserIcon, ClockIcon, FileText, DollarSign } from "lucide-react"
+import { format, endOfMonth } from "date-fns"
+import { es } from "date-fns/locale"
+
+const getQuincenaLabel = (dateStr?: string) => {
+  if (!dateStr) return "No especificada";
+  const date = new Date(dateStr);
+  return date.getDate() <= 15
+    ? `1-15 ${format(date, "MMMM yyyy", { locale: es })}`
+    : `16-${format(endOfMonth(date), "d")} ${format(date, "MMMM yyyy", { locale: es })}`;
+}
 
 export default function RequestModal({
   request,
@@ -114,6 +124,46 @@ export default function RequestModal({
                 <div className="flex items-center">
                   <span className="text-gray-500 w-32">Fecha de regreso:</span>
                   <span className="font-medium">{formatDate(request.RequestVacation.entryDate)}</span>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {request.RequestTypeId === 2 && request.RequestSalaryCertificate && (
+            <section className="bg-gray-50 p-5 rounded-lg">
+              <div className="flex items-center mb-3">
+                <FileText className="h-5 w-5 mr-2 text-gray-500" />
+                <h3 className="text-lg font-medium">Detalles de Constancia Salarial</h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center">
+                  <span className="text-gray-500 w-32">Quincena:</span>
+                  <span className="font-medium">{getQuincenaLabel(request.RequestSalaryCertificate.date)}</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="text-gray-500 w-32">Razón:</span>
+                  <span className="font-medium">{request.RequestSalaryCertificate.reason}</span>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {request.RequestTypeId === 3 && request.RequestPaymentConfirmation && (
+            <section className="bg-gray-50 p-5 rounded-lg">
+              <div className="flex items-center mb-3">
+                <DollarSign className="h-5 w-5 mr-2 text-gray-500" />
+                <h3 className="text-lg font-medium">Detalles de Boleta de Pago</h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center">
+                  <span className="text-gray-500 w-32">Quincena:</span>
+                  <span className="font-medium">{getQuincenaLabel(request.RequestPaymentConfirmation.date)}</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="text-gray-500 w-32">Razón:</span>
+                  <span className="font-medium">{request.RequestPaymentConfirmation.reason}</span>
                 </div>
               </div>
             </section>

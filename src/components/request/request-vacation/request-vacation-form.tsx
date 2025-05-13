@@ -117,6 +117,33 @@ export default function RequestVacationForm() {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
+            <div className="flex gap-4 p-3 border-b">
+              <div className="grid gap-2 flex-1">
+                <h4 className="font-medium text-sm">Período seleccionado</h4>
+                <p className="text-sm text-muted-foreground">
+                  {date?.from ? (
+                    date.to ? (
+                      <>
+                        <span className="font-medium text-primary">
+                          {format(date.from, "dd MMM", { locale: es })}
+                        </span>
+                        {" - "}
+                        <span className="font-medium text-primary">
+                          {format(date.to, "dd MMM", { locale: es })}
+                        </span>
+                        <span className="ml-2 text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">
+                          {totalDays} días laborables
+                        </span>
+                      </>
+                    ) : (
+                      "Selecciona la fecha final"
+                    )
+                  ) : (
+                    "Selecciona las fechas"
+                  )}
+                </p>
+              </div>
+            </div>
             <Calendar
               initialFocus
               mode="range"
@@ -125,11 +152,26 @@ export default function RequestVacationForm() {
               numberOfMonths={2}
               locale={es}
               disabled={[
-                ...disabledDates, // Deshabilitar días festivos
-                { before: new Date() }, // Deshabilitar fechas pasadas
-                { dayOfWeek: [0, 6] }, // Deshabilitar fines de semana
+                ...disabledDates,
+                { before: new Date() },
+                { dayOfWeek: [0, 6] },
               ]}
+              className="rounded-t-none"
             />
+            {date?.from && date?.to && (
+              <div className="p-3 border-t bg-muted/5">
+                <div className="grid gap-1">
+                  <div className="flex items-center text-xs text-muted-foreground gap-2">
+                    <div className="h-2 w-2 rounded-full bg-primary"></div>
+                    Días seleccionados: {totalDays} días laborables
+                  </div>
+                  <div className="flex items-center text-xs text-muted-foreground gap-2">
+                    <div className="h-2 w-2 rounded-full bg-red-400"></div>
+                    Fines de semana y feriados no incluidos
+                  </div>
+                </div>
+              </div>
+            )}
           </PopoverContent>
         </Popover>
       </div>

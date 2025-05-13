@@ -10,8 +10,8 @@ export default function GeneralSettingsPage() {
   return (
     <div className="container mx-auto py-10">
       <SectionHeader
-        title="Configuración de usuarios"
-        description="Aquí puedes configurar los estados civiles y géneros de los usuarios."
+        title="Configuración de Estados Civiles y Géneros"
+        description="Aquí puedes gestionar los estados civiles y géneros de tu aplicación. Puedes añadir, editar o eliminar según sea necesario."
       >
       </SectionHeader>
 

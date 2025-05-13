@@ -14,8 +14,8 @@ export default function DepartmentsPage() {
   return (
     <div className="container mx-auto py-10">
       <SectionHeader
-        title="Administración de Usuarios"
-        description="Aquí puedes gestionar los usuarios de tu aplicación. Puedes deshabilitar o habilitar según sea necesario."
+        title="Configuración de Departamentos y Programas"
+        description="Aquí puedes gestionar los departamentos y programas departamentales de tu aplicación. Puedes añadir, editar o eliminar según sea necesario."
       >
       </SectionHeader>
 

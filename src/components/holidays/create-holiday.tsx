@@ -32,9 +32,23 @@ export function CreateHolidayModal() {
   } = useCreateHoliday()
 
   const isRecurringYearly = form.watch("isRecurringYearly")
+  const selectedMonth = form.watch("recurringMonth")
 
-  // Generar opciones para días 1-31
-  const dayOptions = Array.from({ length: 31 }, (_, i) => i + 1)
+  // Generar opciones para días según el mes seleccionado
+  const getDaysInMonth = (month: number) => {
+    if (!month) return []
+
+    // Meses con 31 días
+    if ([1, 3, 5, 7, 8, 10, 12].includes(month)) {
+      return Array.from({ length: 31 }, (_, i) => i + 1)
+    }
+    // Febrero
+    if (month === 2) {
+      return Array.from({ length: 29 }, (_, i) => i + 1) // Incluimos 29 para años bisiestos
+    }
+    // Meses con 30 días
+    return Array.from({ length: 30 }, (_, i) => i + 1)
+  }
 
   // Opciones para meses (1-12)
   const monthOptions = [
@@ -141,29 +155,32 @@ export function CreateHolidayModal() {
                 )}
               >
                 {isRecurringYearly ? (
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                     {/* Mes recurrente */}
                     <FormField
                       control={form.control}
                       name="recurringMonth"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <FormLabel className="text-sm font-medium">Mes</FormLabel>
                           <Select
-                            onValueChange={(value) => field.onChange(Number.parseInt(value))}
+                            onValueChange={(value) => {
+                              field.onChange(Number.parseInt(value))
+                              // Reset día cuando cambia el mes
+                              form.setValue("recurringDay", undefined)
+                            }}
                             value={field.value?.toString()}
                           >
                             <FormControl>
-                              <SelectTrigger className="transition-all focus-visible:ring-offset-2">
+                              <SelectTrigger className="w-full transition-all focus-visible:ring-offset-2">
                                 <SelectValue placeholder="Seleccionar mes" />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent className="max-h-[200px]">
+                            <SelectContent>
                               {monthOptions.map((month) => (
                                 <SelectItem
                                   key={month.value}
                                   value={month.value.toString()}
-                                  className="cursor-pointer transition-colors hover:bg-muted"
                                 >
                                   {month.label}
                                 </SelectItem>
@@ -180,23 +197,23 @@ export function CreateHolidayModal() {
                       control={form.control}
                       name="recurringDay"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <FormLabel className="text-sm font-medium">Día</FormLabel>
                           <Select
                             onValueChange={(value) => field.onChange(Number.parseInt(value))}
                             value={field.value?.toString()}
+                            disabled={!selectedMonth}
                           >
                             <FormControl>
-                              <SelectTrigger className="transition-all focus-visible:ring-offset-2">
+                              <SelectTrigger className="w-full transition-all focus-visible:ring-offset-2">
                                 <SelectValue placeholder="Seleccionar día" />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent className="max-h-[200px]">
-                              {dayOptions.map((day) => (
+                            <SelectContent>
+                              {getDaysInMonth(selectedMonth || 0).map((day) => (
                                 <SelectItem
                                   key={day}
                                   value={day.toString()}
-                                  className="cursor-pointer transition-colors hover:bg-muted"
                                 >
                                   {day}
                                 </SelectItem>

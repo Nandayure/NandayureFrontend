@@ -12,6 +12,8 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useCancelRequest } from "@/hooks/request-management/useCancelRequest"
 import { Textarea } from "@/components/ui/textarea"
 import { useState } from "react"
+import { format, endOfMonth } from "date-fns"
+import { es } from "date-fns/locale"
 
 const getRequestIcon = (typeId: number) => {
   switch (typeId) {
@@ -39,6 +41,14 @@ const getStatusColor = (stateId: number) => {
     default:
       return "bg-gray-500 text-white"
   }
+}
+
+const getQuincenaLabel = (dateStr?: string) => {
+  if (!dateStr) return "No especificada";
+  const date = new Date(dateStr);
+  return date.getDate() <= 15
+    ? `1-15 ${format(date, "MMMM yyyy", { locale: es })}`
+    : `16-${format(endOfMonth(date), "d")} ${format(date, "MMMM yyyy", { locale: es })}`;
 }
 
 interface Request {
@@ -126,17 +136,41 @@ const RequestModal = ({
                     )}
 
                     {request.RequestTypeId === 2 && request.RequestSalaryCertificate && (
-                      <div className="col-span-1 sm:col-span-2 space-y-1">
-                        <span className="text-sm text-gray-500">Razón</span>
-                        <p className="font-medium">{request.RequestSalaryCertificate.reason}</p>
-                      </div>
+                      <>
+                        <div className="col-span-1 sm:col-span-2 mt-2">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                              <span className="text-sm text-gray-500">Quincena Solicitada</span>
+                              <p className="font-medium">
+                                {getQuincenaLabel(request.RequestSalaryCertificate.date)}
+                              </p>
+                            </div>
+                            <div className="space-y-1">
+                              <span className="text-sm text-gray-500">Razón</span>
+                              <p className="font-medium">{request.RequestSalaryCertificate.reason}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </>
                     )}
 
                     {request.RequestTypeId === 3 && request.RequestPaymentConfirmation && (
-                      <div className="col-span-1 sm:col-span-2 space-y-1">
-                        <span className="text-sm text-gray-500">Razón</span>
-                        <p className="font-medium">{request.RequestPaymentConfirmation.reason}</p>
-                      </div>
+                      <>
+                        <div className="col-span-1 sm:col-span-2 mt-2">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                              <span className="text-sm text-gray-500">Quincena Solicitada</span>
+                              <p className="font-medium">
+                                {getQuincenaLabel(request.RequestPaymentConfirmation.date)}
+                              </p>
+                            </div>
+                            <div className="space-y-1">
+                              <span className="text-sm text-gray-500">Razón</span>
+                              <p className="font-medium">{request.RequestPaymentConfirmation.reason}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </>
                     )}
                   </div>
                 </CardContent>

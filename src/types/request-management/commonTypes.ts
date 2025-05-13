@@ -10,6 +10,7 @@ export interface RequestType {
 export interface RequestPaymentConfirmation {
   id: number;
   reason: string;
+  date: string;
   RequestId: number;
 }
 

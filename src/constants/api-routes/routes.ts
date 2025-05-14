@@ -81,7 +81,7 @@ export const ROUTES = {
     BY_ID: (departmentId: number) => `/departments/${departmentId}`,
     UPDATE_HEAD: (head: number) => `/departments/updateDepartmentHead/${head}`,
     EMPLOYEES: (departmentId: number) =>
-      `/employees/allByDepartment/1`,
+      `/employees/allByDepartment/${departmentId}`,
   },
   FINANCIAL_INSTITUTIONS: {
     BASE: '/financial-institutions',

@@ -145,7 +145,7 @@ export default function DepartmentsTable() {
                     />
                     <DepartmentEmployeesModal
                       departmentId={department.id}
-                      currentHeadId={department.departmentHeadId}
+                      currentHeadId={department.departmentHead.id}
                     />
                     <DeleteDepartmentModal id={department.id} />
                   </div>

@@ -37,6 +37,7 @@ import {
 import { useDebounce } from "@/hooks/use-debounce"
 import { Input } from "@/components/ui/input"
 import useGetAllUsers from "@/hooks/user/queries/useGetAllUsers"
+import { PaginationController } from "@/components/ui/pagination-controller"
 
 const translateRole = (role: string) => {
   const translations: { [key: string]: string } = {
@@ -81,11 +82,12 @@ export function UserRoleManagement() {
   const [search, setSearch] = useState("")
   const [selectedRole, setSelectedRole] = useState<{ userId: string; roleId: number } | null>(null)
   const [selectKeys, setSelectKeys] = useState<{ [key: string]: number }>({})
+  const [currentPage, setCurrentPage] = useState(1)
   const debouncedSearch = useDebounce(search, 500)
   const itemsPerPage = 5
 
   const { allUsers, isLoading, isError } = useGetAllUsers({
-    page: 1,
+    page: currentPage,
     limit: itemsPerPage,
     name: debouncedSearch || undefined,
     enabled: 1
@@ -219,6 +221,18 @@ export function UserRoleManagement() {
           </TableBody>
         </Table>
       </div>
+
+      {/* Pagination */}
+      {!isLoading && allUsers?.totalPages && allUsers.totalPages > 1 && (
+        <PaginationController
+          totalItems={allUsers.totalItems ?? 0}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          siblingCount={1}
+          className="mt-4"
+        />
+      )}
 
       {/* Add Role Confirmation Dialog */}
       {selectedRole && (

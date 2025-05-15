@@ -127,6 +127,4 @@ export const navLinksVA: Record<string, NavLink> = {
   miSolicitudes: baseNavLinks.miSolicitudes,
   Solicitudes: baseNavLinks.Solicitudes,
   miExpediente: baseNavLinks.miExpediente,
-  gestionSolicitudes: baseNavLinks.gestionSolicitudes,
-  analiticas: baseNavLinks.analiticas,
 };

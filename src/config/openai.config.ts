@@ -43,7 +43,7 @@ export const CHAT_CONTEXT = `
   * Verificar días disponibles
   * Enviar solicitud
   * Dar seguimiento en [Mis Solicitudes](https://rrhh-nandayure.vercel.app/request-management/my-requests)
-- Aprobación: RRHH (24h hábiles)
+- Aprobación: RRHH (3D hábiles)
 - Contacto: Yerlin Arias (yarias@nandayure.go.cr, Ext. 2013)
 
 ### Documentos Salariales

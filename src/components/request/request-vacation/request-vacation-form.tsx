@@ -30,16 +30,19 @@ export default function RequestVacationForm() {
       const nextYear = currentYear + 1
       const holidayDates: Date[] = []
 
-      // Process each holiday
+      // Process each active holiday
       holidays.forEach((holiday) => {
-        if (holiday.isRecurringYearly && holiday.recurringMonth && holiday.recurringDay) {
-          // For recurring holidays, add for current and next year
-          holidayDates.push(new Date(currentYear, holiday.recurringMonth - 1, holiday.recurringDay))
-          holidayDates.push(new Date(nextYear, holiday.recurringMonth - 1, holiday.recurringDay))
-        } else if (holiday.specificDate) {
-          // For specific date holidays - FIX: Use parseISO to correctly handle timezone issues
-          // Añadir 'T12:00:00' asegura que la fecha se interprete al mediodía, evitando problemas de zona horaria
-          holidayDates.push(parseISO(`${holiday.specificDate}T12:00:00`))
+        // Solo procesar días festivos activos
+        if (holiday.isActive) {
+          if (holiday.isRecurringYearly && holiday.recurringMonth && holiday.recurringDay) {
+            // For recurring holidays, add for current and next year
+            holidayDates.push(new Date(currentYear, holiday.recurringMonth - 1, holiday.recurringDay))
+            holidayDates.push(new Date(nextYear, holiday.recurringMonth - 1, holiday.recurringDay))
+          } else if (holiday.specificDate) {
+            // For specific date holidays - FIX: Use parseISO to correctly handle timezone issues
+            // Añadir 'T12:00:00' asegura que la fecha se interprete al mediodía, evitando problemas de zona horaria
+            holidayDates.push(parseISO(`${holiday.specificDate}T12:00:00`))
+          }
         }
       })
 

@@ -240,40 +240,46 @@ export function PersonalInfoStep() {
 
   // Handle ID validation and fetching
   useEffect(() => {
-    if (!idWasChecked || processingValidationRef.current || debouncedIdForIdentification.length !== 9) return
-
-    processingValidationRef.current = true
+    if (!idWasChecked || debouncedIdForIdentification.length !== 9) {
+      return;
+    }
 
     try {
       if (idCheck?.exists === true) {
         setError("id", {
           type: "manual",
           message: "Esta cédula ya está registrada"
-        })
-        setFieldsDisabled(false)
+        });
+        setFieldsDisabled(false);
       } else {
         if (formState.errors.id?.type === "manual") {
-          clearErrors("id")
+          clearErrors("id");
         }
-        fetchData(debouncedIdForIdentification)
+        fetchData(debouncedIdForIdentification);
       }
-    } finally {
-      // Add a small delay before allowing new validations
-      setTimeout(() => {
-        processingValidationRef.current = false
-      }, 100)
+    } catch (error) {
+      console.error('Error in validation effect:', error);
     }
   }, [idCheck, idWasChecked, debouncedIdForIdentification, setError, clearErrors, formState.errors.id?.type, fetchData])
 
   // Handle identification data response
   useEffect(() => {
-    if (!identificationData?.results?.length || processingValidationRef.current) return
+    if (!identificationData?.results?.length) return;
 
-    const person = identificationData.results[0]
-    setValue("Name", person.firstname1, { shouldValidate: false })
-    setValue("Surname1", person.lastname1, { shouldValidate: false })
-    setValue("Surname2", person.lastname2, { shouldValidate: false })
-    setFieldsDisabled(true)
+    const person = identificationData.results[0];
+    console.log('Setting form with person data:', person);
+
+    if (person) {
+      try {
+        setValue("Name", person.firstname1 || "", { shouldValidate: true });
+        setValue("Surname1", person.lastname1 || "", { shouldValidate: true });
+        setValue("Surname2", person.lastname2 || "", { shouldValidate: true });
+        setFieldsDisabled(true);
+      } catch (error) {
+        console.error('Error setting form values:', error);
+        setFieldsDisabled(false);
+      }
+    }
   }, [identificationData, setValue])
 
   return (

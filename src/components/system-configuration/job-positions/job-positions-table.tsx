@@ -29,7 +29,9 @@ export default function JobPositionsTable() {
     limit: String(itemsPerPage),
     name: debouncedSearch || undefined
   })
-  const { departments = [] } = useGetAllDepartments()
+  const { departments = [] } = useGetAllDepartments(
+    {page: '1', limit: '30'},
+  )
 
   // Update URL when search or page changes
   useEffect(() => {

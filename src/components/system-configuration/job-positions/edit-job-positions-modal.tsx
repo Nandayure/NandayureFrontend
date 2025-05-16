@@ -35,7 +35,10 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
       jobPositionId: jobPosition.id,
     });
 
-  const { departments } = useGetAllDepartments();
+  const { departments } = useGetAllDepartments({
+    page: '1',
+    limit: '30',
+  });
 
   return (
     <>

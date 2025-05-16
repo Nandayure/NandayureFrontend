@@ -85,7 +85,7 @@ export default function Page() {
     isLoading,
     isError,
     error,
-    hideDeleteButton: false,
+    hideDeleteButton: true,
     pagination: {
       limit: itemsPerPage,
       currentPage: 1,

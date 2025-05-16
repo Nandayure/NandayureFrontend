@@ -21,6 +21,25 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // Manejo especial para la ruta de sesión expirada
+  if (pathname === '/auth/session-expired') {
+    const session = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+
+    if (session) {
+      // Limpiar la cookie de sesión
+      const response = NextResponse.next();
+      response.cookies.delete('next-auth.session-token');
+      response.cookies.delete('next-auth.csrf-token');
+      response.cookies.delete('__Secure-next-auth.session-token');
+      response.cookies.delete('__Secure-next-auth.csrf-token');
+      return response;
+    }
+    return NextResponse.next();
+  }
+
   // 2. Permitir rutas públicas
   if (isPublicRoute(pathname)) {
     return NextResponse.next();

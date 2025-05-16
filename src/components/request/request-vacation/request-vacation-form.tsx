@@ -81,8 +81,8 @@ export default function RequestVacationForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (date?.from && date?.to) {
-      setValue("entryDate", format(date.from, 'yyyy-MM-dd'))
-      setValue("departureDate", format(date.to, 'yyyy-MM-dd'))
+      setValue("departureDate", format(date.from, 'yyyy-MM-dd')) // Fecha de salida es la fecha inicial
+      setValue("entryDate", format(date.to, 'yyyy-MM-dd'))      // Fecha de entrada es la fecha final
       submitVacationRequest()
     }
   }
@@ -94,6 +94,7 @@ export default function RequestVacationForm() {
       </h5>
       <p className="mb-4 text-sm font-normal text-gray-500 dark:text-gray-400">
         Por favor, selecciona el rango de fechas para tu solicitud de vacaciones.
+        La fecha inicial será tu fecha de salida y la fecha final será tu fecha de regreso.
       </p>
       <Flag />
 

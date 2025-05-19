@@ -1,8 +1,20 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
+import { signOut, useSession } from "next-auth/react"
+import { useEffect } from "react"
 
 export default function SessionExpired() {
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    if (session) {
+      signOut({ redirect: false })
+    }
+  }, [session])
+
   return (
     <section className="flex bg-white min-h-screen justify-center items-center">
       <div className="py-5 px-4 mx-auto max-w-(--breakpoint-xl) lg:py-16 lg:px-6">

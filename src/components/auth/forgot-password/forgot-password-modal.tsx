@@ -74,18 +74,10 @@ const ForgotPasswordModal = ({ isOpen, onClose }: ForgotPasswordModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent
-        className={`sm:max-w-[425px] transition-all duration-300 ${
-          isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100"
-        }`}
-        aria-labelledby="forgot-password-title"
-        aria-describedby="forgot-password-description"
-      >
+      <DialogContent className={`sm:max-w-[425px] transition-all duration-300 ${isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100"
+        }`}>
         <DialogHeader className="space-y-3">
-          <DialogTitle
-            id="forgot-password-title"
-            className={`${titleFont.className} text-xl text-gray-900 flex items-center gap-2`}
-          >
+          <DialogTitle className={`${titleFont.className} text-xl text-gray-900 flex items-center gap-2`}>
             <Mail className="w-5 h-5 text-[#34b1fd]" />
             Recuperar contraseña
           </DialogTitle>
@@ -234,7 +226,13 @@ const ForgotPasswordModal = ({ isOpen, onClose }: ForgotPasswordModalProps) => {
 
                 <div className="text-center">
                   <p className="text-xs text-gray-500 mb-3">
-                    ¿No recibiste el correo? Verifica que la dirección sea correcta.
+                    ¿No recibiste el correo? Verifica que la dirección sea correcta o{' '}
+                    <a
+                      href="mailto:jhernandez@nandayure.go.cr"
+                      className="text-[#34b1fd] hover:text-[#2d9fe6] underline"
+                    >
+                      contacta a un administrador
+                    </a>.
                   </p>
                   <Button
                     onClick={handleClose}

@@ -128,7 +128,15 @@ const LoginForm = () => {
       {/* Footer */}
       <div className="text-center">
         <Separator className="mb-4" />
-        <p className="text-xs text-gray-500">¿Necesitas ayuda? Contacta al administrador del sistema</p>
+        <p className="text-xs text-gray-500">
+          ¿Necesitas ayuda?{' '}
+          <a
+            href="mailto:jhernandez@nandayure.go.cr"
+            className="text-[#34b1fd] hover:text-[#2d9fe6] underline"
+          >
+            Contacta al administrador del sistema
+          </a>
+        </p>
       </div>
 
       <ForgotPasswordModal isOpen={isForgotPasswordOpen} onClose={handleCloseForgotPassword} />

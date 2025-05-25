@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { Eye, EyeOff, User, Lock } from "lucide-react"
 import usePostLogin from "@/hooks/auth/login/usePostLogin"
 
@@ -10,10 +9,20 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import ForgotPasswordModal from "../forgot-password/forgot-password-modal"
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false)
   const { register, errors, onSubmit, isLoading, error } = usePostLogin()
+
+  const handleForgotPasswordClick = () => {
+    setIsForgotPasswordOpen(true)
+  }
+
+  const handleCloseForgotPassword = () => {
+    setIsForgotPasswordOpen(false)
+  }
 
   return (
     <div className="space-y-6">
@@ -88,12 +97,14 @@ const LoginForm = () => {
           )}
 
           <div className="flex justify-end">
-            <Link
-              href="/auth/forgot-password"
+            <button
+              type="button"
+              onClick={handleForgotPasswordClick}
               className="text-sm font-medium text-[#34b1fd] hover:text-[#2d9fe6] transition-colors hover:underline focus:outline-none focus:ring-2 focus:ring-[#34b1fd] focus:ring-offset-2 rounded"
+              aria-label="Abrir modal para recuperar contraseña"
             >
               ¿Olvidaste tu contraseña?
-            </Link>
+            </button>
           </div>
         </div>
 
@@ -119,6 +130,8 @@ const LoginForm = () => {
         <Separator className="mb-4" />
         <p className="text-xs text-gray-500">¿Necesitas ayuda? Contacta al administrador del sistema</p>
       </div>
+
+      <ForgotPasswordModal isOpen={isForgotPasswordOpen} onClose={handleCloseForgotPassword} />
     </div>
   )
 }

@@ -21,7 +21,7 @@ import { Label } from '@/components/ui/label';
 import { useGetAllDepartments, usePatchJobPosition } from '@/hooks';
 import { JobPosition } from '@/types';
 import { Pencil } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Props {
   jobPosition: JobPosition;
@@ -34,6 +34,12 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
       setIsOpen: setIsEditModalOpen,
       jobPositionId: jobPosition.id,
     });
+
+    useEffect(() => {
+    if (isEditModalOpen) {
+      setValue('DepartmentId', jobPosition.DepartmentId);
+    }
+  }, [isEditModalOpen, jobPosition, setValue]);
 
   const { departments } = useGetAllDepartments({
     page: '1',
@@ -81,14 +87,16 @@ export default function EditJobPositionsModal({ jobPosition }: Props) {
                   </p>
                 )}
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 w-full">
                 <Label htmlFor="DepartmentId">Departamento</Label>
                 <Select
+                  defaultValue={jobPosition.DepartmentId?.toString()}
                   onValueChange={(value) =>
                     setValue('DepartmentId', Number(value))
                   }
                 >
-                  <SelectTrigger data-cy="select-edit-department-job-position">
+
+                  <SelectTrigger data-cy="select-edit-department-job-position" className="w-full">
                     <SelectValue placeholder="Seleccionar departamento" />
                   </SelectTrigger>
                   <SelectContent>

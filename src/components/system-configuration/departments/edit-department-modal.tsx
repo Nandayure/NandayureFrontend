@@ -40,7 +40,6 @@ export default function EditDepartmentModal({
       setIsOpen: setIsEditModalOpen,
       departmentId: departmentId,
     });
-  const { employees } = useGetAllEmployees();
   const { departmentPrograms } = useGetAllDepartmentPrograms();
 
   useEffect(() => {

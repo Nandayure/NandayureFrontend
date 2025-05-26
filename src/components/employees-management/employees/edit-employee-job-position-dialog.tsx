@@ -62,7 +62,7 @@ export function EditEmployeeJobPositionDialog({
           <div className="space-y-2">
             <Label htmlFor="jobPosition">Nuevo Puesto</Label>
             <Select value={selectedJobPositionId} onValueChange={setSelectedJobPositionId}>
-              <SelectTrigger id="jobPosition">
+              <SelectTrigger id="jobPosition" className="w-full">
                 <SelectValue placeholder="Seleccionar nuevo puesto" />
               </SelectTrigger>
               <SelectContent>

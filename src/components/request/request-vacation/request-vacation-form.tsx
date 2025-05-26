@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { format, isSameDay, parseISO } from "date-fns"
 import { es } from "date-fns/locale"
@@ -81,30 +80,31 @@ export default function RequestVacationForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (date?.from && date?.to) {
-      setValue("departureDate", format(date.from, 'yyyy-MM-dd')) // Fecha de salida es la fecha inicial
-      setValue("entryDate", format(date.to, 'yyyy-MM-dd'))      // Fecha de entrada es la fecha final
+      setValue("departureDate", format(date.from, "yyyy-MM-dd")) // Fecha de salida es la fecha inicial
+      setValue("entryDate", format(date.to, "yyyy-MM-dd")) // Fecha de entrada es la fecha final
       submitVacationRequest()
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h5 className={`${titleFont.className} mb-3 text-base font-semibold text-gray-900 md:text-xl`}>
-        Solicitud de vacaciones
-      </h5>
-      <p className="mb-4 text-sm font-normal text-gray-500 dark:text-gray-400">
-        Por favor, selecciona el rango de fechas para tu solicitud de vacaciones.
-        La fecha inicial será tu fecha de salida y la fecha final será tu fecha de regreso.
-      </p>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <h5 className={`${titleFont.className} text-lg font-semibold text-gray-900`}>Solicitud de vacaciones</h5>
+        <p className="text-sm text-gray-600">
+          Por favor, selecciona el rango de fechas para tu solicitud de vacaciones. La fecha inicial será tu fecha de
+          salida y la fecha final será tu fecha de regreso.
+        </p>
+      </div>
+
       <Flag />
 
-      <div className="grid gap-2">
+      <div className="space-y-3">
         <Popover>
           <PopoverTrigger asChild>
             <Button
               id="date"
               variant={"outline"}
-              className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+              className={cn("w-full justify-start text-left font-normal h-11", !date && "text-muted-foreground")}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
               {date?.from ? (
@@ -121,20 +121,16 @@ export default function RequestVacationForm() {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
-            <div className="flex gap-4 p-3 border-b">
-              <div className="grid gap-2 flex-1">
+            <div className="flex gap-4 p-3 border-b bg-gray-50">
+              <div className="grid gap-1 flex-1">
                 <h4 className="font-medium text-sm">Período seleccionado</h4>
                 <p className="text-sm text-muted-foreground">
                   {date?.from ? (
                     date.to ? (
                       <>
-                        <span className="font-medium text-primary">
-                          {format(date.from, "dd MMM", { locale: es })}
-                        </span>
+                        <span className="font-medium text-primary">{format(date.from, "dd MMM", { locale: es })}</span>
                         {" - "}
-                        <span className="font-medium text-primary">
-                          {format(date.to, "dd MMM", { locale: es })}
-                        </span>
+                        <span className="font-medium text-primary">{format(date.to, "dd MMM", { locale: es })}</span>
                         <span className="ml-2 text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">
                           {totalDays} días laborables
                         </span>
@@ -155,11 +151,7 @@ export default function RequestVacationForm() {
               onSelect={setDate}
               numberOfMonths={2}
               locale={es}
-              disabled={[
-                ...disabledDates,
-                { before: new Date() },
-                { dayOfWeek: [0, 6] },
-              ]}
+              disabled={[...disabledDates, { before: new Date() }, { dayOfWeek: [0, 6] }]}
               className="rounded-t-none"
             />
             {date?.from && date?.to && (
@@ -178,24 +170,29 @@ export default function RequestVacationForm() {
             )}
           </PopoverContent>
         </Popover>
+
+        {date?.from && date?.to && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <div className="text-sm font-medium text-blue-900">
+              Total días laborables seleccionados: <span className="font-bold">{totalDays}</span>
+            </div>
+          </div>
+        )}
       </div>
 
-      {date?.from && date?.to && (
-        <div className="mt-2 text-sm font-medium text-gray-700">
-          Total días laborables seleccionados: <span className="font-semibold text-primary">{totalDays}</span>
-        </div>
-      )}
+      {isLoading && <div className="text-sm text-blue-600">Cargando días festivos...</div>}
+      {isError && <div className="text-sm text-red-600">Error al cargar días festivos</div>}
+      {errors?.root && <div className="text-sm text-red-600">{errors.root.message}</div>}
 
-      {isLoading && <div className="mt-2 text-sm text-blue-500">Cargando días festivos...</div>}
-      {isError && <div className="mt-2 text-sm text-red-500">Error al cargar días festivos</div>}
-      {errors?.root && <div className="mt-2 text-sm text-red-500">{errors.root.message}</div>}
-
-      <div className="mt-4 flex w-full justify-end">
-        <Button type="submit" className="w-full sm:w-auto" disabled={mutation.isPending || !date?.from || !date?.to}>
+      <div className="pt-2">
+        <Button
+          type="submit"
+          className="w-full sm:w-auto sm:ml-auto sm:flex"
+          disabled={mutation.isPending || !date?.from || !date?.to}
+        >
           {mutation.isPending ? <Spinner /> : "Enviar solicitud"}
         </Button>
       </div>
     </form>
   )
 }
-

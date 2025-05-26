@@ -35,12 +35,6 @@ export const navLinks: Record<string, NavLink> = {
     label: 'Puestos de trabajo',
     dataCy: 'sidebar-system-configuration-positions',
   },
-  estudios: {
-    href: '/system-configuration/studies',
-    icon: GraduationCap,
-    label: 'Estudios',
-    dataCy: 'sidebar-system-configuration-studies',
-  },
   feriados: {
     href: '/system-configuration/holidays',
     icon: Calendar,

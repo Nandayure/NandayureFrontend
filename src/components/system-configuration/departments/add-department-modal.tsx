@@ -64,14 +64,14 @@ export default function AddDepartmentModal() {
                   </p>
                 )}
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 w-full">
                 <Label htmlFor="departmentProgramId">Programa</Label>
                 <Select
                   onValueChange={(value) =>
                     setValue('departmentProgramId', Number(value))
                   }
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Seleccionar programa" />
                   </SelectTrigger>
                   <SelectContent>

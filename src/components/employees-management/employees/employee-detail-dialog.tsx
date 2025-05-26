@@ -101,11 +101,6 @@ export function EmployeeDetailDialog({ employee, isOpen, onCloseAction, onUpdate
             </Tabs>
           </div>
 
-          <DialogFooter className="mt-6">
-            <Button variant="outline" onClick={onCloseAction}>
-              Cerrar
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
 

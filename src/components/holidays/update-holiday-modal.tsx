@@ -151,20 +151,20 @@ export function UpdateHolidayModal({ holiday, trigger }: UpdateHolidayModalProps
                 )}
               >
                 {isRecurringYearly ? (
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                     {/* Mes recurrente */}
                     <FormField
                       control={form.control}
                       name="recurringMonth"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <FormLabel className="text-sm font-medium">Mes</FormLabel>
                           <Select
                             onValueChange={(value) => field.onChange(Number.parseInt(value))}
                             value={field.value?.toString()}
                           >
                             <FormControl>
-                              <SelectTrigger className="transition-all focus-visible:ring-offset-2">
+                              <SelectTrigger className="w-full transition-all focus-visible:ring-offset-2">
                                 <SelectValue placeholder="Seleccionar mes" />
                               </SelectTrigger>
                             </FormControl>
@@ -190,14 +190,14 @@ export function UpdateHolidayModal({ holiday, trigger }: UpdateHolidayModalProps
                       control={form.control}
                       name="recurringDay"
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                           <FormLabel className="text-sm font-medium">Día</FormLabel>
                           <Select
                             onValueChange={(value) => field.onChange(Number.parseInt(value))}
                             value={field.value?.toString()}
                           >
                             <FormControl>
-                              <SelectTrigger className="transition-all focus-visible:ring-offset-2">
+                              <SelectTrigger className="w-full transition-all focus-visible:ring-offset-2">
                                 <SelectValue placeholder="Seleccionar día" />
                               </SelectTrigger>
                             </FormControl>

@@ -22,7 +22,7 @@ import {
 } from '@/hooks';
 import { Department } from '@/types';
 import { Pencil } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BudgetCodeItem } from './budget-code-item';
 
 interface Props {
@@ -40,8 +40,13 @@ export default function EditDepartmentModal({
       setIsOpen: setIsEditModalOpen,
       departmentId: departmentId,
     });
-  const { employees } = useGetAllEmployees();
   const { departmentPrograms } = useGetAllDepartmentPrograms();
+
+  useEffect(() => {
+    if (isEditModalOpen && department.departmentProgramId) {
+      setValue('departmentProgramId', department.departmentProgramId);
+    }
+  }, [isEditModalOpen, department.departmentProgramId, setValue]);
 
   return (
     <>
@@ -79,14 +84,15 @@ export default function EditDepartmentModal({
                   </p>
                 )}
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 w-fu">
                 <Label htmlFor="departmentProgramId">Programa</Label>
                 <Select
+                  defaultValue={department.departmentProgramId?.toString()}
                   onValueChange={(value) =>
                     setValue('departmentProgramId', Number(value))
                   }
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Seleccionar programa" />
                   </SelectTrigger>
                   <SelectContent>

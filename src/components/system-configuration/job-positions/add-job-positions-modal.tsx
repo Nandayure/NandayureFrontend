@@ -61,14 +61,14 @@ export default function AddJobPositionsModal() {
                   </p>
                 )}
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 w-full">
                 <Label htmlFor="DepartmentId">Departamento</Label>
                 <Select
                   onValueChange={(value) =>
                     setValue('DepartmentId', Number(value))
                   }
                 >
-                  <SelectTrigger data-cy="select-department-job-position">
+                  <SelectTrigger data-cy="select-department-job-position" className="w-full">
                     <SelectValue placeholder="Seleccionar departamento" />
                   </SelectTrigger>
                   <SelectContent>

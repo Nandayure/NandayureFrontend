@@ -112,7 +112,7 @@ export function PersonalInfoTab({ employee, onEditConfirmationAction }: Personal
                 value={employee.Gender?.id?.toString()}
                 onValueChange={(value) => handleSelectChangeAction("GenderId", value)}
               >
-                <SelectTrigger id="GenderId">
+                <SelectTrigger id="GenderId" className="w-full">
                   <SelectValue placeholder="Seleccionar género" />
                 </SelectTrigger>
                 <SelectContent>
@@ -129,7 +129,7 @@ export function PersonalInfoTab({ employee, onEditConfirmationAction }: Personal
                 value={employee.MaritalStatus?.id?.toString()}
                 onValueChange={(value) => handleSelectChangeAction("MaritalStatusId", value)}
               >
-                <SelectTrigger id="MaritalStatusId">
+                <SelectTrigger id="MaritalStatusId" className="w-full">
                   <SelectValue placeholder="Seleccionar estado civil" />
                 </SelectTrigger>
                 <SelectContent>

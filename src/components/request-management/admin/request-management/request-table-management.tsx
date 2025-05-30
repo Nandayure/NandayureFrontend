@@ -126,7 +126,6 @@ export default function RequestTableManagement() {
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold mb-4">Gestión de solicitudes</h1>
         <div className="flex space-x-4 justify-center items-center">
-          <ExportButtons requests={enrichedRequests} isDisabled={isLoading} />
           <TypeSelector types={states} selectedType={selectedState} onChange={handleStateChange} label="Estado" />
           <TypeSelector types={types} selectedType={selectedType} onChange={handleTypeChange} label="Tipo" />
           <SearchBar searchQuery={searchQuery} setSearchQuery={handleSearchChange} />

@@ -1,6 +1,7 @@
 "use client"
 import { useGetAllEmployees, useGetAllRequest } from "@/hooks"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import RequestTable from "./request-table"
 import RequestModal from "./request-modal"
 import SearchBar from "./search-bar/search-bar"
@@ -8,7 +9,6 @@ import TypeSelector from "./type-selector/type-selector"
 import type { RequestDetails } from "@/types/request-management/commonTypes"
 import { PaginationController } from "@/components/ui/pagination-controller"
 import ExportButtons from "./export-buttons"
-import { useRouter, useSearchParams } from "next/navigation"
 import ItemsPerPageSelector from "./items-per-page-selector"
 import RequestTableSkeleton from "./request-table-skeleton"
 
@@ -16,17 +16,32 @@ export default function RequestTableManagement() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  // Leer filtros desde la URL
-  const getParam = (key: string, fallback: string) => searchParams.get(key) || fallback
+  // Estados locales
+  const [initialLoad, setInitialLoad] = useState(true)
   const [selectedRequest, setSelectedRequest] = useState<RequestDetails | null>(null)
-  const [searchQuery, setSearchQuery] = useState<string>(getParam("q", ""))
-  const [selectedType, setSelectedType] = useState<string>(getParam("type", "all"))
-  const [selectedState, setSelectedState] = useState<string>(getParam("state", "all"))
-  const [currentPage, setCurrentPage] = useState<number>(Number(getParam("page", "1")))
-  const [itemsPerPage, setItemsPerPage] = useState<number>(Number(getParam("limit", "10")))
-  const [startDate, setStartDate] = useState<string>(getParam("startDate", ""))
-  const [endDate, setEndDate] = useState<string>(getParam("endDate", ""))
-  const [employeeId, setEmployeeId] = useState<string>(getParam("employeeId", ""))
+  const [searchQuery, setSearchQuery] = useState<string>("")
+  const [selectedType, setSelectedType] = useState<string>("all")
+  const [selectedState, setSelectedState] = useState<string>("all")
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10)
+  const [startDate, setStartDate] = useState<string>("")
+  const [endDate, setEndDate] = useState<string>("")
+  const [employeeId, setEmployeeId] = useState<string>("")
+
+  // Inicializar estados desde URL al montar
+  useEffect(() => {
+    if (initialLoad && searchParams) {
+      setSearchQuery(searchParams.get("q") || "")
+      setSelectedType(searchParams.get("type") || "all")
+      setSelectedState(searchParams.get("state") || "all")
+      setCurrentPage(Number(searchParams.get("page")) || 1)
+      setItemsPerPage(Number(searchParams.get("limit")) || 10)
+      setStartDate(searchParams.get("startDate") || "")
+      setEndDate(searchParams.get("endDate") || "")
+      setEmployeeId(searchParams.get("employeeId") || "")
+      setInitialLoad(false)
+    }
+  }, [searchParams, initialLoad])
 
   // Actualizar los params de la URL
   const updateUrlParams = (params: Record<string, string | number | undefined>) => {

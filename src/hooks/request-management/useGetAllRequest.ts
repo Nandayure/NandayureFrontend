@@ -5,8 +5,11 @@ interface UseGetAllRequestParams {
   page?: number;
   limit?: number;
   searchQuery?: string;
-  type?: string;
-  state?: string;
+  RequestTypeId?: number;
+  RequestStateId?: number;
+  startDate?: string;
+  endDate?: string;
+  EmployeeId?: string;
 }
 
 const useGetAllRequest = (params?: UseGetAllRequestParams) => {

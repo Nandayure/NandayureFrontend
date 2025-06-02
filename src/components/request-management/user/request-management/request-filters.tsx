@@ -49,6 +49,7 @@ const stateOptions = [
   { id: 1, label: 'Pendiente' },
   { id: 2, label: 'Aprobado' },
   { id: 3, label: 'Rechazado' },
+  { id: 4, label: 'Cancelado' },
 ];
 
 export default function RequestFilters({

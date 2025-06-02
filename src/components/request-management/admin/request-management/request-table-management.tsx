@@ -121,6 +121,7 @@ export default function RequestTableManagement() {
     "1": "Pendiente",
     "2": "Aprobado",
     "3": "Rechazado",
+    "4": "Cancelado",
   }
 
   const handleRowClick = (request: RequestDetails) => {

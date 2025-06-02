@@ -88,7 +88,7 @@ export default function ManualsGrid() {
       id: 1,
       title: "Manual de Inicio",
       description: "Primeros pasos para comenzar a utilizar el sistema.",
-      fileName: "Manual-inicio.pdf",
+      fileName: "manual-inicio.pdf",
       icon: BookOpen,
       allowedRoles: [Roles.ti, Roles.rh, Roles.va, Roles.departmentHead],
     },

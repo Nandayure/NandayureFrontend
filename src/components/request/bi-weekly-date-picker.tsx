@@ -71,7 +71,7 @@ export function BiWeeklyDatePicker({ value, onChange, maxDate = new Date() }: Bi
 
   // Function to handle date selection
   const handleSelect = (period: BiWeeklyPeriod) => {
-    // Only allow selection of periods that are not in the future
+    // Solo permitir selección si la fecha es anterior o igual a maxDate
     if (isBefore(period.end, maxDate) || format(period.end, "yyyy-MM-dd") === format(maxDate, "yyyy-MM-dd")) {
       setSelectedDate(period.end)
       onChange(period.value)
@@ -79,21 +79,13 @@ export function BiWeeklyDatePicker({ value, onChange, maxDate = new Date() }: Bi
     }
   }
 
-  // Custom day renderer for the calendar
   const renderDay = (day: Date) => {
-    // Find if the day belongs to any period
     const period = periods.find((p) => isDateInPeriod(day, p))
-
-    // Check if the day is the first or last day of a period
     const isFirstDay = period && format(day, "d") === format(period.start, "d")
     const isLastDay = period && format(day, "d") === format(period.end, "d")
-
-    // Check if the period is selectable (not in the future)
-    const isSelectable =
-      period && (isBefore(period.end, maxDate) || format(period.end, "yyyy-MM-dd") === format(maxDate, "yyyy-MM-dd"))
-
-    // Check if this day's period is selected
     const isSelected = date && period && format(date, "yyyy-MM-dd") === format(period.end, "yyyy-MM-dd")
+    const isPeriodSelectable = period &&
+      (isBefore(period.end, maxDate) || format(period.end, "yyyy-MM-dd") === format(maxDate, "yyyy-MM-dd"))
 
     return (
       <div
@@ -102,10 +94,11 @@ export function BiWeeklyDatePicker({ value, onChange, maxDate = new Date() }: Bi
           period && "bg-muted/50",
           isFirstDay && "rounded-l-md",
           isLastDay && "rounded-r-md",
-          isSelected && "bg-primary text-primary-foreground",
-          !isSelectable && "opacity-50 cursor-not-allowed",
-          isSelectable && !isSelected && "hover:bg-primary/10 cursor-pointer",
+          isSelected && "bg-blue-100 text-blue-800",
+          !isSelected && isPeriodSelectable && "hover:bg-blue-50 cursor-pointer",
+          !isPeriodSelectable && "opacity-50 cursor-not-allowed"
         )}
+        onClick={() => period && isPeriodSelectable && handleSelect(period)}
       >
         <div className="flex h-full w-full items-center justify-center">{format(day, "d")}</div>
       </div>
@@ -130,7 +123,12 @@ export function BiWeeklyDatePicker({ value, onChange, maxDate = new Date() }: Bi
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
+      <PopoverContent
+        className="w-auto p-0 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        align="center"
+        sideOffset={4}
+        avoidCollisions={false}
+      >
         <div className="p-3">
           <div className="flex justify-between items-center mb-2">
             <Button
@@ -150,9 +148,8 @@ export function BiWeeklyDatePicker({ value, onChange, maxDate = new Date() }: Bi
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
-          <div className="relative">
-            {/* Capa para ocultar el encabezado del calendario */}
-            <div className="absolute top-0 left-0 right-0 h-10 bg-white z-10"></div>
+          <div className="relative max-h-[350px] overflow-auto">
+            <div className="absolute top-0 left-0 right-0 h-10 bg-white z-10" />
             <Calendar
               mode="single"
               month={month}
@@ -172,21 +169,24 @@ export function BiWeeklyDatePicker({ value, onChange, maxDate = new Date() }: Bi
           </div>
           <div className="mt-3 space-y-2">
             {periods.map((period) => {
-              const isSelectable =
-                isBefore(period.end, maxDate) || format(period.end, "yyyy-MM-dd") === format(maxDate, "yyyy-MM-dd")
-              const isSelected = date && format(date, "yyyy-MM-dd") === period.value
+              const isPeriodSelectable = isBefore(period.end, maxDate) ||
+                format(period.end, "yyyy-MM-dd") === format(maxDate, "yyyy-MM-dd");
+              const isSelected = date && format(date, "yyyy-MM-dd") === period.value;
 
               return (
                 <Button
                   key={period.value}
                   variant={isSelected ? "default" : "outline"}
-                  className="w-full justify-start"
-                  disabled={!isSelectable}
+                  className={cn(
+                    "w-full justify-start",
+                    !isPeriodSelectable && "opacity-50"
+                  )}
+                  disabled={!isPeriodSelectable}
                   onClick={() => handleSelect(period)}
                 >
                   {period.label}
                 </Button>
-              )
+              );
             })}
           </div>
         </div>

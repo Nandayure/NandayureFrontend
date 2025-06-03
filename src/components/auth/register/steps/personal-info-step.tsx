@@ -240,16 +240,22 @@ export function PersonalInfoStep() {
 
   // Handle ID validation and fetching
   useEffect(() => {
-    if (!idWasChecked || debouncedIdForIdentification.length !== 9) {
+    if (!idWasChecked || debouncedIdForIdentification.length !== 9 || processingValidationRef.current) {
       return;
     }
 
+    processingValidationRef.current = true;
+
     try {
       if (idCheck?.exists === true) {
-        setError("id", {
-          type: "manual",
-          message: "Esta cédula ya está registrada"
-        });
+        // Solo actualizar el error si no existe ya o si el mensaje es diferente
+        if (formState.errors.id?.type !== "manual" ||
+          formState.errors.id?.message !== "Esta cédula ya está registrada") {
+          setError("id", {
+            type: "manual",
+            message: "Esta cédula ya está registrada"
+          });
+        }
         setFieldsDisabled(false);
       } else {
         if (formState.errors.id?.type === "manual") {
@@ -259,6 +265,8 @@ export function PersonalInfoStep() {
       }
     } catch (error) {
       console.error('Error in validation effect:', error);
+    } finally {
+      processingValidationRef.current = false;
     }
   }, [idCheck, idWasChecked, debouncedIdForIdentification, setError, clearErrors, formState.errors.id?.type, fetchData])
 

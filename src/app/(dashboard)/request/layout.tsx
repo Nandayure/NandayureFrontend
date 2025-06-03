@@ -1,9 +1,11 @@
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
+import BackgroundDecoration from '@/components/auth/background-decoration'
 
 export default function EmployeeLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen p-6">
+      <BackgroundDecoration />
       <div className="max-w-3xl mx-auto">
         <Suspense fallback={<SkeletonLoading />}>
           {children}

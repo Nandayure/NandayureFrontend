@@ -1,0 +1,29 @@
+{
+  "name": "RRHH Municipalidad de Nandayure",
+  "short_name": "RRHH Nandayure",
+  "description": "Sistema administrativo de recursos humanos de la Municipalidad de Nandayure",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#004d99",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait",
+  "lang": "es-CR",
+  "dir": "ltr",
+  "categories": [
+    "government",
+    "business"
+  ],
+  "scope": "/"
+}

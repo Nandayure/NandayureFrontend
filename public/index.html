@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Metadatos -->
+  <title>Sistema de Recursos Humanos | Municipalidad de Nandayure</title>
+  <meta name="description"
+    content="Sistema administrativo de recursos humanos de la Municipalidad de Nandayure. Gestión eficiente del talento humano, administración de empleados y procesos de RRHH.">
+  <meta name="keywords"
+    content="recursos humanos, municipalidad nandayure, rrhh, gestión talento, empleados municipales, sistema administrativo, municipalidad costa rica, sistema rrhh guanacaste">
+  <meta name="author" content="Municipalidad de Nandayure">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="Spanish">
+  <meta name="revisit-after" content="7 days">
+  <meta name="generator" content="Municipalidad de Nandayure RRHH System">
+  <meta name="theme-color" content="#004d99">
+
+  <!-- Geo Meta Tags -->
+  <meta name="geo.region" content="CR-G">
+  <meta name="geo.placename" content="Nandayure, Guanacaste">
+  <meta name="geo.position" content="9.9937;-85.2511">
+  <meta name="ICBM" content="9.9937, -85.2511">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.rrhh-nandayure.com/">
+  <meta property="og:title" content="Sistema RRHH - Municipalidad de Nandayure">
+  <meta property="og:description" content="Sistema administrativo de recursos humanos de la Municipalidad de Nandayure">
+  <meta property="og:image" content="https://www.rrhh-nandayure.com/img/logo-municipalidad.png">
+  <meta property="og:locale" content="es_CR">
+  <meta property="og:site_name" content="RRHH Municipalidad de Nandayure">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://www.rrhh-nandayure.com/">
+  <meta property="twitter:title" content="Sistema RRHH - Municipalidad de Nandayure">
+  <meta property="twitter:description"
+    content="Sistema administrativo de recursos humanos de la Municipalidad de Nandayure">
+  <meta property="twitter:image" content="https://www.rrhh-nandayure.com/img/logo-municipalidad.png">
+  <meta name="twitter:creator" content="@MuniNandayure">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.rrhh-nandayure.com/">
+
+  <!-- Preconnect to required origins -->
+  <link rel="preconnect" href="https://www.rrhh-nandayure.com">
+
+  <!-- DNS Prefetch -->
+  <link rel="dns-prefetch" href="https://www.rrhh-nandayure.com">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "GovernmentOrganization",
+    "name": "Sistema RRHH Municipalidad de Nandayure",
+    "url": "https://www.rrhh-nandayure.com",
+    "logo": "https://www.rrhh-nandayure.com/img/logo-municipalidad.png",
+    "description": "Sistema administrativo de recursos humanos de la Municipalidad de Nandayure",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Nandayure",
+      "addressRegion": "Guanacaste",
+      "addressCountry": "CR"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "telephone": "+506-2657-7000",
+      "email": "info@nandayure.go.cr"
+    }
+  }
+  </script>
+
+  <!-- Preload critical assets -->
+  <link rel="preload" href="/css/styles.css" as="style">
+  <link rel="preload" href="/js/main.js" as="script">
+  <link rel="preload" href="/img/logo-municipalidad.png" as="image">
+
+  <!-- Cache Control -->
+  <meta http-equiv="Cache-Control" content="max-age=31536000">
+</head>
+
+<body>
+  <header>
+    <h1>Sistema de Recursos Humanos</h1>
+    <h2>Municipalidad de Nandayure</h2>
+    <!-- Logo con lazy loading -->
+    <img src="/img/logo-municipalidad.png" alt="Logo Municipalidad de Nandayure" loading="lazy" width="200"
+      height="200">
+  </header>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('Service Worker registrado con éxito:', registration.scope);
+          })
+          .catch(error => {
+            console.log('Error al registrar el Service Worker:', error);
+          });
+      });
+    }
+
+    // Función para lazy loading de imágenes
+    document.addEventListener("DOMContentLoaded", function () {
+      var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+
+      if ("IntersectionObserver" in window) {
+        let lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              let lazyImage = entry.target;
+              lazyImage.src = lazyImage.dataset.src;
+              lazyImage.classList.remove("lazy");
+              lazyImageObserver.unobserve(lazyImage);
+            }
+          });
+        });
+
+        lazyImages.forEach(function (lazyImage) {
+          lazyImageObserver.observe(lazyImage);
+        });
+      }
+    });
+  </script>
+
+  <!-- ... rest of your body content ... -->
+</body>
+
+</html>

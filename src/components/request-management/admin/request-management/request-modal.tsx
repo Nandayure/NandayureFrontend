@@ -15,12 +15,6 @@ const getQuincenaLabel = (dateStr?: string) => {
     : `16-${format(endOfMonth(date), "d")} ${format(date, "MMMM yyyy", { locale: es })}`;
 }
 
-// Helper function to handle null/undefined values
-const getValue = (value: any) => {
-  if (value === null || value === undefined) return "N/A";
-  return value;
-}
-
 export default function RequestModal({
   request,
   isOpen,
@@ -72,16 +66,18 @@ export default function RequestModal({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-center">
                 <span className="text-gray-500 w-32">Tipo:</span>
-                <span className="font-medium">{getValue(request.RequestType?.name)}</span>
+                <span className="font-medium">{request.RequestType.name}</span>
               </div>
               <div className="flex items-center">
                 <span className="text-gray-500 w-32">Fecha:</span>
-                <span className="font-medium">{getValue(request.date ? formatDate(request.date) : null)}</span>
+                <span className="font-medium">{formatDate(request.date)}</span>
               </div>
-              <div className="col-span-1 md:col-span-2 mt-2">
-                <span className="text-gray-500 block mb-1">Razón de cancelación:</span>
-                <div className="bg-white p-2 rounded border border-gray-200">{getValue(request.CancelledReason)}</div>
-              </div>
+              {request.CancelledReason && (
+                <div className="col-span-1 md:col-span-2 mt-2">
+                  <span className="text-gray-500 block mb-1">Razón de cancelación:</span>
+                  <div className="bg-white p-2 rounded border border-gray-200">{request.CancelledReason}</div>
+                </div>
+              )}
             </div>
           </section>
 
@@ -95,15 +91,15 @@ export default function RequestModal({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-center">
                 <span className="text-gray-500 w-32">Cédula:</span>
-                <span className="font-medium">{getValue(request.EmployeeId)}</span>
+                <span className="font-medium">{request.EmployeeId}</span>
               </div>
               <div className="flex items-center">
                 <span className="text-gray-500 w-32">Nombre:</span>
-                <span className="font-medium">{getValue(request.Employee?.Name)}</span>
+                <span className="font-medium">{request.Employee.Name}</span>
               </div>
               <div className="flex items-center">
                 <span className="text-gray-500 w-32">Apellidos:</span>
-                <span className="font-medium">{getValue(request.Employee?.Surname1 && request.Employee?.Surname2 ? `${request.Employee.Surname1} ${request.Employee.Surname2}` : null)}</span>
+                <span className="font-medium">{`${request.Employee.Surname1} ${request.Employee.Surname2}`}</span>
               </div>
             </div>
           </section>
@@ -119,15 +115,15 @@ export default function RequestModal({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-center">
                   <span className="text-gray-500 w-32">Días solicitados:</span>
-                  <span className="font-medium">{getValue(request.RequestVacation?.daysRequested)}</span>
+                  <span className="font-medium">{request.RequestVacation.daysRequested}</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-gray-500 w-32">Fecha de salida:</span>
-                  <span className="font-medium">{getValue(request.RequestVacation?.departureDate ? formatDate(request.RequestVacation.departureDate) : null)}</span>
+                  <span className="font-medium">{formatDate(request.RequestVacation.departureDate)}</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-gray-500 w-32">Fecha de regreso:</span>
-                  <span className="font-medium">{getValue(request.RequestVacation?.entryDate ? formatDate(request.RequestVacation.entryDate) : null)}</span>
+                  <span className="font-medium">{formatDate(request.RequestVacation.entryDate)}</span>
                 </div>
               </div>
             </section>
@@ -143,11 +139,11 @@ export default function RequestModal({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-center">
                   <span className="text-gray-500 w-32">Quincena:</span>
-                  <span className="font-medium">{getValue(getQuincenaLabel(request.RequestSalaryCertificate?.date))}</span>
+                  <span className="font-medium">{getQuincenaLabel(request.RequestSalaryCertificate.date)}</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-gray-500 w-32">Razón:</span>
-                  <span className="font-medium">{getValue(request.RequestSalaryCertificate?.reason)}</span>
+                  <span className="font-medium">{request.RequestSalaryCertificate.reason}</span>
                 </div>
               </div>
             </section>
@@ -163,11 +159,11 @@ export default function RequestModal({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-center">
                   <span className="text-gray-500 w-32">Quincena:</span>
-                  <span className="font-medium">{getValue(getQuincenaLabel(request.RequestPaymentConfirmation?.date))}</span>
+                  <span className="font-medium">{getQuincenaLabel(request.RequestPaymentConfirmation.date)}</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-gray-500 w-32">Razón:</span>
-                  <span className="font-medium">{getValue(request.RequestPaymentConfirmation?.reason)}</span>
+                  <span className="font-medium">{request.RequestPaymentConfirmation.reason}</span>
                 </div>
               </div>
             </section>
@@ -190,7 +186,7 @@ export default function RequestModal({
                     <div className="flex flex-col">
                       <span className="text-gray-500 text-sm">Aprobador</span>
                       <span className="font-medium">
-                        {getValue(`${approval.approver?.Name || ''} ${approval.approver?.Surname1 || ''} ${approval.approver?.Surname2 || ''}`.trim() || null)}
+                        {approval.approver ? `${approval.approver.Name} ${approval.approver.Surname1} ${approval.approver.Surname2}` : 'N/A'}
                       </span>
                     </div>
                     <div className="flex flex-col">
@@ -223,15 +219,19 @@ export default function RequestModal({
                       </div>
                     </div>
 
-                    <div className="flex flex-col">
-                      <span className="text-gray-500 text-sm">Fecha de respuesta</span>
-                      <span className="font-medium">{getValue(approval.ApprovedDate ? formatDate(approval.ApprovedDate) : null)}</span>
-                    </div>
+                    {approval.ApprovedDate && (
+                      <div className="flex flex-col">
+                        <span className="text-gray-500 text-sm">Fecha de respuesta</span>
+                        <span className="font-medium">{formatDate(approval.ApprovedDate)}</span>
+                      </div>
+                    )}
 
-                    <div className="col-span-1 md:col-span-2 mt-1">
-                      <span className="text-gray-500 text-sm block mb-1">Observación</span>
-                      <div className="bg-gray-50 p-2 rounded text-sm">{getValue(approval.observation)}</div>
-                    </div>
+                    {approval.observation && (
+                      <div className="col-span-1 md:col-span-2 mt-1">
+                        <span className="text-gray-500 text-sm block mb-1">Observación</span>
+                        <div className="bg-gray-50 p-2 rounded text-sm">{approval.observation}</div>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

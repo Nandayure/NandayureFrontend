@@ -8,7 +8,6 @@ import SearchBar from "./search-bar/search-bar"
 import TypeSelector from "./type-selector/type-selector"
 import type { RequestDetails } from "@/types/request-management/commonTypes"
 import { PaginationController } from "@/components/ui/pagination-controller"
-import ExportButtons from "./export-buttons"
 import ItemsPerPageSelector from "./items-per-page-selector"
 import RequestTableSkeleton from "./request-table-skeleton"
 
@@ -82,21 +81,6 @@ export default function RequestTableManagement() {
     setCurrentPage(1)
     updateUrlParams({ limit, page: 1 })
   }
-  const handleStartDateChange = (date: string) => {
-    setStartDate(date)
-    setCurrentPage(1)
-    updateUrlParams({ startDate: date, page: 1 })
-  }
-  const handleEndDateChange = (date: string) => {
-    setEndDate(date)
-    setCurrentPage(1)
-    updateUrlParams({ endDate: date, page: 1 })
-  }
-  const handleEmployeeChange = (id: string) => {
-    setEmployeeId(id)
-    setCurrentPage(1)
-    updateUrlParams({ employeeId: id, page: 1 })
-  }
 
   const { allRequests, isLoading, pagination } = useGetAllRequest({
     page: currentPage,
@@ -121,7 +105,7 @@ export default function RequestTableManagement() {
     "1": "Pendiente",
     "2": "Aprobado",
     "3": "Rechazado",
-    "4": "Cancelado",
+    "4" : "Cancelado",
   }
 
   const handleRowClick = (request: RequestDetails) => {

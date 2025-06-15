@@ -106,7 +106,6 @@ export function JobInfoStep() {
                   type="number"
                   min={0}
                   max={30}
-                  placeholder="0"
                   {...field}
                   onChange={(e) => field.onChange(Number.parseInt(e.target.value, 10) || 0)}
                 />
@@ -127,7 +126,6 @@ export function JobInfoStep() {
                   type="number"
                   min={0}
                   max={365}
-                  placeholder="0"
                   {...field}
                   onChange={(e) => field.onChange(Number.parseInt(e.target.value, 10) || 0)}
                 />

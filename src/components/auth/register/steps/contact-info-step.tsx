@@ -28,23 +28,19 @@ export function ContactInfoStep() {
     isLoading: isCheckingEmail,
     isFetched: emailWasChecked
   } = useCheckEmail(email?.length >= 5 ? email : undefined, {
-    // Solo habilitar la consulta cuando el email tenga al menos 5 caracteres
-    enabled: email?.length >= 5,
-    retry: 0 // No reintentar en caso de error
+    enabled: email?.length >= 5 && !processingEmailValidationRef.current,
+    retry: 0
   })
 
-  // Efecto mejorado para evitar bucles infinitos
+  // Efecto para manejar la validación del email
   useEffect(() => {
-    // No hacer nada si aún no hay resultados o si ya estamos procesando
-    if (!emailWasChecked || processingEmailValidationRef.current) return;
+    if (!emailWasChecked || email.length < 5 || processingEmailValidationRef.current) return;
 
-    // Marcar que estamos procesando la validación
     processingEmailValidationRef.current = true;
 
     try {
-      // Email ya existe
       if (emailCheck?.exists === true) {
-        // Verificar si ya tenemos este error para evitar actualizaciones innecesarias
+        // Solo actualizar el error si no existe ya o si el mensaje es diferente
         if (formState.errors.Email?.type !== "manual" ||
           formState.errors.Email?.message !== "Este correo electrónico ya está registrado") {
           setError("Email", {
@@ -52,18 +48,17 @@ export function ContactInfoStep() {
             message: "Este correo electrónico ya está registrado"
           });
         }
-      }
-      // Email no existe, limpiar error manual (si existe)
-      else if (emailCheck?.exists === false) {
+      } else {
         if (formState.errors.Email?.type === "manual") {
           clearErrors("Email");
         }
       }
+    } catch (error) {
+      console.error('Error validating email:', error);
     } finally {
-      // Siempre desmarcar el procesamiento al finalizar
       processingEmailValidationRef.current = false;
     }
-  }, [emailCheck, emailWasChecked, setError, clearErrors, formState.errors.Email?.message, formState.errors.Email?.type]);
+  }, [emailCheck, emailWasChecked, email, setError, clearErrors, formState.errors.Email?.type]);
 
   return (
     <div className="space-y-6">

@@ -186,7 +186,7 @@ export default function RequestModal({
                     <div className="flex flex-col">
                       <span className="text-gray-500 text-sm">Aprobador</span>
                       <span className="font-medium">
-                        {approval.approver.Name} {approval.approver.Surname1} {approval.approver.Surname2}
+                        {approval.approver ? `${approval.approver.Name} ${approval.approver.Surname1} ${approval.approver.Surname2}` : 'N/A'}
                       </span>
                     </div>
                     <div className="flex flex-col">

@@ -203,6 +203,8 @@ export function PersonalInfoStep() {
   const processingValidationRef = useRef(false)
   const [fieldsDisabled, setFieldsDisabled] = useState(false)
   const [debouncedIdForIdentification, setDebouncedIdForIdentification] = useState("")
+  const [showTimeoutAlert, setShowTimeoutAlert] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   // Watch for ID changes
   const idValue = useWatch({
@@ -223,64 +225,214 @@ export function PersonalInfoStep() {
   })
 
   // Identification service hook
-  const { identificationData, isLoading: isLoadingId, fetchData } = useIdentification()
+  const { identificationData, isLoading: isLoadingId, isError: isIdentificationError, error: identificationError, fetchData } = useIdentification()
 
   // Debounce identification lookup separately
   useEffect(() => {
-    if (idValue.length !== 9 || processingValidationRef.current) return
+    // Limpiar cualquier alerta previa al cambiar el ID
+    if (showTimeoutAlert) {
+      setShowTimeoutAlert(false);
+    }
 
+    // Limpiar cualquier temporizador previo al cambiar el ID
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    // Si el ID cambia, resetear el estado de procesamiento
+    if (idValue.length < 9 && processingValidationRef.current) {
+      processingValidationRef.current = false;
+    }
+
+    // No continuar si la ID no tiene 9 dígitos
+    if (idValue.length !== 9) return;
+
+    // Si estamos procesando algo, no continuar
+    if (processingValidationRef.current) return;
+
+    // Si ya se verificó y existe, no debemos continuar con la búsqueda
+    if (idCheck?.exists === true) {
+      // Limpiar cualquier búsqueda pendiente
+      setDebouncedIdForIdentification("");
+      return;
+    }
+
+    // Solo para IDs que tienen 9 dígitos y no han sido verificadas como existentes
     const handler = setTimeout(() => {
-      if (!processingValidationRef.current) {
-        setDebouncedIdForIdentification(idValue)
+      if (!processingValidationRef.current && idValue.length === 9) {
+        console.log("Configurando ID para búsqueda:", idValue);
+        setDebouncedIdForIdentification(idValue);
       }
     }, 800)
 
     return () => clearTimeout(handler)
-  }, [idValue])
+  }, [idValue, idCheck?.exists, processingValidationRef.current, showTimeoutAlert])
 
   // Handle ID validation and fetching
   useEffect(() => {
-    if (!idWasChecked || debouncedIdForIdentification.length !== 9) {
-      return;
+    // Si no hay una ID para verificar o si ya estamos procesando, no continuar
+    if (debouncedIdForIdentification.length !== 9) return;
+
+    // Si estamos en proceso de validación, no continuar
+    if (processingValidationRef.current) return;
+
+    // Si la ID no ha sido verificada todavía, no continuar
+    if (!idWasChecked) return;
+
+    console.log("Procesando ID:", debouncedIdForIdentification, "Existe:", idCheck?.exists);
+
+    // Set processing flag to prevent multiple validations
+    processingValidationRef.current = true;
+
+    // Limpiar cualquier alerta previa
+    setShowTimeoutAlert(false);
+
+    // Limpiar cualquier temporizador previo
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
     }
 
     try {
       if (idCheck?.exists === true) {
-        setError("id", {
-          type: "manual",
-          message: "Esta cédula ya está registrada"
-        });
+        console.log("La cédula ya existe, mostrando error");
+        // Solo actualizar el error si no existe ya o si el mensaje es diferente
+        if (formState.errors.id?.type !== "manual" ||
+          formState.errors.id?.message !== "Esta cédula ya está registrada") {
+          setError("id", {
+            type: "manual",
+            message: "Esta cédula ya está registrada"
+          });
+        }
         setFieldsDisabled(false);
+        // Reset immediate for existing IDs
+        processingValidationRef.current = false;
       } else {
+        console.log("La cédula no existe, buscando información");
         if (formState.errors.id?.type === "manual") {
           clearErrors("id");
         }
-        fetchData(debouncedIdForIdentification);
+
+        // Configurar temporizador de 5 segundos
+        timeoutRef.current = setTimeout(() => {
+          console.log("Tiempo de espera excedido, mostrando alerta");
+          setShowTimeoutAlert(true);
+          setFieldsDisabled(false);
+          processingValidationRef.current = false;
+        }, 5000);
+
+        // Solo buscar datos si la ID no existe
+        fetchData(debouncedIdForIdentification).catch(error => {
+          console.error("Error al buscar datos de identificación:", error);
+          // En caso de error en la petición, mostrar alerta
+          setShowTimeoutAlert(true);
+          setFieldsDisabled(false);
+          processingValidationRef.current = false;
+
+          // Limpiar el temporizador si hay un error
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
+          }
+        });
+        // No reseteamos la bandera de procesamiento aquí, se hará en el temporizador
+        // o cuando llegue una respuesta
       }
     } catch (error) {
       console.error('Error in validation effect:', error);
+      processingValidationRef.current = false;
     }
   }, [idCheck, idWasChecked, debouncedIdForIdentification, setError, clearErrors, formState.errors.id?.type, fetchData])
 
+  // Limpiar temporizadores al desmontar el componente
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+  }, []);
+
+  // Manejar errores de timeout o API
+  useEffect(() => {
+    if (isIdentificationError && debouncedIdForIdentification.length === 9) {
+      console.log("Error en la búsqueda de identificación:", identificationError);
+
+      // Limpiar cualquier temporizador pendiente
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+
+      // Mostrar alerta inmediatamente en caso de error
+      setShowTimeoutAlert(true);
+      setFieldsDisabled(false);
+      processingValidationRef.current = false;
+    }
+  }, [isIdentificationError, identificationError, debouncedIdForIdentification]);
+
   // Handle identification data response
   useEffect(() => {
-    if (!identificationData?.results?.length) return;
+    // Siempre limpiar el temporizador cuando hay una respuesta (con o sin resultados)
+    if (timeoutRef.current) {
+      console.log("Limpiando temporizador por respuesta recibida");
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    // Si no hay resultados, no continuar procesando
+    if (!identificationData?.results?.length) {
+      console.log('No se encontraron datos de identificación');
+
+      // Si no hay resultados, también mostraremos la alerta
+      if (debouncedIdForIdentification.length === 9) {
+        console.log("No se encontraron datos para la cédula, mostrando alerta");
+        setShowTimeoutAlert(true);
+        setFieldsDisabled(false);
+      }
+      return;
+    }
+
+    // Ocultar alerta de tiempo de espera si está visible
+    if (showTimeoutAlert) {
+      setShowTimeoutAlert(false);
+    }
 
     const person = identificationData.results[0];
-    console.log('Setting form with person data:', person);
+    console.log('Configurando formulario con datos de persona:', person);
 
     if (person) {
       try {
+        // Limpiar cualquier error previo de la cédula
+        if (formState.errors.id?.type === "manual") {
+          clearErrors("id");
+        }
+
+        // Establecer los valores del formulario
         setValue("Name", person.firstname1 || "", { shouldValidate: true });
         setValue("Surname1", person.lastname1 || "", { shouldValidate: true });
         setValue("Surname2", person.lastname2 || "", { shouldValidate: true });
+
+        // Deshabilitar los campos que fueron completados automáticamente
         setFieldsDisabled(true);
+
+        // Asegurarse de que la bandera de procesamiento se restablezca
+        processingValidationRef.current = false;
+
+        console.log('Datos de persona establecidos correctamente');
       } catch (error) {
-        console.error('Error setting form values:', error);
+        console.error('Error al establecer valores del formulario:', error);
         setFieldsDisabled(false);
+        processingValidationRef.current = false;
       }
+    } else {
+      // Si hay respuesta pero no hay persona
+      console.log('Respuesta recibida pero sin datos de persona');
+      processingValidationRef.current = false;
     }
-  }, [identificationData, setValue])
+  }, [identificationData, setValue, clearErrors, formState.errors.id?.type, showTimeoutAlert])
 
   return (
     <div className="space-y-6">
@@ -288,6 +440,15 @@ export function PersonalInfoStep() {
         <h2 className="text-xl font-semibold">Información Personal</h2>
         <p className="text-muted-foreground">Ingrese la información personal del empleado.</p>
       </div>
+
+      {showTimeoutAlert && (
+        <Alert variant="destructive" className="mb-4">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            No se pudieron obtener datos de la cédula. El servicio de consulta podría estar fuera de línea o experimentando problemas. Por favor, complete la información manualmente o intente nuevamente más tarde.
+          </AlertDescription>
+        </Alert>
+      )}
 
       <div className="grid gap-4">
         <FormField

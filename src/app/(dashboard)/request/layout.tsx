@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
+import BackgroundDecoration from '@/components/auth/background-decoration'
 
 export default function EmployeeLayout({ children }: { children: React.ReactNode }) {
   return (
